@@ -1,5 +1,6 @@
 package com.lianglliu.hermoodbarometer.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -19,30 +20,30 @@ import com.lianglliu.hermoodbarometer.ui.navigation.*
  * 主应用组件
  * 包含底部导航和页面容器
  */
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun MoodApp() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             NavigationBar {
                 getBottomNavItems().forEach { item ->
-                    val isSelected = currentDestination?.hierarchy?.any { 
-                        it.route == item.screen.route 
+                    val isSelected = currentDestination?.hierarchy?.any {
+                        it.route == item.screen.route
                     } == true
-                    
+
                     NavigationBarItem(
-                        icon = { 
+                        icon = {
                             Icon(
                                 imageVector = getIconForScreen(item.screen),
                                 contentDescription = getDisplayName(item.titleResId)
                             )
                         },
-                        label = { 
+                        label = {
                             Text(getDisplayName(item.titleResId))
                         },
                         selected = isSelected,
@@ -66,10 +67,12 @@ fun MoodApp() {
             }
         }
     ) { innerPadding ->
-        MoodNavigation(
-            navController = navController,
-            startDestination = Screen.Record.route
-        )
+        Box(modifier = Modifier.padding(innerPadding)) {
+            MoodNavigation(
+                navController = navController,
+                startDestination = Screen.Record.route
+            )
+        }
     }
 }
 

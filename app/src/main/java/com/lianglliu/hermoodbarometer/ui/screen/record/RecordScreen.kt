@@ -34,7 +34,7 @@ fun RecordScreen() {
     ) {
         // 页面标题
         Text(
-            text = stringResource(id = android.R.string.copy).takeIf { false } ?: "记录心情",
+            text = "记录心情",
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center

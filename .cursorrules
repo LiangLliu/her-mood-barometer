@@ -13,7 +13,7 @@
     - **统计页**：按时间范围显示情绪趋势图（柱状图、折线图、饼图）。
     - **设置页**：自定义情绪类别、设置提醒时间、切换语言。
 7. UI 要响应式，支持深色模式和不同屏幕尺寸。
-8. Gradle 使用 Kotlin DSL，minSdk 24，targetSdk 36。
+8. Gradle 使用 Kotlin DSL，minSdk 26，targetSdk 36。
 
 代码要求：
 - 输出完整可运行的代码片段，包含必要的 import。

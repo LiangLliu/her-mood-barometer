@@ -108,10 +108,10 @@
 - [x] `PreferencesRepositoryImpl` - 偏好设置仓库实现
 
 ### 3.4 依赖注入 ⏳
-- [ ] 配置 Hilt 模块
-- [ ] 数据库模块配置
-- [ ] Repository 绑定配置
-- [ ] 解决版本兼容性问题
+- [x] 配置 Hilt 模块
+- [x] 数据库模块配置
+- [x] Repository 绑定配置
+- [x] 解决版本兼容性问题
 
 ---
 

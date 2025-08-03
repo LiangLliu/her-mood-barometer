@@ -8,11 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.lianglliu.hermoodbarometer.ui.MoodApp
 import com.lianglliu.hermoodbarometer.ui.theme.HerMoodBarometerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * 主Activity
  * 应用的入口点
  */
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
