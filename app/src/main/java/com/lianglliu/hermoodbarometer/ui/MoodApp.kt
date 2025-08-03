@@ -1,20 +1,33 @@
 package com.lianglliu.hermoodbarometer.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.lianglliu.hermoodbarometer.ui.navigation.*
+import com.lianglliu.hermoodbarometer.ui.navigation.MoodNavigation
+import com.lianglliu.hermoodbarometer.ui.navigation.Screen
+import com.lianglliu.hermoodbarometer.ui.navigation.getBottomNavItems
+import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsViewModel
+import com.lianglliu.hermoodbarometer.ui.theme.HerMoodBarometerTheme
 
 /**
  * 主应用组件
@@ -23,13 +36,26 @@ import com.lianglliu.hermoodbarometer.ui.navigation.*
 
 @Composable
 fun MoodApp() {
+    val settingsViewModel: SettingsViewModel = hiltViewModel()
+    val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
+    
+    // 根据主题设置确定是否使用深色模式
+    val isDarkTheme = when (uiState.selectedTheme) {
+        "dark" -> true
+        "light" -> false
+        else -> null // 使用系统设置
+    }
+    
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        bottomBar = {
+    HerMoodBarometerTheme(
+        darkTheme = isDarkTheme ?: isSystemInDarkTheme()
+    ) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            bottomBar = {
             NavigationBar {
                 getBottomNavItems().forEach { item ->
                     val isSelected = currentDestination?.hierarchy?.any {
@@ -73,6 +99,7 @@ fun MoodApp() {
                 startDestination = Screen.Record.route
             )
         }
+    }
     }
 }
 

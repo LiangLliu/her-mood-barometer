@@ -23,23 +23,33 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.lianglliu.hermoodbarometer.R
 
 /**
  * 设置页面
  * 应用的设置和配置页面
  */
 @Composable
-fun SettingsScreen() {
-    var isDarkTheme by remember { mutableStateOf(false) }
-    var isReminderEnabled by remember { mutableStateOf(false) }
-    var selectedLanguage by remember { mutableStateOf("简体中文") }
+fun SettingsScreen(
+    viewModel: SettingsViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    
+    // 处理错误消息
+    LaunchedEffect(uiState.errorMessage) {
+        if (uiState.errorMessage != null) {
+            // 可以在这里显示Snackbar或其他错误提示
+            viewModel.clearErrorMessage()
+        }
+    }
     
     LazyColumn(
         modifier = Modifier
@@ -50,7 +60,7 @@ fun SettingsScreen() {
         item {
             // 页面标题
             Text(
-                text = "设置",
+                text = stringResource(R.string.settings),
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
@@ -59,16 +69,19 @@ fun SettingsScreen() {
         
         item {
             // 外观设置
-            SettingsSection(title = "外观") {
+            SettingsSection(title = stringResource(R.string.appearance)) {
                 // 主题设置
                 SettingsItem(
                     icon = Icons.Default.Star,
-                    title = "深色模式",
-                    subtitle = "使用深色主题",
+                    title = stringResource(R.string.dark_mode),
+                    subtitle = stringResource(R.string.dark_mode_description),
                     trailing = {
                         Switch(
-                            checked = isDarkTheme,
-                            onCheckedChange = { isDarkTheme = it }
+                            checked = uiState.selectedTheme == "dark",
+                            onCheckedChange = { isDark ->
+                                val theme = if (isDark) "dark" else "light"
+                                viewModel.updateTheme(theme)
+                            }
                         )
                     }
                 )
@@ -76,8 +89,8 @@ fun SettingsScreen() {
                 // 语言设置
                 SettingsItem(
                     icon = Icons.Default.Info,
-                    title = "语言",
-                    subtitle = selectedLanguage,
+                    title = stringResource(R.string.language),
+                    subtitle = getLanguageDisplayName(uiState.selectedLanguage),
                     trailing = {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -93,24 +106,26 @@ fun SettingsScreen() {
         
         item {
             // 通知设置
-            SettingsSection(title = "通知") {
+            SettingsSection(title = stringResource(R.string.notifications)) {
                 SettingsItem(
                     icon = Icons.Default.Notifications,
-                    title = "每日提醒",
-                    subtitle = "每天提醒记录心情",
+                    title = stringResource(R.string.daily_reminder),
+                    subtitle = stringResource(R.string.daily_reminder_description),
                     trailing = {
                         Switch(
-                            checked = isReminderEnabled,
-                            onCheckedChange = { isReminderEnabled = it }
+                            checked = uiState.isReminderEnabled,
+                            onCheckedChange = { enabled ->
+                                viewModel.updateReminderSettings(enabled)
+                            }
                         )
                     }
                 )
                 
-                if (isReminderEnabled) {
+                if (uiState.isReminderEnabled) {
                     SettingsItem(
                         icon = Icons.Default.Info,
-                        title = "提醒时间",
-                        subtitle = "20:00",
+                        title = stringResource(R.string.reminder_time),
+                        subtitle = uiState.reminderTime,
                         trailing = {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -127,11 +142,11 @@ fun SettingsScreen() {
         
         item {
             // 自定义情绪
-            SettingsSection(title = "自定义") {
+            SettingsSection(title = stringResource(R.string.custom_emotions)) {
                 SettingsItem(
                     icon = Icons.Default.Add,
-                    title = "自定义情绪",
-                    subtitle = "添加和管理自定义情绪类型",
+                    title = stringResource(R.string.custom_emotions),
+                    subtitle = stringResource(R.string.add_custom_emotion),
                     trailing = {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -147,11 +162,11 @@ fun SettingsScreen() {
         
         item {
             // 数据管理
-            SettingsSection(title = "数据") {
+            SettingsSection(title = stringResource(R.string.data)) {
                 SettingsItem(
                     icon = Icons.Default.Info,
-                    title = "导出数据",
-                    subtitle = "将数据导出到文件",
+                    title = stringResource(R.string.export_data),
+                    subtitle = stringResource(R.string.export_data_description),
                     trailing = {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -165,8 +180,8 @@ fun SettingsScreen() {
                 
                 SettingsItem(
                     icon = Icons.Default.Info,
-                    title = "导入数据",
-                    subtitle = "从文件导入数据",
+                    title = stringResource(R.string.import_data),
+                    subtitle = stringResource(R.string.import_data_description),
                     trailing = {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -182,22 +197,37 @@ fun SettingsScreen() {
         
         item {
             // 关于
-            SettingsSection(title = "关于") {
+            SettingsSection(title = stringResource(R.string.about)) {
                 SettingsItem(
                     icon = Icons.Default.Info,
-                    title = "版本",
+                    title = stringResource(R.string.version),
                     subtitle = "1.0.0",
                     trailing = null
                 )
                 
                 SettingsItem(
                     icon = Icons.Default.Favorite,
-                    title = "关于应用",
-                    subtitle = "她的晴雨表 - 记录生活中的每一份心情",
+                    title = stringResource(R.string.about_app),
+                    subtitle = stringResource(R.string.about_app_description),
                     trailing = null
                 )
             }
         }
+    }
+}
+
+/**
+ * 获取语言显示名称
+ */
+@Composable
+private fun getLanguageDisplayName(languageCode: String): String {
+    return when (languageCode) {
+        "zh" -> stringResource(R.string.language_zh)
+        "zh-rTW" -> stringResource(R.string.language_zh_tw)
+        "ja" -> stringResource(R.string.language_ja)
+        "ko" -> stringResource(R.string.language_ko)
+        "en" -> stringResource(R.string.language_en)
+        else -> stringResource(R.string.language_zh)
     }
 }
 
@@ -240,12 +270,24 @@ private fun SettingsItem(
     }
     
     ListItem(
-        headlineContent = { Text(title) },
-        supportingContent = { Text(subtitle) },
+        headlineContent = {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        },
+        supportingContent = {
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
         leadingContent = {
             Icon(
                 imageVector = icon,
-                contentDescription = null
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary
             )
         },
         trailingContent = trailing,
