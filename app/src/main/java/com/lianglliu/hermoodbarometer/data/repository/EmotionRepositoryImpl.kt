@@ -74,6 +74,12 @@ class EmotionRepositoryImpl @Inject constructor(
         // 暂时返回0
         return kotlinx.coroutines.flow.flowOf(0)
     }
+    
+    override fun getEmotionRecordsByType(emotionType: String): Flow<List<EmotionRecord>> {
+        return emotionRecordDao.getRecordsByEmotionType(emotionType).map { entities ->
+            entities.map { it.toDomainModel() }
+        }
+    }
 }
 
 /**
@@ -85,7 +91,7 @@ private fun EmotionRecordEntity.toDomainModel(): EmotionRecord {
         emotionType = emotionType,
         intensity = intensity,
         note = note,
-        timestamp = timestamp.toString(),
+        timestamp = timestamp.toEpochSecond(java.time.ZoneOffset.UTC) * 1000, // 转换为毫秒时间戳
         isCustomEmotion = customEmotionId != null,
         customEmotionName = null // 需要从自定义情绪表中查询
     )
@@ -100,7 +106,7 @@ private fun EmotionRecord.toEntity(): EmotionRecordEntity {
         emotionType = emotionType,
         intensity = intensity,
         note = note,
-        timestamp = LocalDateTime.parse(timestamp),
+        timestamp = LocalDateTime.ofEpochSecond(timestamp / 1000, 0, java.time.ZoneOffset.UTC), // 从毫秒时间戳转换
         customEmotionId = if (isCustomEmotion) 1L else null // 简化处理，实际应该查询自定义情绪ID
     )
 } 

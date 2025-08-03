@@ -8,13 +8,16 @@
     <string name="nav_settings">設定</string>
     
     <!-- Record Page -->
+    <string name="record_title">記錄心情</string>
     <string name="record_emotion">記錄心情</string>
     <string name="select_emotion_type">選擇情緒類型</string>
     <string name="emotion_intensity">情緒強度</string>
     <string name="add_note">添加備註</string>
-    <string name="note_hint">今天心情如何？</string>
+    <string name="note_placeholder">今天心情如何？</string>
     <string name="save_record">儲存記錄</string>
     <string name="record_saved">記錄儲存成功</string>
+    <string name="record_saved_successfully">記錄儲存成功！</string>
+    <string name="intensity_level">強度：%s</string>
     
     <!-- Emotion Types -->
     <string name="emotion_happy">開心</string>

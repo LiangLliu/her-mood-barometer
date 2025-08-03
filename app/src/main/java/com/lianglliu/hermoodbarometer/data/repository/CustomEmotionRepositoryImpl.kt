@@ -59,9 +59,9 @@ private fun CustomEmotionEntity.toDomainModel(): CustomEmotion {
         id = id,
         name = name,
         description = "", // 数据库中没有description字段，使用空字符串
-        colorHex = color,
+        color = color,
         iconName = icon,
-        createdAt = createdAt.toString()
+        createdAt = createdAt
     )
 }
 
@@ -72,9 +72,9 @@ private fun CustomEmotion.toEntity(): CustomEmotionEntity {
     return CustomEmotionEntity(
         id = id,
         name = name,
-        color = colorHex,
+        color = color,
         icon = iconName,
         isActive = true, // 默认启用
-        createdAt = createdAt.toLongOrNull() ?: System.currentTimeMillis()
+        createdAt = createdAt
     )
 } 

@@ -10,10 +10,10 @@ import java.time.LocalDateTime
 @Serializable
 data class EmotionRecord(
     val id: Long = 0,
-    val emotionType: EmotionType,
-    val intensity: EmotionIntensity,
+    val emotionType: String, // 改为String类型以兼容数据库存储
+    val intensity: Int, // 改为Int类型以兼容数据库存储
     val note: String = "",
-    val timestamp: String, // ISO格式的时间字符串，用于序列化
+    val timestamp: Long, // 改为Long类型以兼容数据库存储
     val isCustomEmotion: Boolean = false,
     val customEmotionName: String? = null
 ) {
@@ -25,7 +25,7 @@ data class EmotionRecord(
         return if (isCustomEmotion && !customEmotionName.isNullOrBlank()) {
             customEmotionName
         } else {
-            emotionType.displayNameResId
+            emotionType
         }
     }
 
@@ -37,10 +37,10 @@ data class EmotionRecord(
             customEmotionName: String? = null
         ): EmotionRecord {
             return EmotionRecord(
-                emotionType = emotionType,
-                intensity = intensity,
+                emotionType = emotionType.name,
+                intensity = intensity.level,
                 note = note,
-                timestamp = LocalDateTime.now().toString(),
+                timestamp = System.currentTimeMillis(),
                 isCustomEmotion = !customEmotionName.isNullOrBlank(),
                 customEmotionName = customEmotionName
             )

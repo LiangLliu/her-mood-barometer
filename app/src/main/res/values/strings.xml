@@ -8,13 +8,16 @@
     <string name="nav_settings">Settings</string>
     
     <!-- Record Page -->
+    <string name="record_title">Record Mood</string>
     <string name="record_emotion">Record Emotion</string>
     <string name="select_emotion_type">Select Emotion Type</string>
     <string name="emotion_intensity">Emotion Intensity</string>
     <string name="add_note">Add Note</string>
-    <string name="note_hint">How are you feeling today?</string>
+    <string name="note_placeholder">How are you feeling today?</string>
     <string name="save_record">Save Record</string>
     <string name="record_saved">Record saved successfully</string>
+    <string name="record_saved_successfully">Record saved successfully!</string>
+    <string name="intensity_level">Intensity: %s</string>
     
     <!-- Emotion Types -->
     <string name="emotion_happy">Happy</string>

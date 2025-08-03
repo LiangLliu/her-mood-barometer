@@ -17,9 +17,19 @@ interface EmotionRepository {
     fun getAllRecords(): Flow<List<EmotionRecord>>
     
     /**
+     * 获取所有情绪记录（别名方法）
+     */
+    fun getAllEmotionRecords(): Flow<List<EmotionRecord>> = getAllRecords()
+    
+    /**
      * 根据时间范围获取情绪记录
      */
     fun getRecordsByTimeRange(timeRange: TimeRange): Flow<List<EmotionRecord>>
+    
+    /**
+     * 根据时间范围获取情绪记录（别名方法）
+     */
+    fun getEmotionRecordsByTimeRange(timeRange: TimeRange): Flow<List<EmotionRecord>> = getRecordsByTimeRange(timeRange)
     
     /**
      * 根据时间段获取情绪记录
@@ -38,6 +48,11 @@ interface EmotionRepository {
      * 插入新的情绪记录
      */
     suspend fun insertRecord(record: EmotionRecord): Long
+    
+    /**
+     * 添加情绪记录（别名方法）
+     */
+    suspend fun addEmotionRecord(record: EmotionRecord): Long = insertRecord(record)
     
     /**
      * 更新情绪记录
@@ -63,4 +78,9 @@ interface EmotionRepository {
      * 获取最近的记录
      */
     fun getRecentRecords(limit: Int = 10): Flow<List<EmotionRecord>>
+    
+    /**
+     * 根据情绪类型获取记录
+     */
+    fun getEmotionRecordsByType(emotionType: String): Flow<List<EmotionRecord>>
 }

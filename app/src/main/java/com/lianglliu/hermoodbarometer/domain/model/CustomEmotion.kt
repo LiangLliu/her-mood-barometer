@@ -11,23 +11,23 @@ data class CustomEmotion(
     val id: Long = 0,
     val name: String,
     val description: String = "",
-    val colorHex: String = "#2196F3", // 默认蓝色
+    val color: String = "#2196F3", // 默认蓝色
     val iconName: String = "favorite", // Material Icon名称
-    val createdAt: String // ISO格式的创建时间
+    val createdAt: Long = System.currentTimeMillis() // 创建时间戳
 ) {
     companion object {
         fun create(
             name: String,
             description: String = "",
-            colorHex: String = "#2196F3",
+            color: String = "#2196F3",
             iconName: String = "favorite"
         ): CustomEmotion {
             return CustomEmotion(
                 name = name,
                 description = description,
-                colorHex = colorHex,
+                color = color,
                 iconName = iconName,
-                createdAt = java.time.LocalDateTime.now().toString()
+                createdAt = System.currentTimeMillis()
             )
         }
     }

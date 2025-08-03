@@ -39,6 +39,16 @@ interface PreferencesRepository {
     suspend fun setDailyReminderEnabled(enabled: Boolean)
     
     /**
+     * 获取提醒开关状态（别名方法）
+     */
+    fun isReminderEnabled(): Flow<Boolean> = getDailyReminderEnabled()
+    
+    /**
+     * 设置提醒开关状态（别名方法）
+     */
+    suspend fun setReminderEnabled(enabled: Boolean) = setDailyReminderEnabled(enabled)
+    
+    /**
      * 获取提醒时间
      */
     fun getReminderTime(): Flow<String>

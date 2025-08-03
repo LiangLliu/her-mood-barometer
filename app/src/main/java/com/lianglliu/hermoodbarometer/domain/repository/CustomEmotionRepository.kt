@@ -30,6 +30,11 @@ interface CustomEmotionRepository {
     suspend fun insertCustomEmotion(emotion: CustomEmotion): Long
     
     /**
+     * 添加自定义情绪（别名方法）
+     */
+    suspend fun addCustomEmotion(emotion: CustomEmotion): Long = insertCustomEmotion(emotion)
+    
+    /**
      * 更新自定义情绪
      */
     suspend fun updateCustomEmotion(emotion: CustomEmotion)
@@ -38,6 +43,11 @@ interface CustomEmotionRepository {
      * 删除自定义情绪
      */
     suspend fun deleteCustomEmotion(id: Long)
+    
+    /**
+     * 删除自定义情绪（重载方法）
+     */
+    suspend fun deleteCustomEmotion(emotion: CustomEmotion) = deleteCustomEmotion(emotion.id)
     
     /**
      * 检查名称是否已存在
