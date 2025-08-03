@@ -13,12 +13,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.lianglliu.hermoodbarometer.MainActivity
 import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.ui.screen.settings.components.*
 
@@ -32,12 +34,24 @@ fun SettingsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var showLanguageDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
     
     // 处理错误消息
     LaunchedEffect(uiState.errorMessage) {
         if (uiState.errorMessage != null) {
             // 可以在这里显示Snackbar或其他错误提示
             viewModel.clearErrorMessage()
+        }
+    }
+    
+    // 处理Activity重新创建
+    LaunchedEffect(uiState.shouldRecreateActivity) {
+        if (uiState.shouldRecreateActivity) {
+            // 重新创建Activity以应用新的语言设置
+            if (context is MainActivity) {
+                context.recreateWithLanguage(uiState.selectedLanguage)
+            }
+            viewModel.clearRecreateActivityFlag()
         }
     }
     

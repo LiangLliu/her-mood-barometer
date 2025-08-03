@@ -86,7 +86,8 @@ class SettingsViewModel @Inject constructor(
             try {
                 preferencesRepository.setLanguage(language)
                 _uiState.value = _uiState.value.copy(
-                    selectedLanguage = language
+                    selectedLanguage = language,
+                    shouldRecreateActivity = true
                 )
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
@@ -176,6 +177,13 @@ class SettingsViewModel @Inject constructor(
     fun clearErrorMessage() {
         _uiState.value = _uiState.value.copy(errorMessage = null)
     }
+    
+    /**
+     * 清除Activity重新创建标志
+     */
+    fun clearRecreateActivityFlag() {
+        _uiState.value = _uiState.value.copy(shouldRecreateActivity = false)
+    }
 }
 
 /**
@@ -187,5 +195,6 @@ data class SettingsUiState(
     val isReminderEnabled: Boolean = false,
     val reminderTime: String = "09:00",
     val customEmotions: List<CustomEmotion> = emptyList(),
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val shouldRecreateActivity: Boolean = false
 ) 

@@ -48,17 +48,43 @@ object LocaleManager {
             return context
         }
     }
+    
+    /**
+     * 获取当前语言代码
+     */
+    fun getLanguageCode(context: Context): String {
+        val locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            context.resources.configuration.locales[0]
+        } else {
+            @Suppress("DEPRECATION")
+            context.resources.configuration.locale
+        }
+        
+        return when (locale.language) {
+            "zh" -> if (locale.country == "TW") "zh-rTW" else "zh"
+            "ja" -> "ja"
+            "ko" -> "ko"
+            "en" -> "en"
+            else -> "zh"
+        }
+    }
 }
 
 /**
  * Composable函数，用于在Compose中应用语言设置
+ * 注意：这个函数现在主要用于检测语言变化，真正的语言切换需要在Activity级别处理
  */
 @Composable
 fun ApplyLocale(languageCode: String) {
     val context = LocalContext.current
     
     DisposableEffect(languageCode) {
-        val newContext = LocaleManager.applyLocale(context, languageCode)
+        // 检查当前语言是否与设置的语言一致
+        val currentLanguage = LocaleManager.getLanguageCode(context)
+        if (currentLanguage != languageCode) {
+            // 如果语言不匹配，这里可以触发重新创建Activity
+            // 但实际的重新创建需要在ViewModel中处理
+        }
         onDispose { }
     }
 } 
