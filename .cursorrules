@@ -22,6 +22,7 @@
 - 所有文本用 stringResource() 并提供多语言 strings.xml。
 - 对关键逻辑添加注释，解释用法。
 - 遵循 Kotlin 官方代码规范（Kotlin Coding Conventions）。
+- 我的代码需要支持多语言，因此在每次更新 strings.xml 时，需要同步更新所有的多语言
 
 在回答时，请：
 - 先分析需求，再输出代码。
