@@ -1,0 +1,116 @@
+<resources>
+    <!-- App Basic -->
+    <string name="app_name">她的晴雨表</string>
+    
+    <!-- Navigation -->
+    <string name="nav_record">记录</string>
+    <string name="nav_statistics">统计</string>
+    <string name="nav_settings">设置</string>
+    
+    <!-- Record Page -->
+    <string name="record_emotion">记录心情</string>
+    <string name="select_emotion_type">选择情绪类型</string>
+    <string name="emotion_intensity">情绪强度</string>
+    <string name="add_note">添加备注</string>
+    <string name="note_hint">今天心情如何？</string>
+    <string name="save_record">保存记录</string>
+    <string name="record_saved">记录保存成功</string>
+    
+    <!-- Emotion Types -->
+    <string name="emotion_happy">开心</string>
+    <string name="emotion_sad">难过</string>
+    <string name="emotion_angry">愤怒</string>
+    <string name="emotion_anxious">焦虑</string>
+    <string name="emotion_calm">平静</string>
+    <string name="emotion_excited">兴奋</string>
+    <string name="emotion_tired">疲惫</string>
+    <string name="emotion_confused">困惑</string>
+    <string name="emotion_grateful">感激</string>
+    <string name="emotion_lonely">孤独</string>
+    
+    <!-- Emotion Intensity -->
+    <string name="intensity_very_low">非常低</string>
+    <string name="intensity_low">较低</string>
+    <string name="intensity_medium">中等</string>
+    <string name="intensity_high">较高</string>
+    <string name="intensity_very_high">非常高</string>
+    
+    <!-- Statistics Page -->
+    <string name="statistics">统计</string>
+    <string name="mood_trends">情绪趋势</string>
+    <string name="time_range">时间范围</string>
+    <string name="last_week">最近一周</string>
+    <string name="last_month">最近一个月</string>
+    <string name="last_3_months">最近三个月</string>
+    <string name="last_year">最近一年</string>
+    <string name="chart_type">图表类型</string>
+    <string name="bar_chart">柱状图</string>
+    <string name="line_chart">折线图</string>
+    <string name="pie_chart">饼图</string>
+    <string name="no_data">暂无数据</string>
+    <string name="total_records">总记录数</string>
+    <string name="average_mood">平均情绪</string>
+    <string name="most_frequent_emotion">最常出现的情绪</string>
+    
+    <!-- Settings Page -->
+    <string name="settings">设置</string>
+    <string name="custom_emotions">自定义情绪</string>
+    <string name="add_custom_emotion">添加自定义情绪</string>
+    <string name="edit_emotion">编辑情绪</string>
+    <string name="delete_emotion">删除情绪</string>
+    <string name="reminder_settings">提醒设置</string>
+    <string name="daily_reminder">每日提醒</string>
+    <string name="reminder_time">提醒时间</string>
+    <string name="language">语言</string>
+    <string name="theme">主题</string>
+    <string name="light_theme">浅色</string>
+    <string name="dark_theme">深色</string>
+    <string name="system_theme">跟随系统</string>
+    <string name="about">关于</string>
+    <string name="version">版本</string>
+    <string name="export_data">导出数据</string>
+    <string name="import_data">导入数据</string>
+    
+    <!-- Common Actions -->
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
+    <string name="confirm">确认</string>
+    <string name="ok">确定</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="done">完成</string>
+    <string name="back">返回</string>
+    <string name="next">下一步</string>
+    <string name="close">关闭</string>
+    
+    <!-- Date and Time -->
+    <string name="today">今天</string>
+    <string name="yesterday">昨天</string>
+    <string name="this_week">本周</string>
+    <string name="this_month">本月</string>
+    <string name="select_date">选择日期</string>
+    <string name="select_time">选择时间</string>
+    
+    <!-- Error Messages -->
+    <string name="error_generic">出现错误</string>
+    <string name="error_no_emotion_selected">请选择一种情绪</string>
+    <string name="error_save_failed">保存记录失败</string>
+    <string name="error_delete_failed">删除记录失败</string>
+    <string name="error_load_data_failed">加载数据失败</string>
+    
+    <!-- Confirmation Messages -->
+    <string name="confirm_delete_record">确定要删除这条记录吗？</string>
+    <string name="confirm_delete_emotion">确定要删除这个自定义情绪吗？</string>
+    
+    <!-- Notifications -->
+    <string name="notification_title">心情签到</string>
+    <string name="notification_text">今天心情如何？</string>
+    
+    <!-- Accessibility -->
+    <string name="cd_emotion_button">情绪选择按钮</string>
+    <string name="cd_intensity_slider">情绪强度滑块</string>
+    <string name="cd_add_note">添加备注按钮</string>
+    <string name="cd_save_record">保存记录按钮</string>
+</resources>

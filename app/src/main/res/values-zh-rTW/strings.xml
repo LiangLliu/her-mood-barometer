@@ -1,0 +1,116 @@
+<resources>
+    <!-- App Basic -->
+    <string name="app_name">她的晴雨表</string>
+    
+    <!-- Navigation -->
+    <string name="nav_record">記錄</string>
+    <string name="nav_statistics">統計</string>
+    <string name="nav_settings">設定</string>
+    
+    <!-- Record Page -->
+    <string name="record_emotion">記錄心情</string>
+    <string name="select_emotion_type">選擇情緒類型</string>
+    <string name="emotion_intensity">情緒強度</string>
+    <string name="add_note">添加備註</string>
+    <string name="note_hint">今天心情如何？</string>
+    <string name="save_record">儲存記錄</string>
+    <string name="record_saved">記錄儲存成功</string>
+    
+    <!-- Emotion Types -->
+    <string name="emotion_happy">開心</string>
+    <string name="emotion_sad">難過</string>
+    <string name="emotion_angry">憤怒</string>
+    <string name="emotion_anxious">焦慮</string>
+    <string name="emotion_calm">平靜</string>
+    <string name="emotion_excited">興奮</string>
+    <string name="emotion_tired">疲憊</string>
+    <string name="emotion_confused">困惑</string>
+    <string name="emotion_grateful">感激</string>
+    <string name="emotion_lonely">孤獨</string>
+    
+    <!-- Emotion Intensity -->
+    <string name="intensity_very_low">非常低</string>
+    <string name="intensity_low">較低</string>
+    <string name="intensity_medium">中等</string>
+    <string name="intensity_high">較高</string>
+    <string name="intensity_very_high">非常高</string>
+    
+    <!-- Statistics Page -->
+    <string name="statistics">統計</string>
+    <string name="mood_trends">情緒趨勢</string>
+    <string name="time_range">時間範圍</string>
+    <string name="last_week">最近一週</string>
+    <string name="last_month">最近一個月</string>
+    <string name="last_3_months">最近三個月</string>
+    <string name="last_year">最近一年</string>
+    <string name="chart_type">圖表類型</string>
+    <string name="bar_chart">長條圖</string>
+    <string name="line_chart">折線圖</string>
+    <string name="pie_chart">圓餅圖</string>
+    <string name="no_data">暫無資料</string>
+    <string name="total_records">總記錄數</string>
+    <string name="average_mood">平均情緒</string>
+    <string name="most_frequent_emotion">最常出現的情緒</string>
+    
+    <!-- Settings Page -->
+    <string name="settings">設定</string>
+    <string name="custom_emotions">自訂情緒</string>
+    <string name="add_custom_emotion">新增自訂情緒</string>
+    <string name="edit_emotion">編輯情緒</string>
+    <string name="delete_emotion">刪除情緒</string>
+    <string name="reminder_settings">提醒設定</string>
+    <string name="daily_reminder">每日提醒</string>
+    <string name="reminder_time">提醒時間</string>
+    <string name="language">語言</string>
+    <string name="theme">主題</string>
+    <string name="light_theme">淺色</string>
+    <string name="dark_theme">深色</string>
+    <string name="system_theme">跟隨系統</string>
+    <string name="about">關於</string>
+    <string name="version">版本</string>
+    <string name="export_data">匯出資料</string>
+    <string name="import_data">匯入資料</string>
+    
+    <!-- Common Actions -->
+    <string name="save">儲存</string>
+    <string name="cancel">取消</string>
+    <string name="delete">刪除</string>
+    <string name="edit">編輯</string>
+    <string name="confirm">確認</string>
+    <string name="ok">確定</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="done">完成</string>
+    <string name="back">返回</string>
+    <string name="next">下一步</string>
+    <string name="close">關閉</string>
+    
+    <!-- Date and Time -->
+    <string name="today">今天</string>
+    <string name="yesterday">昨天</string>
+    <string name="this_week">本週</string>
+    <string name="this_month">本月</string>
+    <string name="select_date">選擇日期</string>
+    <string name="select_time">選擇時間</string>
+    
+    <!-- Error Messages -->
+    <string name="error_generic">發生錯誤</string>
+    <string name="error_no_emotion_selected">請選擇一種情緒</string>
+    <string name="error_save_failed">儲存記錄失敗</string>
+    <string name="error_delete_failed">刪除記錄失敗</string>
+    <string name="error_load_data_failed">載入資料失敗</string>
+    
+    <!-- Confirmation Messages -->
+    <string name="confirm_delete_record">確定要刪除這條記錄嗎？</string>
+    <string name="confirm_delete_emotion">確定要刪除這個自訂情緒嗎？</string>
+    
+    <!-- Notifications -->
+    <string name="notification_title">心情簽到</string>
+    <string name="notification_text">今天心情如何？</string>
+    
+    <!-- Accessibility -->
+    <string name="cd_emotion_button">情緒選擇按鈕</string>
+    <string name="cd_intensity_slider">情緒強度滑桿</string>
+    <string name="cd_add_note">新增備註按鈕</string>
+    <string name="cd_save_record">儲存記錄按鈕</string>
+</resources>

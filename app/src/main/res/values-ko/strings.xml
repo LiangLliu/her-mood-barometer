@@ -1,0 +1,116 @@
+<resources>
+    <!-- App Basic -->
+    <string name="app_name">그녀의 기분 기압계</string>
+    
+    <!-- Navigation -->
+    <string name="nav_record">기록</string>
+    <string name="nav_statistics">통계</string>
+    <string name="nav_settings">설정</string>
+    
+    <!-- Record Page -->
+    <string name="record_emotion">기분 기록</string>
+    <string name="select_emotion_type">감정 유형 선택</string>
+    <string name="emotion_intensity">감정 강도</string>
+    <string name="add_note">메모 추가</string>
+    <string name="note_hint">오늘 기분이 어떠신가요？</string>
+    <string name="save_record">기록 저장</string>
+    <string name="record_saved">기록이 저장되었습니다</string>
+    
+    <!-- Emotion Types -->
+    <string name="emotion_happy">행복</string>
+    <string name="emotion_sad">슬픔</string>
+    <string name="emotion_angry">분노</string>
+    <string name="emotion_anxious">불안</string>
+    <string name="emotion_calm">평온</string>
+    <string name="emotion_excited">흥분</string>
+    <string name="emotion_tired">피곤</string>
+    <string name="emotion_confused">혼란</string>
+    <string name="emotion_grateful">감사</string>
+    <string name="emotion_lonely">외로움</string>
+    
+    <!-- Emotion Intensity -->
+    <string name="intensity_very_low">매우 낮음</string>
+    <string name="intensity_low">낮음</string>
+    <string name="intensity_medium">보통</string>
+    <string name="intensity_high">높음</string>
+    <string name="intensity_very_high">매우 높음</string>
+    
+    <!-- Statistics Page -->
+    <string name="statistics">통계</string>
+    <string name="mood_trends">기분 추세</string>
+    <string name="time_range">기간</string>
+    <string name="last_week">지난 주</string>
+    <string name="last_month">지난 달</string>
+    <string name="last_3_months">지난 3개월</string>
+    <string name="last_year">지난 1년</string>
+    <string name="chart_type">차트 유형</string>
+    <string name="bar_chart">막대 차트</string>
+    <string name="line_chart">선 차트</string>
+    <string name="pie_chart">원형 차트</string>
+    <string name="no_data">데이터가 없습니다</string>
+    <string name="total_records">총 기록 수</string>
+    <string name="average_mood">평균 기분</string>
+    <string name="most_frequent_emotion">가장 빈번한 감정</string>
+    
+    <!-- Settings Page -->
+    <string name="settings">설정</string>
+    <string name="custom_emotions">커스텀 감정</string>
+    <string name="add_custom_emotion">커스텀 감정 추가</string>
+    <string name="edit_emotion">감정 편집</string>
+    <string name="delete_emotion">감정 삭제</string>
+    <string name="reminder_settings">알림 설정</string>
+    <string name="daily_reminder">일일 알림</string>
+    <string name="reminder_time">알림 시간</string>
+    <string name="language">언어</string>
+    <string name="theme">테마</string>
+    <string name="light_theme">라이트</string>
+    <string name="dark_theme">다크</string>
+    <string name="system_theme">시스템</string>
+    <string name="about">정보</string>
+    <string name="version">버전</string>
+    <string name="export_data">데이터 내보내기</string>
+    <string name="import_data">데이터 가져오기</string>
+    
+    <!-- Common Actions -->
+    <string name="save">저장</string>
+    <string name="cancel">취소</string>
+    <string name="delete">삭제</string>
+    <string name="edit">편집</string>
+    <string name="confirm">확인</string>
+    <string name="ok">확인</string>
+    <string name="yes">예</string>
+    <string name="no">아니오</string>
+    <string name="done">완료</string>
+    <string name="back">뒤로</string>
+    <string name="next">다음</string>
+    <string name="close">닫기</string>
+    
+    <!-- Date and Time -->
+    <string name="today">오늘</string>
+    <string name="yesterday">어제</string>
+    <string name="this_week">이번 주</string>
+    <string name="this_month">이번 달</string>
+    <string name="select_date">날짜 선택</string>
+    <string name="select_time">시간 선택</string>
+    
+    <!-- Error Messages -->
+    <string name="error_generic">오류가 발생했습니다</string>
+    <string name="error_no_emotion_selected">감정을 선택해주세요</string>
+    <string name="error_save_failed">기록 저장에 실패했습니다</string>
+    <string name="error_delete_failed">기록 삭제에 실패했습니다</string>
+    <string name="error_load_data_failed">데이터 로드에 실패했습니다</string>
+    
+    <!-- Confirmation Messages -->
+    <string name="confirm_delete_record">이 기록을 삭제하시겠습니까？</string>
+    <string name="confirm_delete_emotion">이 커스텀 감정을 삭제하시겠습니까？</string>
+    
+    <!-- Notifications -->
+    <string name="notification_title">기분 체크</string>
+    <string name="notification_text">오늘 기분이 어떠신가요？</string>
+    
+    <!-- Accessibility -->
+    <string name="cd_emotion_button">감정 선택 버튼</string>
+    <string name="cd_intensity_slider">감정 강도 슬라이더</string>
+    <string name="cd_add_note">메모 추가 버튼</string>
+    <string name="cd_save_record">기록 저장 버튼</string>
+</resources>
