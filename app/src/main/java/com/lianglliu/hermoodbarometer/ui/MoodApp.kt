@@ -28,6 +28,7 @@ import com.lianglliu.hermoodbarometer.ui.navigation.Screen
 import com.lianglliu.hermoodbarometer.ui.navigation.getBottomNavItems
 import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsViewModel
 import com.lianglliu.hermoodbarometer.ui.theme.HerMoodBarometerTheme
+import com.lianglliu.hermoodbarometer.ui.ApplyLocale
 
 /**
  * 主应用组件
@@ -38,6 +39,9 @@ import com.lianglliu.hermoodbarometer.ui.theme.HerMoodBarometerTheme
 fun MoodApp() {
     val settingsViewModel: SettingsViewModel = hiltViewModel()
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
+    
+    // 应用语言设置
+    ApplyLocale(uiState.selectedLanguage)
     
     // 根据主题设置确定是否使用深色模式
     val isDarkTheme = when (uiState.selectedTheme) {
