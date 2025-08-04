@@ -79,6 +79,11 @@
     <string name="language_ja">日本語</string>
     <string name="language_ko">한국어</string>
     <string name="language_en">English</string>
+    <string name="data">データ</string>
+    <string name="export_data_description">ファイルにデータをエクスポート</string>
+    <string name="import_data_description">ファイルからデータをインポート</string>
+    <string name="about_app">アプリについて</string>
+    <string name="about_app_description">彼女の気分バロメーター - 人生のすべての気分を記録</string>
     <string name="about">アプリについて</string>
     <string name="version">バージョン</string>
     <string name="export_data">データエクスポート</string>

@@ -1,22 +1,24 @@
 package com.lianglliu.hermoodbarometer.ui.screen.record
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.R
-import com.lianglliu.hermoodbarometer.domain.model.EmotionType
-import com.lianglliu.hermoodbarometer.domain.model.EmotionIntensity
+import com.lianglliu.hermoodbarometer.ui.components.PageTitle
+import com.lianglliu.hermoodbarometer.ui.components.ErrorCard
+import com.lianglliu.hermoodbarometer.ui.components.SuccessCard
+import com.lianglliu.hermoodbarometer.ui.screen.record.components.*
 
 /**
  * 情绪记录页面
@@ -49,184 +51,39 @@ fun RecordScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        // 页面标题
-        Text(
-            text = stringResource(R.string.record_title),
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
+        PageTitle(title = stringResource(R.string.record_title))
+        
+        EmotionTypeSelector(
+            selectedEmotion = uiState.selectedEmotion,
+            onEmotionSelected = { viewModel.updateSelectedEmotion(it) }
         )
         
-        // 情绪类型选择
-        Card(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.select_emotion_type),
-                    style = MaterialTheme.typography.titleMedium
-                )
-                
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(EmotionType.getDefaultEmotions()) { emotion ->
-                        EmotionChip(
-                            emotion = emotion,
-                            isSelected = uiState.selectedEmotion == emotion,
-                            onClick = { viewModel.updateSelectedEmotion(emotion) }
-                        )
-                    }
-                }
-            }
-        }
+        EmotionIntensitySelector(
+            intensityLevel = uiState.intensityLevel,
+            onIntensityChanged = { viewModel.updateIntensity(it) }
+        )
         
-        // 情绪强度滑块
-        Card(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.emotion_intensity),
-                    style = MaterialTheme.typography.titleMedium
-                )
-                
-                Slider(
-                    value = uiState.intensityLevel,
-                    onValueChange = { viewModel.updateIntensity(it) },
-                    valueRange = 1f..5f,
-                    steps = 3,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                
-                Text(
-                    text = stringResource(R.string.intensity_level, EmotionIntensity.fromLevel(uiState.intensityLevel.toInt()).name),
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-        }
+        NoteInput(
+            noteText = uiState.noteText,
+            onNoteChanged = { viewModel.updateNote(it) }
+        )
         
-        // 备注输入
-        Card(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.add_note),
-                    style = MaterialTheme.typography.titleMedium
-                )
-                
-                OutlinedTextField(
-                    value = uiState.noteText,
-                    onValueChange = { viewModel.updateNote(it) },
-                    placeholder = { Text(stringResource(R.string.note_placeholder)) },
-                    modifier = Modifier.fillMaxWidth(),
-                    minLines = 3,
-                    maxLines = 5
-                )
-            }
-        }
-        
-        // 保存按钮
-        Button(
+        SaveButton(
+            isEnabled = uiState.selectedEmotion != null,
+            isLoading = uiState.isLoading,
             onClick = { viewModel.saveEmotionRecord() },
-            modifier = Modifier.fillMaxWidth(),
-            enabled = uiState.selectedEmotion != null && !uiState.isLoading
-        ) {
-            if (uiState.isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(20.dp),
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-            } else {
-                Text(stringResource(R.string.save_record))
-            }
-        }
+            modifier = Modifier.fillMaxWidth()
+        )
         
         // 错误消息显示
         uiState.errorMessage?.let { errorMessage ->
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.errorContainer
-                )
-            ) {
-                Text(
-                    text = errorMessage,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onErrorContainer,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
+            ErrorCard(message = errorMessage)
         }
         
         // 成功消息显示
         if (uiState.showSuccessMessage) {
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.record_saved_successfully),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
+            SuccessCard(message = stringResource(R.string.record_saved_successfully))
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun EmotionChip(
-    emotion: EmotionType,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    FilterChip(
-        selected = isSelected,
-        onClick = onClick,
-        label = { 
-            Text(
-                text = getEmotionDisplayName(emotion),
-                style = MaterialTheme.typography.bodySmall
-            )
-        },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Favorite,
-                contentDescription = null
-            )
-        }
-    )
-}
-
-@Composable
-private fun getEmotionDisplayName(emotion: EmotionType): String {
-    return when (emotion) {
-        EmotionType.HAPPY -> stringResource(R.string.emotion_happy)
-        EmotionType.SAD -> stringResource(R.string.emotion_sad)
-        EmotionType.ANGRY -> stringResource(R.string.emotion_angry)
-        EmotionType.ANXIOUS -> stringResource(R.string.emotion_anxious)
-        EmotionType.CALM -> stringResource(R.string.emotion_calm)
-        EmotionType.EXCITED -> stringResource(R.string.emotion_excited)
-        EmotionType.TIRED -> stringResource(R.string.emotion_tired)
-        EmotionType.CONFUSED -> stringResource(R.string.emotion_confused)
-        EmotionType.GRATEFUL -> stringResource(R.string.emotion_grateful)
-        EmotionType.LONELY -> stringResource(R.string.emotion_lonely)
-    }
-}
