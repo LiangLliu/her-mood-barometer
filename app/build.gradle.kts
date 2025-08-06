@@ -85,6 +85,9 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 
+    // WorkManager
+    implementation(libs.work.runtime.ktx)
+
     // System UI 控制器
     implementation(libs.accompanist.systemuicontroller)
 

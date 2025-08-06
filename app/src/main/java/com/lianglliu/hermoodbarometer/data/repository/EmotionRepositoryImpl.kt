@@ -91,7 +91,7 @@ private fun EmotionRecordEntity.toDomainModel(): EmotionRecord {
         emotionType = emotionType,
         intensity = intensity,
         note = note,
-        timestamp = timestamp.toEpochSecond(java.time.ZoneOffset.UTC) * 1000, // 转换为毫秒时间戳
+        timestamp = timestamp, // 直接使用LocalDateTime
         isCustomEmotion = customEmotionId != null,
         customEmotionName = null // 需要从自定义情绪表中查询
     )
@@ -106,7 +106,7 @@ private fun EmotionRecord.toEntity(): EmotionRecordEntity {
         emotionType = emotionType,
         intensity = intensity,
         note = note,
-        timestamp = LocalDateTime.ofEpochSecond(timestamp / 1000, 0, java.time.ZoneOffset.UTC), // 从毫秒时间戳转换
+        timestamp = timestamp, // 直接使用LocalDateTime
         customEmotionId = if (isCustomEmotion) 1L else null // 简化处理，实际应该查询自定义情绪ID
     )
 } 

@@ -1,6 +1,7 @@
 package com.lianglliu.hermoodbarometer.domain.model
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Contextual
 import java.time.LocalDateTime
 
 /**
@@ -13,7 +14,8 @@ data class EmotionRecord(
     val emotionType: String, // 改为String类型以兼容数据库存储
     val intensity: Int, // 改为Int类型以兼容数据库存储
     val note: String = "",
-    val timestamp: Long, // 改为Long类型以兼容数据库存储
+    @Contextual
+    val timestamp: LocalDateTime, // 使用LocalDateTime以与数据库实体保持一致
     val isCustomEmotion: Boolean = false,
     val customEmotionName: String? = null
 ) {
@@ -40,7 +42,7 @@ data class EmotionRecord(
                 emotionType = emotionType.name,
                 intensity = intensity.level,
                 note = note,
-                timestamp = System.currentTimeMillis(),
+                timestamp = LocalDateTime.now(), // 使用LocalDateTime.now()
                 isCustomEmotion = !customEmotionName.isNullOrBlank(),
                 customEmotionName = customEmotionName
             )

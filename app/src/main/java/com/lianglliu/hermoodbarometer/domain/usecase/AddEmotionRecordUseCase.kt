@@ -36,8 +36,7 @@ class AddEmotionRecordUseCase @Inject constructor(
      * 验证情绪记录数据是否有效
      */
     private fun isValidRecord(record: EmotionRecord): Boolean {
-        return record.emotionType != null && 
-               record.intensity in 1..5 &&
-               record.timestamp > 0
+        return record.emotionType.isNotBlank() && 
+               record.intensity in 1..5
     }
 } 
