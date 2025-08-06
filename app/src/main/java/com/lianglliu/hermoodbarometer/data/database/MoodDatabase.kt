@@ -1,8 +1,10 @@
 package com.lianglliu.hermoodbarometer.data.database
 
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.lianglliu.hermoodbarometer.domain.model.EmotionIntensity
 import com.lianglliu.hermoodbarometer.domain.model.EmotionType
 import java.time.LocalDateTime

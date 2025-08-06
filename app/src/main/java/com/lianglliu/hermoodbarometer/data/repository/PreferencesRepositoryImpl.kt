@@ -1,7 +1,5 @@
 package com.lianglliu.hermoodbarometer.data.repository
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.lianglliu.hermoodbarometer.data.preferences.PreferencesManager
 import com.lianglliu.hermoodbarometer.domain.repository.PreferencesRepository
 import kotlinx.coroutines.flow.Flow

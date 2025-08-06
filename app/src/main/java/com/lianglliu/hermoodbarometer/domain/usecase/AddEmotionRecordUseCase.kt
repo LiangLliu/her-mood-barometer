@@ -2,7 +2,6 @@ package com.lianglliu.hermoodbarometer.domain.usecase
 
 import com.lianglliu.hermoodbarometer.domain.model.EmotionRecord
 import com.lianglliu.hermoodbarometer.domain.repository.EmotionRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**

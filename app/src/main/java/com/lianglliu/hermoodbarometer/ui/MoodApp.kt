@@ -17,18 +17,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.ui.navigation.MoodNavigation
 import com.lianglliu.hermoodbarometer.ui.navigation.Screen
 import com.lianglliu.hermoodbarometer.ui.navigation.getBottomNavItems
 import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsViewModel
 import com.lianglliu.hermoodbarometer.ui.theme.HerMoodBarometerTheme
-import com.lianglliu.hermoodbarometer.ui.ApplyLocale
 
 /**
  * 主应用组件
@@ -119,13 +120,14 @@ private fun getIconForScreen(screen: Screen): ImageVector {
 }
 
 /**
- * 获取资源显示名称（临时实现，后续使用stringResource）
+ * 获取资源显示名称
  */
+@Composable
 private fun getDisplayName(resId: String): String {
     return when (resId) {
-        "nav_record" -> "记录"
-        "nav_statistics" -> "统计"
-        "nav_settings" -> "设置"
+        "nav_record" -> stringResource(R.string.nav_record)
+        "nav_statistics" -> stringResource(R.string.nav_statistics)
+        "nav_settings" -> stringResource(R.string.nav_settings)
         else -> resId
     }
 }

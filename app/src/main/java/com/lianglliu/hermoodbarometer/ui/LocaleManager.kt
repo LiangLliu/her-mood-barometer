@@ -2,7 +2,6 @@ package com.lianglliu.hermoodbarometer.ui
 
 import android.content.Context
 import android.content.res.Configuration
-import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalContext
@@ -13,7 +12,7 @@ import java.util.Locale
  * 负责处理应用的语言切换和本地化
  */
 object LocaleManager {
-    
+
     /**
      * 应用语言设置到Context
      */
@@ -26,40 +25,27 @@ object LocaleManager {
             "en" -> Locale.ENGLISH
             else -> Locale.getDefault()
         }
-        
+
         return updateResources(context, locale)
     }
-    
+
     /**
      * 更新资源以应用新的语言设置
      */
     private fun updateResources(context: Context, locale: Locale): Context {
         Locale.setDefault(locale)
-        
+
         val configuration = Configuration(context.resources.configuration)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            configuration.setLocale(locale)
-            return context.createConfigurationContext(configuration)
-        } else {
-            @Suppress("DEPRECATION")
-            configuration.locale = locale
-            @Suppress("DEPRECATION")
-            context.resources.updateConfiguration(configuration, context.resources.displayMetrics)
-            return context
-        }
+        configuration.setLocale(locale)
+        return context.createConfigurationContext(configuration)
     }
-    
+
     /**
      * 获取当前语言代码
      */
     fun getLanguageCode(context: Context): String {
-        val locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            context.resources.configuration.locales[0]
-        } else {
-            @Suppress("DEPRECATION")
-            context.resources.configuration.locale
-        }
-        
+        val locale =  context.resources.configuration.locales[0]
+
         return when (locale.language) {
             "zh" -> if (locale.country == "TW") "zh-rTW" else "zh"
             "ja" -> "ja"
@@ -77,7 +63,7 @@ object LocaleManager {
 @Composable
 fun ApplyLocale(languageCode: String) {
     val context = LocalContext.current
-    
+
     DisposableEffect(languageCode) {
         // 检查当前语言是否与设置的语言一致
         val currentLanguage = LocaleManager.getLanguageCode(context)

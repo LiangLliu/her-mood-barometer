@@ -79,15 +79,11 @@
     <string name="language_ja">日本語</string>
     <string name="language_ko">한국어</string>
     <string name="language_en">English</string>
-    <string name="data">데이터</string>
-    <string name="export_data_description">파일로 데이터 내보내기</string>
-    <string name="import_data_description">파일에서 데이터 가져오기</string>
+
     <string name="about_app">앱 정보</string>
     <string name="about_app_description">그녀의 기분 기압계 - 인생의 모든 기분을 기록</string>
     <string name="about">정보</string>
     <string name="version">버전</string>
-    <string name="export_data">데이터 내보내기</string>
-    <string name="import_data">데이터 가져오기</string>
     
     <!-- Common Actions -->
     <string name="save">저장</string>

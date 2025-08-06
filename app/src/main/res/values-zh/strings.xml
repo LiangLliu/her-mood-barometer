@@ -79,15 +79,11 @@
     <string name="language_ja">日本語</string>
     <string name="language_ko">한국어</string>
     <string name="language_en">English</string>
-    <string name="data">数据</string>
-    <string name="export_data_description">将数据导出到文件</string>
-    <string name="import_data_description">从文件导入数据</string>
+
     <string name="about_app">关于应用</string>
     <string name="about_app_description">她的晴雨表 - 记录生活中的每一份心情</string>
     <string name="about">关于</string>
     <string name="version">版本</string>
-    <string name="export_data">导出数据</string>
-    <string name="import_data">导入数据</string>
     
     <!-- Common Actions -->
     <string name="save">保存</string>

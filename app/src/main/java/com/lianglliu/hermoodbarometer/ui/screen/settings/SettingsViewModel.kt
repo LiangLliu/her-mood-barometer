@@ -177,7 +177,7 @@ class SettingsViewModel @Inject constructor(
     fun clearErrorMessage() {
         _uiState.value = _uiState.value.copy(errorMessage = null)
     }
-    
+
     /**
      * 清除Activity重新创建标志
      */

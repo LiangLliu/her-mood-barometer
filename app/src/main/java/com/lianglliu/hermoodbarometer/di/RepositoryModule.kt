@@ -2,7 +2,9 @@ package com.lianglliu.hermoodbarometer.di
 
 import android.content.Context
 import com.lianglliu.hermoodbarometer.data.preferences.PreferencesManager
-import com.lianglliu.hermoodbarometer.data.repository.*
+import com.lianglliu.hermoodbarometer.data.repository.CustomEmotionRepositoryImpl
+import com.lianglliu.hermoodbarometer.data.repository.EmotionRepositoryImpl
+import com.lianglliu.hermoodbarometer.data.repository.PreferencesRepositoryImpl
 import com.lianglliu.hermoodbarometer.domain.repository.CustomEmotionRepository
 import com.lianglliu.hermoodbarometer.domain.repository.EmotionRepository
 import com.lianglliu.hermoodbarometer.domain.repository.PreferencesRepository
@@ -20,7 +22,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
-    
+
     /**
      * 提供偏好设置管理器
      */
@@ -31,7 +33,7 @@ object RepositoryModule {
     ): PreferencesManager {
         return PreferencesManager(context)
     }
-    
+
     /**
      * 提供情绪记录仓库
      */
@@ -42,7 +44,7 @@ object RepositoryModule {
     ): EmotionRepository {
         return emotionRepositoryImpl
     }
-    
+
     /**
      * 提供自定义情绪仓库
      */
@@ -53,7 +55,7 @@ object RepositoryModule {
     ): CustomEmotionRepository {
         return customEmotionRepositoryImpl
     }
-    
+
     /**
      * 提供偏好设置仓库
      */

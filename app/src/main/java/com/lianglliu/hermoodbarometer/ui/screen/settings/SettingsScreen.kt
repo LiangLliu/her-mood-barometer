@@ -2,19 +2,16 @@ package com.lianglliu.hermoodbarometer.ui.screen.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,7 +19,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.MainActivity
 import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.ui.components.PageTitle
-import com.lianglliu.hermoodbarometer.ui.screen.settings.components.*
+import com.lianglliu.hermoodbarometer.ui.screen.settings.components.AboutSection
+import com.lianglliu.hermoodbarometer.ui.screen.settings.components.AppearanceSection
+import com.lianglliu.hermoodbarometer.ui.screen.settings.components.CustomEmotionSection
+import com.lianglliu.hermoodbarometer.ui.screen.settings.components.LanguageSelectionDialog
+import com.lianglliu.hermoodbarometer.ui.screen.settings.components.NotificationSection
 
 /**
  * 设置页面
@@ -35,7 +36,7 @@ fun SettingsScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var showLanguageDialog by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    
+
     // 处理错误消息
     LaunchedEffect(uiState.errorMessage) {
         if (uiState.errorMessage != null) {
@@ -43,7 +44,7 @@ fun SettingsScreen(
             viewModel.clearErrorMessage()
         }
     }
-    
+
     // 处理Activity重新创建
     LaunchedEffect(uiState.shouldRecreateActivity) {
         if (uiState.shouldRecreateActivity) {
@@ -54,7 +55,7 @@ fun SettingsScreen(
             viewModel.clearRecreateActivityFlag()
         }
     }
-    
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -64,7 +65,7 @@ fun SettingsScreen(
         item {
             PageTitle(title = stringResource(R.string.settings))
         }
-        
+
         item {
             // 外观设置
             AppearanceSection(
@@ -74,7 +75,7 @@ fun SettingsScreen(
                 onLanguageClick = { showLanguageDialog = true }
             )
         }
-        
+
         item {
             // 通知设置
             NotificationSection(
@@ -86,7 +87,7 @@ fun SettingsScreen(
                 }
             )
         }
-        
+
         item {
             // 自定义情绪
             CustomEmotionSection(
@@ -95,25 +96,13 @@ fun SettingsScreen(
                 }
             )
         }
-        
-        item {
-            // 数据管理
-            DataSection(
-                onExportDataClick = {
-                    // TODO: 导出数据
-                },
-                onImportDataClick = {
-                    // TODO: 导入数据
-                }
-            )
-        }
-        
+
         item {
             // 关于
             AboutSection()
         }
     }
-    
+
     // 语言选择对话框
     if (showLanguageDialog) {
         LanguageSelectionDialog(

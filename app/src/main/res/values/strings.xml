@@ -79,15 +79,11 @@
     <string name="language_ja">日本語</string>
     <string name="language_ko">한국어</string>
     <string name="language_en">English</string>
-    <string name="data">Data</string>
-    <string name="export_data_description">Export data to file</string>
-    <string name="import_data_description">Import data from file</string>
+
     <string name="about_app">About App</string>
     <string name="about_app_description">Her Mood Barometer - Record every mood in life</string>
     <string name="about">About</string>
     <string name="version">Version</string>
-    <string name="export_data">Export Data</string>
-    <string name="import_data">Import Data</string>
     
     <!-- Common Actions -->
     <string name="save">Save</string>

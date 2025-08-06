@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -15,10 +15,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.R
-import com.lianglliu.hermoodbarometer.ui.components.PageTitle
 import com.lianglliu.hermoodbarometer.ui.components.ErrorCard
+import com.lianglliu.hermoodbarometer.ui.components.PageTitle
 import com.lianglliu.hermoodbarometer.ui.components.SuccessCard
-import com.lianglliu.hermoodbarometer.ui.screen.record.components.*
+import com.lianglliu.hermoodbarometer.ui.screen.record.components.EmotionIntensitySelector
+import com.lianglliu.hermoodbarometer.ui.screen.record.components.EmotionTypeSelector
+import com.lianglliu.hermoodbarometer.ui.screen.record.components.NoteInput
+import com.lianglliu.hermoodbarometer.ui.screen.record.components.SaveButton
 
 /**
  * 情绪记录页面
