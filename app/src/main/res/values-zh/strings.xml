@@ -11,6 +11,9 @@
     <string name="record_title">记录心情</string>
     <string name="record_emotion">记录心情</string>
     <string name="select_emotion_type">选择情绪类型</string>
+    <string name="select_emotion">选择情绪</string>
+    <string name="predefined_emotions">预定义情绪</string>
+    <string name="custom_emotions">自定义情绪</string>
     <string name="emotion_intensity">情绪强度</string>
     <string name="add_note">添加备注</string>
     <string name="note_placeholder">今天心情如何？</string>
@@ -57,7 +60,6 @@
     
     <!-- Settings Page -->
     <string name="settings">设置</string>
-    <string name="custom_emotions">自定义情绪</string>
     <string name="add_custom_emotion">添加自定义情绪</string>
     <string name="edit_emotion">编辑情绪</string>
     <string name="delete_emotion">删除情绪</string>
@@ -127,4 +129,9 @@
     <string name="cd_intensity_slider">情绪强度滑块</string>
     <string name="cd_add_note">添加备注按钮</string>
     <string name="cd_save_record">保存记录按钮</string>
+    
+    <!-- Custom Emotions -->
+    <string name="emotion_name">情绪名称</string>
+    <string name="emotion_color">情绪颜色</string>
+    <string name="no_custom_emotions">暂无自定义情绪</string>
 </resources>

@@ -1,10 +1,10 @@
 package com.lianglliu.hermoodbarometer.ui.screen.record
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -48,44 +48,61 @@ fun RecordScreen(
         }
     }
     
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        PageTitle(title = stringResource(R.string.record_title))
+        item {
+            PageTitle(title = stringResource(R.string.record_title))
+        }
         
-        EmotionTypeSelector(
-            selectedEmotion = uiState.selectedEmotion,
-            onEmotionSelected = { viewModel.updateSelectedEmotion(it) }
-        )
+        item {
+            EmotionTypeSelector(
+                selectedEmotion = uiState.selectedEmotion,
+                selectedCustomEmotion = uiState.selectedCustomEmotion,
+                customEmotions = uiState.customEmotions,
+                onEmotionSelected = { viewModel.updateSelectedEmotion(it) },
+                onCustomEmotionSelected = { viewModel.updateSelectedCustomEmotion(it) }
+            )
+        }
         
-        EmotionIntensitySelector(
-            intensityLevel = uiState.intensityLevel,
-            onIntensityChanged = { viewModel.updateIntensity(it) }
-        )
+        item {
+            EmotionIntensitySelector(
+                intensityLevel = uiState.intensityLevel,
+                onIntensityChanged = { viewModel.updateIntensity(it) }
+            )
+        }
         
-        NoteInput(
-            noteText = uiState.noteText,
-            onNoteChanged = { viewModel.updateNote(it) }
-        )
+        item {
+            NoteInput(
+                noteText = uiState.noteText,
+                onNoteChanged = { viewModel.updateNote(it) }
+            )
+        }
         
-        SaveButton(
-            isEnabled = uiState.selectedEmotion != null,
-            isLoading = uiState.isLoading,
-            onClick = { viewModel.saveEmotionRecord() },
-            modifier = Modifier.fillMaxWidth()
-        )
+        item {
+            SaveButton(
+                isEnabled = uiState.selectedEmotion != null || uiState.selectedCustomEmotion != null,
+                isLoading = uiState.isLoading,
+                onClick = { viewModel.saveEmotionRecord() },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
         
         // 错误消息显示
         uiState.errorMessage?.let { errorMessage ->
-            ErrorCard(message = errorMessage)
+            item {
+                ErrorCard(message = errorMessage)
+            }
         }
         
         // 成功消息显示
         if (uiState.showSuccessMessage) {
-            SuccessCard(message = stringResource(R.string.record_saved_successfully))
+            item {
+                SuccessCard(message = stringResource(R.string.record_saved_successfully))
+            }
         }
     }
 }

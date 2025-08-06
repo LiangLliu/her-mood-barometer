@@ -2,9 +2,11 @@ package com.lianglliu.hermoodbarometer.ui.screen.record
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lianglliu.hermoodbarometer.domain.model.CustomEmotion
 import com.lianglliu.hermoodbarometer.domain.model.EmotionIntensity
 import com.lianglliu.hermoodbarometer.domain.model.EmotionRecord
 import com.lianglliu.hermoodbarometer.domain.model.EmotionType
+import com.lianglliu.hermoodbarometer.domain.repository.CustomEmotionRepository
 import com.lianglliu.hermoodbarometer.domain.usecase.AddEmotionRecordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,18 +21,43 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class RecordViewModel @Inject constructor(
-    private val addEmotionRecordUseCase: AddEmotionRecordUseCase
+    private val addEmotionRecordUseCase: AddEmotionRecordUseCase,
+    private val customEmotionRepository: CustomEmotionRepository
 ) : ViewModel() {
 
     // UI状态
     private val _uiState = MutableStateFlow(RecordUiState())
     val uiState: StateFlow<RecordUiState> = _uiState.asStateFlow()
 
+    init {
+        loadCustomEmotions()
+    }
+
+    /**
+     * 加载自定义情绪
+     */
+    private fun loadCustomEmotions() {
+        viewModelScope.launch {
+            customEmotionRepository.getAllCustomEmotions().collect { emotions ->
+                _uiState.value = _uiState.value.copy(customEmotions = emotions)
+            }
+        }
+    }
+
     /**
      * 更新选中的情绪类型
      */
     fun updateSelectedEmotion(emotion: EmotionType?) {
-        _uiState.value = _uiState.value.copy(selectedEmotion = emotion)
+        android.util.Log.d("RecordViewModel", "updateSelectedEmotion: $emotion")
+        _uiState.value = _uiState.value.copy(selectedEmotion = emotion, selectedCustomEmotion = null)
+        android.util.Log.d("RecordViewModel", "Updated state: selectedEmotion = ${_uiState.value.selectedEmotion}")
+    }
+
+    /**
+     * 更新选中的自定义情绪
+     */
+    fun updateSelectedCustomEmotion(emotion: CustomEmotion?) {
+        _uiState.value = _uiState.value.copy(selectedCustomEmotion = emotion, selectedEmotion = null)
     }
 
     /**
@@ -54,7 +81,7 @@ class RecordViewModel @Inject constructor(
         val currentState = _uiState.value
         
         // 验证数据
-        if (currentState.selectedEmotion == null) {
+        if (currentState.selectedEmotion == null && currentState.selectedCustomEmotion == null) {
             _uiState.value = currentState.copy(
                 errorMessage = "请选择情绪类型"
             )
@@ -62,11 +89,20 @@ class RecordViewModel @Inject constructor(
         }
 
         // 创建情绪记录
-        val emotionRecord = EmotionRecord.create(
-            emotionType = currentState.selectedEmotion!!,
-            intensity = EmotionIntensity.fromLevel(currentState.intensityLevel.toInt()),
-            note = currentState.noteText
-        )
+        val emotionRecord = if (currentState.selectedEmotion != null) {
+            EmotionRecord.create(
+                emotionType = currentState.selectedEmotion!!,
+                intensity = EmotionIntensity.fromLevel(currentState.intensityLevel.toInt()),
+                note = currentState.noteText
+            )
+        } else {
+            EmotionRecord.create(
+                emotionType = EmotionType.HAPPY, // 使用默认类型，但会标记为自定义
+                intensity = EmotionIntensity.fromLevel(currentState.intensityLevel.toInt()),
+                note = currentState.noteText,
+                customEmotionName = currentState.selectedCustomEmotion!!.name
+            )
+        }
 
         // 显示加载状态
         _uiState.value = currentState.copy(isLoading = true, errorMessage = null)
@@ -118,6 +154,8 @@ class RecordViewModel @Inject constructor(
  */
 data class RecordUiState(
     val selectedEmotion: EmotionType? = null,
+    val selectedCustomEmotion: CustomEmotion? = null,
+    val customEmotions: List<CustomEmotion> = emptyList(),
     val intensityLevel: Float = 3f,
     val noteText: String = "",
     val isLoading: Boolean = false,

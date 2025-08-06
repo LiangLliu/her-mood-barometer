@@ -11,6 +11,9 @@
     <string name="record_title">気分を記録</string>
     <string name="record_emotion">気分を記録</string>
     <string name="select_emotion_type">感情タイプを選択</string>
+    <string name="select_emotion">感情を選択</string>
+    <string name="predefined_emotions">事前定義された感情</string>
+    <string name="custom_emotions">カスタム感情</string>
     <string name="emotion_intensity">感情の強度</string>
     <string name="add_note">メモを追加</string>
     <string name="note_placeholder">今日の気分はいかがですか？</string>
@@ -57,7 +60,6 @@
     
     <!-- Settings Page -->
     <string name="settings">設定</string>
-    <string name="custom_emotions">カスタム感情</string>
     <string name="add_custom_emotion">カスタム感情を追加</string>
     <string name="edit_emotion">感情を編集</string>
     <string name="delete_emotion">感情を削除</string>
@@ -127,4 +129,9 @@
     <string name="cd_intensity_slider">感情強度スライダー</string>
     <string name="cd_add_note">メモ追加ボタン</string>
     <string name="cd_save_record">記録保存ボタン</string>
+    
+    <!-- Custom Emotions -->
+    <string name="emotion_name">感情名</string>
+    <string name="emotion_color">感情色</string>
+    <string name="no_custom_emotions">カスタム感情がまだありません</string>
 </resources>

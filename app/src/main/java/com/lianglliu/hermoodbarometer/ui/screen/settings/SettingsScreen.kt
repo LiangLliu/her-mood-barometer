@@ -31,6 +31,7 @@ import com.lianglliu.hermoodbarometer.ui.screen.settings.components.Notification
  */
 @Composable
 fun SettingsScreen(
+    onNavigateToCustomEmotion: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -91,9 +92,7 @@ fun SettingsScreen(
         item {
             // 自定义情绪
             CustomEmotionSection(
-                onCustomEmotionClick = {
-                    // TODO: 导航到自定义情绪页面
-                }
+                onCustomEmotionClick = onNavigateToCustomEmotion
             )
         }
 

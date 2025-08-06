@@ -1,12 +1,14 @@
 package com.lianglliu.hermoodbarometer.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.lianglliu.hermoodbarometer.ui.screen.record.RecordScreen
 import com.lianglliu.hermoodbarometer.ui.screen.statistics.StatisticsScreen
 import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsScreen
+import com.lianglliu.hermoodbarometer.ui.screen.settings.CustomEmotionScreen
 
 /**
  * 应用导航图
@@ -15,11 +17,13 @@ import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsScreen
 @Composable
 fun MoodNavigation(
     navController: NavHostController,
-    startDestination: String = Screen.Record.route
+    startDestination: String = Screen.Record.route,
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
+        modifier = modifier
     ) {
         composable(Screen.Record.route) {
             RecordScreen()
@@ -30,7 +34,19 @@ fun MoodNavigation(
         }
         
         composable(Screen.Settings.route) {
-            SettingsScreen()
+            SettingsScreen(
+                onNavigateToCustomEmotion = {
+                    navController.navigate(Screen.CustomEmotion.route)
+                }
+            )
+        }
+        
+        composable(Screen.CustomEmotion.route) {
+            CustomEmotionScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

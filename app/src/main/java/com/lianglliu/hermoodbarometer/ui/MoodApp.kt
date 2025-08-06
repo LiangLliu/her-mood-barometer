@@ -1,7 +1,6 @@
 package com.lianglliu.hermoodbarometer.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -98,12 +97,11 @@ fun MoodApp() {
             }
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
-            MoodNavigation(
-                navController = navController,
-                startDestination = Screen.Record.route
-            )
-        }
+        MoodNavigation(
+            navController = navController,
+            startDestination = Screen.Record.route,
+            modifier = Modifier.padding(innerPadding)
+        )
     }
     }
 }
@@ -116,6 +114,7 @@ private fun getIconForScreen(screen: Screen): ImageVector {
         Screen.Record -> Icons.Default.Edit
         Screen.Statistics -> Icons.Default.Info
         Screen.Settings -> Icons.Default.Settings
+        Screen.CustomEmotion -> Icons.Default.Settings // 使用设置图标作为默认
     }
 }
 

@@ -11,6 +11,9 @@
     <string name="record_title">Record Mood</string>
     <string name="record_emotion">Record Emotion</string>
     <string name="select_emotion_type">Select Emotion Type</string>
+    <string name="select_emotion">Select Emotion</string>
+    <string name="predefined_emotions">Predefined Emotions</string>
+    <string name="custom_emotions">Custom Emotions</string>
     <string name="emotion_intensity">Emotion Intensity</string>
     <string name="add_note">Add Note</string>
     <string name="note_placeholder">How are you feeling today?</string>
@@ -57,7 +60,6 @@
     
     <!-- Settings Page -->
     <string name="settings">Settings</string>
-    <string name="custom_emotions">Custom Emotions</string>
     <string name="add_custom_emotion">Add Custom Emotion</string>
     <string name="edit_emotion">Edit Emotion</string>
     <string name="delete_emotion">Delete Emotion</string>
@@ -127,4 +129,9 @@
     <string name="cd_intensity_slider">Emotion intensity slider</string>
     <string name="cd_add_note">Add note button</string>
     <string name="cd_save_record">Save record button</string>
+    
+    <!-- Custom Emotions -->
+    <string name="emotion_name">Emotion Name</string>
+    <string name="emotion_color">Emotion Color</string>
+    <string name="no_custom_emotions">No custom emotions yet</string>
 </resources>
