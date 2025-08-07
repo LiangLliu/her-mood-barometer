@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter
         EmotionRecordEntity::class,
         CustomEmotionEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

@@ -132,6 +132,8 @@
     
     <!-- Custom Emotions -->
     <string name="emotion_name">感情名</string>
-    <string name="emotion_color">感情色</string>
+    <string name="description">説明</string>
+    <string name="selected_emoji">選択した絵文字：</string>
+    <string name="choose_emoji">絵文字を選択：</string>
     <string name="no_custom_emotions">カスタム感情がまだありません</string>
 </resources>

@@ -58,9 +58,8 @@ private fun CustomEmotionEntity.toDomainModel(): CustomEmotion {
     return CustomEmotion(
         id = id,
         name = name,
-        description = "", // 数据库中没有description字段，使用空字符串
-        color = color,
-        iconName = icon,
+        description = description,
+        emoji = emoji,
         createdAt = createdAt
     )
 }
@@ -72,8 +71,8 @@ private fun CustomEmotion.toEntity(): CustomEmotionEntity {
     return CustomEmotionEntity(
         id = id,
         name = name,
-        color = color,
-        icon = iconName,
+        emoji = emoji,
+        description = description,
         isActive = true, // 默认启用
         createdAt = createdAt
     )

@@ -16,6 +16,7 @@ data class EmotionRecord(
     val note: String = "",
     @Contextual
     val timestamp: LocalDateTime, // 使用LocalDateTime以与数据库实体保持一致
+    val customEmotionId: Long? = null, // 自定义情绪ID
     val isCustomEmotion: Boolean = false,
     val customEmotionName: String? = null
 ) {
@@ -42,8 +43,28 @@ data class EmotionRecord(
                 emotionType = emotionType.name,
                 intensity = intensity.level,
                 note = note,
-                timestamp = LocalDateTime.now(), // 使用LocalDateTime.now()
+                timestamp = LocalDateTime.now(),
                 isCustomEmotion = !customEmotionName.isNullOrBlank(),
+                customEmotionName = customEmotionName
+            )
+        }
+        
+        /**
+         * 创建自定义情绪记录
+         */
+        fun createCustom(
+            customEmotionId: Long,
+            customEmotionName: String,
+            intensity: EmotionIntensity,
+            note: String = ""
+        ): EmotionRecord {
+            return EmotionRecord(
+                emotionType = "CUSTOM", // 标记为自定义情绪
+                intensity = intensity.level,
+                note = note,
+                timestamp = LocalDateTime.now(),
+                customEmotionId = customEmotionId,
+                isCustomEmotion = true,
                 customEmotionName = customEmotionName
             )
         }

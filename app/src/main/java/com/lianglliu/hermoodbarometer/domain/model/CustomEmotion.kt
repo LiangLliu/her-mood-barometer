@@ -11,22 +11,19 @@ data class CustomEmotion(
     val id: Long = 0,
     val name: String,
     val description: String = "",
-    val color: String = "#2196F3", // 默认蓝色
-    val iconName: String = "favorite", // Material Icon名称
+    val emoji: String = "😊", // 默认笑脸emoji
     val createdAt: Long = System.currentTimeMillis() // 创建时间戳
 ) {
     companion object {
         fun create(
             name: String,
             description: String = "",
-            color: String = "#2196F3",
-            iconName: String = "favorite"
+            emoji: String = "😊"
         ): CustomEmotion {
             return CustomEmotion(
                 name = name,
                 description = description,
-                color = color,
-                iconName = iconName,
+                emoji = emoji,
                 createdAt = System.currentTimeMillis()
             )
         }

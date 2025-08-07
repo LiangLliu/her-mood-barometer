@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -38,13 +39,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.domain.model.CustomEmotion
+import com.lianglliu.hermoodbarometer.ui.screen.settings.components.EmojiSelector
 
 /**
  * 自定义情绪管理页面
@@ -135,8 +138,8 @@ fun CustomEmotionScreen(
     if (showAddDialog) {
         AddEditEmotionDialog(
             emotion = null,
-            onConfirm = { name, color ->
-                viewModel.addCustomEmotion(name, color)
+            onConfirm = { name, emoji, description ->
+                viewModel.addCustomEmotion(name, description, emoji)
                 showAddDialog = false
             },
             onDismiss = { showAddDialog = false }
@@ -147,9 +150,9 @@ fun CustomEmotionScreen(
     if (showEditDialog && selectedEmotion != null) {
         AddEditEmotionDialog(
             emotion = selectedEmotion,
-            onConfirm = { name, color ->
+            onConfirm = { name, emoji, description ->
                 selectedEmotion?.let { emotion ->
-                    viewModel.updateCustomEmotion(emotion.copy(name = name, color = color))
+                    viewModel.updateCustomEmotion(emotion.copy(name = name, emoji = emoji, description = description))
                 }
                 showEditDialog = false
                 selectedEmotion = null
@@ -210,23 +213,25 @@ private fun CustomEmotionCard(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = emotion.name.first().uppercase(),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Color.White
-                    )
-                }
-                
                 Text(
-                    text = emotion.name,
-                    style = MaterialTheme.typography.bodyLarge
+                    text = emotion.emoji,
+                    fontSize = 32.sp,
+                    textAlign = TextAlign.Center
                 )
+                
+                Column {
+                    Text(
+                        text = emotion.name,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    if (emotion.description.isNotBlank()) {
+                        Text(
+                            text = emotion.description,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
             }
             
             Row {
@@ -251,11 +256,12 @@ private fun CustomEmotionCard(
 @Composable
 private fun AddEditEmotionDialog(
     emotion: CustomEmotion?,
-    onConfirm: (String, String) -> Unit,
+    onConfirm: (String, String, String) -> Unit, // name, emoji, description
     onDismiss: () -> Unit
 ) {
     var name by remember { mutableStateOf(emotion?.name ?: "") }
-    var color by remember { mutableStateOf(emotion?.color ?: "#FF5722") }
+    var description by remember { mutableStateOf(emotion?.description ?: "") }
+    var selectedEmoji by remember { mutableStateOf(emotion?.emoji ?: "😊") }
     
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -270,8 +276,10 @@ private fun AddEditEmotionDialog(
         },
         text = {
             Column(
+                modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                // 情绪名称输入框
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
@@ -279,19 +287,55 @@ private fun AddEditEmotionDialog(
                     modifier = Modifier.fillMaxWidth()
                 )
                 
+                // 描述输入框
                 OutlinedTextField(
-                    value = color,
-                    onValueChange = { color = it },
-                    label = { Text(stringResource(R.string.emotion_color)) },
-                    modifier = Modifier.fillMaxWidth()
+                    value = description,
+                    onValueChange = { description = it },
+                    label = { Text(stringResource(R.string.description)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    maxLines = 2
                 )
+                
+                // 当前选中的emoji显示
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(R.string.selected_emoji),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = selectedEmoji,
+                        fontSize = 24.sp
+                    )
+                }
+                
+                // Emoji选择器
+                Text(
+                    text = stringResource(R.string.choose_emoji),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp) // 限制高度以避免对话框过大
+                ) {
+                    EmojiSelector(
+                        selectedEmoji = selectedEmoji,
+                        onEmojiSelected = { selectedEmoji = it }
+                    )
+                }
             }
         },
         confirmButton = {
             Button(
                 onClick = {
                     if (name.isNotBlank()) {
-                        onConfirm(name, color)
+                        onConfirm(name, selectedEmoji, description)
                     }
                 },
                 enabled = name.isNotBlank()

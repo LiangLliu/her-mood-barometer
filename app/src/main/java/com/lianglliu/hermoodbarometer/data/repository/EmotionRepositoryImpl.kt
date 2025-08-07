@@ -91,7 +91,8 @@ private fun EmotionRecordEntity.toDomainModel(): EmotionRecord {
         emotionType = emotionType,
         intensity = intensity,
         note = note,
-        timestamp = timestamp, // 直接使用LocalDateTime
+        timestamp = timestamp,
+        customEmotionId = customEmotionId,
         isCustomEmotion = customEmotionId != null,
         customEmotionName = null // 需要从自定义情绪表中查询
     )
@@ -106,7 +107,7 @@ private fun EmotionRecord.toEntity(): EmotionRecordEntity {
         emotionType = emotionType,
         intensity = intensity,
         note = note,
-        timestamp = timestamp, // 直接使用LocalDateTime
-        customEmotionId = if (isCustomEmotion) 1L else null // 简化处理，实际应该查询自定义情绪ID
+        timestamp = timestamp,
+        customEmotionId = customEmotionId // 直接使用自定义情绪ID
     )
 } 

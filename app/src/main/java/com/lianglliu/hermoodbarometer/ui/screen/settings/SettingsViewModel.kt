@@ -140,14 +140,15 @@ class SettingsViewModel @Inject constructor(
     /**
      * 添加自定义情绪
      */
-    fun addCustomEmotion(name: String, color: String) {
+    fun addCustomEmotion(name: String, description: String, emoji: String) {
         viewModelScope.launch {
             try {
                 val customEmotion = CustomEmotion.create(
                     name = name,
-                    color = color
+                    description = description,
+                    emoji = emoji
                 )
-                customEmotionRepository.addCustomEmotion(customEmotion)
+                customEmotionRepository.insertCustomEmotion(customEmotion)
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     errorMessage = e.message ?: "Failed to add custom emotion"
@@ -162,7 +163,7 @@ class SettingsViewModel @Inject constructor(
     fun deleteCustomEmotion(emotion: CustomEmotion) {
         viewModelScope.launch {
             try {
-                customEmotionRepository.deleteCustomEmotion(emotion)
+                customEmotionRepository.deleteCustomEmotion(emotion.id)
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     errorMessage = e.message ?: "Failed to delete custom emotion"

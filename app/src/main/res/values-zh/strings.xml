@@ -132,6 +132,8 @@
     
     <!-- Custom Emotions -->
     <string name="emotion_name">情绪名称</string>
-    <string name="emotion_color">情绪颜色</string>
+    <string name="description">描述</string>
+    <string name="selected_emoji">选择的表情：</string>
+    <string name="choose_emoji">选择一个表情：</string>
     <string name="no_custom_emotions">暂无自定义情绪</string>
 </resources>

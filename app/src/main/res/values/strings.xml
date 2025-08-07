@@ -132,6 +132,8 @@
     
     <!-- Custom Emotions -->
     <string name="emotion_name">Emotion Name</string>
-    <string name="emotion_color">Emotion Color</string>
+    <string name="description">Description</string>
+    <string name="selected_emoji">Selected Emoji:</string>
+    <string name="choose_emoji">Choose an Emoji:</string>
     <string name="no_custom_emotions">No custom emotions yet</string>
 </resources>
