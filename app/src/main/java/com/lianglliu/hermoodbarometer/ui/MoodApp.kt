@@ -4,10 +4,11 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -31,10 +32,10 @@ import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsViewModel
 import com.lianglliu.hermoodbarometer.ui.theme.HerMoodBarometerTheme
 
 /**
- * 主应用组件
- * 包含底部导航和页面容器
+ * 现代化主应用组件
+ * 基于Material Design 3的设计系统
+ * 支持动态色彩和深色模式
  */
-
 @Composable
 fun MoodApp() {
     val settingsViewModel: SettingsViewModel = hiltViewModel()
@@ -55,54 +56,64 @@ fun MoodApp() {
     val currentDestination = navBackStackEntry?.destination
 
     HerMoodBarometerTheme(
-        darkTheme = isDarkTheme ?: isSystemInDarkTheme()
+        darkTheme = isDarkTheme ?: isSystemInDarkTheme(),
+        dynamicColor = true
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.onBackground,
             bottomBar = {
-            NavigationBar {
-                getBottomNavItems().forEach { item ->
-                    val isSelected = currentDestination?.hierarchy?.any {
-                        it.route == item.screen.route
-                    } == true
+                NavigationBar(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                ) {
+                    getBottomNavItems().forEach { item ->
+                        val isSelected = currentDestination?.hierarchy?.any {
+                            it.route == item.screen.route
+                        } == true
 
-                    NavigationBarItem(
-                        icon = {
-                            Icon(
-                                imageVector = getIconForScreen(item.screen),
-                                contentDescription = getDisplayName(item.titleResId)
-                            )
-                        },
-                        label = {
-                            Text(getDisplayName(item.titleResId))
-                        },
-                        selected = isSelected,
-                        onClick = {
-                            navController.navigate(item.screen.route) {
-                                // Pop up to the start destination of the graph to
-                                // avoid building up a large stack of destinations
-                                // on the back stack as users select items
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+                        NavigationBarItem(
+                            icon = {
+                                Icon(
+                                    imageVector = getIconForScreen(item.screen),
+                                    contentDescription = getDisplayName(item.titleResId)
+                                )
+                            },
+                            label = {
+                                Text(
+                                    text = getDisplayName(item.titleResId),
+                                    style = MaterialTheme.typography.labelMedium
+                                )
+                            },
+                            selected = isSelected,
+                            onClick = {
+                                navController.navigate(item.screen.route) {
+                                    // Pop up to the start destination of the graph to
+                                    // avoid building up a large stack of destinations
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    // Avoid multiple copies of the same destination when
+                                    // reselecting the same item
+                                    launchSingleTop = true
+                                    // Restore state when reselecting a previously selected item
+                                    restoreState = true
                                 }
-                                // Avoid multiple copies of the same destination when
-                                // reselecting the same item
-                                launchSingleTop = true
-                                // Restore state when reselecting a previously selected item
-                                restoreState = true
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
+        ) { innerPadding ->
+            MoodNavigation(
+                navController = navController,
+                startDestination = Screen.Record.route,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            )
         }
-    ) { innerPadding ->
-        MoodNavigation(
-            navController = navController,
-            startDestination = Screen.Record.route,
-            modifier = Modifier.padding(innerPadding)
-        )
-    }
     }
 }
 

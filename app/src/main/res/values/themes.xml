@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.HerMoodBarometer" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- 基础应用主题 -->
+    <style name="Theme.HerMoodBarometer" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- 基础主题配置 -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
 </resources>

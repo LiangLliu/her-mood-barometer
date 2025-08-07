@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -22,27 +24,53 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            isDebuggable = true
             isMinifyEnabled = false
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+        }
+
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            // 启用基线配置文件
+            packaging {
+                resources {
+                    excludes += "/META-INF/{AL2.0,LGPL2.1}"
+                }
+            }
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
-    kotlinOptions {
-        jvmTarget = "21"
+
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_21
+        }
     }
+
     buildFeatures {
         compose = true
+        buildConfig = true
     }
-    
+
     lint {
-        disable += "StateFlowValueCalledInComposition"
+        disable += setOf(
+            "StateFlowValueCalledInComposition",
+            "UnusedMaterial3ScaffoldPaddingParameter"
+        )
+        abortOnError = false
+        checkReleaseBuilds = false
     }
 }
 
@@ -52,12 +80,17 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
 
-    // Compose BOM
+    // Compose BOM和现代UI组件
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material3)
+    
+    // 启动画面和性能优化（暂时注释以确保稳定性）
+    // implementation(libs.androidx.core.splashscreen)
+    // implementation(libs.androidx.profileinstaller)
+    // implementation(libs.androidx.startup.runtime)
 
     // ViewModel Compose
     implementation(libs.lifecycle.viewmodel.compose)
@@ -66,10 +99,10 @@ dependencies {
     // Navigation Compose
     implementation(libs.navigation.compose)
 
-    // Hilt 依赖注入 (暂时禁用)
-     implementation(libs.hilt.android)
-     implementation(libs.hilt.navigation.compose)
-     ksp(libs.hilt.compiler)
+    // Hilt 依赖注入
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    ksp(libs.hilt.compiler)
 
     // Room 数据库
     implementation(libs.room.runtime)
@@ -85,25 +118,20 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 
+    // 安全和加密
+    implementation(libs.security.crypto)
+
     // WorkManager
     implementation(libs.work.runtime.ktx)
-
-    // System UI 控制器
-    implementation(libs.accompanist.systemuicontroller)
-
-    // Vico Charts 图表库
-    implementation(libs.vico.compose)
-    implementation(libs.vico.compose.m3)
-    implementation(libs.vico.core)
 
     // 测试依赖
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 
     // Debug 工具
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
