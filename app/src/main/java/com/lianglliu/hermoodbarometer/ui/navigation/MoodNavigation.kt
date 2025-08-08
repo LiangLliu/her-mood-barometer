@@ -9,6 +9,7 @@ import com.lianglliu.hermoodbarometer.ui.screen.record.RecordScreen
 import com.lianglliu.hermoodbarometer.ui.screen.statistics.StatisticsScreen
 import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsScreen
 import com.lianglliu.hermoodbarometer.ui.screen.settings.CustomEmotionScreen
+import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsViewModel
 
 /**
  * 应用导航图
@@ -18,7 +19,8 @@ import com.lianglliu.hermoodbarometer.ui.screen.settings.CustomEmotionScreen
 fun MoodNavigation(
     navController: NavHostController,
     startDestination: String = Screen.Record.route,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    settingsViewModel: SettingsViewModel
 ) {
     NavHost(
         navController = navController,
@@ -37,7 +39,8 @@ fun MoodNavigation(
             SettingsScreen(
                 onNavigateToCustomEmotion = {
                     navController.navigate(Screen.CustomEmotion.route)
-                }
+                },
+                viewModel = settingsViewModel
             )
         }
         

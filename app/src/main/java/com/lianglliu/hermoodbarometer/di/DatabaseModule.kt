@@ -34,6 +34,8 @@ object DatabaseModule {
             MoodDatabase.DATABASE_NAME
         )
             .addMigrations(*MoodDatabase.MIGRATIONS)
+            // 遵循项目规范：数据库版本变更使用破坏性迁移回退
+            .fallbackToDestructiveMigration()
             .build()
     }
 

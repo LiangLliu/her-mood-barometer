@@ -12,11 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import com.lianglliu.hermoodbarometer.data.preferences.PreferencesManager
 import com.lianglliu.hermoodbarometer.ui.LocaleManager
 import com.lianglliu.hermoodbarometer.ui.MoodApp
-import com.lianglliu.hermoodbarometer.ui.theme.HerMoodBarometerTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -47,9 +45,8 @@ class MainActivity : ComponentActivity() {
         warmupApplication()
         
         setContent {
-            HerMoodBarometerTheme {
-                MoodApp()
-            }
+            // 由应用内的单一来源状态驱动主题（见 MoodApp 内部）
+            MoodApp()
         }
     }
     
@@ -111,7 +108,5 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun MoodAppPreview() {
-    HerMoodBarometerTheme {
-        MoodApp()
-    }
+    MoodApp()
 }

@@ -111,7 +111,8 @@ fun MoodApp() {
                 startDestination = Screen.Record.route,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(innerPadding)
+                    .padding(innerPadding),
+                settingsViewModel = settingsViewModel
             )
         }
     }

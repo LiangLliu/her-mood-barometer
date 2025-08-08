@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,19 +38,23 @@ class SettingsViewModel @Inject constructor(
     private fun loadSettings() {
         viewModelScope.launch {
             try {
-                preferencesRepository.getLanguage().collect { language ->
-                    preferencesRepository.getTheme().collect { theme ->
-                        preferencesRepository.isReminderEnabled().collect { isReminderEnabled ->
-                            preferencesRepository.getReminderTime().collect { reminderTime ->
-                                _uiState.value = _uiState.value.copy(
-                                    selectedLanguage = language,
-                                    selectedTheme = theme,
-                                    isReminderEnabled = isReminderEnabled,
-                                    reminderTime = reminderTime
-                                )
-                            }
-                        }
-                    }
+                combine(
+                    preferencesRepository.getLanguage(),
+                    preferencesRepository.getTheme(),
+                    preferencesRepository.isReminderEnabled(),
+                    preferencesRepository.getReminderTime()
+                ) { language, theme, isReminderEnabled, reminderTime ->
+                    SettingsUiState(
+                        selectedLanguage = language,
+                        selectedTheme = theme,
+                        isReminderEnabled = isReminderEnabled,
+                        reminderTime = reminderTime,
+                        customEmotions = _uiState.value.customEmotions,
+                        errorMessage = null,
+                        shouldRecreateActivity = _uiState.value.shouldRecreateActivity
+                    )
+                }.collect { combined ->
+                    _uiState.value = combined
                 }
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
