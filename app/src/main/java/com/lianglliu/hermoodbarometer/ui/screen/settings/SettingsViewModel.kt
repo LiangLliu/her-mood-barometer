@@ -91,8 +91,7 @@ class SettingsViewModel @Inject constructor(
             try {
                 preferencesRepository.setLanguage(language)
                 _uiState.value = _uiState.value.copy(
-                    selectedLanguage = language,
-                    shouldRecreateActivity = true
+                    selectedLanguage = language
                 )
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
@@ -187,9 +186,7 @@ class SettingsViewModel @Inject constructor(
     /**
      * 清除Activity重新创建标志
      */
-    fun clearRecreateActivityFlag() {
-        _uiState.value = _uiState.value.copy(shouldRecreateActivity = false)
-    }
+    fun clearRecreateActivityFlag() { /* no-op after per-app locales */ }
 }
 
 /**

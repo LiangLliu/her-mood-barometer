@@ -75,6 +75,8 @@ android {
 }
 
 dependencies {
+    // AppCompat (per-app locales backport)
+    implementation(libs.androidx.appcompat)
     // Core Android
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -180,7 +180,7 @@
 
 ### 5.3 设置页面完善 ✅
 
-- [x] 实现语言选择对话框
+- [x] 实现语言选择对话框（per‑app locales 已集成）
 - [x] 实现自定义情绪管理（Emoji选择器）
 - [x] 模块化组件拆分
     - `AppearanceSection.kt` - 外观设置
@@ -317,10 +317,10 @@
 
 ### 立即执行（本周内）
 
-1. **主题/语言现代化（高优先级）**
-    - 主题选择保持三态：系统/浅色/深色；新增“动态色彩”开关（Android 12+）
-    - 语言切换迁移至 per‑app locales（使用 AppCompatDelegate.setApplicationLocales，Android 13+ 原生支持），低版本沿用兼容路径
-    - 移除 MainActivity 中语言 SharedPreferences 直读路径，统一 DataStore + per‑app locales 管理
+1. **主题/语言现代化（进行中）**
+    - 主题：保持三态（系统/浅色/深色），新增“动态色彩”开关（Android 12+）
+    - 语言：per‑app locales 已完成（AppCompatDelegate.setApplicationLocales）；后续补充：低版本兼容验证、RTL/格式化校验、回归测试
+    - 已完成：移除 MainActivity 语言 SharedPreferences 直读与 Activity 重建路径，统一 DataStore + per‑app locales
 
 2. **集成Vico Charts图表库（中优先级）**
     - 根据Vico 2.1.3文档重新实现图表组件
@@ -412,10 +412,9 @@
 
 ## 🚨 当前待解决的关键问题（更新）
 
-### 1. 语言切换架构现代化（高优先级）
+### 1. 语言切换架构现代化（已完成）
 
-- 问题描述: 当前通过 Activity 重建与自定义 `LocaleManager`，建议迁移至 per‑app locales（Android 13+）并统一 DataStore，避免双写与状态不同步
-- 优先级: 高 - 影响国际化一致性与维护性
+- 说明: 已迁移至 per‑app locales（AppCompatDelegate.setApplicationLocales），移除 Activity 重建与 SharedPreferences 双写；统一 DataStore 管理
 
 ### 2. Vico Charts集成问题（中优先级）
 

@@ -46,16 +46,7 @@ fun SettingsScreen(
         }
     }
 
-    // 处理Activity重新创建
-    LaunchedEffect(uiState.shouldRecreateActivity) {
-        if (uiState.shouldRecreateActivity) {
-            // 重新创建Activity以应用新的语言设置
-            if (context is MainActivity) {
-                context.recreateWithLanguage(uiState.selectedLanguage)
-            }
-            viewModel.clearRecreateActivityFlag()
-        }
-    }
+    // per-app locales 将自动应用，无需手动重建 Activity
 
     LazyColumn(
         modifier = Modifier
