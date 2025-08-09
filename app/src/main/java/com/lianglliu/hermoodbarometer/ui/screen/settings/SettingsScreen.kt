@@ -16,9 +16,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.lianglliu.hermoodbarometer.MainActivity
 import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.ui.components.PageTitle
+import com.lianglliu.hermoodbarometer.ui.permissions.PermissionHelpers
 import com.lianglliu.hermoodbarometer.ui.screen.settings.components.AboutSection
 import com.lianglliu.hermoodbarometer.ui.screen.settings.components.AppearanceSection
 import com.lianglliu.hermoodbarometer.ui.screen.settings.components.CustomEmotionSection
@@ -76,24 +76,22 @@ fun SettingsScreen(
                 isReminderEnabled = uiState.isReminderEnabled,
                 reminderTime = uiState.reminderTime,
                 onReminderEnabledChanged = { enabled ->
-                    // Android 13+ 动态请求通知权限
-                    if (enabled && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-                        val pm = context.getSystemService(android.app.NotificationManager::class.java)
-                        val granted = pm.areNotificationsEnabled()
-                        if (!granted && context is MainActivity) {
-                            androidx.core.app.ActivityCompat.requestPermissions(
-                                context,
-                                arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                                1001
-                            )
+                    // 最佳实践：提示用户开启必要权限/设置
+                    if (enabled) {
+                        // 通知权限
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU &&
+                            !PermissionHelpers.notificationsEnabled(context)
+                        ) {
+                            PermissionHelpers.openAppNotificationSettings(context)
+                        }
+                        // 精准闹钟（S+）
+                        if (!PermissionHelpers.canScheduleExactAlarms(context)) {
+                            PermissionHelpers.openExactAlarmSettings(context)
                         }
                     }
                     viewModel.updateReminderSettings(enabled)
                 },
-                onReminderTimeClick = { showTimePicker = true },
-                onQuickTimeSelected = { quick ->
-                    viewModel.updateReminderSettings(isEnabled = true, time = quick)
-                }
+                onReminderTimeClick = { showTimePicker = true }
             )
         }
 

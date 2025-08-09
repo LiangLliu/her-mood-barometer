@@ -123,6 +123,13 @@
     <!-- Notifications -->
     <string name="notification_title">Mood Check-in</string>
     <string name="notification_text">How are you feeling today?</string>
+
+    <!-- Permissions -->
+    <string name="notification_permission_title">Allow notifications</string>
+    <string name="notification_permission_message">To send daily reminders, please allow notifications for this app.</string>
+    <string name="exact_alarm_permission_title">Allow exact alarms</string>
+    <string name="exact_alarm_permission_message">To trigger reminders on time, please allow exact alarms in system settings.</string>
+    <string name="open_settings">Open settings</string>
     
     <!-- Accessibility -->
     <string name="cd_emotion_button">Emotion selection button</string>

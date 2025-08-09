@@ -124,6 +124,13 @@
     <string name="notification_title">心情签到</string>
     <string name="notification_text">今天心情如何？</string>
     
+    <!-- 权限 -->
+    <string name="notification_permission_title">允许通知</string>
+    <string name="notification_permission_message">为了发送每日提醒，请为本应用开启通知。</string>
+    <string name="exact_alarm_permission_title">允许精确闹钟</string>
+    <string name="exact_alarm_permission_message">为了按时触发提醒，请在系统设置中允许精确闹钟。</string>
+    <string name="open_settings">打开设置</string>
+    
     <!-- Accessibility -->
     <string name="cd_emotion_button">情绪选择按钮</string>
     <string name="cd_intensity_slider">情绪强度滑块</string>

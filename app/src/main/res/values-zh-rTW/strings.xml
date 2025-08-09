@@ -119,6 +119,13 @@
     <!-- Notifications -->
     <string name="notification_title">心情簽到</string>
     <string name="notification_text">今天心情如何？</string>
+
+    <!-- 權限 -->
+    <string name="notification_permission_title">允許通知</string>
+    <string name="notification_permission_message">為了發送每日提醒，請為本應用開啟通知。</string>
+    <string name="exact_alarm_permission_title">允許精確鬧鐘</string>
+    <string name="exact_alarm_permission_message">為了準時觸發提醒，請在系統設定中允許精確鬧鐘。</string>
+    <string name="open_settings">開啟設定</string>
     
     <!-- Accessibility -->
     <string name="cd_emotion_button">情緒選擇按鈕</string>

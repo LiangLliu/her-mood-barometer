@@ -17,6 +17,7 @@
 - [x] 偏好（DataStore：主题/语言/提醒/图表偏好）
 - [x] 通知渠道（App Startup 幂等创建）
 - [x] 提醒调度（WorkManager 周期任务；设置变更即调度/取消；启动时自动恢复）
+- [x] 权限最佳实践（通知权限、精准闹钟：设置页引导系统设置页）
 - [x] SplashScreen（系统级 Splash + Post 主题）
 - [ ] 无障碍（contentDescription/语义/动态字体/对比度）
 - [ ] 数据导出/导入（JSON；加密文件导入导出）
@@ -52,7 +53,7 @@
 
 中优先级
 - [ ] 数据导出/导入（JSON；加密文件导入导出，Security Crypto）
-- [x] 提醒完善（周期任务；Android 13+ 动态权限；系统重启恢复）
+- [x] 提醒完善（快捷时间 Chips + 自定义；Android 13+ 通知权限引导；S+ 精准闹钟设置引导）
 - [ ] 测试与质量（Repo/UseCase/VM/导航/Compose UI；覆盖率统计 Kover）
 - [ ] 性能与体验（Baseline Profiles；Room 查询索引；关键交互动画）
 
@@ -94,5 +95,21 @@
 ## 8) 版本信息
 - 目标 SDK：36；min SDK：26；Kotlin：2.2.0；Gradle：8.14
 - 文档版本：v4.2（2025‑08）
+
+---
+
+## 9) 权限测试清单（开发模式）
+- [ ] Android 13+ 通知权限（POST_NOTIFICATIONS）
+  - [ ] 撤销权限：`adb shell pm revoke com.lianglliu.hermoodbarometer android.permission.POST_NOTIFICATIONS`
+  - [ ] 在设置页开启提醒，应用应引导至系统“应用通知设置”页
+  - [ ] 赋予权限：`adb shell pm grant com.lianglliu.hermoodbarometer android.permission.POST_NOTIFICATIONS`
+  - [ ] 选择 1-2 分钟后的时间，收到通知
+- [ ] Android 12+ 精准闹钟
+  - [ ] 关闭精准闹钟（系统：特殊应用访问 → 闹钟与提醒），或：`adb shell appops set com.lianglliu.hermoodbarometer SCHEDULE_EXACT_ALARM ignore`
+  - [ ] 在设置页开启提醒，应用应引导至精准闹钟设置页
+  - [ ] 打开精准闹钟（或：`adb shell appops set com.lianglliu.hermoodbarometer SCHEDULE_EXACT_ALARM allow`）
+  - [ ] 选择 1-2 分钟后的时间，并执行：`adb shell dumpsys deviceidle force-idle`，仍能按时收到通知
+  - [ ] 校验已安排：`adb shell dumpsys alarm | grep com.lianglliu.hermoodbarometer`
+  
 
 

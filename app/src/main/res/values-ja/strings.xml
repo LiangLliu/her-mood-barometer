@@ -123,6 +123,12 @@
     <!-- Notifications -->
     <string name="notification_title">気分チェック</string>
     <string name="notification_text">今日の気分はいかがですか？</string>
+    <!-- Permissions -->
+    <string name="notification_permission_title">通知を許可</string>
+    <string name="notification_permission_message">毎日のリマインダーを送信するため、このアプリの通知を許可してください。</string>
+    <string name="exact_alarm_permission_title">正確なアラームを許可</string>
+    <string name="exact_alarm_permission_message">リマインダーを時間どおりに実行するため、システム設定で正確なアラームを許可してください。</string>
+    <string name="open_settings">設定を開く</string>
     
     <!-- Accessibility -->
     <string name="cd_emotion_button">感情選択ボタン</string>
