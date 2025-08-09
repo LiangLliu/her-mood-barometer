@@ -4,6 +4,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import androidx.startup.Initializer
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.flow.take
 import com.lianglliu.hermoodbarometer.R
 
 /**
@@ -31,6 +33,26 @@ class NotificationInitializer : Initializer<Unit> {
         }
 
         systemNotificationManager.createNotificationChannel(channel)
+
+        // 根据偏好恢复提醒调度（轻量 IO，同步一次）
+        try {
+            val preferences = com.lianglliu.hermoodbarometer.data.preferences.PreferencesManager(context)
+            val isEnabled = kotlinx.coroutines.runBlocking {
+                preferences.isReminderEnabled
+                    .take(1)
+                    .single()
+            }
+            if (isEnabled) {
+                val time = kotlinx.coroutines.runBlocking {
+                    preferences.reminderTime
+                        .take(1)
+                        .single()
+                        .toString()
+                }
+                val repo = com.lianglliu.hermoodbarometer.data.repository.NotificationRepositoryImpl(context)
+                repo.scheduleDailyReminder(time)
+            }
+        } catch (_: Exception) { /* ignore */ }
     }
 
     override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()

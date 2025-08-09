@@ -21,11 +21,6 @@ class MoodReminderWorker(
             // 显示通知
             notificationManager.showMoodReminderNotification()
             
-            // 重新调度明天的提醒
-            val reminderTime = inputData.getString("reminder_time") ?: "20:00"
-            val time = java.time.LocalTime.parse(reminderTime)
-            notificationManager.scheduleDailyReminder(time)
-            
             Result.success()
         } catch (e: Exception) {
             Result.failure()

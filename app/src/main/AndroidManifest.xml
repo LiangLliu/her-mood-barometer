@@ -39,11 +39,17 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.HerMoodBarometer"
             android:windowSoftInputMode="adjustResize">
+            <!-- Android 13+ 通知权限提示的前置说明（可选），此处不声明 intent-filter，运行时触发请求 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 精准提醒广播接收器 -->
+        <receiver
+            android:name=".data.notification.ReminderReceiver"
+            android:exported="false"/>
     </application>
 
 </manifest>

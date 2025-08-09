@@ -4,9 +4,11 @@ import android.content.Context
 import com.lianglliu.hermoodbarometer.data.preferences.PreferencesManager
 import com.lianglliu.hermoodbarometer.data.repository.CustomEmotionRepositoryImpl
 import com.lianglliu.hermoodbarometer.data.repository.EmotionRepositoryImpl
+import com.lianglliu.hermoodbarometer.data.repository.NotificationRepositoryImpl
 import com.lianglliu.hermoodbarometer.data.repository.PreferencesRepositoryImpl
 import com.lianglliu.hermoodbarometer.domain.repository.CustomEmotionRepository
 import com.lianglliu.hermoodbarometer.domain.repository.EmotionRepository
+import com.lianglliu.hermoodbarometer.domain.repository.NotificationRepository
 import com.lianglliu.hermoodbarometer.domain.repository.PreferencesRepository
 import dagger.Module
 import dagger.Provides
@@ -66,4 +68,13 @@ object RepositoryModule {
     ): PreferencesRepository {
         return preferencesRepositoryImpl
     }
+
+    /**
+     * 提供通知调度仓库
+     */
+    @Provides
+    @Singleton
+    fun provideNotificationRepository(
+        impl: NotificationRepositoryImpl
+    ): NotificationRepository = impl
 } 

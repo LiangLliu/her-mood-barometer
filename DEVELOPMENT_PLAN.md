@@ -16,7 +16,7 @@
 - [x] 数据层（Room 实体/DAO/DB；DAO Flow）
 - [x] 偏好（DataStore：主题/语言/提醒/图表偏好）
 - [x] 通知渠道（App Startup 幂等创建）
-- [ ] 提醒调度（One‑time 已有；周期/权限检查待补齐）
+- [x] 提醒调度（WorkManager 周期任务；设置变更即调度/取消；启动时自动恢复）
 - [x] SplashScreen（系统级 Splash + Post 主题）
 - [ ] 无障碍（contentDescription/语义/动态字体/对比度）
 - [ ] 数据导出/导入（JSON；加密文件导入导出）
@@ -52,7 +52,7 @@
 
 中优先级
 - [ ] 数据导出/导入（JSON；加密文件导入导出，Security Crypto）
-- [ ] 提醒完善（WorkManager 周期任务；权限检查；失败重试；系统重启恢复）
+- [x] 提醒完善（周期任务；Android 13+ 动态权限；系统重启恢复）
 - [ ] 测试与质量（Repo/UseCase/VM/导航/Compose UI；覆盖率统计 Kover）
 - [ ] 性能与体验（Baseline Profiles；Room 查询索引；关键交互动画）
 

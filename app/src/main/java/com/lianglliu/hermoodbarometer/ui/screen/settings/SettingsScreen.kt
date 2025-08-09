@@ -24,6 +24,7 @@ import com.lianglliu.hermoodbarometer.ui.screen.settings.components.AppearanceSe
 import com.lianglliu.hermoodbarometer.ui.screen.settings.components.CustomEmotionSection
 import com.lianglliu.hermoodbarometer.ui.screen.settings.components.LanguageSelectionDialog
 import com.lianglliu.hermoodbarometer.ui.screen.settings.components.NotificationSection
+import com.lianglliu.hermoodbarometer.ui.screen.settings.components.TimePickerDialog
 
 /**
  * 设置页面
@@ -36,6 +37,7 @@ fun SettingsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var showLanguageDialog by remember { mutableStateOf(false) }
+    var showTimePicker by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
     // 处理错误消息
@@ -73,9 +75,24 @@ fun SettingsScreen(
             NotificationSection(
                 isReminderEnabled = uiState.isReminderEnabled,
                 reminderTime = uiState.reminderTime,
-                onReminderEnabledChanged = { enabled -> viewModel.updateReminderSettings(enabled) },
-                onReminderTimeClick = {
-                    // TODO: 打开时间选择器
+                onReminderEnabledChanged = { enabled ->
+                    // Android 13+ 动态请求通知权限
+                    if (enabled && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                        val pm = context.getSystemService(android.app.NotificationManager::class.java)
+                        val granted = pm.areNotificationsEnabled()
+                        if (!granted && context is MainActivity) {
+                            androidx.core.app.ActivityCompat.requestPermissions(
+                                context,
+                                arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                                1001
+                            )
+                        }
+                    }
+                    viewModel.updateReminderSettings(enabled)
+                },
+                onReminderTimeClick = { showTimePicker = true },
+                onQuickTimeSelected = { quick ->
+                    viewModel.updateReminderSettings(isEnabled = true, time = quick)
                 }
             )
         }
@@ -104,6 +121,18 @@ fun SettingsScreen(
             onDismiss = {
                 showLanguageDialog = false
             }
+        )
+    }
+
+    // 提醒时间选择对话框
+    if (showTimePicker) {
+        TimePickerDialog(
+            currentTime = uiState.reminderTime,
+            onTimeSelected = { selected ->
+                // 选中时间即保存并调度
+                viewModel.updateReminderSettings(isEnabled = true, time = selected)
+            },
+            onDismiss = { showTimePicker = false }
         )
     }
 }

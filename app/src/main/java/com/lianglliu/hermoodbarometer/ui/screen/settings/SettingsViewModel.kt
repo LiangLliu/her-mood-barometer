@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lianglliu.hermoodbarometer.domain.model.CustomEmotion
 import com.lianglliu.hermoodbarometer.domain.repository.CustomEmotionRepository
+import com.lianglliu.hermoodbarometer.domain.repository.NotificationRepository
 import com.lianglliu.hermoodbarometer.domain.repository.PreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val preferencesRepository: PreferencesRepository,
-    private val customEmotionRepository: CustomEmotionRepository
+    private val customEmotionRepository: CustomEmotionRepository,
+    private val notificationRepository: NotificationRepository
 ) : ViewModel() {
 
     // UI状态
@@ -134,6 +136,14 @@ class SettingsViewModel @Inject constructor(
                     isReminderEnabled = isEnabled,
                     reminderTime = if (time.isNotEmpty()) time else _uiState.value.reminderTime
                 )
+
+                // 调度或取消 WorkManager 周期任务
+                if (isEnabled) {
+                    val finalTime = if (time.isNotEmpty()) time else _uiState.value.reminderTime
+                    notificationRepository.scheduleDailyReminder(finalTime)
+                } else {
+                    notificationRepository.cancelDailyReminder()
+                }
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     errorMessage = e.message ?: "Failed to update reminder settings"
