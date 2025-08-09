@@ -51,7 +51,8 @@ class SettingsViewModel @Inject constructor(
                         reminderTime = reminderTime,
                         customEmotions = _uiState.value.customEmotions,
                         errorMessage = null,
-                        shouldRecreateActivity = _uiState.value.shouldRecreateActivity
+                        shouldRecreateActivity = _uiState.value.shouldRecreateActivity,
+                        isInitialized = true
                     )
                 }.collect { combined ->
                     _uiState.value = combined
@@ -193,11 +194,13 @@ class SettingsViewModel @Inject constructor(
  * 设置页面的UI状态
  */
 data class SettingsUiState(
-    val selectedLanguage: String = "en",
+    val selectedLanguage: String = "system",
     val selectedTheme: String = "system",
     val isReminderEnabled: Boolean = false,
     val reminderTime: String = "09:00",
     val customEmotions: List<CustomEmotion> = emptyList(),
     val errorMessage: String? = null,
-    val shouldRecreateActivity: Boolean = false
+    val shouldRecreateActivity: Boolean = false,
+    // 标记设置是否已从数据源加载完成，避免启动阶段用默认值覆盖已保存的语言
+    val isInitialized: Boolean = false
 ) 

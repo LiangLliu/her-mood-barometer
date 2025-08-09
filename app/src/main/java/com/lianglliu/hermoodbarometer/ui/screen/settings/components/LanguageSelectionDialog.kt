@@ -24,8 +24,10 @@ fun LanguageSelectionDialog(
     onDismiss: () -> Unit
 ) {
     val languages = listOf(
+        "system" to stringResource(R.string.system_theme),
         "zh" to stringResource(R.string.language_zh),
-        "zh-rTW" to stringResource(R.string.language_zh_tw),
+        // 使用标准 BCP-47 标签
+        "zh-TW" to stringResource(R.string.language_zh_tw),
         "ja" to stringResource(R.string.language_ja),
         "ko" to stringResource(R.string.language_ko),
         "en" to stringResource(R.string.language_en)

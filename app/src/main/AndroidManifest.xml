@@ -20,23 +20,19 @@
         android:enableOnBackInvokedCallback="true"
         android:localeConfig="@xml/locales_config">
 
-        <!-- App Startup 初始化器配置（暂时注释） -->
-        <!--
+        <!-- App Startup 初始化器配置：在进程启动时创建通知渠道等轻量任务 -->
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
             tools:node="merge">
-            
             <meta-data
-                android:name="com.lianglliu.hermoodbarometer.startup.AppStartupInitializer"
+                android:name="com.lianglliu.hermoodbarometer.startup.NotificationInitializer"
                 android:value="androidx.startup" />
-                
             <meta-data
-                android:name="com.lianglliu.hermoodbarometer.startup.DatabaseInitializer"
+                android:name="com.lianglliu.hermoodbarometer.startup.LocaleInitializer"
                 android:value="androidx.startup" />
         </provider>
-        -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

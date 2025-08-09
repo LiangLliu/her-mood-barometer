@@ -41,8 +41,10 @@ fun MoodApp() {
     val settingsViewModel: SettingsViewModel = hiltViewModel()
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
     
-    // 应用语言设置
-    ApplyLocale(uiState.selectedLanguage)
+    // 仅在设置初始化完成后应用语言，避免启动初期用默认值覆盖
+    if (uiState.isInitialized) {
+        ApplyLocale(uiState.selectedLanguage)
+    }
     
     // 根据主题设置确定是否使用深色模式
     val isDarkTheme = when (uiState.selectedTheme) {

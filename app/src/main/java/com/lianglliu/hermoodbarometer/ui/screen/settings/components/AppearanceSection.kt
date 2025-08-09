@@ -37,7 +37,7 @@ fun AppearanceSection(
             }
         )
         
-        // 语言设置
+        // 语言设置（加入“跟随系统”）
         SettingsItem(
             icon = Icons.Default.Info,
             title = stringResource(R.string.language),
@@ -59,11 +59,12 @@ fun AppearanceSection(
 @Composable
 private fun getLanguageDisplayName(languageCode: String): String {
     return when (languageCode) {
+        "system", "default" -> stringResource(R.string.system_theme)
         "zh" -> stringResource(R.string.language_zh)
-        "zh-rTW" -> stringResource(R.string.language_zh_tw)
+        "zh-TW" -> stringResource(R.string.language_zh_tw)
         "ja" -> stringResource(R.string.language_ja)
         "ko" -> stringResource(R.string.language_ko)
         "en" -> stringResource(R.string.language_en)
-        else -> stringResource(R.string.language_zh)
+        else -> stringResource(R.string.language_en)
     }
 } 

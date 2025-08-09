@@ -17,19 +17,25 @@ object LocaleManager {
 
     /**
      * 设置应用语言（per-app locales）
-     * languageCode: "zh", "zh-rTW", "ja", "ko", "en"
+     * languageCode: "system", "zh", "zh-TW", "ja", "ko", "en"
      */
     fun setAppLanguage(context: Context, languageCode: String) {
-        val tags = when (languageCode) {
-            "zh" -> "zh"
-            "zh-rTW" -> "zh-TW"
+        val normalized = when (languageCode.lowercase(Locale.ROOT)) {
+            "system", "default" -> null
+            "zh", "zh-cn", "zh_hans" -> "zh"
+            "zh-tw", "zh_rtw", "zh-hant", "zh-hk", "zh-mo" -> "zh-TW"
+            "en", "en-us", "en-gb" -> "en"
             "ja" -> "ja"
             "ko" -> "ko"
-            "en" -> "en"
-            else -> Locale.getDefault().toLanguageTag()
+            else -> languageCode
         }
 
-        val locales = LocaleListCompat.forLanguageTags(tags)
+        val locales = if (normalized == null) {
+            // 跟随系统
+            LocaleListCompat.getEmptyLocaleList()
+        } else {
+            LocaleListCompat.forLanguageTags(normalized)
+        }
         AppCompatDelegate.setApplicationLocales(locales)
     }
 }

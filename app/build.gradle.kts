@@ -89,10 +89,10 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     
-    // 启动画面和性能优化（暂时注释以确保稳定性）
-    // implementation(libs.androidx.core.splashscreen)
-    // implementation(libs.androidx.profileinstaller)
-    // implementation(libs.androidx.startup.runtime)
+    // 启动画面和性能优化
+    implementation(libs.androidx.core.splashscreen)
+//     implementation(libs.androidx.profileinstaller)
+     implementation(libs.androidx.startup.runtime)
 
     // ViewModel Compose
     implementation(libs.lifecycle.viewmodel.compose)

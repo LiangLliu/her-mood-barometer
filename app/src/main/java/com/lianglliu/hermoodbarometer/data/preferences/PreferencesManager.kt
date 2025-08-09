@@ -35,7 +35,8 @@ class PreferencesManager(private val context: Context) {
      * 语言设置
      */
     val language: Flow<String> = context.dataStore.data.map { preferences ->
-        preferences[LANGUAGE_KEY] ?: "zh"
+        // 默认跟随系统，避免在未设置时强制中文
+        preferences[LANGUAGE_KEY] ?: "system"
     }
     
     /**
