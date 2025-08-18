@@ -6,10 +6,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.lianglliu.hermoodbarometer.ui.screen.record.RecordScreen
-import com.lianglliu.hermoodbarometer.ui.screen.statistics.StatisticsScreen
-import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsScreen
 import com.lianglliu.hermoodbarometer.ui.screen.settings.CustomEmotionScreen
+import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsScreen
 import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsViewModel
+import com.lianglliu.hermoodbarometer.ui.screen.statistics.StatisticsScreen
 
 /**
  * 应用导航图

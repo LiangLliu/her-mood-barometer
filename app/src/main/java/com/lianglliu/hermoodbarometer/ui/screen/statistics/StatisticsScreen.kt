@@ -1,9 +1,13 @@
 package com.lianglliu.hermoodbarometer.ui.screen.statistics
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -11,7 +15,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.ui.components.PageTitle
-import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.*
+import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.ChartTypeSelector
+import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.EmotionChartContainer
+import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.StatisticsCard
+import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.TimeRangeSelector
 
 
 /**

@@ -3,7 +3,6 @@ package com.lianglliu.hermoodbarometer.data.notification
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import javax.inject.Inject
 
 /**
  * 心情提醒工作器

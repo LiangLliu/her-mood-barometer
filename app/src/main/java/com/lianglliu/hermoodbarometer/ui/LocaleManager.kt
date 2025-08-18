@@ -1,12 +1,11 @@
 package com.lianglliu.hermoodbarometer.ui
 
 import android.content.Context
-import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.os.LocaleListCompat
 import java.util.Locale
 
 /**

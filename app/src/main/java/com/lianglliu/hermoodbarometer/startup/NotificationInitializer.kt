@@ -4,9 +4,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import androidx.startup.Initializer
+import com.lianglliu.hermoodbarometer.R
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.flow.take
-import com.lianglliu.hermoodbarometer.R
 
 /**
  * 使用 AndroidX App Startup 在应用进程启动时创建通知渠道。
