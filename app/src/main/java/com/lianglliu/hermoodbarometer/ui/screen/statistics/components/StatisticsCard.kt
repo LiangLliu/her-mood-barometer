@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.domain.usecase.EmotionStatistics
@@ -41,33 +42,50 @@ fun StatisticsCard(
                 LoadingIndicator()
             } else {
                 if (statistics != null) {
-                    StatisticItem(
-                        label = stringResource(R.string.total_records),
-                        value = statistics.totalRecords.toString()
-                    )
-                    StatisticItem(
-                        label = stringResource(R.string.average_mood),
-                        value = "%.1f".format(statistics.averageIntensity)
-                    )
-                    StatisticItem(
-                        label = stringResource(R.string.most_frequent_emotion),
-                        value = statistics.mostFrequentEmotion ?: stringResource(R.string.no_data)
+                    MetricsColumn(
+                        totalRecords = statistics.totalRecords,
+                        averageIntensity = statistics.averageIntensity,
+                        mostFrequentEmotion = statistics.mostFrequentEmotion
                     )
                 } else {
-                    StatisticItem(
-                        label = stringResource(R.string.total_records),
-                        value = "0"
-                    )
-                    StatisticItem(
-                        label = stringResource(R.string.average_mood),
-                        value = stringResource(R.string.no_data)
-                    )
-                    StatisticItem(
-                        label = stringResource(R.string.most_frequent_emotion),
-                        value = stringResource(R.string.no_data)
+                    MetricsColumn(
+                        totalRecords = 0,
+                        averageIntensity = Float.NaN,
+                        mostFrequentEmotion = null
                     )
                 }
             }
         }
     }
 } 
+
+@Composable
+private fun MetricsColumn(
+    totalRecords: Int,
+    averageIntensity: Float,
+    mostFrequentEmotion: String?
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        StatisticItem(
+            label = stringResource(R.string.total_records),
+            value = totalRecords.toString()
+        )
+        StatisticItem(
+            label = stringResource(R.string.average_mood),
+            value = if (averageIntensity.isNaN()) stringResource(R.string.no_data) else "%.1f".format(averageIntensity)
+        )
+        StatisticItem(
+            label = stringResource(R.string.most_frequent_emotion),
+            value = mostFrequentEmotion ?: stringResource(R.string.no_data)
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun StatisticsCardEmptyPreview() {
+    StatisticsCard(statistics = null, isLoading = false)
+}

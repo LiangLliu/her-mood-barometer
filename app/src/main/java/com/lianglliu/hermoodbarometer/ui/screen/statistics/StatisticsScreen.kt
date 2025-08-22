@@ -15,8 +15,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.ui.components.PageTitle
-import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.ChartTypeSelector
-import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.EmotionChartContainer
+import com.lianglliu.hermoodbarometer.ui.components.ErrorCard
+import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.EmotionBarChartCard
+import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.EmotionLineChartCard
 import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.StatisticsCard
 import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.TimeRangeSelector
 
@@ -57,13 +58,6 @@ fun StatisticsScreen(
         }
 
         item {
-            ChartTypeSelector(
-                selectedChartType = uiState.selectedChartType,
-                onChartTypeChanged = { viewModel.updateChartType(it) }
-            )
-        }
-
-        item {
             StatisticsCard(
                 statistics = uiState.statistics,
                 isLoading = uiState.isLoading
@@ -71,10 +65,21 @@ fun StatisticsScreen(
         }
 
         item {
-            EmotionChartContainer(
-                statistics = uiState.statistics,
-                chartType = uiState.selectedChartType
+            EmotionBarChartCard(
+                statistics = uiState.statistics
             )
+        }
+
+        item {
+            EmotionLineChartCard(
+                statistics = uiState.statistics
+            )
+        }
+
+        if (uiState.errorMessage != null) {
+            item {
+                ErrorCard(message = uiState.errorMessage!!)
+            }
         }
     }
 }
