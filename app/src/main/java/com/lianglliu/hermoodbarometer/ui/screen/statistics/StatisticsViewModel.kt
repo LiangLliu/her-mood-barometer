@@ -3,6 +3,7 @@ package com.lianglliu.hermoodbarometer.ui.screen.statistics
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lianglliu.hermoodbarometer.domain.model.TimeRange
+import com.lianglliu.hermoodbarometer.domain.usecase.EmotionStatistics
 import com.lianglliu.hermoodbarometer.domain.usecase.GetEmotionStatisticsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -87,7 +88,7 @@ class StatisticsViewModel @Inject constructor(
 data class StatisticsUiState(
     val selectedTimeRange: TimeRange = TimeRange.LAST_WEEK,
     val selectedChartType: ChartType = ChartType.BAR,
-    val statistics: com.lianglliu.hermoodbarometer.domain.usecase.EmotionStatistics? = null,
+    val statistics: EmotionStatistics? = null,
     val isLoading: Boolean = false,
     val errorMessage: String? = null
 )
@@ -97,6 +98,5 @@ data class StatisticsUiState(
  */
 enum class ChartType {
     BAR,    // 柱状图
-    LINE,   // 折线图
-    PIE     // 饼图
+    LINE    // 折线图
 } 

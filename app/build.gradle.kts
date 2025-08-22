@@ -71,6 +71,17 @@ android {
         )
         abortOnError = false
         checkReleaseBuilds = false
+        // Avoid text output task that is failing under current toolchain
+        textReport = false
+        xmlReport = false
+        sarifReport = false
+        htmlReport = true
+    }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
@@ -88,11 +99,11 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
-    
+
     // 启动画面和性能优化
     implementation(libs.androidx.core.splashscreen)
 //     implementation(libs.androidx.profileinstaller)
-     implementation(libs.androidx.startup.runtime)
+    implementation(libs.androidx.startup.runtime)
 
     // ViewModel Compose
     implementation(libs.lifecycle.viewmodel.compose)
@@ -126,8 +137,18 @@ dependencies {
     // WorkManager
     implementation(libs.work.runtime.ktx)
 
+    // 图表库
+    implementation(libs.vico.compose)
+    // implementation(libs.vico.compose.m2)
+    implementation(libs.vico.compose.m3)
+    // implementation(libs.vico.multiplatform)
+    implementation(libs.vico.views)
+
+
     // 测试依赖
     testImplementation(libs.junit)
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -136,4 +157,6 @@ dependencies {
     // Debug 工具
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // Speed up Room with KSP: incremental (KSP arg via project property)
 }

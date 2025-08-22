@@ -57,6 +57,13 @@
     <string name="total_records">总记录数</string>
     <string name="average_mood">平均情绪</string>
     <string name="most_frequent_emotion">最常出现的情绪</string>
+    <string name="chart_emotion_counts">各情绪出现次数</string>
+    <string name="chart_daily_avg_intensity">每日平均强度</string>
+    <string name="chart_emotion_distribution">情绪占比</string>
+    <string name="chart_empty_hint">开始记录心情以查看图表</string>
+    <string name="cd_chart_emotion_counts">按情绪的次数柱状图</string>
+    <string name="cd_chart_daily_avg">每日平均强度折线图</string>
+    <string name="cd_chart_distribution">情绪分布饼图</string>
     
     <!-- Settings Page -->
     <string name="settings">设置</string>

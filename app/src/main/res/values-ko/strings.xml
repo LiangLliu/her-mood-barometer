@@ -57,6 +57,13 @@
     <string name="total_records">총 기록 수</string>
     <string name="average_mood">평균 기분</string>
     <string name="most_frequent_emotion">가장 빈번한 감정</string>
+    <string name="chart_emotion_counts">감정별 횟수</string>
+    <string name="chart_daily_avg_intensity">일별 평균 강도</string>
+    <string name="chart_emotion_distribution">감정 분포</string>
+    <string name="chart_empty_hint">기록을 시작하여 차트를 확인하세요</string>
+    <string name="cd_chart_emotion_counts">감정별 횟수 막대 차트</string>
+    <string name="cd_chart_daily_avg">일별 평균 강도 선 차트</string>
+    <string name="cd_chart_distribution">감정 분포 원형 차트</string>
     
     <!-- Settings Page -->
     <string name="settings">설정</string>

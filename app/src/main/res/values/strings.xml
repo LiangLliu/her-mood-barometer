@@ -57,6 +57,13 @@
     <string name="total_records">Total Records</string>
     <string name="average_mood">Average Mood</string>
     <string name="most_frequent_emotion">Most Frequent Emotion</string>
+    <string name="chart_emotion_counts">Emotion counts</string>
+    <string name="chart_daily_avg_intensity">Daily average intensity</string>
+    <string name="chart_emotion_distribution">Emotion distribution</string>
+    <string name="chart_empty_hint">Start recording moods to see your charts</string>
+    <string name="cd_chart_emotion_counts">Bar chart of counts per emotion</string>
+    <string name="cd_chart_daily_avg">Line chart of daily average intensity</string>
+    <string name="cd_chart_distribution">Pie chart of emotion distribution</string>
     
     <!-- Settings Page -->
     <string name="settings">Settings</string>

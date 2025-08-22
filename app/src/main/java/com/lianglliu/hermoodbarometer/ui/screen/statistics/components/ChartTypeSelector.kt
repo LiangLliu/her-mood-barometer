@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
@@ -46,19 +45,19 @@ fun ChartTypeSelector(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                ChartType.values().forEach { chartType ->
+                listOf(ChartType.BAR, ChartType.LINE).forEach { chartType ->
                     FilterChip(
                         selected = selectedChartType == chartType,
                         onClick = { onChartTypeChanged(chartType) },
                         label = {
                             Text(
-                                text = getChartTypeDisplayName(chartType),
+                                text = chartTypeDisplayName(chartType),
                                 style = MaterialTheme.typography.bodySmall
                             )
                         },
                         leadingIcon = {
                             Icon(
-                                imageVector = getChartTypeIcon(chartType),
+                                imageVector = chartTypeIcon(chartType),
                                 contentDescription = null
                             )
                         },
@@ -71,16 +70,14 @@ fun ChartTypeSelector(
 }
 
 @Composable
-private fun getChartTypeDisplayName(chartType: ChartType): String {
+private fun chartTypeDisplayName(chartType: ChartType): String {
     return when (chartType) {
         ChartType.BAR -> stringResource(R.string.bar_chart)
         ChartType.LINE -> stringResource(R.string.line_chart)
-        ChartType.PIE -> stringResource(R.string.pie_chart)
     }
 }
 
-private fun getChartTypeIcon(chartType: ChartType) = when (chartType) {
+private fun chartTypeIcon(chartType: ChartType) = when (chartType) {
     ChartType.BAR -> Icons.Default.Info
     ChartType.LINE -> Icons.Default.Star
-    ChartType.PIE -> Icons.Default.Favorite
 } 

@@ -57,6 +57,13 @@
     <string name="total_records">総記録数</string>
     <string name="average_mood">平均気分</string>
     <string name="most_frequent_emotion">最も頻繁な感情</string>
+    <string name="chart_emotion_counts">感情別の回数</string>
+    <string name="chart_daily_avg_intensity">日別平均強度</string>
+    <string name="chart_emotion_distribution">感情の分布</string>
+    <string name="chart_empty_hint">記録を開始してグラフを表示しましょう</string>
+    <string name="cd_chart_emotion_counts">感情別回数の棒グラフ</string>
+    <string name="cd_chart_daily_avg">日別平均強度の折れ線グラフ</string>
+    <string name="cd_chart_distribution">感情分布の円グラフ</string>
     
     <!-- Settings Page -->
     <string name="settings">設定</string>

@@ -48,7 +48,11 @@
 
 ## 4) 待办（TODO by Priority）
 高优先级
-- [ ] 图表可视化（Vico Charts：柱状/折线/饼图；触摸高亮、图例、暗/亮适配）
+- [ ] 图表可视化（Vico Charts：柱状/折线；触摸高亮、图例、暗/亮适配）
+  - [x] Vico 接入（2.1.3，compose-m3），实现柱状/折线（饼图取消）
+  - [x] 统计用例扩展：countsByEmotion、dailyAverageIntensity
+  - [x] UI 接入与无障碍（Semantics cd_ 前缀）
+  - [x] 多语言文案（5 语言）
 - [ ] 可访问性（contentDescription/语义/动态字体/对比度/无障碍导航）
 
 中优先级
