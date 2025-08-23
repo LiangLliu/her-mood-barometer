@@ -8,7 +8,7 @@
     <string name="nav_settings">設定</string>
     
     <!-- Record Page -->
-    <string name="record_title">気分を記録</string>
+    <string name="record_title">現在の気分を記録</string>
     <string name="record_emotion">気分を記録</string>
     <string name="select_emotion_type">感情タイプを選択</string>
     <string name="select_emotion">感情を選択</string>
@@ -16,7 +16,7 @@
     <string name="custom_emotions">カスタム感情</string>
     <string name="emotion_intensity">感情の強度</string>
     <string name="add_note">メモを追加</string>
-    <string name="note_placeholder">今日の気分はいかがですか？</string>
+    <string name="note_placeholder">今の気分はいかがですか？</string>
     <string name="save_record">記録を保存</string>
     <string name="record_saved">記録が保存されました</string>
     <string name="record_saved_successfully">記録が保存されました！</string>

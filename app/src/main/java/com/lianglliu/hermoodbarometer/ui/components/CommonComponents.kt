@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 /**
  * 页面标题组件
@@ -48,10 +49,12 @@ fun StatisticItem(
     ) {
         Text(
             text = label,
+            fontSize = 14.sp,
             style = MaterialTheme.typography.bodyMedium
         )
         Text(
             text = value,
+            fontSize = 14.sp,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.primary
         )

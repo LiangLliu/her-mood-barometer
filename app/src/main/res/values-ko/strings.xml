@@ -8,7 +8,7 @@
     <string name="nav_settings">설정</string>
     
     <!-- Record Page -->
-    <string name="record_title">기분 기록</string>
+    <string name="record_title">현재 기분 기록</string>
     <string name="record_emotion">기분 기록</string>
     <string name="select_emotion_type">감정 유형 선택</string>
     <string name="select_emotion">감정 선택</string>
@@ -16,7 +16,7 @@
     <string name="custom_emotions">사용자 정의 감정</string>
     <string name="emotion_intensity">감정 강도</string>
     <string name="add_note">메모 추가</string>
-    <string name="note_placeholder">오늘 기분이 어떠신가요？</string>
+    <string name="note_placeholder">지금 기분이 어떠신가요？</string>
     <string name="save_record">기록 저장</string>
     <string name="record_saved">기록이 저장되었습니다</string>
     <string name="record_saved_successfully">기록이 저장되었습니다！</string>

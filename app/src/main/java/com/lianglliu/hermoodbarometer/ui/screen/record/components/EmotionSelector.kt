@@ -111,7 +111,7 @@ private fun EmotionCard(
 ) {
     Card(
         onClick = onClick,
-        modifier = modifier.size(72.dp),
+        modifier = modifier.size(80.dp), // 增大卡片尺寸
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) {
                 MaterialTheme.colorScheme.primaryContainer
@@ -126,20 +126,21 @@ private fun EmotionCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(10.dp), // 增大内边距
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             // 表情符号
             Text(
                 text = emotion.emoji,
-                fontSize = 24.sp,
+                fontSize = 28.sp, // 增大表情符号字体
                 textAlign = TextAlign.Center
             )
             
             // 情绪名称
             Text(
                 text = emotion.name,
+                fontSize = 14.sp,
                 style = MaterialTheme.typography.labelSmall,
                 color = if (isSelected) {
                     MaterialTheme.colorScheme.onPrimaryContainer
