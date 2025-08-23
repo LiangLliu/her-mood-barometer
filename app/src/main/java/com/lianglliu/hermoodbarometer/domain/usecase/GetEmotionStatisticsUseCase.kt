@@ -38,6 +38,7 @@ class GetEmotionStatisticsUseCase @Inject constructor(
                 emotionDistribution = emptyMap(),
                 averageIntensityByEmotion = emptyMap(),
                 countsByEmotion = emptyMap(),
+                chartLabelMapping = emptyMap(),
                 dailyAverageIntensity = emptyList()
             )
         }
@@ -48,10 +49,9 @@ class GetEmotionStatisticsUseCase @Inject constructor(
         // 计算平均强度
         val averageIntensity = records.map { it.intensity.toDouble() }.average().toFloat()
         
-        // 计算最频繁的情绪类型
+        // 计算最频繁的情绪类型（使用表情符号+名称作为显示标签）
         val emotionCounts = records.groupBy { record ->
-            // 为提高可读性，尝试使用自定义情绪名称；否则退回原始类型字符串
-            if (record.isCustomEmotion && !record.customEmotionName.isNullOrBlank()) record.customEmotionName else record.emotionType
+            record.getDisplayText() // 使用 "😊 开心" 格式
         }
             .mapValues { it.value.size }
         val mostFrequentEmotion = emotionCounts.maxByOrNull { it.value }?.key
@@ -62,9 +62,13 @@ class GetEmotionStatisticsUseCase @Inject constructor(
         // 计算每种情绪的平均强度
         val averageIntensityByEmotion = records
             .groupBy { record ->
-                if (record.isCustomEmotion && !record.customEmotionName.isNullOrBlank()) record.customEmotionName else record.emotionType
+                record.getDisplayText() // 使用 "😊 开心" 格式
             }
             .mapValues { entry -> entry.value.map { record -> record.intensity.toDouble() }.average().toFloat() }
+            
+        // 为图表生成简化的表情符号映射
+        val chartLabelMapping = records.groupBy { it.getDisplayText() }
+            .mapValues { it.value.first().getChartLabel() } // 获取表情符号用于图表显示
 
         // 按日聚合：平均强度
         val dailyAverageIntensity: List<DailyPoint> = records
@@ -82,6 +86,7 @@ class GetEmotionStatisticsUseCase @Inject constructor(
             emotionDistribution = emotionDistribution,
             averageIntensityByEmotion = averageIntensityByEmotion,
             countsByEmotion = emotionCounts,
+            chartLabelMapping = chartLabelMapping,
             dailyAverageIntensity = dailyAverageIntensity
         )
     }
@@ -93,10 +98,11 @@ class GetEmotionStatisticsUseCase @Inject constructor(
 data class EmotionStatistics(
     val totalRecords: Int,
     val averageIntensity: Float,
-    val mostFrequentEmotion: String?,
-    val emotionDistribution: Map<String, Float>,
-    val averageIntensityByEmotion: Map<String, Float>,
-    val countsByEmotion: Map<String, Int>,
+    val mostFrequentEmotion: String?, // 最频繁的情绪（表情符号+名称格式）
+    val emotionDistribution: Map<String, Float>, // 情绪分布（表情符号+名称 -> 比例）
+    val averageIntensityByEmotion: Map<String, Float>, // 每种情绪的平均强度（表情符号+名称 -> 强度）
+    val countsByEmotion: Map<String, Int>, // 每种情绪的计数（表情符号+名称 -> 计数）
+    val chartLabelMapping: Map<String, String>, // 图表标签映射（表情符号+名称 -> 表情符号）
     val dailyAverageIntensity: List<DailyPoint>
 )
 

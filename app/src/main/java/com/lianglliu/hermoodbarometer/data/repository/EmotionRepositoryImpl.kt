@@ -76,7 +76,7 @@ class EmotionRepositoryImpl @Inject constructor(
     }
     
     override fun getEmotionRecordsByType(emotionType: String): Flow<List<EmotionRecord>> {
-        return emotionRecordDao.getRecordsByEmotionType(emotionType).map { entities ->
+        return emotionRecordDao.getRecordsByEmotionId(emotionType).map { entities ->
             entities.map { it.toDomainModel() }
         }
     }
@@ -88,13 +88,14 @@ class EmotionRepositoryImpl @Inject constructor(
 private fun EmotionRecordEntity.toDomainModel(): EmotionRecord {
     return EmotionRecord(
         id = id,
-        emotionType = emotionType,
+        emotionId = emotionId,
+        emotionName = emotionName,
+        emotionEmoji = emotionEmoji,
         intensity = intensity,
         note = note,
         timestamp = timestamp,
-        customEmotionId = customEmotionId,
-        isCustomEmotion = customEmotionId != null,
-        customEmotionName = null // 需要从自定义情绪表中查询
+        isCustomEmotion = isCustomEmotion,
+        customEmotionId = customEmotionId
     )
 }
 
@@ -104,10 +105,13 @@ private fun EmotionRecordEntity.toDomainModel(): EmotionRecord {
 private fun EmotionRecord.toEntity(): EmotionRecordEntity {
     return EmotionRecordEntity(
         id = id,
-        emotionType = emotionType,
+        emotionId = emotionId,
+        emotionName = emotionName,
+        emotionEmoji = emotionEmoji,
         intensity = intensity,
         note = note,
         timestamp = timestamp,
-        customEmotionId = customEmotionId // 直接使用自定义情绪ID
+        isCustomEmotion = isCustomEmotion,
+        customEmotionId = customEmotionId
     )
 } 

@@ -80,7 +80,7 @@ internal fun EmotionLineChart(
 ) {
     val points: List<DailyPoint> = statistics.dailyAverageIntensity
     val labels = remember(points) { points.map { it.date.toString().substring(5) } }
-    val values = remember(points) { points.map { it.value.toFloat() } }
+    val values = remember(points) { points.map { it.value } }
 
     val modelProducer = remember { CartesianChartModelProducer() }
     LaunchedEffect(values) {

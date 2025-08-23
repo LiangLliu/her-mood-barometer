@@ -85,6 +85,13 @@ internal fun EmotionBarChart(
             (statistics.countsByEmotion[it] ?: 0).toFloat()
         }
     }
+    
+    // 获取表情符号标签用于图表显示
+    val chartLabels = remember(emotions, statistics.chartLabelMapping) {
+        emotions.map { emotionDisplayText ->
+            statistics.chartLabelMapping[emotionDisplayText] ?: "😊"
+        }
+    }
 
     val modelProducer = remember { CartesianChartModelProducer() }
     LaunchedEffect(values) {
@@ -107,8 +114,8 @@ internal fun EmotionBarChart(
 
         val bottom = HorizontalAxis.rememberBottom(
             valueFormatter = { _, x, _ ->
-                val idx = x.toInt().coerceIn(0, (emotions.size - 1).coerceAtLeast(0))
-                emotions.getOrNull(idx) ?: ""
+                val idx = x.toInt().coerceIn(0, (chartLabels.size - 1).coerceAtLeast(0))
+                chartLabels.getOrNull(idx) ?: ""
             }
         )
         CartesianChartHost(

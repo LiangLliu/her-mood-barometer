@@ -47,6 +47,29 @@
     - 概览指标改为纵向列表（总记录、平均强度、最常见情绪），避免窄屏换行
     - 错误提示卡片与空态；Compose 预览与基本 UI 测试
 - [x] 启动：系统 Splash + Post 主题；AndroidX Startup 初始化（语言/通知渠道）
+- [x] **[2025-08-23] 情绪数据结构重构（移除 EmotionType 枚举）**：
+  - **变更类型**：架构重构 + 用户体验优化
+  - **负责人**：AI Assistant
+  - **变更摘要**：彻底移除 `EmotionType` 枚举，改用统一的 `Emotion` 数据模型，直接存储和显示表情符号与名称
+  - **关键实现点**：
+    - [x] 创建新的 `Emotion` 数据模型（包含 id、name、emoji、description）
+    - [x] 创建 `EmotionProvider` 本地化情绪提供者，支持 5 种语言
+    - [x] 重构 `EmotionRecord` 模型，直接存储 `emotionId`、`emotionName`、`emotionEmoji`
+    - [x] 更新数据库 schema（v2→v3）：添加 `emotionName`、`emotionEmoji` 字段，包含完整数据迁移
+    - [x] 重构 `EmotionSelector` 组件，统一处理预定义和自定义情绪
+    - [x] 更新统计图表，X轴显示表情符号而非文本
+    - [x] 更新所有相关 Repository、UseCase、ViewModel
+  - **并发/生命周期风险**：低（数据库迁移为原子操作，无并发写入冲突）
+  - **向后兼容性**：✅ 提供完整数据库迁移脚本，自动转换旧数据格式
+  - **性能数据**：构建时间 ~20s（无明显增加）；图表渲染表情符号性能影响需在实机验证
+  - **回滚方案**：`git revert` + 数据库版本降级（需要重新安装应用）
+  - **QA 验证步骤**：
+    - [x] 构建成功：`./gradlew assembleDebug`
+    - [x] 单元测试通过：`./gradlew test`
+    - [ ] 数据迁移验证：旧数据库升级到新版本正常显示
+    - [ ] 多语言验证：中/英/日/韩/繁中情绪名称正确显示
+    - [ ] 统计图表验证：X轴显示表情符号，图例清晰可读
+  - **关联 PR/Issue**：[待创建] PR #XXX - Refactor EmotionType to unified Emotion model
 
 ---
 

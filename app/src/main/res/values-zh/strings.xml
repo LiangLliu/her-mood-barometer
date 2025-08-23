@@ -34,6 +34,18 @@
     <string name="emotion_grateful">感激</string>
     <string name="emotion_lonely">孤独</string>
     
+    <!-- 情绪描述 -->
+    <string name="emotion_happy_desc">感到快乐和满足</string>
+    <string name="emotion_sad_desc">感到悲伤或沮丧</string>
+    <string name="emotion_angry_desc">感到生气或愤怒</string>
+    <string name="emotion_anxious_desc">感到紧张或担心</string>
+    <string name="emotion_calm_desc">感到平和与宁静</string>
+    <string name="emotion_excited_desc">感到激动和兴奋</string>
+    <string name="emotion_tired_desc">感到疲劳和困倦</string>
+    <string name="emotion_confused_desc">感到迷茫或困惑</string>
+    <string name="emotion_grateful_desc">感到感激和感谢</string>
+    <string name="emotion_lonely_desc">感到孤单或寂寞</string>
+    
     <!-- Emotion Intensity -->
     <string name="intensity_very_low">非常低</string>
     <string name="intensity_low">较低</string>

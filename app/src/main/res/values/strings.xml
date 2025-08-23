@@ -34,6 +34,18 @@
     <string name="emotion_grateful">Grateful</string>
     <string name="emotion_lonely">Lonely</string>
     
+    <!-- Emotion Descriptions -->
+    <string name="emotion_happy_desc">Feel joy and contentment</string>
+    <string name="emotion_sad_desc">Feel sorrow or sadness</string>
+    <string name="emotion_angry_desc">Feel anger or frustration</string>
+    <string name="emotion_anxious_desc">Feel nervous or worried</string>
+    <string name="emotion_calm_desc">Feel peaceful and relaxed</string>
+    <string name="emotion_excited_desc">Feel thrilled and energetic</string>
+    <string name="emotion_tired_desc">Feel exhausted or fatigued</string>
+    <string name="emotion_confused_desc">Feel puzzled or uncertain</string>
+    <string name="emotion_grateful_desc">Feel thankful and appreciative</string>
+    <string name="emotion_lonely_desc">Feel isolated or alone</string>
+    
     <!-- Emotion Intensity -->
     <string name="intensity_very_low">Very Low</string>
     <string name="intensity_low">Low</string>

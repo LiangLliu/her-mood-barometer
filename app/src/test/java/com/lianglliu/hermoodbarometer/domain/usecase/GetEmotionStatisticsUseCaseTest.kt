@@ -19,14 +19,14 @@ class GetEmotionStatisticsUseCaseTest {
         val now = LocalDateTime.now()
         val records = listOf(
             // HAPPY: 3
-            EmotionRecord(id = 1, emotionType = "HAPPY", intensity = 4, note = "", timestamp = now.minusDays(2)),
-            EmotionRecord(id = 2, emotionType = "HAPPY", intensity = 3, note = "", timestamp = now.minusDays(1)),
-            EmotionRecord(id = 3, emotionType = "HAPPY", intensity = 5, note = "", timestamp = now),
+            EmotionRecord(id = 1, emotionId = "happy", emotionName = "开心", emotionEmoji = "😊", intensity = 4, note = "", timestamp = now.minusDays(2)),
+            EmotionRecord(id = 2, emotionId = "happy", emotionName = "开心", emotionEmoji = "😊", intensity = 3, note = "", timestamp = now.minusDays(1)),
+            EmotionRecord(id = 3, emotionId = "happy", emotionName = "开心", emotionEmoji = "😊", intensity = 5, note = "", timestamp = now),
             // SAD: 2
-            EmotionRecord(id = 4, emotionType = "SAD", intensity = 2, note = "", timestamp = now.minusDays(2)),
-            EmotionRecord(id = 5, emotionType = "SAD", intensity = 3, note = "", timestamp = now.minusDays(1)),
+            EmotionRecord(id = 4, emotionId = "sad", emotionName = "难过", emotionEmoji = "😢", intensity = 2, note = "", timestamp = now.minusDays(2)),
+            EmotionRecord(id = 5, emotionId = "sad", emotionName = "难过", emotionEmoji = "😢", intensity = 3, note = "", timestamp = now.minusDays(1)),
             // CUSTOM: 1 (named "Grumpy")
-            EmotionRecord(id = 6, emotionType = "CUSTOM", intensity = 4, note = "", timestamp = now.minusDays(1), customEmotionId = 10L, isCustomEmotion = true, customEmotionName = "Grumpy")
+            EmotionRecord(id = 6, emotionId = "custom_10", emotionName = "生气", emotionEmoji = "😠", intensity = 4, note = "", timestamp = now.minusDays(1), isCustomEmotion = true, customEmotionId = 10L)
         )
 
         val repo = object : EmotionRepository {
@@ -40,7 +40,7 @@ class GetEmotionStatisticsUseCaseTest {
             override suspend fun deleteAllRecords() {}
             override fun getRecordCount(): Flow<Int> = flowOf(records.size)
             override fun getRecentRecords(limit: Int): Flow<List<EmotionRecord>> = flowOf(records.take(limit))
-            override fun getEmotionRecordsByType(emotionType: String): Flow<List<EmotionRecord>> = flowOf(records.filter { it.emotionType == emotionType })
+            override fun getEmotionRecordsByType(emotionType: String): Flow<List<EmotionRecord>> = flowOf(records.filter { it.emotionId == emotionType })
         }
 
         val useCase = GetEmotionStatisticsUseCase(repo)
@@ -51,10 +51,10 @@ class GetEmotionStatisticsUseCaseTest {
             // totals
             assertEquals(6, stats.totalRecords)
 
-            // counts by emotion (custom name should be used instead of "CUSTOM")
-            assertEquals(3, stats.countsByEmotion["HAPPY"])
-            assertEquals(2, stats.countsByEmotion["SAD"])
-            assertEquals(1, stats.countsByEmotion["Grumpy"])
+            // counts by emotion (使用表情符号+名称格式)
+            assertEquals(3, stats.countsByEmotion["😊 开心"])
+            assertEquals(2, stats.countsByEmotion["😢 难过"])
+            assertEquals(1, stats.countsByEmotion["😠 生气"])
 
             // distribution sum ~ 1.0
             val sum = stats.emotionDistribution.values.sum()

@@ -61,10 +61,10 @@ interface EmotionRecordDao {
     ): Flow<List<EmotionRecordEntity>>
 
     /**
-     * 获取指定情绪类型的记录
+     * 获取指定情绪ID的记录
      */
-    @Query("SELECT * FROM emotion_records WHERE emotionType = :emotionType ORDER BY timestamp DESC")
-    fun getRecordsByEmotionType(emotionType: String): Flow<List<EmotionRecordEntity>>
+    @Query("SELECT * FROM emotion_records WHERE emotionId = :emotionId ORDER BY timestamp DESC")
+    fun getRecordsByEmotionId(emotionId: String): Flow<List<EmotionRecordEntity>>
 
     /**
      * 获取最近的N条记录
@@ -77,24 +77,26 @@ interface EmotionRecordDao {
      */
     @Query(
         """
-        SELECT emotionType, COUNT(*) as count, AVG(intensity) as avgIntensity
+        SELECT emotionId, emotionName, emotionEmoji, COUNT(*) as count, AVG(intensity) as avgIntensity
         FROM emotion_records 
         WHERE timestamp BETWEEN :startTime AND :endTime
-        GROUP BY emotionType
+        GROUP BY emotionId, emotionName, emotionEmoji
         ORDER BY count DESC
     """
     )
     fun getEmotionStatistics(
         startTime: LocalDateTime,
         endTime: LocalDateTime
-    ): Flow<List<EmotionStatistics>>
+    ): Flow<List<EmotionStatisticsEntity>>
 }
 
 /**
  * 情绪统计数据类
  */
-data class EmotionStatistics(
-    val emotionType: String,
+data class EmotionStatisticsEntity(
+    val emotionId: String,
+    val emotionName: String,
+    val emotionEmoji: String,
     val count: Int,
     val avgIntensity: Double
 ) 

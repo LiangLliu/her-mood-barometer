@@ -3,9 +3,8 @@ package com.lianglliu.hermoodbarometer.ui.screen.record
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lianglliu.hermoodbarometer.domain.model.CustomEmotion
-import com.lianglliu.hermoodbarometer.domain.model.EmotionIntensity
 import com.lianglliu.hermoodbarometer.domain.model.EmotionRecord
-import com.lianglliu.hermoodbarometer.domain.model.EmotionType
+import com.lianglliu.hermoodbarometer.domain.model.Emotion
 import com.lianglliu.hermoodbarometer.domain.repository.CustomEmotionRepository
 import com.lianglliu.hermoodbarometer.domain.usecase.AddEmotionRecordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -58,26 +57,12 @@ class RecordViewModel @Inject constructor(
     }
 
     /**
-     * 更新选中的情绪类型
+     * 更新选中的情绪
      */
-    fun updateSelectedEmotion(emotion: EmotionType?) {
+    fun updateSelectedEmotion(emotion: Emotion?) {
         _uiState.update { currentState ->
             currentState.copy(
                 selectedEmotion = emotion,
-                selectedCustomEmotion = null,
-                errorMessage = null
-            )
-        }
-    }
-
-    /**
-     * 更新选中的自定义情绪
-     */
-    fun updateSelectedCustomEmotion(emotion: CustomEmotion?) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                selectedCustomEmotion = emotion,
-                selectedEmotion = null,
                 errorMessage = null
             )
         }
@@ -116,23 +101,14 @@ class RecordViewModel @Inject constructor(
             return
         }
 
-        // 创建情绪记录
-        val emotionRecord = if (currentState.selectedEmotion != null) {
-            // 预定义情绪
-            EmotionRecord.create(
-                emotionType = currentState.selectedEmotion,
-                intensity = EmotionIntensity.fromLevel(currentState.intensityLevel.toInt()),
-                note = currentState.noteText
-            )
-        } else {
-            // 自定义情绪
-            EmotionRecord.createCustom(
-                customEmotionId = currentState.selectedCustomEmotion!!.id,
-                customEmotionName = currentState.selectedCustomEmotion!!.name,
-                intensity = EmotionIntensity.fromLevel(currentState.intensityLevel.toInt()),
-                note = currentState.noteText
-            )
-        }
+        val selectedEmotion = currentState.selectedEmotion!!
+        
+        // 使用新的情绪记录创建方法
+        val emotionRecord = EmotionRecord.fromEmotion(
+            emotion = selectedEmotion,
+            intensity = currentState.intensityLevel.toInt(),
+            note = currentState.noteText
+        )
 
         // 显示加载状态
         _uiState.update { state ->
@@ -148,7 +124,6 @@ class RecordViewModel @Inject constructor(
                         _uiState.update { state ->
                             state.copy(
                                 selectedEmotion = null,
-                                selectedCustomEmotion = null,
                                 intensityLevel = 3f,
                                 noteText = "",
                                 isLoading = false,
@@ -219,7 +194,7 @@ class RecordViewModel @Inject constructor(
      */
     private fun validateEmotionRecord(state: RecordUiState): String? {
         return when {
-            state.selectedEmotion == null && state.selectedCustomEmotion == null ->
+            state.selectedEmotion == null ->
                 "请选择情绪类型"
 
             state.intensityLevel < 1f || state.intensityLevel > 5f ->
@@ -236,8 +211,7 @@ class RecordViewModel @Inject constructor(
 /**
  * 记录页面的UI状态
  *
- * @property selectedEmotion 当前选中的预定义情绪类型
- * @property selectedCustomEmotion 当前选中的自定义情绪（与selectedEmotion互斥）
+ * @property selectedEmotion 当前选中的情绪（统一处理预定义和自定义情绪）
  * @property customEmotions 可用的自定义情绪列表
  * @property intensityLevel 情绪强度等级（1-5，默认3）
  * @property noteText 备注文本内容
@@ -246,8 +220,7 @@ class RecordViewModel @Inject constructor(
  * @property showSuccessMessage 是否显示成功提示
  */
 data class RecordUiState(
-    val selectedEmotion: EmotionType? = null,
-    val selectedCustomEmotion: CustomEmotion? = null,
+    val selectedEmotion: Emotion? = null,
     val customEmotions: List<CustomEmotion> = emptyList(),
     val intensityLevel: Float = 3f,
     val noteText: String = "",

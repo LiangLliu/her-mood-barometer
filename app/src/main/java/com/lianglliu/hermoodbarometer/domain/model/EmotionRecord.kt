@@ -11,62 +11,92 @@ import java.time.LocalDateTime
 @Serializable
 data class EmotionRecord(
     val id: Long = 0,
-    val emotionType: String, // 改为String类型以兼容数据库存储
-    val intensity: Int, // 改为Int类型以兼容数据库存储
-    val note: String = "",
+    val emotionId: String, // 情绪ID，预定义情绪为固定字符串，自定义情绪为 "custom_${id}"
+    val emotionName: String, // 情绪名称
+    val emotionEmoji: String, // 情绪表情符号
+    val intensity: Int, // 情绪强度（1-5）
+    val note: String = "", // 备注
     @Contextual
-    val timestamp: LocalDateTime, // 使用LocalDateTime以与数据库实体保持一致
-    val customEmotionId: Long? = null, // 自定义情绪ID
-    val isCustomEmotion: Boolean = false,
-    val customEmotionName: String? = null
+    val timestamp: LocalDateTime, // 记录时间戳
+    val isCustomEmotion: Boolean = false, // 是否为自定义情绪
+    val customEmotionId: Long? = null // 自定义情绪的数据库ID（仅用于自定义情绪）
 ) {
     /**
-     * 获取情绪显示名称
-     * 如果是自定义情绪，返回自定义名称，否则返回预定义名称的资源ID
+     * 获取情绪显示文本（表情符号 + 名称）
      */
-    fun getEmotionDisplayName(): String {
-        return if (isCustomEmotion && !customEmotionName.isNullOrBlank()) {
-            customEmotionName
-        } else {
-            emotionType
-        }
+    fun getDisplayText(): String {
+        return "$emotionEmoji $emotionName"
+    }
+    
+    /**
+     * 获取用于图表显示的简短标签
+     */
+    fun getChartLabel(): String {
+        return emotionEmoji
     }
 
     companion object {
-        fun create(
-            emotionType: EmotionType,
-            intensity: EmotionIntensity,
+        /**
+         * 从预定义情绪创建记录
+         */
+        fun fromEmotion(
+            emotion: Emotion,
+            intensity: Int,
             note: String = "",
-            customEmotionName: String? = null
+            timestamp: LocalDateTime = LocalDateTime.now()
         ): EmotionRecord {
             return EmotionRecord(
-                emotionType = emotionType.name,
-                intensity = intensity.level,
+                emotionId = emotion.id,
+                emotionName = emotion.name,
+                emotionEmoji = emotion.emoji,
+                intensity = intensity,
                 note = note,
-                timestamp = LocalDateTime.now(),
-                isCustomEmotion = !customEmotionName.isNullOrBlank(),
-                customEmotionName = customEmotionName
+                timestamp = timestamp,
+                isCustomEmotion = emotion.isCustom,
+                customEmotionId = emotion.customId
             )
         }
         
         /**
-         * 创建自定义情绪记录
+         * 兼容性方法：从旧格式创建（用于数据迁移）
          */
-        fun createCustom(
-            customEmotionId: Long,
-            customEmotionName: String,
-            intensity: EmotionIntensity,
-            note: String = ""
+        fun fromLegacyData(
+            emotionType: String,
+            intensity: Int,
+            note: String = "",
+            timestamp: LocalDateTime,
+            customEmotionId: Long? = null,
+            customEmotionName: String? = null,
+            customEmotionEmoji: String? = null
         ): EmotionRecord {
-            return EmotionRecord(
-                emotionType = "CUSTOM", // 标记为自定义情绪
-                intensity = intensity.level,
-                note = note,
-                timestamp = LocalDateTime.now(),
-                customEmotionId = customEmotionId,
-                isCustomEmotion = true,
-                customEmotionName = customEmotionName
-            )
+            val isCustom = customEmotionId != null
+            return if (isCustom && customEmotionName != null && customEmotionEmoji != null) {
+                EmotionRecord(
+                    emotionId = "custom_$customEmotionId",
+                    emotionName = customEmotionName,
+                    emotionEmoji = customEmotionEmoji,
+                    intensity = intensity,
+                    note = note,
+                    timestamp = timestamp,
+                    isCustomEmotion = true,
+                    customEmotionId = customEmotionId
+                )
+            } else {
+                // 从预定义情绪转换
+                val defaultEmotion = Emotion.getDefaultEmotionById(emotionType.lowercase()) 
+                    ?: Emotion.getDefaultEmotions().first()
+                EmotionRecord(
+                    emotionId = defaultEmotion.id,
+                    emotionName = defaultEmotion.name,
+                    emotionEmoji = defaultEmotion.emoji,
+                    intensity = intensity,
+                    note = note,
+                    timestamp = timestamp,
+                    isCustomEmotion = false,
+                    customEmotionId = null
+                )
+            }
         }
+
     }
 }

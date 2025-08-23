@@ -21,7 +21,7 @@ import com.lianglliu.hermoodbarometer.ui.components.ErrorCard
 import com.lianglliu.hermoodbarometer.ui.components.PageTitle
 import com.lianglliu.hermoodbarometer.ui.components.SuccessCard
 import com.lianglliu.hermoodbarometer.ui.screen.record.components.EmotionIntensitySelector
-import com.lianglliu.hermoodbarometer.ui.screen.record.components.EmotionTypeSelector
+import com.lianglliu.hermoodbarometer.ui.screen.record.components.EmotionSelector
 import com.lianglliu.hermoodbarometer.ui.screen.record.components.NoteInput
 import com.lianglliu.hermoodbarometer.ui.screen.record.components.SaveButton
 
@@ -39,7 +39,7 @@ fun RecordScreen(
     // 优化保存按钮使能状态计算，避免不必要的重组
     val isSaveEnabled by remember {
         derivedStateOf {
-            uiState.selectedEmotion != null || uiState.selectedCustomEmotion != null
+            uiState.selectedEmotion != null
         }
     }
 
@@ -68,12 +68,10 @@ fun RecordScreen(
         }
 
         item {
-            EmotionTypeSelector(
+            EmotionSelector(
                 selectedEmotion = uiState.selectedEmotion,
-                selectedCustomEmotion = uiState.selectedCustomEmotion,
                 customEmotions = uiState.customEmotions,
-                onEmotionSelected = { viewModel.updateSelectedEmotion(it) },
-                onCustomEmotionSelected = { viewModel.updateSelectedCustomEmotion(it) }
+                onEmotionSelected = { viewModel.updateSelectedEmotion(it) }
             )
         }
 

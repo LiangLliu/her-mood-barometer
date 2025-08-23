@@ -34,6 +34,18 @@
     <string name="emotion_grateful">감사</string>
     <string name="emotion_lonely">외로움</string>
     
+    <!-- 감정 설명 -->
+    <string name="emotion_happy_desc">기쁘고 만족스러움</string>
+    <string name="emotion_sad_desc">슬프거나 울적함</string>
+    <string name="emotion_angry_desc">화가 나거나 짜증남</string>
+    <string name="emotion_anxious_desc">불안하거나 걱정됨</string>
+    <string name="emotion_calm_desc">평화롭고 여유로움</string>
+    <string name="emotion_excited_desc">흥분되고 열정적임</string>
+    <string name="emotion_tired_desc">피곤하거나 졸리움</string>
+    <string name="emotion_confused_desc">혼란스럽거나 확신이 서지 않음</string>
+    <string name="emotion_grateful_desc">감사하고 고마움</string>
+    <string name="emotion_lonely_desc">고립되거나 외로움</string>
+    
     <!-- Emotion Intensity -->
     <string name="intensity_very_low">매우 낮음</string>
     <string name="intensity_low">낮음</string>
