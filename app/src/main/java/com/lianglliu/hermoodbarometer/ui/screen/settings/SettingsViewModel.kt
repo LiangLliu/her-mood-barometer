@@ -2,8 +2,8 @@ package com.lianglliu.hermoodbarometer.ui.screen.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lianglliu.hermoodbarometer.domain.model.CustomEmotion
-import com.lianglliu.hermoodbarometer.domain.repository.CustomEmotionRepository
+import com.lianglliu.hermoodbarometer.domain.model.Emotion
+import com.lianglliu.hermoodbarometer.domain.repository.EmotionDefinitionRepository
 import com.lianglliu.hermoodbarometer.domain.repository.NotificationRepository
 import com.lianglliu.hermoodbarometer.domain.repository.PreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val preferencesRepository: PreferencesRepository,
-    private val customEmotionRepository: CustomEmotionRepository,
+    private val emotionDefinitionRepository: EmotionDefinitionRepository,
     private val notificationRepository: NotificationRepository
 ) : ViewModel() {
 
@@ -31,7 +31,7 @@ class SettingsViewModel @Inject constructor(
 
     init {
         loadSettings()
-        loadCustomEmotions()
+        loadUserEmotions()
     }
 
     /**
@@ -51,7 +51,7 @@ class SettingsViewModel @Inject constructor(
                         selectedTheme = theme,
                         isReminderEnabled = isReminderEnabled,
                         reminderTime = reminderTime,
-                        customEmotions = _uiState.value.customEmotions,
+                        userEmotions = _uiState.value.userEmotions,
                         errorMessage = null,
                         shouldRecreateActivity = _uiState.value.shouldRecreateActivity,
                         isInitialized = true
@@ -68,19 +68,19 @@ class SettingsViewModel @Inject constructor(
     }
 
     /**
-     * 加载自定义情绪
+     * 加载用户创建的情绪
      */
-    private fun loadCustomEmotions() {
+    private fun loadUserEmotions() {
         viewModelScope.launch {
             try {
-                customEmotionRepository.getAllCustomEmotions().collect { emotions ->
+                emotionDefinitionRepository.getUserCreatedEmotions().collect { emotions ->
                     _uiState.value = _uiState.value.copy(
-                        customEmotions = emotions
+                        userEmotions = emotions
                     )
                 }
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
-                    errorMessage = e.message ?: "Failed to load custom emotions"
+                    errorMessage = e.message ?: "Failed to load user emotions"
                 )
             }
         }
@@ -134,12 +134,12 @@ class SettingsViewModel @Inject constructor(
                 }
                 _uiState.value = _uiState.value.copy(
                     isReminderEnabled = isEnabled,
-                    reminderTime = if (time.isNotEmpty()) time else _uiState.value.reminderTime
+                    reminderTime = time.ifEmpty { _uiState.value.reminderTime }
                 )
 
                 // 调度或取消 WorkManager 周期任务
                 if (isEnabled) {
-                    val finalTime = if (time.isNotEmpty()) time else _uiState.value.reminderTime
+                    val finalTime = time.ifEmpty { _uiState.value.reminderTime }
                     notificationRepository.scheduleDailyReminder(finalTime)
                 } else {
                     notificationRepository.cancelDailyReminder()
@@ -153,35 +153,36 @@ class SettingsViewModel @Inject constructor(
     }
 
     /**
-     * 添加自定义情绪
+     * 添加用户情绪
      */
-    fun addCustomEmotion(name: String, description: String, emoji: String) {
+    fun addUserEmotion(name: String, description: String, emoji: String) {
         viewModelScope.launch {
             try {
-                val customEmotion = CustomEmotion.create(
+                val emotion = Emotion.createUserEmotion(
                     name = name,
+                    emoji = emoji,
                     description = description,
-                    emoji = emoji
+                    id = System.currentTimeMillis()
                 )
-                customEmotionRepository.insertCustomEmotion(customEmotion)
+                emotionDefinitionRepository.insertEmotion(emotion)
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
-                    errorMessage = e.message ?: "Failed to add custom emotion"
+                    errorMessage = e.message ?: "Failed to add user emotion"
                 )
             }
         }
     }
 
     /**
-     * 删除自定义情绪
+     * 删除用户情绪
      */
-    fun deleteCustomEmotion(emotion: CustomEmotion) {
+    fun deleteUserEmotion(emotion: Emotion) {
         viewModelScope.launch {
             try {
-                customEmotionRepository.deleteCustomEmotion(emotion.id)
+                emotionDefinitionRepository.deleteEmotion(emotion)
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
-                    errorMessage = e.message ?: "Failed to delete custom emotion"
+                    errorMessage = e.message ?: "Failed to delete user emotion"
                 )
             }
         }
@@ -208,7 +209,7 @@ data class SettingsUiState(
     val selectedTheme: String = "system",
     val isReminderEnabled: Boolean = false,
     val reminderTime: String = "09:00",
-    val customEmotions: List<CustomEmotion> = emptyList(),
+    val userEmotions: List<Emotion> = emptyList(),
     val errorMessage: String? = null,
     val shouldRecreateActivity: Boolean = false,
     // 标记设置是否已从数据源加载完成，避免启动阶段用默认值覆盖已保存的语言

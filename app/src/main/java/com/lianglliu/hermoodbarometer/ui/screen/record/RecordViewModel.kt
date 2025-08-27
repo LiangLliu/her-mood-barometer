@@ -2,10 +2,9 @@ package com.lianglliu.hermoodbarometer.ui.screen.record
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lianglliu.hermoodbarometer.domain.model.CustomEmotion
 import com.lianglliu.hermoodbarometer.domain.model.EmotionRecord
 import com.lianglliu.hermoodbarometer.domain.model.Emotion
-import com.lianglliu.hermoodbarometer.domain.repository.CustomEmotionRepository
+import com.lianglliu.hermoodbarometer.domain.repository.EmotionDefinitionRepository
 import com.lianglliu.hermoodbarometer.domain.usecase.AddEmotionRecordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,17 +19,17 @@ import javax.inject.Inject
  *
  * 负责处理情绪记录的业务逻辑，包括：
  * - 管理UI状态（选中的情绪、强度、备注等）
- * - 加载自定义情绪列表
+ * - 加载用户创建的情绪列表
  * - 验证和保存情绪记录
  * - 错误处理和用户反馈
  *
  * @param addEmotionRecordUseCase 添加情绪记录的用例
- * @param customEmotionRepository 自定义情绪的仓库
+ * @param emotionDefinitionRepository 情绪定义的仓库
  */
 @HiltViewModel
 class RecordViewModel @Inject constructor(
     private val addEmotionRecordUseCase: AddEmotionRecordUseCase,
-    private val customEmotionRepository: CustomEmotionRepository
+    private val emotionDefinitionRepository: EmotionDefinitionRepository
 ) : ViewModel() {
 
     /** 内部可变的UI状态 */
@@ -40,17 +39,17 @@ class RecordViewModel @Inject constructor(
     val uiState: StateFlow<RecordUiState> = _uiState.asStateFlow()
 
     init {
-        loadCustomEmotions()
+        loadUserEmotions()
     }
 
     /**
-     * 加载自定义情绪
+     * 加载用户创建的情绪
      */
-    private fun loadCustomEmotions() {
+    private fun loadUserEmotions() {
         viewModelScope.launch {
-            customEmotionRepository.getAllCustomEmotions().collect { emotions ->
+            emotionDefinitionRepository.getUserCreatedEmotions().collect { emotions ->
                 _uiState.update { state ->
-                    state.copy(customEmotions = emotions)
+                    state.copy(userEmotions = emotions)
                 }
             }
         }
@@ -211,8 +210,8 @@ class RecordViewModel @Inject constructor(
 /**
  * 记录页面的UI状态
  *
- * @property selectedEmotion 当前选中的情绪（统一处理预定义和自定义情绪）
- * @property customEmotions 可用的自定义情绪列表
+ * @property selectedEmotion 当前选中的情绪
+ * @property userEmotions 用户创建的情绪列表
  * @property intensityLevel 情绪强度等级（1-5，默认3）
  * @property noteText 备注文本内容
  * @property isLoading 是否正在保存数据
@@ -221,7 +220,7 @@ class RecordViewModel @Inject constructor(
  */
 data class RecordUiState(
     val selectedEmotion: Emotion? = null,
-    val customEmotions: List<CustomEmotion> = emptyList(),
+    val userEmotions: List<Emotion> = emptyList(),
     val intensityLevel: Float = 3f,
     val noteText: String = "",
     val isLoading: Boolean = false,

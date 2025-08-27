@@ -1,117 +1,95 @@
 package com.lianglliu.hermoodbarometer.data.repository
 
-import com.lianglliu.hermoodbarometer.data.database.EmotionRecordDao
-import com.lianglliu.hermoodbarometer.data.database.EmotionRecordEntity
-import com.lianglliu.hermoodbarometer.domain.model.EmotionRecord
-import com.lianglliu.hermoodbarometer.domain.model.TimeRange
-import com.lianglliu.hermoodbarometer.domain.repository.EmotionRepository
+import com.lianglliu.hermoodbarometer.data.database.EmotionDao
+import com.lianglliu.hermoodbarometer.data.database.EmotionEntity
+import com.lianglliu.hermoodbarometer.domain.model.Emotion
+import com.lianglliu.hermoodbarometer.domain.repository.EmotionDefinitionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.time.LocalDateTime
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
- * 情绪记录仓库实现
- * 实现情绪记录的数据访问和业务逻辑
+ * 统一情绪仓库实现
+ * 管理所有情绪（预定义和用户创建的）
  */
-@Singleton
 class EmotionRepositoryImpl @Inject constructor(
-    private val emotionRecordDao: EmotionRecordDao
-) : EmotionRepository {
-    
-    override fun getAllRecords(): Flow<List<EmotionRecord>> {
-        return emotionRecordDao.getAllRecords().map { entities ->
-            entities.map { it.toDomainModel() }
-        }
-    }
-    
-    override fun getRecordsByTimeRange(timeRange: TimeRange): Flow<List<EmotionRecord>> {
-        val startTime = timeRange.getStartDateTime()
-        val endTime = LocalDateTime.now()
-        return emotionRecordDao.getRecordsByTimeRange(startTime, endTime).map { entities ->
-            entities.map { it.toDomainModel() }
-        }
-    }
-    
-    override fun getRecordsByDateRange(startDate: LocalDateTime, endDate: LocalDateTime): Flow<List<EmotionRecord>> {
-        return emotionRecordDao.getRecordsByTimeRange(startDate, endDate).map { entities ->
-            entities.map { it.toDomainModel() }
-        }
-    }
-    
-    override fun getRecentRecords(limit: Int): Flow<List<EmotionRecord>> {
-        return emotionRecordDao.getRecentRecords(limit).map { entities ->
-            entities.map { it.toDomainModel() }
-        }
-    }
-    
-    override suspend fun getRecordById(id: Long): EmotionRecord? {
-        return emotionRecordDao.getRecordById(id)?.toDomainModel()
-    }
-    
-    override suspend fun insertRecord(record: EmotionRecord): Long {
-        val entity = record.toEntity()
-        return emotionRecordDao.insert(entity)
-    }
-    
-    override suspend fun updateRecord(record: EmotionRecord) {
-        val entity = record.toEntity()
-        emotionRecordDao.update(entity)
-    }
-    
-    override suspend fun deleteRecord(id: Long) {
-        emotionRecordDao.deleteById(id)
-    }
-    
-    override suspend fun deleteAllRecords() {
-        // 这里需要添加一个删除所有记录的方法到DAO
-        // 暂时使用空实现
-    }
-    
-    override fun getRecordCount(): Flow<Int> {
-        // 这里需要添加一个获取记录总数的方法到DAO
-        // 暂时返回0
-        return kotlinx.coroutines.flow.flowOf(0)
-    }
-    
-    override fun getEmotionRecordsByType(emotionType: String): Flow<List<EmotionRecord>> {
-        return emotionRecordDao.getRecordsByEmotionId(emotionType).map { entities ->
-            entities.map { it.toDomainModel() }
-        }
-    }
-}
+    private val emotionDao: EmotionDao
+) : EmotionDefinitionRepository {
 
-/**
- * 扩展函数：数据库实体转领域模型
- */
-private fun EmotionRecordEntity.toDomainModel(): EmotionRecord {
-    return EmotionRecord(
-        id = id,
-        emotionId = emotionId,
-        emotionName = emotionName,
-        emotionEmoji = emotionEmoji,
-        intensity = intensity,
-        note = note,
-        timestamp = timestamp,
-        isCustomEmotion = isCustomEmotion,
-        customEmotionId = customEmotionId
-    )
-}
+    override fun getAllEmotions(): Flow<List<Emotion>> {
+        return emotionDao.getAllActiveEmotions().map { entities ->
+            entities.map { it.toDomainModel() }
+        }
+    }
 
-/**
- * 扩展函数：领域模型转数据库实体
- */
-private fun EmotionRecord.toEntity(): EmotionRecordEntity {
-    return EmotionRecordEntity(
-        id = id,
-        emotionId = emotionId,
-        emotionName = emotionName,
-        emotionEmoji = emotionEmoji,
-        intensity = intensity,
-        note = note,
-        timestamp = timestamp,
-        isCustomEmotion = isCustomEmotion,
-        customEmotionId = customEmotionId
-    )
+    override fun getUserCreatedEmotions(): Flow<List<Emotion>> {
+        return emotionDao.getUserCreatedEmotions().map { entities ->
+            entities.map { it.toDomainModel() }
+        }
+    }
+
+    override suspend fun getEmotionById(id: Long): Emotion? {
+        return emotionDao.getEmotionById(id)?.toDomainModel()
+    }
+
+    override suspend fun insertEmotion(emotion: Emotion): Long {
+        val entity = emotion.toEntity()
+        return emotionDao.insertEmotion(entity)
+    }
+
+    override suspend fun updateEmotion(emotion: Emotion) {
+        val entity = emotion.toEntity()
+        emotionDao.updateEmotion(entity)
+    }
+
+    override suspend fun deleteEmotion(emotion: Emotion) {
+        val entity = emotion.toEntity()
+        emotionDao.deleteEmotion(entity)
+    }
+
+    override suspend fun deleteEmotionById(id: Long) {
+        emotionDao.deleteEmotionById(id)
+    }
+
+    override suspend fun deactivateEmotion(id: Long) {
+        emotionDao.deactivateEmotion(id)
+    }
+
+    override suspend fun isEmotionNameExists(name: String): Boolean {
+        return emotionDao.countEmotionsByName(name) > 0
+    }
+
+    override suspend fun getEmotionCount(): Int {
+        return emotionDao.getEmotionCount()
+    }
+
+    /**
+     * 将数据库实体转换为领域模型
+     */
+    private fun EmotionEntity.toDomainModel(): Emotion {
+        return Emotion(
+            id = this.id,
+            name = this.name,
+            emoji = this.emoji,
+            description = this.description,
+            isUserCreated = this.isUserCreated,
+            isActive = this.isActive,
+            createdAt = this.createdAt
+        )
+    }
+
+    /**
+     * 将领域模型转换为数据库实体
+     */
+    private fun Emotion.toEntity(): EmotionEntity {
+        return EmotionEntity(
+            id = this.id,
+            name = this.name,
+            emoji = this.emoji,
+            description = this.description,
+            isUserCreated = this.isUserCreated,
+            isActive = this.isActive,
+            createdAt = this.createdAt
+        )
+    }
 } 

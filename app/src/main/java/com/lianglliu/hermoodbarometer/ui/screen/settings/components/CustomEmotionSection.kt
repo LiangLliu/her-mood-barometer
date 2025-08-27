@@ -9,17 +9,17 @@ import androidx.compose.ui.res.stringResource
 import com.lianglliu.hermoodbarometer.R
 
 /**
- * 自定义情绪设置模块
+ * 情绪管理设置模块
  */
 @Composable
 fun CustomEmotionSection(
     onCustomEmotionClick: () -> Unit
 ) {
-    SettingsSection(title = stringResource(R.string.custom_emotions)) {
+    SettingsSection(title = stringResource(R.string.manage_emotions)) {
         SettingsItem(
             icon = Icons.Default.Add,
-            title = stringResource(R.string.custom_emotions),
-            subtitle = stringResource(R.string.add_custom_emotion),
+            title = stringResource(R.string.manage_emotions),
+            subtitle = stringResource(R.string.add_emotion),
             trailing = {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,

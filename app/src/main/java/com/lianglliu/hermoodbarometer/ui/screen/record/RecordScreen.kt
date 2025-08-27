@@ -70,7 +70,7 @@ fun RecordScreen(
         item {
             EmotionSelector(
                 selectedEmotion = uiState.selectedEmotion,
-                customEmotions = uiState.customEmotions,
+                userEmotions = uiState.userEmotions,
                 onEmotionSelected = { viewModel.updateSelectedEmotion(it) }
             )
         }

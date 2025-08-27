@@ -14,61 +14,61 @@ object EmotionProvider {
      */
     fun getLocalizedDefaultEmotions(context: Context): List<Emotion> = listOf(
         Emotion(
-            id = "happy",
+            id = 1L,
             name = context.getString(R.string.emotion_happy),
             emoji = "😊",
             description = context.getString(R.string.emotion_happy_desc)
         ),
         Emotion(
-            id = "sad",
+            id = 2L,
             name = context.getString(R.string.emotion_sad),
             emoji = "😢",
             description = context.getString(R.string.emotion_sad_desc)
         ),
         Emotion(
-            id = "angry",
+            id = 3L,
             name = context.getString(R.string.emotion_angry),
             emoji = "😡",
             description = context.getString(R.string.emotion_angry_desc)
         ),
         Emotion(
-            id = "anxious",
+            id = 4L,
             name = context.getString(R.string.emotion_anxious),
             emoji = "😰",
             description = context.getString(R.string.emotion_anxious_desc)
         ),
         Emotion(
-            id = "calm",
+            id = 5L,
             name = context.getString(R.string.emotion_calm),
             emoji = "😌",
             description = context.getString(R.string.emotion_calm_desc)
         ),
         Emotion(
-            id = "excited",
+            id = 6L,
             name = context.getString(R.string.emotion_excited),
             emoji = "🤩",
             description = context.getString(R.string.emotion_excited_desc)
         ),
         Emotion(
-            id = "tired",
+            id = 7L,
             name = context.getString(R.string.emotion_tired),
             emoji = "😴",
             description = context.getString(R.string.emotion_tired_desc)
         ),
         Emotion(
-            id = "confused",
+            id = 8L,
             name = context.getString(R.string.emotion_confused),
             emoji = "😕",
             description = context.getString(R.string.emotion_confused_desc)
         ),
         Emotion(
-            id = "grateful",
+            id = 9L,
             name = context.getString(R.string.emotion_grateful),
             emoji = "🙏",
             description = context.getString(R.string.emotion_grateful_desc)
         ),
         Emotion(
-            id = "lonely",
+            id = 10L,
             name = context.getString(R.string.emotion_lonely),
             emoji = "😔",
             description = context.getString(R.string.emotion_lonely_desc)
@@ -78,7 +78,7 @@ object EmotionProvider {
     /**
      * 根据ID获取本地化的预定义情绪
      */
-    fun getLocalizedEmotionById(context: Context, id: String): Emotion? {
+    fun getLocalizedEmotionById(context: Context, id: Long): Emotion? {
         return getLocalizedDefaultEmotions(context).find { it.id == id }
     }
 }

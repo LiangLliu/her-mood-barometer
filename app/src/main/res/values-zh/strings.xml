@@ -70,17 +70,15 @@
     <string name="average_mood">平均情绪</string>
     <string name="most_frequent_emotion">最常出现的情绪</string>
     <string name="chart_emotion_counts">各情绪出现次数</string>
-    <string name="chart_daily_avg_intensity">每日平均强度</string>
+    <string name="chart_emotion_trend">情绪变化趋势</string>
     <string name="chart_emotion_distribution">情绪占比</string>
     <string name="chart_empty_hint">开始记录心情以查看图表</string>
     <string name="cd_chart_emotion_counts">按情绪的次数柱状图</string>
-    <string name="cd_chart_daily_avg">每日平均强度折线图</string>
     <string name="cd_chart_distribution">情绪分布饼图</string>
     
     <!-- Settings Page -->
     <string name="settings">设置</string>
     <string name="add_custom_emotion">添加自定义情绪</string>
-    <string name="edit_emotion">编辑情绪</string>
     <string name="delete_emotion">删除情绪</string>
     <string name="reminder_settings">提醒设置</string>
     <string name="daily_reminder">每日提醒</string>
@@ -110,7 +108,6 @@
     <string name="save">保存</string>
     <string name="cancel">取消</string>
     <string name="delete">删除</string>
-    <string name="edit">编辑</string>
     <string name="confirm">确认</string>
     <string name="ok">确定</string>
     <string name="yes">是</string>
@@ -137,7 +134,7 @@
     
     <!-- Confirmation Messages -->
     <string name="confirm_delete_record">确定要删除这条记录吗？</string>
-    <string name="confirm_delete_emotion">确定要删除这个自定义情绪吗？</string>
+
     
     <!-- Notifications -->
     <string name="notification_title">心情签到</string>
@@ -159,6 +156,12 @@
     <!-- Custom Emotions -->
     <string name="emotion_name">情绪名称</string>
     <string name="description">描述</string>
+    <string name="manage_emotions">管理情绪</string>
+    <string name="add_emotion">添加情绪</string>
+    <string name="edit_emotion">编辑情绪</string>
+    <string name="emotion_description">描述</string>
+    <string name="no_user_emotions">还没有自定义情绪。点击 + 添加你的第一个情绪！</string>
+    <string name="confirm_delete_emotion">确定要删除这个情绪吗？此操作无法撤销。</string>
     <string name="selected_emoji">选择的表情：</string>
     <string name="choose_emoji">选择一个表情：</string>
     <string name="no_custom_emotions">暂无自定义情绪</string>

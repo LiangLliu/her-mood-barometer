@@ -2,7 +2,7 @@ package com.lianglliu.hermoodbarometer.di
 
 import android.content.Context
 import androidx.room.Room
-import com.lianglliu.hermoodbarometer.data.database.CustomEmotionDao
+import com.lianglliu.hermoodbarometer.data.database.EmotionDao
 import com.lianglliu.hermoodbarometer.data.database.EmotionRecordDao
 import com.lianglliu.hermoodbarometer.data.database.MoodDatabase
 import dagger.Module
@@ -33,8 +33,7 @@ object DatabaseModule {
             MoodDatabase::class.java,
             MoodDatabase.DATABASE_NAME
         )
-            .addMigrations(*MoodDatabase.MIGRATIONS)
-            // 遵循项目规范：数据库版本变更使用破坏性迁移回退
+            // 开发期使用破坏性迁移
             .fallbackToDestructiveMigration()
             .build()
     }
@@ -49,11 +48,11 @@ object DatabaseModule {
     }
 
     /**
-     * 提供自定义情绪DAO
+     * 提供统一情绪DAO
      */
     @Provides
     @Singleton
-    fun provideCustomEmotionDao(database: MoodDatabase): CustomEmotionDao {
-        return database.customEmotionDao()
+    fun provideEmotionDao(database: MoodDatabase): EmotionDao {
+        return database.emotionDao()
     }
 } 

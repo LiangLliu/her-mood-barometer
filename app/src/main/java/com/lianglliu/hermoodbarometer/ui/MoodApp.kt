@@ -128,7 +128,7 @@ private fun getIconForScreen(screen: Screen): ImageVector {
         Screen.Record -> Icons.Default.Edit
         Screen.Statistics -> Icons.Default.Info
         Screen.Settings -> Icons.Default.Settings
-        Screen.CustomEmotion -> Icons.Default.Settings // 使用设置图标作为默认
+        Screen.EmotionManagement -> Icons.Default.Settings // 使用设置图标作为默认
     }
 }
 

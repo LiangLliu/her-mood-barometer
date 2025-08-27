@@ -16,13 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
-import com.lianglliu.hermoodbarometer.R
-import com.lianglliu.hermoodbarometer.domain.model.CustomEmotion
 import com.lianglliu.hermoodbarometer.domain.model.Emotion
 import com.lianglliu.hermoodbarometer.domain.model.EmotionProvider
 
@@ -34,65 +31,30 @@ import com.lianglliu.hermoodbarometer.domain.model.EmotionProvider
 @Composable
 fun EmotionSelector(
     selectedEmotion: Emotion?,
-    customEmotions: List<CustomEmotion>,
+    userEmotions: List<Emotion>,
     onEmotionSelected: (Emotion) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val localizedEmotions = EmotionProvider.getLocalizedDefaultEmotions(context)
+    val predefinedEmotions = EmotionProvider.getLocalizedDefaultEmotions(context)
+    val allEmotions = predefinedEmotions + userEmotions
     
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // 预定义情绪部分
-        Column {
-            Text(
-                text = stringResource(R.string.predefined_emotions),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            
-            LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp)
-            ) {
-                items(localizedEmotions) { emotion ->
-                    EmotionCard(
-                        emotion = emotion,
-                        isSelected = selectedEmotion?.id == emotion.id,
-                        onClick = { onEmotionSelected(emotion) }
-                    )
-                }
-            }
-        }
-        
-        // 自定义情绪部分（如果有的话）
-        if (customEmotions.isNotEmpty()) {
-            Column {
-                Text(
-                    text = stringResource(R.string.custom_emotions),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(horizontal = 16.dp)
+        // 所有情绪统一显示
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp)
+        ) {
+            items(allEmotions) { emotion ->
+                EmotionCard(
+                    emotion = emotion,
+                    isSelected = selectedEmotion?.id == emotion.id,
+                    onClick = { onEmotionSelected(emotion) }
                 )
-                
-                LazyRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp)
-                ) {
-                    items(customEmotions) { customEmotion ->
-                        val emotion = Emotion.fromCustomEmotion(customEmotion)
-                        EmotionCard(
-                            emotion = emotion,
-                            isSelected = selectedEmotion?.id == emotion.id,
-                            onClick = { onEmotionSelected(emotion) }
-                        )
-                    }
-                }
             }
         }
     }

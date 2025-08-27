@@ -22,39 +22,36 @@ class EmotionTest {
         val emotions = Emotion.getDefaultEmotions()
         val emotionIds = emotions.map { it.id }
         
-        assertTrue(emotionIds.contains("happy"))
-        assertTrue(emotionIds.contains("sad"))
-        assertTrue(emotionIds.contains("angry"))
-        assertTrue(emotionIds.contains("calm"))
+        assertTrue(emotionIds.contains(1L))
+        assertTrue(emotionIds.contains(2L))
+        assertTrue(emotionIds.contains(3L))
+        assertTrue(emotionIds.contains(5L))
     }
 
     @Test
     fun getDefaultEmotionById_returnsCorrectEmotion() {
-        val happyEmotion = Emotion.getDefaultEmotionById("happy")
+        val happyEmotion = Emotion.getDefaultEmotionById(1L)
         
         assertNotNull(happyEmotion)
-        assertEquals("happy", happyEmotion!!.id)
+        assertEquals(1L, happyEmotion!!.id)
         assertEquals("😊", happyEmotion.emoji)
-        assertFalse(happyEmotion.isCustom)
+        assertFalse(happyEmotion.isUserCreated)
     }
 
     @Test
-    fun fromCustomEmotion_createsCorrectEmotion() {
-        val customEmotion = CustomEmotion(
-            id = 123L,
+    fun createUserEmotion_createsCorrectEmotion() {
+        val emotion = Emotion.createUserEmotion(
             name = "测试情绪",
             emoji = "🎯",
-            description = "这是一个测试情绪"
+            description = "这是一个测试情绪",
+            id = 123L
         )
         
-        val emotion = Emotion.fromCustomEmotion(customEmotion)
-        
-        assertEquals("custom_123", emotion.id)
+        assertEquals(123L, emotion.id)
         assertEquals("测试情绪", emotion.name)
         assertEquals("🎯", emotion.emoji)
         assertEquals("这是一个测试情绪", emotion.description)
-        assertTrue(emotion.isCustom)
-        assertEquals(123L, emotion.customId)
+        assertTrue(emotion.isUserCreated)
     }
 
     @Test
@@ -62,10 +59,10 @@ class EmotionTest {
         val emotions = Emotion.getDefaultEmotions()
         
         emotions.forEach { emotion ->
-            assertTrue("ID should not be blank", emotion.id.isNotBlank())
+            assertTrue("ID should be positive", emotion.id > 0)
             assertTrue("Name should not be blank", emotion.name.isNotBlank())
             assertTrue("Emoji should not be blank", emotion.emoji.isNotBlank())
-            assertFalse("Should not be custom", emotion.isCustom)
+            assertFalse("Should not be user created", emotion.isUserCreated)
         }
     }
 }

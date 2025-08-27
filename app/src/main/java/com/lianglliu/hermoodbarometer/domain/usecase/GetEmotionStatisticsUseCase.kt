@@ -39,7 +39,7 @@ class GetEmotionStatisticsUseCase @Inject constructor(
                 averageIntensityByEmotion = emptyMap(),
                 countsByEmotion = emptyMap(),
                 chartLabelMapping = emptyMap(),
-                dailyAverageIntensity = emptyList()
+                dailyEmotionTrend = emptyList()
             )
         }
         
@@ -70,13 +70,20 @@ class GetEmotionStatisticsUseCase @Inject constructor(
         val chartLabelMapping = records.groupBy { it.getDisplayText() }
             .mapValues { it.value.first().getChartLabel() } // 获取表情符号用于图表显示
 
-        // 按日聚合：平均强度
-        val dailyAverageIntensity: List<DailyPoint> = records
+        // 按日聚合：主要情绪趋势（选择当天强度最高的情绪）
+        val dailyEmotionTrend: List<DailyEmotionPoint> = records
             .groupBy { it.timestamp.toLocalDate() }
             .toSortedMap()
             .map { (date, list) ->
-                val avg = list.map { it.intensity.toDouble() }.average().toFloat()
-                DailyPoint(date = date, value = avg)
+                // 选择当天强度最高的情绪作为主要情绪
+                val dominantEmotion = list.maxByOrNull { it.intensity }
+                DailyEmotionPoint(
+                    date = date,
+                    emotionId = dominantEmotion?.emotionId?.toString() ?: "",
+                    emotionName = dominantEmotion?.emotionName ?: "",
+                    emotionEmoji = dominantEmotion?.emotionEmoji ?: "",
+                    intensity = dominantEmotion?.intensity ?: 0
+                )
             }
         
         return EmotionStatistics(
@@ -87,7 +94,7 @@ class GetEmotionStatisticsUseCase @Inject constructor(
             averageIntensityByEmotion = averageIntensityByEmotion,
             countsByEmotion = emotionCounts,
             chartLabelMapping = chartLabelMapping,
-            dailyAverageIntensity = dailyAverageIntensity
+            dailyEmotionTrend = dailyEmotionTrend
         )
     }
 }
@@ -103,13 +110,16 @@ data class EmotionStatistics(
     val averageIntensityByEmotion: Map<String, Float>, // 每种情绪的平均强度（表情符号+名称 -> 强度）
     val countsByEmotion: Map<String, Int>, // 每种情绪的计数（表情符号+名称 -> 计数）
     val chartLabelMapping: Map<String, String>, // 图表标签映射（表情符号+名称 -> 表情符号）
-    val dailyAverageIntensity: List<DailyPoint>
+    val dailyEmotionTrend: List<DailyEmotionPoint> // 每日主要情绪趋势
 )
 
 /**
- * 折线图时间序列点（按日）
+ * 每日情绪趋势点
  */
-data class DailyPoint(
+data class DailyEmotionPoint(
     val date: LocalDate,
-    val value: Float
+    val emotionId: String,
+    val emotionName: String,
+    val emotionEmoji: String,
+    val intensity: Int
 )

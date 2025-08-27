@@ -64,7 +64,7 @@ interface EmotionRecordDao {
      * 获取指定情绪ID的记录
      */
     @Query("SELECT * FROM emotion_records WHERE emotionId = :emotionId ORDER BY timestamp DESC")
-    fun getRecordsByEmotionId(emotionId: String): Flow<List<EmotionRecordEntity>>
+    fun getRecordsByEmotionId(emotionId: Long): Flow<List<EmotionRecordEntity>>
 
     /**
      * 获取最近的N条记录
@@ -94,7 +94,7 @@ interface EmotionRecordDao {
  * 情绪统计数据类
  */
 data class EmotionStatisticsEntity(
-    val emotionId: String,
+    val emotionId: Long,
     val emotionName: String,
     val emotionEmoji: String,
     val count: Int,

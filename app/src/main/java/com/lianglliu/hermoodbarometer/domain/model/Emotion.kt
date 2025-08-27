@@ -4,17 +4,17 @@ import kotlinx.serialization.Serializable
 
 /**
  * 统一的情绪模型
- * 同时支持预定义情绪和自定义情绪
+ * 支持所有类型的情绪，不再区分预定义和自定义
  */
 @Serializable
 data class Emotion(
-    val id: String, // 唯一标识符，预定义情绪使用固定ID，自定义情绪使用 "custom_${customId}"
-    val name: String, // 情绪名称（支持多语言）
+    val id: Long, // 唯一标识符，数据库主键
+    val name: String, // 情绪名称
     val emoji: String, // 表情符号
     val description: String = "", // 描述信息
-    val isCustom: Boolean = false, // 是否为自定义情绪
-    val customId: Long? = null, // 自定义情绪的数据库ID
-    val color: String? = null // 可选的颜色标识
+    val isUserCreated: Boolean = false, // 是否为用户创建的情绪
+    val isActive: Boolean = true, // 是否启用
+    val createdAt: Long = System.currentTimeMillis() // 创建时间戳
 ) {
     companion object {
         
@@ -24,61 +24,61 @@ data class Emotion(
          */
         fun getDefaultEmotions(): List<Emotion> = listOf(
             Emotion(
-                id = "happy",
-                name = "开心", // 在实际使用中会被 stringResource 替代
+                id = 1L,
+                name = "开心",
                 emoji = "😊",
                 description = "感到快乐和满足"
             ),
             Emotion(
-                id = "sad", 
+                id = 2L, 
                 name = "难过",
                 emoji = "😢",
                 description = "感到悲伤或沮丧"
             ),
             Emotion(
-                id = "angry",
+                id = 3L,
                 name = "愤怒", 
                 emoji = "😡",
                 description = "感到生气或愤怒"
             ),
             Emotion(
-                id = "anxious",
+                id = 4L,
                 name = "焦虑",
                 emoji = "😰", 
                 description = "感到紧张或担心"
             ),
             Emotion(
-                id = "calm",
+                id = 5L,
                 name = "平静",
                 emoji = "😌",
                 description = "感到平和与宁静"
             ),
             Emotion(
-                id = "excited",
+                id = 6L,
                 name = "兴奋",
                 emoji = "🤩",
                 description = "感到激动和兴奋"
             ),
             Emotion(
-                id = "tired",
+                id = 7L,
                 name = "疲惫", 
                 emoji = "😴",
                 description = "感到疲劳和困倦"
             ),
             Emotion(
-                id = "confused",
+                id = 8L,
                 name = "困惑",
                 emoji = "😕", 
                 description = "感到迷茫或困惑"
             ),
             Emotion(
-                id = "grateful",
+                id = 9L,
                 name = "感恩",
                 emoji = "🙏",
                 description = "感到感激和感谢"
             ),
             Emotion(
-                id = "lonely",
+                id = 10L,
                 name = "孤独",
                 emoji = "😔",
                 description = "感到孤单或寂寞"
@@ -88,34 +88,26 @@ data class Emotion(
         /**
          * 根据ID获取预定义情绪
          */
-        fun getDefaultEmotionById(id: String): Emotion? {
+        fun getDefaultEmotionById(id: Long): Emotion? {
             return getDefaultEmotions().find { it.id == id }
         }
         
         /**
-         * 从自定义情绪创建Emotion对象
+         * 创建用户情绪
          */
-        fun fromCustomEmotion(customEmotion: CustomEmotion): Emotion {
+        fun createUserEmotion(
+            name: String,
+            emoji: String,
+            description: String = "",
+            id: Long = 0
+        ): Emotion {
             return Emotion(
-                id = "custom_${customEmotion.id}",
-                name = customEmotion.name,
-                emoji = customEmotion.emoji,
-                description = customEmotion.description,
-                isCustom = true,
-                customId = customEmotion.id
+                id = id,
+                name = name,
+                emoji = emoji,
+                description = description,
+                isUserCreated = true
             )
-        }
-        
-        /**
-         * 从旧的存储格式转换（兼容性方法）
-         */
-        fun fromLegacyEmotionType(emotionType: String, customEmotion: CustomEmotion? = null): Emotion {
-            return if (customEmotion != null) {
-                fromCustomEmotion(customEmotion)
-            } else {
-                getDefaultEmotionById(emotionType.lowercase()) 
-                    ?: getDefaultEmotions().first() // 回退到默认情绪
-            }
         }
     }
 }

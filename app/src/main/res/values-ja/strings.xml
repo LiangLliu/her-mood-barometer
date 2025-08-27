@@ -70,17 +70,15 @@
     <string name="average_mood">平均気分</string>
     <string name="most_frequent_emotion">最も頻繁な感情</string>
     <string name="chart_emotion_counts">感情別の回数</string>
-    <string name="chart_daily_avg_intensity">日別平均強度</string>
+    <string name="chart_emotion_trend">感情の変化傾向</string>
     <string name="chart_emotion_distribution">感情の分布</string>
     <string name="chart_empty_hint">記録を開始してグラフを表示しましょう</string>
     <string name="cd_chart_emotion_counts">感情別回数の棒グラフ</string>
-    <string name="cd_chart_daily_avg">日別平均強度の折れ線グラフ</string>
-    <string name="cd_chart_distribution">感情分布の円グラフ</string>
+   <string name="cd_chart_distribution">感情分布の円グラフ</string>
     
     <!-- Settings Page -->
     <string name="settings">設定</string>
     <string name="add_custom_emotion">カスタム感情を追加</string>
-    <string name="edit_emotion">感情を編集</string>
     <string name="delete_emotion">感情を削除</string>
     <string name="reminder_settings">リマインダー設定</string>
     <string name="daily_reminder">毎日のリマインダー</string>
@@ -110,7 +108,6 @@
     <string name="save">保存</string>
     <string name="cancel">キャンセル</string>
     <string name="delete">削除</string>
-    <string name="edit">編集</string>
     <string name="confirm">確認</string>
     <string name="ok">OK</string>
     <string name="yes">はい</string>
@@ -137,7 +134,7 @@
     
     <!-- Confirmation Messages -->
     <string name="confirm_delete_record">この記録を削除しますか？</string>
-    <string name="confirm_delete_emotion">このカスタム感情を削除しますか？</string>
+
     
     <!-- Notifications -->
     <string name="notification_title">気分チェック</string>
@@ -158,6 +155,12 @@
     <!-- Custom Emotions -->
     <string name="emotion_name">感情名</string>
     <string name="description">説明</string>
+    <string name="manage_emotions">感情管理</string>
+    <string name="add_emotion">感情を追加</string>
+    <string name="edit_emotion">感情を編集</string>
+    <string name="emotion_description">説明</string>
+    <string name="no_user_emotions">カスタム感情がまだありません。+ をタップして最初の感情を追加してください！</string>
+    <string name="confirm_delete_emotion">この感情を削除しますか？この操作は元に戻せません。</string>
     <string name="selected_emoji">選択した絵文字：</string>
     <string name="choose_emoji">絵文字を選択：</string>
     <string name="no_custom_emotions">カスタム感情がまだありません</string>

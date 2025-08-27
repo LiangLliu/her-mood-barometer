@@ -67,18 +67,16 @@
     <string name="average_mood">平均情緒</string>
     <string name="most_frequent_emotion">最常出現的情緒</string>
     <string name="chart_emotion_counts">各情緒出現次數</string>
-    <string name="chart_daily_avg_intensity">每日平均強度</string>
+    <string name="chart_emotion_trend">情緒變化趨勢</string>
     <string name="chart_emotion_distribution">情緒占比</string>
     <string name="chart_empty_hint">開始記錄心情以查看圖表</string>
-    <string name="cd_chart_emotion_counts">按情緒的次數長條圖</string>
-    <string name="cd_chart_daily_avg">每日平均強度折線圖</string>
+    <string name="cd_chart_emotion_counts">按情緒的次數長條圖</string><string name="cd_chart_daily_avg">每日平均強度折線圖</string>
     <string name="cd_chart_distribution">情緒分佈圓餅圖</string>
     
     <!-- Settings Page -->
     <string name="settings">設定</string>
     <string name="custom_emotions">自訂情緒</string>
     <string name="add_custom_emotion">新增自訂情緒</string>
-    <string name="edit_emotion">編輯情緒</string>
     <string name="delete_emotion">刪除情緒</string>
     <string name="reminder_settings">提醒設定</string>
     <string name="daily_reminder">每日提醒</string>
@@ -106,7 +104,6 @@
     <string name="save">儲存</string>
     <string name="cancel">取消</string>
     <string name="delete">刪除</string>
-    <string name="edit">編輯</string>
     <string name="confirm">確認</string>
     <string name="ok">確定</string>
     <string name="yes">是</string>
@@ -133,7 +130,7 @@
     
     <!-- Confirmation Messages -->
     <string name="confirm_delete_record">確定要刪除這條記錄嗎？</string>
-    <string name="confirm_delete_emotion">確定要刪除這個自訂情緒嗎？</string>
+
     
     <!-- Notifications -->
     <string name="notification_title">心情簽到</string>
@@ -155,6 +152,12 @@
     <!-- Custom Emotions -->
     <string name="emotion_name">情緒名稱</string>
     <string name="description">描述</string>
+    <string name="manage_emotions">管理情緒</string>
+    <string name="add_emotion">添加情緒</string>
+    <string name="edit_emotion">編輯情緒</string>
+    <string name="emotion_description">描述</string>
+    <string name="no_user_emotions">還沒有自定義情緒。點擊 + 添加你的第一個情緒！</string>
+    <string name="confirm_delete_emotion">確定要刪除這個情緒嗎？此操作無法撤銷。</string>
     <string name="selected_emoji">選擇的表情：</string>
     <string name="choose_emoji">選擇一個表情：</string>
     <string name="no_custom_emotions">暫無自訂情緒</string>

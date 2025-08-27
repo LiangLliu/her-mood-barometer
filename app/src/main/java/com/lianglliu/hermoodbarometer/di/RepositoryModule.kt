@@ -2,11 +2,11 @@ package com.lianglliu.hermoodbarometer.di
 
 import android.content.Context
 import com.lianglliu.hermoodbarometer.data.preferences.PreferencesManager
-import com.lianglliu.hermoodbarometer.data.repository.CustomEmotionRepositoryImpl
+import com.lianglliu.hermoodbarometer.data.repository.EmotionRecordRepositoryImpl
 import com.lianglliu.hermoodbarometer.data.repository.EmotionRepositoryImpl
 import com.lianglliu.hermoodbarometer.data.repository.NotificationRepositoryImpl
 import com.lianglliu.hermoodbarometer.data.repository.PreferencesRepositoryImpl
-import com.lianglliu.hermoodbarometer.domain.repository.CustomEmotionRepository
+import com.lianglliu.hermoodbarometer.domain.repository.EmotionDefinitionRepository
 import com.lianglliu.hermoodbarometer.domain.repository.EmotionRepository
 import com.lianglliu.hermoodbarometer.domain.repository.NotificationRepository
 import com.lianglliu.hermoodbarometer.domain.repository.PreferencesRepository
@@ -42,20 +42,20 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideEmotionRepository(
-        emotionRepositoryImpl: EmotionRepositoryImpl
+        emotionRecordRepositoryImpl: EmotionRecordRepositoryImpl
     ): EmotionRepository {
-        return emotionRepositoryImpl
+        return emotionRecordRepositoryImpl
     }
 
     /**
-     * 提供自定义情绪仓库
+     * 提供情绪定义仓库
      */
     @Provides
     @Singleton
-    fun provideCustomEmotionRepository(
-        customEmotionRepositoryImpl: CustomEmotionRepositoryImpl
-    ): CustomEmotionRepository {
-        return customEmotionRepositoryImpl
+    fun provideEmotionDefinitionRepository(
+        emotionRepositoryImpl: EmotionRepositoryImpl
+    ): EmotionDefinitionRepository {
+        return emotionRepositoryImpl
     }
 
     /**

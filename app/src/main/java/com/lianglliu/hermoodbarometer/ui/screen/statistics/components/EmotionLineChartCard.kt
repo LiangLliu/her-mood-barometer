@@ -3,6 +3,7 @@ package com.lianglliu.hermoodbarometer.ui.screen.statistics.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,7 +16,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,19 +24,11 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.lianglliu.hermoodbarometer.R
-import com.lianglliu.hermoodbarometer.domain.usecase.DailyPoint
+import com.lianglliu.hermoodbarometer.domain.usecase.DailyEmotionPoint
 import com.lianglliu.hermoodbarometer.domain.usecase.EmotionStatistics
 import com.lianglliu.hermoodbarometer.ui.components.EmptyState
-import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
-import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
-import com.patrykandpatrick.vico.compose.cartesian.axis.rememberStart
-import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLineCartesianLayer
-import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
-import com.patrykandpatrick.vico.core.cartesian.axis.HorizontalAxis
-import com.patrykandpatrick.vico.core.cartesian.axis.VerticalAxis
-import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
-import com.patrykandpatrick.vico.core.cartesian.data.lineSeries
 
 @Composable
 fun EmotionLineChartCard(
@@ -78,43 +70,64 @@ internal fun EmotionLineChart(
     statistics: EmotionStatistics,
     modifier: Modifier = Modifier
 ) {
-    val points: List<DailyPoint> = statistics.dailyAverageIntensity
+    val points: List<DailyEmotionPoint> = statistics.dailyEmotionTrend
     val labels = remember(points) { points.map { it.date.toString().substring(5) } }
-    val values = remember(points) { points.map { it.value } }
+    val emotionLabels = remember(points) { points.map { it.emotionEmoji } }
 
-    val modelProducer = remember { CartesianChartModelProducer() }
-    LaunchedEffect(values) {
-        modelProducer.runTransaction {
-            lineSeries { series(*values.toTypedArray()) }
-        }
-    }
-
-    val cd = stringResource(R.string.cd_chart_daily_avg)
+    val cd = stringResource(R.string.cd_chart_emotion_counts)
     Column(
         modifier = modifier
             .semantics { contentDescription = cd },
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = stringResource(R.string.chart_daily_avg_intensity),
+            text = stringResource(R.string.chart_emotion_trend),
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.primary
         )
 
-        val bottom = HorizontalAxis.rememberBottom(
-            valueFormatter = { _, x, _ ->
-                val idx = x.toInt().coerceIn(0, (labels.size - 1).coerceAtLeast(0))
-                labels.getOrNull(idx) ?: ""
+        // 显示情绪趋势时间线
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            points.forEachIndexed { index, point ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // 日期
+                    Text(
+                        text = labels[index],
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    
+                    // 情绪表情符号
+                    Text(
+                        text = point.emotionEmoji,
+                        fontSize = 24.sp,
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    )
+                    
+                    // 情绪名称
+                    Text(
+                        text = point.emotionName,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+                
+                // 分隔线（除了最后一项）
+                if (index < points.size - 1) {
+                    androidx.compose.material3.HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        color = MaterialTheme.colorScheme.outlineVariant
+                    )
+                }
             }
-        )
-        CartesianChartHost(
-            chart = rememberCartesianChart(
-                rememberLineCartesianLayer(),
-                startAxis = VerticalAxis.rememberStart(),
-                bottomAxis = bottom,
-            ),
-            modelProducer = modelProducer,
-        )
+        }
     }
 }
 

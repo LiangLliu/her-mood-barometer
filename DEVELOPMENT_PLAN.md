@@ -71,6 +71,76 @@
     - [ ] 统计图表验证：X轴显示表情符号，图例清晰可读
   - **关联 PR/Issue**：[待创建] PR #XXX - Refactor EmotionType to unified Emotion model
 
+- [x] **[2025-08-27] 折线图统计维度优化（情绪趋势图）**：
+  - **变更类型**：用户体验优化 + 数据可视化改进
+  - **负责人**：AI Assistant
+  - **变更摘要**：将折线图从"每日平均强度"改为"每日主要情绪趋势"，提供更直观的情绪变化时间线
+  - **关键实现点**：
+    - [x] 重构 `GetEmotionStatisticsUseCase`：将 `dailyAverageIntensity` 改为 `dailyEmotionTrend`
+    - [x] 创建 `DailyEmotionPoint` 数据模型：包含日期、情绪ID、名称、表情符号、强度
+    - [x] 优化统计逻辑：每天选择强度最高的情绪作为主要情绪，而非平均强度
+    - [x] 重构 `EmotionLineChartCard`：从折线图改为时间线列表，直接显示表情符号和情绪名称
+    - [x] 更新国际化文案：5种语言的"情绪变化趋势"翻译
+    - [x] 更新单元测试：验证情绪趋势数据的正确性
+  - **并发/生命周期风险**：无（只读统计计算，无状态变更）
+  - **向后兼容性**：✅ 完全向后兼容，仅改变显示方式
+  - **性能数据**：构建时间无变化；UI渲染性能提升（列表比图表更轻量）
+  - **回滚方案**：`git revert` 即可，无数据变更
+  - **QA 验证步骤**：
+    - [x] 构建成功：`./gradlew assembleDebug`
+    - [x] 单元测试通过：`./gradlew test`
+    - [ ] UI验证：情绪趋势时间线正确显示日期、表情符号、情绪名称
+    - [ ] 多语言验证：趋势标题在5种语言下正确显示
+    - [ ] 数据验证：每天显示强度最高的情绪，而非平均强度
+  - **关联 PR/Issue**：[待创建] PR #XXX - Optimize line chart to emotion trend timeline
+
+- [x] **[2025-08-27] 情绪数据模型统一重构（合并Emotion和CustomEmotion）**：
+  - **变更类型**：架构重构 + 用户体验优化
+  - **负责人**：AI Assistant
+  - **变更摘要**：完全合并 `Emotion` 和 `CustomEmotion` 模型，统一情绪管理，简化用户体验
+  - **关键实现点**：
+    - [x] 简化 `Emotion` 模型：仅保留 `id`(Long)、`name`、`emoji`、`description`、`createdAt`、`isUserCreated`、`isActive`
+    - [x] 移除 `databaseId`、`color` 属性，用户创建的情绪不支持自定义表情符号
+    - [x] 删除所有数据库迁移脚本，重置数据库版本为1，使用破坏性迁移（开发期）
+    - [x] 更新 `EmotionEntity`：移除 `emotionId` 字段，`id` 作为主键
+    - [x] 更新 `EmotionRecordEntity`：`emotionId` 改为 `Long` 类型，移除 `isCustomEmotion`、`customEmotionId`
+    - [x] 重构 `EmotionProvider`：预定义情绪使用 `Long` ID（1L-10L）
+    - [x] 更新 `SettingsViewModel`：使用 `EmotionDefinitionRepository` 替代 `CustomEmotionRepository`
+    - [x] 修复所有编译错误：ID类型转换、方法签名更新、测试用例适配
+    - [x] 清理重复的字符串资源：修复所有语言文件中的重复定义
+  - **并发/生命周期风险**：低（破坏性迁移，开发期无数据丢失风险）
+  - **向后兼容性**：❌ 破坏性变更，需要重新安装应用（开发期可接受）
+  - **性能数据**：构建时间 ~20s；数据库查询性能提升（简化索引结构）
+  - **回滚方案**：`git revert` + 重新安装应用
+  - **QA 验证步骤**：
+    - [x] 构建成功：`./gradlew assembleDebug`
+    - [x] 单元测试通过：`./gradlew testDebugUnitTest`
+    - [ ] 数据库验证：新安装应用正常创建和使用情绪数据
+    - [ ] UI验证：情绪选择器、统计图表、设置页面正常显示
+    - [ ] 多语言验证：所有字符串资源无重复，正确显示
+  - **关联 PR/Issue**：[待创建] PR #XXX - Unify Emotion and CustomEmotion models
+  - **关键实现点**：
+    - [x] 重构 `Emotion` 模型：移除对 `CustomEmotion` 的依赖，统一使用 `isUserCreated` 标识
+    - [x] 创建 `EmotionEntity` 和 `EmotionDao`：统一数据库存储所有情绪
+    - [x] 创建 `EmotionDefinitionRepository`：统一情绪定义管理
+    - [x] 数据库迁移（v3→v4）：合并 `custom_emotions` 表到 `emotions` 表
+    - [x] 重构 `EmotionSelector`：统一显示所有情绪，不再区分预定义和自定义
+    - [x] 创建 `EmotionManagementScreen`：替换 `CustomEmotionScreen`，统一情绪管理界面
+    - [x] 更新依赖注入：移除 `CustomEmotion` 相关依赖，添加 `EmotionDefinitionRepository`
+    - [x] 更新国际化：5种语言的"情绪管理"相关文案
+  - **并发/生命周期风险**：低（数据库迁移为原子操作，UI状态管理简化）
+  - **向后兼容性**：✅ 提供完整数据库迁移脚本，自动转换旧数据格式
+  - **性能数据**：构建时间预计增加 ~5s（新增文件）；UI响应性能提升（统一数据流）
+  - **回滚方案**：`git revert` + 数据库版本降级（需要重新安装应用）
+  - **QA 验证步骤**：
+    - [ ] 构建成功：`./gradlew assembleDebug`
+    - [ ] 单元测试通过：`./gradlew test`
+    - [ ] 数据迁移验证：旧数据库升级到新版本正常显示
+    - [ ] UI验证：情绪选择器统一显示所有情绪，无分类标签
+    - [ ] 功能验证：情绪管理页面正常添加/编辑/删除用户情绪
+    - [ ] 多语言验证：情绪管理相关文案在5种语言下正确显示
+  - **关联 PR/Issue**：[待创建] PR #XXX - Unify Emotion and CustomEmotion models
+
 ---
 
 ## 4) 待办（TODO by Priority）

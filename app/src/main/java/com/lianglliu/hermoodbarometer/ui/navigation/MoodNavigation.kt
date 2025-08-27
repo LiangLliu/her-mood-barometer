@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.lianglliu.hermoodbarometer.ui.screen.record.RecordScreen
-import com.lianglliu.hermoodbarometer.ui.screen.settings.CustomEmotionScreen
+import com.lianglliu.hermoodbarometer.ui.screen.settings.EmotionManagementScreen
 import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsScreen
 import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsViewModel
 import com.lianglliu.hermoodbarometer.ui.screen.statistics.StatisticsScreen
@@ -37,15 +37,15 @@ fun MoodNavigation(
         
         composable(Screen.Settings.route) {
             SettingsScreen(
-                onNavigateToCustomEmotion = {
-                    navController.navigate(Screen.CustomEmotion.route)
+                onNavigateToEmotionManagement = {
+                    navController.navigate(Screen.EmotionManagement.route)
                 },
                 viewModel = settingsViewModel
             )
         }
         
-        composable(Screen.CustomEmotion.route) {
-            CustomEmotionScreen(
+        composable(Screen.EmotionManagement.route) {
+            EmotionManagementScreen(
                 onNavigateBack = {
                     navController.popBackStack()
                 }

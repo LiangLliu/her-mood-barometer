@@ -70,17 +70,15 @@
     <string name="average_mood">평균 기분</string>
     <string name="most_frequent_emotion">가장 빈번한 감정</string>
     <string name="chart_emotion_counts">감정별 횟수</string>
-    <string name="chart_daily_avg_intensity">일별 평균 강도</string>
+    <string name="chart_emotion_trend">감정 변화 추이</string>
     <string name="chart_emotion_distribution">감정 분포</string>
     <string name="chart_empty_hint">기록을 시작하여 차트를 확인하세요</string>
     <string name="cd_chart_emotion_counts">감정별 횟수 막대 차트</string>
-    <string name="cd_chart_daily_avg">일별 평균 강도 선 차트</string>
-    <string name="cd_chart_distribution">감정 분포 원형 차트</string>
+   <string name="cd_chart_distribution">감정 분포 원형 차트</string>
     
     <!-- Settings Page -->
     <string name="settings">설정</string>
     <string name="add_custom_emotion">커스텀 감정 추가</string>
-    <string name="edit_emotion">감정 편집</string>
     <string name="delete_emotion">감정 삭제</string>
     <string name="reminder_settings">알림 설정</string>
     <string name="daily_reminder">일일 알림</string>
@@ -110,7 +108,6 @@
     <string name="save">저장</string>
     <string name="cancel">취소</string>
     <string name="delete">삭제</string>
-    <string name="edit">편집</string>
     <string name="confirm">확인</string>
     <string name="ok">확인</string>
     <string name="yes">예</string>
@@ -137,7 +134,7 @@
     
     <!-- Confirmation Messages -->
     <string name="confirm_delete_record">이 기록을 삭제하시겠습니까？</string>
-    <string name="confirm_delete_emotion">이 커스텀 감정을 삭제하시겠습니까？</string>
+
     
     <!-- Notifications -->
     <string name="notification_title">기분 체크</string>
@@ -158,6 +155,12 @@
     <!-- Custom Emotions -->
     <string name="emotion_name">감정 이름</string>
     <string name="description">설명</string>
+    <string name="manage_emotions">감정 관리</string>
+    <string name="add_emotion">감정 추가</string>
+    <string name="edit_emotion">감정 편집</string>
+    <string name="emotion_description">설명</string>
+    <string name="no_user_emotions">아직 사용자 정의 감정이 없습니다. +를 탭하여 첫 번째 감정을 추가하세요!</string>
+    <string name="confirm_delete_emotion">이 감정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.</string>
     <string name="selected_emoji">선택된 이모지:</string>
     <string name="choose_emoji">이모지 선택:</string>
     <string name="no_custom_emotions">커스텀 감정이 아직 없습니다</string>
