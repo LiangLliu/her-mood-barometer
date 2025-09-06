@@ -17,6 +17,21 @@ import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.domain.model.EmotionIntensity
 
 /**
+ * 获取情绪强度的本地化显示名称
+ */
+@Composable
+private fun getIntensityDisplayName(level: Int): String {
+    return when (level) {
+        1 -> stringResource(R.string.intensity_very_low)
+        2 -> stringResource(R.string.intensity_low)
+        3 -> stringResource(R.string.intensity_medium)
+        4 -> stringResource(R.string.intensity_high)
+        5 -> stringResource(R.string.intensity_very_high)
+        else -> stringResource(R.string.intensity_medium)
+    }
+}
+
+/**
  * 情绪强度选择器组件
  */
 @Composable
@@ -46,7 +61,7 @@ fun EmotionIntensitySelector(
             )
             
             Text(
-                text = stringResource(R.string.intensity_level, EmotionIntensity.fromLevel(intensityLevel.toInt()).name),
+                text = stringResource(R.string.intensity_level, getIntensityDisplayName(intensityLevel.toInt())),
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()

@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.time.LocalDate
 import java.time.LocalTime
 
 /**
@@ -29,6 +30,8 @@ class PreferencesManager(private val context: Context) {
         private val NOTIFICATION_ENABLED_KEY = booleanPreferencesKey("notification_enabled")
         private val CHART_TYPE_KEY = stringPreferencesKey("chart_type")
         private val TIME_RANGE_KEY = stringPreferencesKey("time_range")
+        private val CUSTOM_START_DATE_KEY = stringPreferencesKey("custom_start_date")
+        private val CUSTOM_END_DATE_KEY = stringPreferencesKey("custom_end_date")
     }
     
     /**
@@ -87,6 +90,24 @@ class PreferencesManager(private val context: Context) {
      */
     val defaultTimeRange: Flow<String> = context.dataStore.data.map { preferences ->
         preferences[TIME_RANGE_KEY] ?: "week"
+    }
+    
+    /**
+     * 自定义开始日期
+     */
+    val customStartDate: Flow<LocalDate?> = context.dataStore.data.map { preferences ->
+        preferences[CUSTOM_START_DATE_KEY]?.let {
+            LocalDate.parse(it)
+        }
+    }
+    
+    /**
+     * 自定义结束日期
+     */
+    val customEndDate: Flow<LocalDate?> = context.dataStore.data.map { preferences ->
+        preferences[CUSTOM_END_DATE_KEY]?.let {
+            LocalDate.parse(it)
+        }
     }
     
     /**
@@ -162,6 +183,42 @@ class PreferencesManager(private val context: Context) {
     }
     
     /**
+     * 设置自定义开始日期
+     */
+    suspend fun setCustomStartDate(date: LocalDate?) {
+        context.dataStore.edit { preferences ->
+            if (date != null) {
+                preferences[CUSTOM_START_DATE_KEY] = date.toString()
+            } else {
+                preferences.remove(CUSTOM_START_DATE_KEY)
+            }
+        }
+    }
+    
+    /**
+     * 设置自定义结束日期
+     */
+    suspend fun setCustomEndDate(date: LocalDate?) {
+        context.dataStore.edit { preferences ->
+            if (date != null) {
+                preferences[CUSTOM_END_DATE_KEY] = date.toString()
+            } else {
+                preferences.remove(CUSTOM_END_DATE_KEY)
+            }
+        }
+    }
+    
+    /**
+     * 设置自定义日期范围
+     */
+    suspend fun setCustomDateRange(startDate: LocalDate, endDate: LocalDate) {
+        context.dataStore.edit { preferences ->
+            preferences[CUSTOM_START_DATE_KEY] = startDate.toString()
+            preferences[CUSTOM_END_DATE_KEY] = endDate.toString()
+        }
+    }
+    
+    /**
      * 清除所有设置
      */
     suspend fun clearAllPreferences() {
@@ -169,4 +226,4 @@ class PreferencesManager(private val context: Context) {
             preferences.clear()
         }
     }
-} 
+}

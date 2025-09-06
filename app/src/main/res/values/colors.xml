@@ -16,4 +16,22 @@
     <color name="warning">#FF9800</color>
     <color name="error">#F44336</color>
     <color name="info">#2196F3</color>
+    
+    <!-- Material Design 3 Neutral 色系 - 深色主题 -->
+    <color name="neutral6">#FF0F0F0F</color>
+    <color name="neutral24">#FF3C3C3C</color>
+    <color name="neutral4">#FF060606</color>
+    <color name="neutral10">#FF1A1A1A</color>
+    <color name="neutral12">#FF1E1E1E</color>
+    <color name="neutral17">#FF2B2B2B</color>
+    <color name="neutral22">#FF383838</color>
+    
+    <!-- Material Design 3 Neutral 色系 - 浅色主题 -->
+    <color name="neutral87">#FFDEDEDE</color>
+    <color name="neutral98">#FFFAFAFA</color>
+    <color name="neutral100">#FFFFFFFF</color>
+    <color name="neutral96">#FFF5F5F5</color>
+    <color name="neutral94">#FFEFEFEF</color>
+    <color name="neutral92">#FFEBEBEB</color>
+    <color name="neutral90">#FFE6E6E6</color>
 </resources>

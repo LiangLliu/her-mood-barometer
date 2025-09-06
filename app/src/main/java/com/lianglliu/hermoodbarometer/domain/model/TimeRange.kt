@@ -8,11 +8,13 @@ import java.time.LocalDateTime
  * 用于统计页面的时间筛选
  */
 @Serializable
-enum class TimeRange(val displayNameResId: String) {
-    LAST_WEEK("last_week"),
-    LAST_MONTH("last_month"),
-    LAST_3_MONTHS("last_3_months"),
-    LAST_YEAR("last_year");
+enum class TimeRange {
+    LAST_WEEK,
+    LAST_MONTH,
+    LAST_3_MONTHS,
+    LAST_SIX_MONTHS,
+    LAST_YEAR,
+    CUSTOM;
 
     /**
      * 获取对应时间范围的开始时间
@@ -23,7 +25,16 @@ enum class TimeRange(val displayNameResId: String) {
             LAST_WEEK -> now.minusWeeks(1)
             LAST_MONTH -> now.minusMonths(1)
             LAST_3_MONTHS -> now.minusMonths(3)
+            LAST_SIX_MONTHS -> now.minusMonths(6)
             LAST_YEAR -> now.minusYears(1)
+            CUSTOM -> now.minusMonths(1) // 默认显示最近一个月
         }
+    }
+    
+    /**
+     * 获取对应时间范围的结束时间
+     */
+    fun getEndDateTime(): LocalDateTime {
+        return LocalDateTime.now()
     }
 }

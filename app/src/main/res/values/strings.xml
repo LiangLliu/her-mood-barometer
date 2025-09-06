@@ -33,6 +33,17 @@
     <string name="emotion_confused">Confused</string>
     <string name="emotion_grateful">Grateful</string>
     <string name="emotion_lonely">Lonely</string>
+    <string name="emotion_thinking">Thinking</string>
+    <string name="emotion_confident">Confident</string>
+    <string name="emotion_celebrating">Celebrating</string>
+    <string name="emotion_fearful">Fearful</string>
+    <string name="emotion_dissatisfied">Dissatisfied</string>
+    <string name="emotion_stressed">Stressed</string>
+    <string name="emotion_wronged">Wronged</string>
+    <string name="emotion_satisfied">Satisfied</string>
+    <string name="emotion_helpless">Helpless</string>
+    <string name="emotion_embarrassed">Embarrassed</string>
+    <string name="emotion_silent">Silent</string>
     
     <!-- Emotion Descriptions -->
     <string name="emotion_happy_desc">Feel joy and contentment</string>
@@ -45,6 +56,17 @@
     <string name="emotion_confused_desc">Feel puzzled or uncertain</string>
     <string name="emotion_grateful_desc">Feel thankful and appreciative</string>
     <string name="emotion_lonely_desc">Feel isolated or alone</string>
+    <string name="emotion_thinking_desc">Deep in thought or contemplation</string>
+    <string name="emotion_confident_desc">Full of confidence and certainty</string>
+    <string name="emotion_celebrating_desc">Celebrating achievements or happy events</string>
+    <string name="emotion_fearful_desc">Feeling scared or afraid</string>
+    <string name="emotion_dissatisfied_desc">Feeling dissatisfied with things</string>
+    <string name="emotion_stressed_desc">Feeling pressure or tension</string>
+    <string name="emotion_wronged_desc">Feeling wronged or treated unfairly</string>
+    <string name="emotion_satisfied_desc">Feeling satisfied and content</string>
+    <string name="emotion_helpless_desc">Feeling helpless or powerless</string>
+    <string name="emotion_embarrassed_desc">Feeling embarrassed or awkward</string>
+    <string name="emotion_silent_desc">Choosing to remain silent</string>
     
     <!-- Emotion Intensity -->
     <string name="intensity_very_low">Very Low</string>
@@ -57,10 +79,15 @@
     <string name="statistics">Statistics</string>
     <string name="mood_trends">Mood Trends</string>
     <string name="time_range">Time Range</string>
+    <string name="time_range_selector_label">Select statistics time range</string>
     <string name="last_week">Last Week</string>
     <string name="last_month">Last Month</string>
     <string name="last_3_months">Last 3 Months</string>
+    <string name="last_six_months">Last Six Months</string>
     <string name="last_year">Last Year</string>
+    <string name="custom_range">Custom Range</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
     <string name="chart_type">Chart Type</string>
     <string name="bar_chart">Bar Chart</string>
     <string name="line_chart">Line Chart</string>
@@ -69,12 +96,49 @@
     <string name="total_records">Total Records</string>
     <string name="average_mood">Average Mood</string>
     <string name="most_frequent_emotion">Most Frequent Emotion</string>
+    <string name="emotion_overview">Emotion Overview</string>
+    <string name="emotion_distribution">Emotion Distribution</string>
+    <string name="emotion_trend_change">Emotion Trend Change</string>
+    <string name="emotion_patterns">Emotion Patterns</string>
+    <string name="emotion_comparison">Emotion Comparison</string>
     <string name="chart_emotion_counts">Emotion counts</string>
     <string name="chart_emotion_trend">Emotion trend over time</string>
     <string name="chart_emotion_distribution">Emotion distribution</string>
     <string name="chart_empty_hint">Start recording moods to see your charts</string>
     <string name="cd_chart_emotion_counts">Bar chart of counts per emotion</string>
     <string name="cd_chart_distribution">Pie chart of emotion distribution</string>
+    
+    <!-- Chart Explanations -->
+    <string name="chart_explanation_distribution_title">What is Emotion Distribution?</string>
+    <string name="chart_explanation_distribution_content">Emotion distribution shows the proportion of various emotions in your records within the selected time range. This helps you understand your emotional patterns, which emotions are your primary emotions, and which emotions appear less frequently.</string>
+    <string name="chart_insight_distribution">According to your data, happy emotion accounts for the highest proportion (40%), indicating that you are generally a positive and optimistic person.</string>
+    
+    <string name="chart_explanation_trend_title">What is Emotion Trend?</string>
+    <string name="chart_explanation_trend_content">Emotion trend shows how your emotional intensity changes over time. By observing the trend line, you can understand the fluctuations of your emotions, identify peaks and valleys in your emotions, and possible factors that may affect your emotions.</string>
+    <string name="chart_insight_trend">Your emotion trend shows that emotions peak on Wednesdays, while emotions are lower on Tuesdays. This may be related to your work schedule or social activities.</string>
+    
+    <string name="chart_explanation_patterns_title">What are Emotion Patterns?</string>
+    <string name="chart_explanation_patterns_content">Emotion patterns are regularities and trends discovered by analyzing your emotional data. These patterns may be related to time, weather, weekdays, and other factors, helping you better understand the patterns of your emotional changes.</string>
+    <string name="chart_insight_patterns">Your data shows that emotions are usually more positive in the morning, while evenings are calmer. This indicates that your emotional changes have certain daily patterns.</string>
+    
+    <string name="chart_explanation_comparison_title">What is Emotion Comparison?</string>
+    <string name="chart_explanation_comparison_content">Emotion comparison shows the proportion changes of various emotions in different periods (such as this week vs. last week). Through comparative analysis, you can understand the trend of your emotional changes and identify improvements or deteriorations in your emotions.</string>
+    <string name="chart_insight_comparison" formatted="false">Compared to last week, your happy emotion increased by 10% this week, while calm emotion decreased by 10%. This may indicate that you experienced more exciting things this week.</string>
+    
+    <!-- Pattern Cards -->
+    <string name="morning_pattern">Morning Pattern</string>
+    <string name="evening_pattern">Evening Pattern</string>
+    <string name="weekday_pattern">Weekday Pattern</string>
+    <string name="weather_pattern">Weather Impact</string>
+    <string name="morning_happiest">Happiest in Morning</string>
+    <string name="evening_calmest">Calmest in Evening</string>
+    <string name="weekday_most_excited">Most Excited on Weekdays</string>
+    <string name="sunny_happier">Happier on Sunny Days</string>
+    
+    <!-- Comparison Table -->
+    <string name="this_week">This Week</string>
+    <string name="last_week_label">Last Week</string>
+    <string name="change">Change</string>
     
     <!-- Settings Page -->
     <string name="settings">Settings</string>
@@ -98,6 +162,8 @@
     <string name="language_ja">日本語</string>
     <string name="language_ko">한국어</string>
     <string name="language_en">English</string>
+    <string name="emotion_management">Emotion Management</string>
+    <string name="manage_emotions_desc">Add, edit or delete custom emotions</string>
 
     <string name="about_app">About App</string>
     <string name="about_app_description">Her Mood Barometer - Record every mood in life</string>
@@ -120,7 +186,6 @@
     <!-- Date and Time -->
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
-    <string name="this_week">This Week</string>
     <string name="this_month">This Month</string>
     <string name="select_date">Select Date</string>
     <string name="select_time">Select Time</string>

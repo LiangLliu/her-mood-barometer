@@ -27,9 +27,17 @@ interface EmotionRepository {
     fun getRecordsByTimeRange(timeRange: TimeRange): Flow<List<EmotionRecord>>
     
     /**
-     * 根据时间范围获取情绪记录（别名方法）
-     */
-    fun getEmotionRecordsByTimeRange(timeRange: TimeRange): Flow<List<EmotionRecord>> = getRecordsByTimeRange(timeRange)
+ * 根据时间范围获取情绪记录（别名方法）
+ */
+fun getEmotionRecordsByTimeRange(timeRange: TimeRange): Flow<List<EmotionRecord>> = getRecordsByTimeRange(timeRange)
+
+/**
+ * 根据自定义时间范围获取情绪记录（别名方法）
+ */
+fun getEmotionRecordsByCustomTimeRange(
+    startDateTime: LocalDateTime,
+    endDateTime: LocalDateTime
+): Flow<List<EmotionRecord>> = getRecordsByDateRange(startDateTime, endDateTime)
     
     /**
      * 根据时间段获取情绪记录

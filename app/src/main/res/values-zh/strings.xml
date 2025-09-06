@@ -8,8 +8,8 @@
     <string name="nav_settings">设置</string>
     
     <!-- Record Page -->
-    <string name="record_title">记录当前心情</string>
-    <string name="record_emotion">记录心情</string>
+    <string name="record_title">记录当前情绪</string>
+    <string name="record_emotion">记录情绪</string>
     <string name="select_emotion_type">选择情绪类型</string>
     <string name="select_emotion">选择情绪</string>
     <string name="predefined_emotions">预定义情绪</string>
@@ -33,8 +33,19 @@
     <string name="emotion_confused">困惑</string>
     <string name="emotion_grateful">感激</string>
     <string name="emotion_lonely">孤独</string>
+    <string name="emotion_thinking">思考</string>
+    <string name="emotion_confident">自信</string>
+    <string name="emotion_celebrating">庆祝</string>
+    <string name="emotion_fearful">恐惧</string>
+    <string name="emotion_dissatisfied">不满</string>
+    <string name="emotion_stressed">压力</string>
+    <string name="emotion_wronged">委屈</string>
+    <string name="emotion_satisfied">满足</string>
+    <string name="emotion_helpless">无奈</string>
+    <string name="emotion_embarrassed">尴尬</string>
+    <string name="emotion_silent">沉默</string>
     
-    <!-- 情绪描述 -->
+    <!-- Emotion Descriptions -->
     <string name="emotion_happy_desc">感到快乐和满足</string>
     <string name="emotion_sad_desc">感到悲伤或沮丧</string>
     <string name="emotion_angry_desc">感到生气或愤怒</string>
@@ -45,22 +56,38 @@
     <string name="emotion_confused_desc">感到迷茫或困惑</string>
     <string name="emotion_grateful_desc">感到感激和感谢</string>
     <string name="emotion_lonely_desc">感到孤单或寂寞</string>
+    <string name="emotion_thinking_desc">深入思考或沉思</string>
+    <string name="emotion_confident_desc">充满自信和肯定</string>
+    <string name="emotion_celebrating_desc">庆祝成就或喜事</string>
+    <string name="emotion_fearful_desc">感到害怕或恐惧</string>
+    <string name="emotion_dissatisfied_desc">对事物感到不满</string>
+    <string name="emotion_stressed_desc">感到压力或紧张</string>
+    <string name="emotion_wronged_desc">感到委屈或不公</string>
+    <string name="emotion_satisfied_desc">感到满足和知足</string>
+    <string name="emotion_helpless_desc">感到无奈或无力</string>
+    <string name="emotion_embarrassed_desc">感到尴尬或不自在</string>
+    <string name="emotion_silent_desc">选择沉默不语</string>
     
     <!-- Emotion Intensity -->
-    <string name="intensity_very_low">非常低</string>
-    <string name="intensity_low">较低</string>
+    <string name="intensity_very_low">很低</string>
+    <string name="intensity_low">低</string>
     <string name="intensity_medium">中等</string>
-    <string name="intensity_high">较高</string>
-    <string name="intensity_very_high">非常高</string>
+    <string name="intensity_high">高</string>
+    <string name="intensity_very_high">很高</string>
     
     <!-- Statistics Page -->
     <string name="statistics">统计</string>
     <string name="mood_trends">情绪趋势</string>
     <string name="time_range">时间范围</string>
+    <string name="time_range_selector_label">选择统计时间范围</string>
     <string name="last_week">最近一周</string>
     <string name="last_month">最近一个月</string>
     <string name="last_3_months">最近三个月</string>
+    <string name="last_six_months">最近半年内</string>
     <string name="last_year">最近一年</string>
+    <string name="custom_range">指定范围</string>
+    <string name="start_date">开始日期</string>
+    <string name="end_date">结束日期</string>
     <string name="chart_type">图表类型</string>
     <string name="bar_chart">柱状图</string>
     <string name="line_chart">折线图</string>
@@ -69,12 +96,49 @@
     <string name="total_records">总记录数</string>
     <string name="average_mood">平均情绪</string>
     <string name="most_frequent_emotion">最常出现的情绪</string>
+    <string name="emotion_overview">情绪概览</string>
+    <string name="emotion_distribution">情绪分布</string>
+    <string name="emotion_trend_change">情绪趋势变化</string>
+    <string name="emotion_patterns">情绪模式</string>
+    <string name="emotion_comparison">情绪对比</string>
     <string name="chart_emotion_counts">各情绪出现次数</string>
     <string name="chart_emotion_trend">情绪变化趋势</string>
     <string name="chart_emotion_distribution">情绪占比</string>
     <string name="chart_empty_hint">开始记录心情以查看图表</string>
     <string name="cd_chart_emotion_counts">按情绪的次数柱状图</string>
     <string name="cd_chart_distribution">情绪分布饼图</string>
+    
+    <!-- Chart Explanations -->
+    <string name="chart_explanation_distribution_title">什么是情绪分布？</string>
+    <string name="chart_explanation_distribution_content">情绪分布显示了在选定时间范围内，各种情绪在您的记录中所占的比例。这帮助您了解自己的情绪模式，哪些情绪是您的主要情绪，哪些情绪较少出现。</string>
+    <string name="chart_insight_distribution">根据您的数据，开心情绪占比最高（40%），这表明您整体上是一个积极乐观的人。</string>
+    
+    <string name="chart_explanation_trend_title">什么是情绪趋势？</string>
+    <string name="chart_explanation_trend_content">情绪趋势显示了您的情绪强度如何随时间变化。通过观察趋势线，您可以了解自己情绪的波动情况，识别出情绪的高峰和低谷，以及可能影响您情绪的因素。</string>
+    <string name="chart_insight_trend">您的情绪趋势显示，周三情绪达到峰值，而周二情绪较低。这可能与您的工作日程或社交活动有关。</string>
+    
+    <string name="chart_explanation_patterns_title">什么是情绪模式？</string>
+    <string name="chart_explanation_patterns_content">情绪模式是通过分析您的情绪数据发现的规律和趋势。这些模式可能与时间、天气、工作日等因素相关，帮助您更好地了解自己的情绪变化规律。</string>
+    <string name="chart_insight_patterns">您的数据显示，早晨情绪通常较为积极，而晚上则更加平静。这表明您的情绪变化有一定的日常规律。</string>
+    
+    <string name="chart_explanation_comparison_title">什么是情绪对比？</string>
+    <string name="chart_explanation_comparison_content">情绪对比显示了不同时期（如本周与上周）各种情绪的比例变化。通过对比分析，您可以了解自己情绪的变化趋势，识别出情绪改善或恶化的情况。</string>
+    <string name="chart_insight_comparison" formatted="false">与上周相比，你这周开心情绪增加了10%，而平静情绪减少了10%。这可能表明你这周经历了更多令人兴奋的事情。</string>
+    
+    <!-- Pattern Cards -->
+    <string name="morning_pattern">早晨模式</string>
+    <string name="evening_pattern">夜晚模式</string>
+    <string name="weekday_pattern">工作日模式</string>
+    <string name="weather_pattern">天气影响</string>
+    <string name="morning_happiest">早晨最开心</string>
+    <string name="evening_calmest">夜晚最平静</string>
+    <string name="weekday_most_excited">工作日最兴奋</string>
+    <string name="sunny_happier">晴天更开心</string>
+    
+    <!-- Comparison Table -->
+    <string name="this_week">本周</string>
+    <string name="last_week_label">上周</string>
+    <string name="change">变化</string>
     
     <!-- Settings Page -->
     <string name="settings">设置</string>
@@ -92,12 +156,14 @@
     <string name="dark_theme">深色</string>
     <string name="system_theme">跟随系统</string>
     <string name="notifications">通知</string>
-    <string name="daily_reminder_description">每日心情记录提醒</string>
+    <string name="daily_reminder_description">每日情绪记录提醒</string>
     <string name="language_zh">简体中文</string>
     <string name="language_zh_tw">繁體中文</string>
     <string name="language_ja">日本語</string>
     <string name="language_ko">한국어</string>
     <string name="language_en">English</string>
+    <string name="emotion_management">情绪管理</string>
+    <string name="manage_emotions_desc">添加、编辑或删除自定义情绪</string>
 
     <string name="about_app">关于应用</string>
     <string name="about_app_description">她的晴雨表 - 记录生活中的每一份心情</string>
@@ -120,7 +186,6 @@
     <!-- Date and Time -->
     <string name="today">今天</string>
     <string name="yesterday">昨天</string>
-    <string name="this_week">本周</string>
     <string name="this_month">本月</string>
     <string name="select_date">选择日期</string>
     <string name="select_time">选择时间</string>
@@ -139,8 +204,8 @@
     <!-- Notifications -->
     <string name="notification_title">心情签到</string>
     <string name="notification_text">今天心情如何？</string>
-    
-    <!-- 权限 -->
+
+    <!-- Permissions -->
     <string name="notification_permission_title">允许通知</string>
     <string name="notification_permission_message">为了发送每日提醒，请为本应用开启通知。</string>
     <string name="exact_alarm_permission_title">允许精确闹钟</string>

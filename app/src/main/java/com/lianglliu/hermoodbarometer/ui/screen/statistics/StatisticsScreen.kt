@@ -14,13 +14,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.R
-import com.lianglliu.hermoodbarometer.ui.components.PageTitle
 import com.lianglliu.hermoodbarometer.ui.components.ErrorCard
+import com.lianglliu.hermoodbarometer.ui.components.PageTitle
 import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.EmotionBarChartCard
+import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.EmotionComparisonExplanation
+import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.EmotionDistributionExplanation
 import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.EmotionLineChartCard
+import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.EmotionPatternsExplanation
+import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.EmotionTrendExplanation
 import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.StatisticsCard
 import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.TimeRangeSelector
-
 
 /**
  * 统计页面
@@ -53,7 +56,12 @@ fun StatisticsScreen(
         item {
             TimeRangeSelector(
                 selectedTimeRange = uiState.selectedTimeRange,
-                onTimeRangeChanged = { viewModel.updateTimeRange(it) }
+                onTimeRangeChanged = { viewModel.updateTimeRange(it) },
+                customStartDate = uiState.customStartDate,
+                customEndDate = uiState.customEndDate,
+                onCustomDateRangeChanged = { start, end -> 
+                    viewModel.updateCustomDateRange(start, end)
+                }
             )
         }
 
@@ -71,9 +79,25 @@ fun StatisticsScreen(
         }
 
         item {
+            EmotionDistributionExplanation()
+        }
+
+        item {
             EmotionLineChartCard(
                 statistics = uiState.statistics
             )
+        }
+
+        item {
+            EmotionTrendExplanation()
+        }
+
+        item {
+            EmotionPatternsExplanation()
+        }
+
+        item {
+            EmotionComparisonExplanation()
         }
 
         if (uiState.errorMessage != null) {
@@ -83,4 +107,3 @@ fun StatisticsScreen(
         }
     }
 }
-

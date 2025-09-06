@@ -3,14 +3,20 @@ package com.lianglliu.hermoodbarometer.ui
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -68,7 +75,8 @@ fun MoodApp() {
             bottomBar = {
                 NavigationBar(
                     containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                    contentColor = MaterialTheme.colorScheme.onSurface
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                    tonalElevation = 3.dp
                 ) {
                     getBottomNavItems().forEach { item ->
                         val isSelected = currentDestination?.hierarchy?.any {
@@ -77,10 +85,22 @@ fun MoodApp() {
 
                         NavigationBarItem(
                             icon = {
-                                Icon(
-                                    imageVector = getIconForScreen(item.screen),
-                                    contentDescription = getDisplayName(item.titleResId)
-                                )
+                                BadgedBox(
+                                    badge = {
+                                        // 可以在这里添加徽章，如通知数量
+                                        // Badge { Text("3") }
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = if (isSelected) {
+                                            getFilledIconForScreen(item.screen)
+                                        } else {
+                                            getOutlinedIconForScreen(item.screen)
+                                        },
+                                        contentDescription = getDisplayName(item.titleResId),
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                }
                             },
                             label = {
                                 Text(
@@ -102,7 +122,14 @@ fun MoodApp() {
                                     // Restore state when reselecting a previously selected item
                                     restoreState = true
                                 }
-                            }
+                            },
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         )
                     }
                 }
@@ -121,14 +148,26 @@ fun MoodApp() {
 }
 
 /**
- * 获取页面对应的图标
+ * 获取页面对应的填充图标（选中状态）
  */
-private fun getIconForScreen(screen: Screen): ImageVector {
+private fun getFilledIconForScreen(screen: Screen): ImageVector {
     return when (screen) {
         Screen.Record -> Icons.Default.Edit
         Screen.Statistics -> Icons.Default.Info
         Screen.Settings -> Icons.Default.Settings
         Screen.EmotionManagement -> Icons.Default.Settings // 使用设置图标作为默认
+    }
+}
+
+/**
+ * 获取页面对应的轮廓图标（未选中状态）
+ */
+private fun getOutlinedIconForScreen(screen: Screen): ImageVector {
+    return when (screen) {
+        Screen.Record -> Icons.Outlined.Edit
+        Screen.Statistics -> Icons.Outlined.Info
+        Screen.Settings -> Icons.Outlined.Settings
+        Screen.EmotionManagement -> Icons.Outlined.Settings // 使用设置图标作为默认
     }
 }
 

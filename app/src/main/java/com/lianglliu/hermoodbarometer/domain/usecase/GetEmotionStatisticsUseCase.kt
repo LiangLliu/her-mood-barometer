@@ -6,6 +6,7 @@ import com.lianglliu.hermoodbarometer.domain.repository.EmotionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 /**
@@ -17,14 +18,25 @@ class GetEmotionStatisticsUseCase @Inject constructor(
 ) {
     
     /**
-     * 获取指定时间范围的统计数据
-     * @param timeRange 时间范围
-     * @return 统计数据流
-     */
-    operator fun invoke(timeRange: TimeRange): Flow<EmotionStatistics> {
-        return emotionRepository.getEmotionRecordsByTimeRange(timeRange)
-            .map { records -> calculateStatistics(records) }
-    }
+ * 获取指定时间范围的统计数据
+ * @param timeRange 时间范围
+ * @return 统计数据流
+ */
+operator fun invoke(timeRange: TimeRange): Flow<EmotionStatistics> {
+    return emotionRepository.getEmotionRecordsByTimeRange(timeRange)
+        .map { records -> calculateStatistics(records) }
+}
+
+/**
+ * 获取自定义时间范围的统计数据
+ * @param startDateTime 开始时间
+ * @param endDateTime 结束时间
+ * @return 统计数据流
+ */
+operator fun invoke(startDateTime: LocalDateTime, endDateTime: LocalDateTime): Flow<EmotionStatistics> {
+    return emotionRepository.getEmotionRecordsByCustomTimeRange(startDateTime, endDateTime)
+        .map { records -> calculateStatistics(records) }
+}
     
     /**
      * 计算统计数据

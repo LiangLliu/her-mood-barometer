@@ -44,6 +44,14 @@ private val DarkColorScheme = darkColorScheme(
     inverseSurface = Neutral90,
     inverseOnSurface = Neutral20,
     inversePrimary = Primary40,
+    // Material Design 3 扩展颜色
+    surfaceDim = Neutral6,
+    surfaceBright = Neutral24,
+    surfaceContainerLowest = Neutral4,
+    surfaceContainerLow = Neutral10,
+    surfaceContainer = Neutral12,
+    surfaceContainerHigh = Neutral17,
+    surfaceContainerHighest = Neutral22,
 )
 
 /**
@@ -79,11 +87,20 @@ private val LightColorScheme = lightColorScheme(
     inverseSurface = Neutral20,
     inverseOnSurface = Neutral95,
     inversePrimary = Primary80,
+    // Material Design 3 扩展颜色
+    surfaceDim = Neutral87,
+    surfaceBright = Neutral98,
+    surfaceContainerLowest = Neutral100,
+    surfaceContainerLow = Neutral96,
+    surfaceContainer = Neutral94,
+    surfaceContainerHigh = Neutral92,
+    surfaceContainerHighest = Neutral90,
 )
 
 /**
  * 应用主题组件
  * 支持动态色彩、深色模式，并提供自定义设计tokens
+ * 符合 Material Design 3 规范
  * 
  * @param darkTheme 是否使用深色主题
  * @param dynamicColor 是否启用Android 12+的动态色彩

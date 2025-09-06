@@ -1,0 +1,2608 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>她的晴雨表 - 高保真预览</title>
+    <style>
+        /* CSS Variables for Color System */
+        :root {
+            /* Light Theme Colors - Material Design 3 */
+            --color-primary: #6750A4;
+            --color-on-primary: #FFFFFF;
+            --color-primary-container: #EADDFF;
+            --color-on-primary-container: #21005D;
+            --color-secondary: #625B71;
+            --color-on-secondary: #FFFFFF;
+            --color-secondary-container: #E8DEF8;
+            --color-on-secondary-container: #1D192B;
+            --color-tertiary: #7D5260;
+            --color-on-tertiary: #FFFFFF;
+            --color-tertiary-container: #FFD8E4;
+            --color-on-tertiary-container: #31111D;
+            --color-error: #BA1A1A;
+            --color-on-error: #FFFFFF;
+            --color-error-container: #FFDAD6;
+            --color-on-error-container: #410002;
+            --color-background: #FFFBFE;
+            --color-on-background: #1C1B1F;
+            --color-surface: #FFFBFE;
+            --color-on-surface: #1C1B1F;
+            --color-surface-variant: #E7E0EC;
+            --color-on-surface-variant: #49454F;
+            --color-outline: #79747E;
+            --color-outline-variant: #CAC4D0;
+            
+            /* Material Design 3 Extended Colors */
+            --color-surface-dim: #DED8E1;
+            --color-surface-bright: #FFFBFE;
+            --color-surface-container-lowest: #FFFFFF;
+            --color-surface-container-low: #F7F2FA;
+            --color-surface-container: #F3EDF7;
+            --color-surface-container-high: #ECE6F0;
+            --color-surface-container-highest: #E6E0E9;
+            
+            /* State Colors - Material Design 3 */
+            --color-primary-fixed: #21005D;
+            --color-primary-fixed-dim: #381E72;
+            --color-on-primary-fixed: #FFFFFF;
+            --color-on-primary-fixed-variant: #4F378B;
+            
+            /* Semantic Colors - Material Design 3 */
+            --color-success: #146C2E;
+            --color-on-success: #FFFFFF;
+            --color-success-container: #D4E8D4;
+            --color-on-success-container: #052F11;
+            
+            --color-warning: #7C5700;
+            --color-on-warning: #FFFFFF;
+            --color-warning-container: #FFDECC;
+            --color-on-warning-container: #2A1700;
+            
+            --color-info: #00668A;
+            --color-on-info: #FFFFFF;
+            --color-info-container: #C0E8FF;
+            --color-on-info-container: #001F2A;
+            
+            /* Additional Material Design 3 Colors */
+            --color-surface-tint: #6750A4;
+            --color-inverse-primary: #BEADFF;
+            --color-inverse-surface: #313033;
+            --color-inverse-on-surface: #F4EFF4;
+            --color-shadow: #000000;
+            
+            /* State Layer Colors - Material Design 3 */
+            --color-primary-state-layer: rgba(103, 80, 164, 0.08);
+            --color-secondary-state-layer: rgba(98, 91, 113, 0.08);
+            --color-tertiary-state-layer: rgba(125, 82, 96, 0.08);
+            --color-error-state-layer: rgba(186, 26, 26, 0.08);
+            --color-surface-state-layer: rgba(28, 27, 31, 0.08);
+            
+            /* Positive/Negative Colors for Charts */
+            --color-positive: #146C2E;
+            --color-negative: #BA1A1A;
+            --color-neutral: #49454F;
+            
+            /* Material Design 3 Shape System */
+            --shape-corner-none: 0px;
+            --shape-corner-extra-small: 4px;
+            --shape-corner-small: 8px;
+            --shape-corner-medium: 12px;
+            --shape-corner-large: 16px;
+            --shape-corner-extra-large: 20px;
+            --shape-corner-full: 28px;
+            
+            /* Material Design 3 Elevation System */
+            --elevation-level0: none;
+            --elevation-level1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+            --elevation-level2: 0 1px 5px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.08);
+            --elevation-level3: 0 1px 8px rgba(0, 0, 0, 0.12), 0 3px 4px rgba(0, 0, 0, 0.08);
+            --elevation-level4: 0 2px 4px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
+            --elevation-level5: 0 4px 8px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Dark Theme Colors */
+        [data-theme="dark"] {
+            --color-primary: #D0BCFF;
+            --color-on-primary: #381E72;
+            --color-primary-container: #4F378B;
+            --color-on-primary-container: #EADDFF;
+            --color-secondary: #CCC2DC;
+            --color-on-secondary: #332D41;
+            --color-secondary-container: #4A4458;
+            --color-on-secondary-container: #E8DEF8;
+            --color-tertiary: #EFB8C8;
+            --color-on-tertiary: #492532;
+            --color-tertiary-container: #633B48;
+            --color-on-tertiary-container: #FFD8E4;
+            --color-error: #FFB4AB;
+            --color-on-error: #690005;
+            --color-error-container: #93000A;
+            --color-on-error-container: #FFDAD6;
+            --color-background: #1C1B1F;
+            --color-on-background: #E6E1E5;
+            --color-surface: #1C1B1F;
+            --color-on-surface: #E6E1E5;
+            --color-surface-variant: #49454F;
+            --color-on-surface-variant: #CAC4D0;
+            --color-outline: #938F99;
+            --color-outline-variant: #49454F;
+            
+            /* Material Design 3 Extended Colors - Dark */
+            --color-surface-dim: #1C1B1F;
+            --color-surface-bright: #444746;
+            --color-surface-container-lowest: #111114;
+            --color-surface-container-low: #1C1B1F;
+            --color-surface-container: #201F24;
+            --color-surface-container-high: #2B2930;
+            --color-surface-container-highest: #36343B;
+            
+            /* State Colors - Material Design 3 - Dark */
+            --color-primary-fixed: #EADDFF;
+            --color-primary-fixed-dim: #D0BCFF;
+            --color-on-primary-fixed: #21005D;
+            --color-on-primary-fixed-variant: #4F378B;
+            
+            /* Additional Material Design 3 Colors - Dark */
+            --color-surface-tint: #D0BCFF;
+            --color-inverse-primary: #6750A4;
+            --color-inverse-surface: #E6E1E5;
+            --color-inverse-on-surface: #313033;
+            --color-shadow: #000000;
+            
+            /* State Layer Colors - Material Design 3 - Dark */
+            --color-primary-state-layer: rgba(208, 188, 255, 0.08);
+            --color-secondary-state-layer: rgba(204, 194, 220, 0.08);
+            --color-tertiary-state-layer: rgba(239, 184, 200, 0.08);
+            --color-error-state-layer: rgba(255, 180, 171, 0.08);
+            --color-surface-state-layer: rgba(230, 225, 229, 0.08);
+            
+            /* Positive/Negative Colors for Charts - Dark */
+            --color-positive: #4CAF50;
+            --color-negative: #CF6679;
+            --color-neutral: #CAC4D0;
+        }
+
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-on-background);
+            line-height: 1.5;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Typography - Material Design 3 */
+        /* Display Large */
+        .display-large {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 57px;
+            font-weight: 400;
+            letter-spacing: -0.25px;
+            line-height: 64px;
+            color: var(--color-on-surface);
+        }
+
+        /* Display Medium */
+        .display-medium {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 45px;
+            font-weight: 400;
+            letter-spacing: 0px;
+            line-height: 52px;
+            color: var(--color-on-surface);
+        }
+
+        /* Display Small */
+        .display-small {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 36px;
+            font-weight: 400;
+            letter-spacing: 0px;
+            line-height: 44px;
+            color: var(--color-on-surface);
+        }
+
+        /* Headline Large */
+        .headline-large {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 32px;
+            font-weight: 400;
+            letter-spacing: 0px;
+            line-height: 40px;
+            color: var(--color-on-surface);
+        }
+
+        /* Headline Medium */
+        .headline-medium {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 28px;
+            font-weight: 400;
+            letter-spacing: 0px;
+            line-height: 36px;
+            color: var(--color-on-surface);
+        }
+
+        /* Headline Small */
+        .headline-small {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 24px;
+            font-weight: 400;
+            letter-spacing: 0px;
+            line-height: 32px;
+            color: var(--color-on-surface);
+        }
+
+        /* Title Large */
+        .title-large {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 22px;
+            font-weight: 400;
+            letter-spacing: 0px;
+            line-height: 28px;
+            color: var(--color-on-surface);
+        }
+
+        /* Title Medium */
+        .title-medium {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.15px;
+            line-height: 24px;
+            color: var(--color-on-surface);
+        }
+
+        /* Title Small */
+        .title-small {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.1px;
+            line-height: 20px;
+            color: var(--color-on-surface);
+        }
+
+        /* Body Large */
+        .body-large {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            line-height: 24px;
+            color: var(--color-on-surface);
+        }
+
+        /* Body Medium */
+        .body-medium {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+            color: var(--color-on-surface);
+        }
+
+        /* Body Small */
+        .body-small {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0.4px;
+            line-height: 16px;
+            color: var(--color-on-surface);
+        }
+
+        /* Label Large */
+        .label-large {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.1px;
+            line-height: 20px;
+            color: var(--color-on-surface);
+        }
+
+        /* Label Medium */
+        .label-medium {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            line-height: 16px;
+            color: var(--color-on-surface);
+        }
+
+        /* Label Small */
+        .label-small {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            line-height: 16px;
+            color: var(--color-on-surface);
+        }
+
+        /* Legacy Typography Styles */
+        h1 {
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            text-align: center;
+            color: var(--color-on-surface);
+            letter-spacing: 0px;
+            line-height: 36px;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: var(--color-on-surface);
+            letter-spacing: 0px;
+            line-height: 28px;
+        }
+
+        h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--color-on-surface);
+            letter-spacing: 0.15px;
+            line-height: 24px;
+        }
+
+        p {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--color-on-surface);
+            letter-spacing: 0.25px;
+            line-height: 20px;
+        }
+
+        .caption {
+            font-size: 12px;
+            color: var(--color-on-surface-variant);
+            letter-spacing: 0.4px;
+            line-height: 16px;
+        }
+
+        /* Component Styles - Material Design 3 */
+        .card {
+            background-color: var(--color-surface);
+            border-radius: var(--shape-corner-large);
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--elevation-level1);
+            transition: box-shadow 0.3s, transform 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: var(--elevation-level3);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.15px;
+            line-height: 24px;
+        }
+
+        .card-title-icon {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        /* Button Styles - Material Design 3 */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            padding: 0 24px;
+            border-radius: var(--shape-corner-full);
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.1px;
+            line-height: 20px;
+        }
+
+        /* State Layer - Material Design 3 */
+        .button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--color-primary-state-layer);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+
+        .button:hover::after {
+            opacity: 1;
+        }
+
+        .button:focus::after {
+            opacity: 1;
+        }
+
+        .button:active::after {
+            opacity: 1;
+        }
+
+        /* Ripple Effect - Material Design 3 */
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Filled Button - Material Design 3 */
+        .button-filled {
+            background-color: var(--color-primary);
+            color: var(--color-on-primary);
+            box-shadow: var(--elevation-level2);
+        }
+
+        .button-filled:hover {
+            box-shadow: var(--elevation-level3);
+        }
+
+        .button-filled:focus {
+            box-shadow: var(--elevation-level3);
+        }
+
+        .button-filled:active {
+            transform: scale(0.98);
+            box-shadow: var(--elevation-level1);
+        }
+
+        /* Outlined Button - Material Design 3 */
+        .button-outlined {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 1px solid var(--color-outline);
+        }
+
+        .button-outlined::after {
+            background-color: var(--color-primary-state-layer);
+        }
+
+        .button-outlined:hover {
+            border-color: var(--color-primary);
+        }
+
+        .button-outlined:focus {
+            border-color: var(--color-primary);
+        }
+
+        /* Text Button - Material Design 3 */
+        .button-text {
+            background-color: transparent;
+            color: var(--color-primary);
+            padding: 0 16px;
+        }
+
+        .button-text::after {
+            background-color: var(--color-primary-state-layer);
+        }
+
+        /* Button Modifiers */
+        .button-full-width {
+            width: 100%;
+        }
+
+        .button:disabled {
+            opacity: 0.38;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .button-filled:disabled {
+            background-color: var(--color-on-surface);
+            color: var(--color-surface);
+            box-shadow: var(--elevation-level0);
+        }
+
+        .button-outlined:disabled {
+            border-color: var(--color-on-surface);
+            color: var(--color-on-surface);
+        }
+
+        .button-text:disabled {
+            color: var(--color-on-surface);
+        }
+
+        /* Input Styles - Material Design 3 */
+        .input {
+            width: 100%;
+            height: 56px;
+            padding: 8px 16px;
+            border-radius: var(--shape-corner-medium);
+            font-size: 16px;
+            border: 1px solid var(--color-outline);
+            background-color: transparent;
+            color: var(--color-on-surface);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.5px;
+            line-height: 24px;
+        }
+        
+        .input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 1px var(--color-primary);
+        }
+
+        .input:hover {
+            border-color: var(--color-on-surface);
+        }
+
+        .input:disabled {
+            opacity: 0.38;
+            cursor: not-allowed;
+            pointer-events: none;
+            border-color: var(--color-on-surface);
+            color: var(--color-on-surface);
+        }
+
+        .input-label {
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: var(--color-on-surface-variant);
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.5px;
+            line-height: 16px;
+        }
+
+        .input-container {
+            margin-bottom: 16px;
+        }
+
+        /* Emotion Selector */
+        .emotion-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 4px 0;
+        }
+
+        /* Custom scrollbar for emotion selector */
+        .emotion-selector::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .emotion-selector::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 3px;
+        }
+
+        .emotion-selector::-webkit-scrollbar-thumb {
+            background: var(--color-outline);
+            border-radius: 3px;
+        }
+
+        .emotion-selector::-webkit-scrollbar-thumb:hover {
+            background: var(--color-outline-variant);
+        }
+
+        /* Scroll Progress Indicator */
+        .scroll-progress-container {
+            height: 4px;
+            background-color: var(--color-outline-variant);
+            border-radius: 2px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .scroll-progress-bar {
+            height: 100%;
+            background-color: var(--color-primary);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .emotion-card {
+            aspect-ratio: 1;
+            border-radius: var(--shape-corner-medium);
+            background-color: var(--color-surface-variant);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            position: relative;
+        }
+
+        .emotion-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--color-primary-state-layer);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+
+        .emotion-card:hover::after {
+            opacity: 1;
+        }
+
+        .emotion-card:hover {
+            background-color: var(--color-outline-variant);
+            transform: translateY(-2px);
+        }
+
+        .emotion-card.selected {
+            background-color: var(--color-primary-container);
+            border: 2px solid var(--color-primary);
+        }
+
+        .emotion-card.selected::after {
+            background-color: var(--color-primary-state-layer);
+            opacity: 0.12;
+        }
+
+        .emotion-emoji {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .emotion-name {
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            color: var(--color-on-surface);
+        }
+
+        /* Intensity Slider */
+        .intensity-container {
+            margin-bottom: 20px;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(to right, 
+                var(--color-error) 0%, 
+                var(--color-warning) 25%, 
+                var(--color-info) 50%, 
+                var(--color-positive) 75%, 
+                var(--color-primary) 100%);
+            outline: none;
+            -webkit-appearance: none;
+            margin: 16px 0;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            cursor: pointer;
+        }
+
+        .intensity-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .intensity-label {
+            font-size: 12px;
+            color: var(--color-on-surface-variant);
+            text-align: center;
+        }
+
+        .intensity-value {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--color-primary);
+            margin-top: 8px;
+        }
+
+        /* Note Input - Material Design 3 */
+        .note-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 16px;
+            border-radius: var(--shape-corner-medium);
+            font-size: 16px;
+            border: 1px solid var(--color-outline);
+            background-color: transparent;
+            color: var(--color-on-surface);
+            resize: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.5px;
+            line-height: 24px;
+        }
+
+        .note-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 1px var(--color-primary);
+        }
+
+        .note-input:hover {
+            border-color: var(--color-on-surface);
+        }
+
+        .note-input:disabled {
+            opacity: 0.38;
+            cursor: not-allowed;
+            pointer-events: none;
+            border-color: var(--color-on-surface);
+            color: var(--color-on-surface);
+        }
+
+        .note-input::placeholder {
+            color: var(--color-on-surface-variant);
+            opacity: 0.6;
+        }
+
+        /* Statistics - Material Design 3 */
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-outline-variant);
+            transition: background-color 0.3s;
+            position: relative;
+        }
+
+        .stat-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--color-surface-state-layer);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+
+        .stat-item:hover::after {
+            opacity: 1;
+        }
+
+        .stat-item:hover {
+            background-color: var(--color-surface-variant);
+            margin: 0 -16px;
+            padding-left: 16px;
+            padding-right: 16px;
+            border-radius: var(--shape-corner-small);
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--color-on-surface);
+            display: flex;
+            align-items: center;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+        }
+
+        .stat-icon {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-primary);
+            padding: 4px 12px;
+            border-radius: var(--shape-corner-medium);
+            background-color: var(--color-primary-container);
+            color: var(--color-on-primary-container);
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.15px;
+            line-height: 24px;
+        }
+
+        /* Chart Container - Material Design 3 */
+        .chart-container {
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-surface);
+            border-radius: var(--shape-corner-large);
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--elevation-level2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .chart-container:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--elevation-level3);
+        }
+
+        .chart-placeholder {
+            text-align: center;
+        }
+
+        .chart-icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+            color: var(--color-on-surface-variant);
+        }
+
+        .chart-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--color-on-surface);
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.15px;
+            line-height: 24px;
+        }
+
+        .chart-subtitle {
+            font-size: 14px;
+            color: var(--color-on-surface-variant);
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+        }
+
+        /* Settings Item - Material Design 3 */
+        .settings-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--color-outline-variant);
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: var(--shape-corner-small);
+            margin: 0 -16px;
+            padding-left: 16px;
+            padding-right: 16px;
+            position: relative;
+        }
+
+        .settings-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--color-surface-state-layer);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+
+        .settings-item:hover::after {
+            opacity: 1;
+        }
+
+        .settings-item:hover {
+            background-color: var(--color-surface-variant);
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .settings-content {
+            flex: 1;
+        }
+
+        .settings-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--color-on-surface);
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.15px;
+            line-height: 24px;
+        }
+
+        .settings-subtitle {
+            font-size: 14px;
+            color: var(--color-on-surface-variant);
+            margin-top: 2px;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+        }
+
+        .settings-action {
+            margin-left: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Switch - Material Design 3 */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 32px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--color-outline-variant);
+            transition: .4s;
+            border-radius: var(--shape-corner-full);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--color-surface);
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input:checked + .switch-slider {
+            background-color: var(--color-primary);
+            box-shadow: 0 2px 8px rgba(103, 80, 164, 0.3);
+        }
+
+        input:checked + .switch-slider:before {
+            transform: translateX(20px);
+        }
+
+        .switch:disabled .switch-slider {
+            opacity: 0.38;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .switch:disabled .switch-slider:before {
+            background-color: var(--color-on-surface);
+        }
+
+        /* Navigation Tabs - Material Design 3 */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--color-outline-variant);
+            position: relative;
+        }
+
+        .nav-tab {
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-on-surface-variant);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+            position: relative;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.1px;
+            line-height: 20px;
+        }
+
+        .nav-tab.active {
+            color: var(--color-primary);
+            border-bottom: 2px solid var(--color-primary);
+        }
+
+        .nav-tab:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--color-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-tab.active::after {
+            transform: scaleX(1);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            background-color: var(--color-surface);
+            padding: 8px 16px;
+            border-radius: var(--shape-corner-full);
+            box-shadow: var(--elevation-level3);
+        }
+
+        .theme-toggle-label {
+            margin-right: 8px;
+            font-size: 14px;
+            color: var(--color-on-surface);
+        }
+
+        /* Screen Container - Material Design 3 */
+        .screen-container {
+            max-width: 375px;
+            margin: 0 auto;
+            background-color: var(--color-surface);
+            border-radius: var(--shape-corner-extra-large);
+            overflow: hidden;
+            box-shadow: var(--elevation-level4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .screen-container:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--elevation-level5);
+        }
+
+        .screen-header {
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-surface);
+            border-bottom: 1px solid var(--color-outline-variant);
+        }
+
+        .screen-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--color-on-surface);
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0px;
+            line-height: 28px;
+        }
+
+        .screen-content {
+            padding: 16px;
+            min-height: calc(100vh - 56px - 80px);
+        }
+
+        .screen-footer {
+            height: 80px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: var(--color-surface);
+            border-top: 1px solid var(--color-outline-variant);
+            border-radius: 0 0 var(--shape-corner-extra-large) var(--shape-corner-extra-large);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 8px 16px;
+            border-radius: var(--shape-corner-medium);
+            position: relative;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--color-primary-state-layer);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+
+        .nav-item:hover::after {
+            opacity: 1;
+        }
+
+        .nav-item.active::after {
+            opacity: 1;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+            color: var(--color-on-surface-variant);
+            transition: all 0.3s;
+        }
+
+        .nav-item.active .nav-icon {
+            color: var(--color-primary);
+            transform: scale(1.1);
+        }
+
+        .nav-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-on-surface-variant);
+            transition: color 0.3s;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.5px;
+            line-height: 16px;
+        }
+
+        .nav-item.active .nav-label {
+            color: var(--color-primary);
+        }
+
+        /* Responsive - Material Design 3 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .screen-container {
+                border-radius: 0;
+                box-shadow: none;
+            }
+            
+            .emotion-selector {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+            
+            /* Typography adjustments for mobile */
+            h1 {
+                font-size: 24px;
+                line-height: 32px;
+            }
+            
+            h2 {
+                font-size: 20px;
+                line-height: 28px;
+            }
+            
+            h3 {
+                font-size: 16px;
+                line-height: 24px;
+            }
+            
+            .card-title {
+                font-size: 16px;
+                line-height: 24px;
+            }
+            
+            .chart-title {
+                font-size: 16px;
+                line-height: 24px;
+            }
+            
+            .settings-title {
+                font-size: 16px;
+                line-height: 24px;
+            }
+            
+            .settings-subtitle {
+                font-size: 14px;
+                line-height: 20px;
+            }
+            
+            .nav-tab {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+            
+            .button {
+                height: 40px;
+                padding: 0 16px;
+                font-size: 14px;
+            }
+            
+            .input, .note-input, .time-range-select, .date-input {
+                height: 56px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .emotion-selector {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+                gap: 8px;
+            }
+            
+            .emotion-card {
+                padding: 8px;
+            }
+            
+            .emotion-emoji {
+                font-size: 24px;
+            }
+            
+            .emotion-name {
+                font-size: 11px;
+            }
+            
+            .patterns-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .bar-label {
+                width: 100px;
+                font-size: 12px;
+            }
+            
+            .comparison-header,
+            .comparison-row {
+                grid-template-columns: 1.5fr 1fr 1fr 1fr;
+                gap: 4px;
+            }
+            
+            .comparison-cell {
+                font-size: 12px;
+            }
+        }
+
+        /* Animations - Material Design 3 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        /* Material Design 3 Easing Curves */
+        .ease-emphasized {
+            animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .ease-emphasized-decelerate {
+            animation-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1);
+        }
+
+        .ease-emphasized-accelerate {
+            animation-timing-function: cubic-bezier(0.3, 0, 0.8, 0.15);
+        }
+
+        .ease-standard {
+            animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .ease-standard-decelerate {
+            animation-timing-function: cubic-bezier(0, 0, 0, 1);
+        }
+
+        .ease-standard-accelerate {
+            animation-timing-function: cubic-bezier(0.3, 0, 1, 1);
+        }
+
+        .ease-linear {
+            animation-timing-function: linear;
+        }
+
+        /* Time Range Selector */
+        .time-range-selector {
+            margin-bottom: 24px;
+        }
+
+        .time-range-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-on-surface-variant);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .time-range-select {
+            width: 100%;
+            height: 56px;
+            padding: 8px 16px;
+            border-radius: var(--shape-corner-medium);
+            font-size: 16px;
+            border: 1px solid var(--color-outline);
+            background-color: transparent;
+            color: var(--color-on-surface);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236750A4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 24px;
+            padding-right: 48px;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.5px;
+            line-height: 24px;
+        }
+
+        .time-range-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 1px var(--color-primary);
+        }
+
+        .time-range-select:hover {
+            border-color: var(--color-on-surface);
+        }
+
+        .time-range-select:disabled {
+            opacity: 0.38;
+            cursor: not-allowed;
+            pointer-events: none;
+            border-color: var(--color-on-surface);
+            color: var(--color-on-surface);
+        }
+
+        /* Custom Range Container */
+        .custom-range-container {
+            display: none;
+            margin-top: 16px;
+        }
+
+        .custom-range-container.active {
+            display: block;
+        }
+
+        .date-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .date-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .date-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-on-surface-variant);
+            min-width: 80px;
+        }
+
+        .date-input {
+            flex: 1;
+            height: 56px;
+            padding: 8px 16px;
+            border-radius: var(--shape-corner-medium);
+            font-size: 16px;
+            border: 1px solid var(--color-outline);
+            background-color: transparent;
+            color: var(--color-on-surface);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.5px;
+            line-height: 24px;
+        }
+
+        .date-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 1px var(--color-primary);
+        }
+
+        .date-input:hover {
+            border-color: var(--color-on-surface);
+        }
+
+        .date-input:disabled {
+            opacity: 0.38;
+            cursor: not-allowed;
+            pointer-events: none;
+            border-color: var(--color-on-surface);
+            color: var(--color-on-surface);
+        }
+
+        /* Chart Type Selector */
+        .chart-type-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .chart-type-chip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 12px;
+            border-radius: var(--shape-corner-large);
+            background-color: var(--color-surface-variant);
+            color: var(--color-on-surface-variant);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .chart-type-chip::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--color-primary-state-layer);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+
+        .chart-type-chip:hover::after {
+            opacity: 1;
+        }
+
+        .chart-type-chip:hover {
+            background-color: var(--color-outline-variant);
+            transform: translateY(-2px);
+        }
+
+        .chart-type-chip.active {
+            background-color: var(--color-primary-container);
+            color: var(--color-on-primary-container);
+            border-color: var(--color-primary);
+            box-shadow: var(--elevation-level3);
+        }
+
+        .chart-type-chip.active::after {
+            background-color: var(--color-primary-state-layer);
+            opacity: 0.12;
+        }
+
+        .chart-type-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .chart-type-name {
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.1px;
+            line-height: 20px;
+        }
+
+        /* Chart Container Styles - Material Design 3 */
+        .chart-header {
+            margin-bottom: 16px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--color-on-surface);
+            margin-bottom: 4px;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0px;
+            line-height: 28px;
+        }
+
+        .chart-subtitle {
+            font-size: 14px;
+            color: var(--color-on-surface-variant);
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+        }
+
+        .chart-explanation {
+            margin-top: 12px;
+            padding: 12px;
+            background-color: var(--color-surface-variant);
+            border-radius: var(--shape-corner-medium);
+            font-size: 13px;
+            color: var(--color-on-surface-variant);
+            line-height: 1.5;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.25px;
+        }
+
+        .chart-explanation-title {
+            font-weight: 600;
+            color: var(--color-on-surface);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.15px;
+            line-height: 24px;
+        }
+
+        .chart-explanation-icon {
+            margin-right: 6px;
+            font-size: 16px;
+        }
+
+        .chart-explanation-content {
+            color: var(--color-on-surface-variant);
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+        }
+
+        .chart-insight {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background-color: var(--color-primary-container);
+            border-radius: var(--shape-corner-small);
+            font-size: 12px;
+            color: var(--color-on-primary-container);
+            display: flex;
+            align-items: flex-start;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.4px;
+            line-height: 16px;
+        }
+
+        .chart-insight-icon {
+            margin-right: 6px;
+            font-size: 14px;
+            margin-top: 2px;
+        }
+
+        .chart-content {
+            min-height: 240px;
+        }
+        
+        /* Bar Chart Styles - Material Design 3 */
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bar-label {
+            width: 120px;
+            font-size: 14px;
+            color: var(--color-on-surface);
+            display: flex;
+            align-items: center;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+        }
+
+        .bar-emoji {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .bar-container {
+            flex: 1;
+            height: 24px;
+            background-color: var(--color-surface-variant);
+            border-radius: var(--shape-corner-medium);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: var(--shape-corner-medium);
+            transition: width 1s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+        }
+
+        .bar-value {
+            width: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-on-surface);
+            text-align: right;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+        }
+
+        /* Patterns Grid Styles - Material Design 3 */
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .pattern-card {
+            background: linear-gradient(135deg, var(--color-surface-variant), var(--color-surface));
+            border-radius: var(--shape-corner-large);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: var(--elevation-level2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pattern-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-tertiary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .pattern-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--elevation-level4);
+        }
+
+        .pattern-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .pattern-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-on-surface);
+            margin-bottom: 8px;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+        }
+
+        .pattern-value {
+            font-size: 20px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.15px;
+            line-height: 28px;
+        }
+
+        .pattern-desc {
+            font-size: 12px;
+            color: var(--color-on-surface-variant);
+            line-height: 1.4;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.4px;
+            line-height: 16px;
+        }
+
+        /* Comparison Table Styles - Material Design 3 */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 8px;
+            padding: 12px 0;
+            border-bottom: 2px solid var(--color-outline-variant);
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 8px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--color-outline-variant);
+            transition: background-color 0.3s;
+        }
+
+        .comparison-row:hover {
+            background-color: var(--color-surface-variant);
+            margin: 0 -16px;
+            padding-left: 16px;
+            padding-right: 16px;
+            border-radius: var(--shape-corner-small);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-cell {
+            font-size: 14px;
+            color: var(--color-on-surface);
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.25px;
+            line-height: 20px;
+        }
+
+        .comparison-emoji {
+            margin-right: 8px;
+        }
+
+        .positive {
+            color: var(--color-positive);
+        }
+
+        .negative {
+            color: var(--color-negative);
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle">
+        <span class="theme-toggle-label">深色模式</span>
+        <label class="switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="switch-slider"></span>
+        </label>
+    </div>
+
+    <div class="container">
+        <h1>她的晴雨表 - 高保真预览</h1>
+        
+        <div class="nav-tabs">
+            <div class="nav-tab active" data-tab="record">记录</div>
+            <div class="nav-tab" data-tab="statistics">统计</div>
+            <div class="nav-tab" data-tab="settings">设置</div>
+        </div>
+
+        <!-- Record Screen -->
+        <div id="record-screen" class="screen-container fade-in">
+            <div class="screen-header">
+                <div class="screen-title">记录当前情绪</div>
+            </div>
+            <div class="screen-content">
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-icon">😊</span>
+                        选择情绪
+                    </div>
+                    
+                    <!-- Scroll Progress Indicator -->
+                    <div class="scroll-progress-container">
+                        <div class="scroll-progress-bar" id="scroll-progress-bar"></div>
+                    </div>
+                    
+                    <!-- Emotion Grid -->
+                    <div class="emotion-selector" id="emotion-selector">
+                        <div class="emotion-card selected">
+                            <div class="emotion-emoji">😊</div>
+                            <div class="emotion-name">开心</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">🤩</div>
+                            <div class="emotion-name">兴奋</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">😌</div>
+                            <div class="emotion-name">平静</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">🥰</div>
+                            <div class="emotion-name">感激</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">😢</div>
+                            <div class="emotion-name">悲伤</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">😰</div>
+                            <div class="emotion-name">焦虑</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">😡</div>
+                            <div class="emotion-name">愤怒</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">😔</div>
+                            <div class="emotion-name">孤独</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">😴</div>
+                            <div class="emotion-name">疲惫</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">😕</div>
+                            <div class="emotion-name">困惑</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">🤔</div>
+                            <div class="emotion-name">思考</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">😎</div>
+                            <div class="emotion-name">自信</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">🥳</div>
+                            <div class="emotion-name">庆祝</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">😨</div>
+                            <div class="emotion-name">恐惧</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">😤</div>
+                            <div class="emotion-name">不满</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">😓</div>
+                            <div class="emotion-name">压力</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">🥺</div>
+                            <div class="emotion-name">委屈</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">😇</div>
+                            <div class="emotion-name">满足</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">🙃</div>
+                            <div class="emotion-name">无奈</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">😬</div>
+                            <div class="emotion-name">尴尬</div>
+                        </div>
+                        <div class="emotion-card">
+                            <div class="emotion-emoji">🤐</div>
+                            <div class="emotion-name">沉默</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-icon">📊</span>
+                        情绪强度
+                    </div>
+                    <div class="intensity-container">
+                        <input type="range" min="1" max="5" value="3" class="slider" id="intensity-slider">
+                        <div class="intensity-labels">
+                            <div class="intensity-label">很低</div>
+                            <div class="intensity-label">低</div>
+                            <div class="intensity-label">中等</div>
+                            <div class="intensity-label">高</div>
+                            <div class="intensity-label">很高</div>
+                        </div>
+                        <div class="intensity-value" id="intensity-value">强度: 中等</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-icon">📝</span>
+                        添加备注
+                    </div>
+                    <textarea class="note-input" placeholder="现在心情如何？"></textarea>
+                </div>
+
+                <button class="button button-filled button-full-width">保存记录</button>
+            </div>
+            <div class="screen-footer">
+                <div class="nav-item active">
+                    <div class="nav-icon">📝</div>
+                    <div class="nav-label">记录</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">📊</div>
+                    <div class="nav-label">统计</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">⚙️</div>
+                    <div class="nav-label">设置</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Screen -->
+        <div id="statistics-screen" class="screen-container fade-in" style="display: none;">
+            <div class="screen-header">
+                <div class="screen-title">统计</div>
+            </div>
+            <div class="screen-content">
+                <!-- Time Range Selector -->
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-icon">📅</span>
+                        时间范围
+                    </div>
+                    <div class="time-range-selector">
+                        <label class="time-range-label">选择统计时间范围</label>
+                        <select class="time-range-select" id="time-range-select">
+                            <option value="week">最近一周</option>
+                            <option value="month">最近一个月</option>
+                            <option value="three-months">最近三个月</option>
+                            <option value="six-months">最近半年内</option>
+                            <option value="year">最近一年</option>
+                            <option value="custom">指定范围</option>
+                        </select>
+                        <div class="custom-range-container" id="custom-range-container">
+                            <div class="date-row">
+                                <label class="date-label">开始日期</label>
+                                <input type="date" class="date-input" id="start-date" placeholder="选择开始日期">
+                            </div>
+                            <div class="date-row">
+                                <label class="date-label">结束日期</label>
+                                <input type="date" class="date-input" id="end-date" placeholder="选择结束日期">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-icon">📊</span>
+                        情绪概览
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">
+                            <span class="stat-icon">📈</span>
+                            总记录数
+                        </div>
+                        <div class="stat-value">42</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">
+                            <span class="stat-icon">😊</span>
+                            平均情绪
+                        </div>
+                        <div class="stat-value">积极</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">
+                            <span class="stat-icon">🏆</span>
+                            最常出现的情绪
+                        </div>
+                        <div class="stat-value">😊 开心</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-icon">📊</span>
+                        情绪分布
+                    </div>
+                    <div class="chart-content">
+                        <div class="bar-chart">
+                            <div class="bar-item">
+                                <div class="bar-label">
+                                    <span class="bar-emoji">😊</span>
+                                    开心
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: 40%;"></div>
+                                </div>
+                                <div class="bar-value">40%</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">
+                                    <span class="bar-emoji">😌</span>
+                                    平静
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: 25%;"></div>
+                                </div>
+                                <div class="bar-value">25%</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">
+                                    <span class="bar-emoji">🤩</span>
+                                    兴奋
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: 15%;"></div>
+                                </div>
+                                <div class="bar-value">15%</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">
+                                    <span class="bar-emoji">😰</span>
+                                    焦虑
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: 12%;"></div>
+                                </div>
+                                <div class="bar-value">12%</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">
+                                    <span class="bar-emoji">😢</span>
+                                    悲伤
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar-fill" style="width: 8%;"></div>
+                                </div>
+                                <div class="bar-value">8%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chart Explanation -->
+                    <div class="chart-explanation">
+                        <div class="chart-explanation-title">
+                            <span class="chart-explanation-icon">📊</span>
+                            什么是情绪分布？
+                        </div>
+                        <div class="chart-explanation-content">
+                            情绪分布显示了在选定时间范围内，各种情绪在您的记录中所占的比例。这帮助您了解自己的情绪模式，哪些情绪是您的主要情绪，哪些情绪较少出现。
+                        </div>
+                        <div class="chart-insight">
+                            <span class="chart-insight-icon">💡</span>
+                            <div>根据您的数据，开心情绪占比最高（40%），这表明您整体上是一个积极乐观的人。</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-icon">📈</span>
+                        情绪趋势变化
+                    </div>
+                    <div class="chart-content">
+                        <div class="chart-placeholder">
+                            <div class="chart-icon">📈</div>
+                            <div class="chart-title">情绪趋势图</div>
+                            <div class="chart-subtitle">您的情绪如何随时间变化</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chart Explanation -->
+                    <div class="chart-explanation">
+                        <div class="chart-explanation-title">
+                            <span class="chart-explanation-icon">📈</span>
+                            什么是情绪趋势？
+                        </div>
+                        <div class="chart-explanation-content">
+                            情绪趋势显示了您的情绪强度如何随时间变化。通过观察趋势线，您可以了解自己情绪的波动情况，识别出情绪的高峰和低谷，以及可能影响您情绪的因素。
+                        </div>
+                        <div class="chart-insight">
+                            <span class="chart-insight-icon">💡</span>
+                            <div>您的情绪趋势显示，周三情绪达到峰值，而周二情绪较低。这可能与您的工作日程或社交活动有关。</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-icon">🔍</span>
+                        情绪模式
+                    </div>
+                    <div class="patterns-grid">
+                        <div class="pattern-card">
+                            <div class="pattern-icon">🌅</div>
+                            <div class="pattern-title">早晨模式</div>
+                            <div class="pattern-value">😊 开心</div>
+                            <div class="pattern-desc">早晨最开心</div>
+                        </div>
+                        <div class="pattern-card">
+                            <div class="pattern-icon">🌙</div>
+                            <div class="pattern-title">夜晚模式</div>
+                            <div class="pattern-value">😌 平静</div>
+                            <div class="pattern-desc">夜晚最平静</div>
+                        </div>
+                        <div class="pattern-card">
+                            <div class="pattern-icon">📅</div>
+                            <div class="pattern-title">工作日模式</div>
+                            <div class="pattern-value">🤩 兴奋</div>
+                            <div class="pattern-desc">工作日最兴奋</div>
+                        </div>
+                        <div class="pattern-card">
+                            <div class="pattern-icon">🌈</div>
+                            <div class="pattern-title">天气影响</div>
+                            <div class="pattern-value">😊 开心</div>
+                            <div class="pattern-desc">晴天更开心</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chart Explanation -->
+                    <div class="chart-explanation">
+                        <div class="chart-explanation-title">
+                            <span class="chart-explanation-icon">🔍</span>
+                            什么是情绪模式？
+                        </div>
+                        <div class="chart-explanation-content">
+                            情绪模式是通过分析您的情绪数据发现的规律和趋势。这些模式可能与时间、天气、工作日等因素相关，帮助您更好地了解自己的情绪变化规律。
+                        </div>
+                        <div class="chart-insight">
+                            <span class="chart-insight-icon">💡</span>
+                            <div>您的数据显示，早晨情绪通常较为积极，而晚上则更加平静。这表明您的情绪变化有一定的日常规律。</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-icon">📊</span>
+                        情绪对比
+                    </div>
+                    <div class="chart-content">
+                        <div class="comparison-table">
+                            <div class="comparison-header">
+                                <div class="comparison-cell">情绪</div>
+                                <div class="comparison-cell">本周</div>
+                                <div class="comparison-cell">上周</div>
+                                <div class="comparison-cell">变化</div>
+                            </div>
+                            <div class="comparison-row">
+                                <div class="comparison-cell">
+                                    <span class="comparison-emoji">😊</span>
+                                    开心
+                                </div>
+                                <div class="comparison-cell">40%</div>
+                                <div class="comparison-cell">30%</div>
+                                <div class="comparison-cell positive">+10%</div>
+                            </div>
+                            <div class="comparison-row">
+                                <div class="comparison-cell">
+                                    <span class="comparison-emoji">😌</span>
+                                    平静
+                                </div>
+                                <div class="comparison-cell">25%</div>
+                                <div class="comparison-cell">35%</div>
+                                <div class="comparison-cell negative">-10%</div>
+                            </div>
+                            <div class="comparison-row">
+                                <div class="comparison-cell">
+                                    <span class="comparison-emoji">🤩</span>
+                                    兴奋
+                                </div>
+                                <div class="comparison-cell">15%</div>
+                                <div class="comparison-cell">10%</div>
+                                <div class="comparison-cell positive">+5%</div>
+                            </div>
+                            <div class="comparison-row">
+                                <div class="comparison-cell">
+                                    <span class="comparison-emoji">😰</span>
+                                    焦虑
+                                </div>
+                                <div class="comparison-cell">12%</div>
+                                <div class="comparison-cell">15%</div>
+                                <div class="comparison-cell positive">-3%</div>
+                            </div>
+                            <div class="comparison-row">
+                                <div class="comparison-cell">
+                                    <span class="comparison-emoji">😢</span>
+                                    悲伤
+                                </div>
+                                <div class="comparison-cell">8%</div>
+                                <div class="comparison-cell">10%</div>
+                                <div class="comparison-cell positive">-2%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chart Explanation -->
+                    <div class="chart-explanation">
+                        <div class="chart-explanation-title">
+                            <span class="chart-explanation-icon">📊</span>
+                            什么是情绪对比？
+                        </div>
+                        <div class="chart-explanation-content">
+                            情绪对比显示了不同时期（如本周与上周）各种情绪的比例变化。通过对比分析，您可以了解自己情绪的变化趋势，识别出情绪改善或恶化的情况。
+                        </div>
+                        <div class="chart-insight">
+                            <span class="chart-insight-icon">💡</span>
+                            <div>与上周相比，您本周的开心情绪增加了10%，而平静情绪减少了10%。这可能表明您本周经历了更多令人兴奋的事情。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="screen-footer">
+                <div class="nav-item">
+                    <div class="nav-icon">📝</div>
+                    <div class="nav-label">记录</div>
+                </div>
+                <div class="nav-item active">
+                    <div class="nav-icon">📊</div>
+                    <div class="nav-label">统计</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">⚙️</div>
+                    <div class="nav-label">设置</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Screen -->
+        <div id="settings-screen" class="screen-container fade-in" style="display: none;">
+            <div class="screen-header">
+                <div class="screen-title">设置</div>
+            </div>
+            <div class="screen-content">
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-icon">🎨</span>
+                        外观
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-icon">🌙</div>
+                        <div class="settings-content">
+                            <div class="settings-title">深色模式</div>
+                            <div class="settings-subtitle">使用深色主题</div>
+                        </div>
+                        <div class="settings-action">
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-icon">🌐</div>
+                        <div class="settings-content">
+                            <div class="settings-title">语言</div>
+                            <div class="settings-subtitle">简体中文</div>
+                        </div>
+                        <div class="settings-action">
+                            <span>›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-icon">🔔</span>
+                        通知
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-icon">🔔</div>
+                        <div class="settings-content">
+                            <div class="settings-title">每日提醒</div>
+                            <div class="settings-subtitle">每日情绪记录提醒</div>
+                        </div>
+                        <div class="settings-action">
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-icon">⏰</div>
+                        <div class="settings-content">
+                            <div class="settings-title">提醒时间</div>
+                            <div class="settings-subtitle">上午 9:00</div>
+                        </div>
+                        <div class="settings-action">
+                            <span>›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-icon">😊</span>
+                        情绪管理
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-icon">😊</div>
+                        <div class="settings-content">
+                            <div class="settings-title">管理情绪</div>
+                            <div class="settings-subtitle">添加、编辑或删除自定义情绪</div>
+                        </div>
+                        <div class="settings-action">
+                            <span>›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-icon">ℹ️</span>
+                        关于
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-icon">ℹ️</div>
+                        <div class="settings-content">
+                            <div class="settings-title">她的晴雨表</div>
+                            <div class="settings-subtitle">版本 1.0.0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="screen-footer">
+                <div class="nav-item">
+                    <div class="nav-icon">📝</div>
+                    <div class="nav-label">记录</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">📊</div>
+                    <div class="nav-label">统计</div>
+                </div>
+                <div class="nav-item active">
+                    <div class="nav-icon">⚙️</div>
+                    <div class="nav-label">设置</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        // Check for saved theme preference or default to light
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            themeToggle.checked = true;
+        }
+        
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Tab Navigation
+        const tabs = document.querySelectorAll('.nav-tab');
+        const recordScreen = document.getElementById('record-screen');
+        const statisticsScreen = document.getElementById('statistics-screen');
+        const settingsScreen = document.getElementById('settings-screen');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Hide all screens
+                recordScreen.style.display = 'none';
+                statisticsScreen.style.display = 'none';
+                settingsScreen.style.display = 'none';
+                
+                // Show selected screen
+                const tabName = this.getAttribute('data-tab');
+                if (tabName === 'record') {
+                    recordScreen.style.display = 'block';
+                } else if (tabName === 'statistics') {
+                    statisticsScreen.style.display = 'block';
+                } else if (tabName === 'settings') {
+                    settingsScreen.style.display = 'block';
+                }
+            });
+        });
+        
+        // Footer Navigation
+        const footerNavItems = document.querySelectorAll('.nav-item');
+        
+        footerNavItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Get the parent screen to determine which screen we're on
+                const parentScreen = this.closest('.screen-container');
+                let screenName = '';
+                
+                // Determine which screen this nav item belongs to
+                if (parentScreen.id === 'record-screen') {
+                    screenName = 'record';
+                } else if (parentScreen.id === 'statistics-screen') {
+                    screenName = 'statistics';
+                } else if (parentScreen.id === 'settings-screen') {
+                    screenName = 'settings';
+                }
+                
+                // Find the index of this nav item to determine which tab to switch to
+                const navItems = Array.from(parentScreen.querySelectorAll('.nav-item'));
+                const index = navItems.indexOf(this);
+                
+                // Map index to tab name
+                let tabName = '';
+                if (index === 0) {
+                    tabName = 'record';
+                } else if (index === 1) {
+                    tabName = 'statistics';
+                } else if (index === 2) {
+                    tabName = 'settings';
+                }
+                
+                // Switch to the corresponding tab
+                if (tabName) {
+                    // Find and click the corresponding top tab
+                    const topTab = document.querySelector(`.nav-tab[data-tab="${tabName}"]`);
+                    if (topTab) {
+                        topTab.click();
+                    }
+                }
+            });
+        });
+        
+        // Emotion Selection
+        const emotionCards = document.querySelectorAll('.emotion-card');
+        const emotionSelector = document.getElementById('emotion-selector');
+        const scrollProgressBar = document.getElementById('scroll-progress-bar');
+        
+        // Update scroll progress bar based on scroll position
+        function updateScrollProgress() {
+            const scrollTop = emotionSelector.scrollTop;
+            const scrollHeight = emotionSelector.scrollHeight;
+            const clientHeight = emotionSelector.clientHeight;
+            
+            // Calculate scroll progress (0 to 100)
+            const scrollProgress = (scrollTop / (scrollHeight - clientHeight)) * 100;
+            
+            // Update progress bar
+            scrollProgressBar.style.width = `${Math.min(scrollProgress, 100)}%`;
+            
+            // Show/hide progress bar based on whether scrolling is needed
+            if (scrollHeight > clientHeight) {
+                scrollProgressBar.parentElement.style.opacity = '1';
+            } else {
+                scrollProgressBar.parentElement.style.opacity = '0';
+            }
+        }
+        
+        // Emotion card click handler
+        emotionCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove selected class from all cards
+                emotionCards.forEach(c => c.classList.remove('selected'));
+                
+                // Add selected class to clicked card
+                this.classList.add('selected');
+            });
+        });
+        
+        // Scroll event listener for emotion selector
+        emotionSelector.addEventListener('scroll', updateScrollProgress);
+        
+        // Initialize scroll progress bar
+        updateScrollProgress();
+        
+        // Intensity Slider
+        const intensitySlider = document.getElementById('intensity-slider');
+        const intensityValue = document.querySelector('.intensity-value');
+        
+        const intensityLabels = {
+            1: '很低',
+            2: '低',
+            3: '中等',
+            4: '高',
+            5: '很高'
+        };
+        
+        intensitySlider.addEventListener('input', function() {
+            const value = this.value;
+            intensityValue.textContent = `强度: ${intensityLabels[value]}`;
+        });
+        
+        // Time Range Selector
+        const timeRangeSelect = document.getElementById('time-range-select');
+        const customRangeContainer = document.getElementById('custom-range-container');
+        const startDateInput = document.getElementById('start-date');
+        const endDateInput = document.getElementById('end-date');
+        
+        // Handle time range selection
+        timeRangeSelect.addEventListener('change', function() {
+            if (this.value === 'custom') {
+                customRangeContainer.classList.add('active');
+                // Set default dates (last 30 days)
+                const endDate = new Date();
+                const startDate = new Date();
+                startDate.setDate(startDate.getDate() - 30);
+                
+                endDateInput.value = endDate.toISOString().split('T')[0];
+                startDateInput.value = startDate.toISOString().split('T')[0];
+            } else {
+                customRangeContainer.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

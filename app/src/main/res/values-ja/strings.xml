@@ -33,6 +33,17 @@
     <string name="emotion_confused">混乱</string>
     <string name="emotion_grateful">感謝</string>
     <string name="emotion_lonely">孤独</string>
+    <string name="emotion_thinking">思考</string>
+    <string name="emotion_confident">自信</string>
+    <string name="emotion_celebrating">祝う</string>
+    <string name="emotion_fearful">恐懼</string>
+    <string name="emotion_dissatisfied">不満</string>
+    <string name="emotion_stressed">ストレス</string>
+    <string name="emotion_wronged">委屈</string>
+    <string name="emotion_satisfied">満足</string>
+    <string name="emotion_helpless">無力</string>
+    <string name="emotion_embarrassed">尴尬</string>
+    <string name="emotion_silent">沈黙</string>
     
     <!-- 感情の説明 -->
     <string name="emotion_happy_desc">嬉しくて満足している</string>
@@ -44,7 +55,18 @@
     <string name="emotion_tired_desc">疲れている、眠い</string>
     <string name="emotion_confused_desc">困惑している、迷っている</string>
     <string name="emotion_grateful_desc">感謝している</string>
-    <string name="emotion_lonely_desc">孤独、寂しい</string>
+    <string name="emotion_lonely_desc">孤立感や寂しさを感じる</string>
+    <string name="emotion_thinking_desc">深く考えたり、沉思したりする</string>
+    <string name="emotion_confident_desc">自信と確信に満ちている</string>
+    <string name="emotion_celebrating_desc">成果や喜び事を祝う</string>
+    <string name="emotion_fearful_desc">怖いと感じる、恐懼する</string>
+    <string name="emotion_dissatisfied_desc">物事に不満を感じる</string>
+    <string name="emotion_stressed_desc">圧力や緊張を感じる</string>
+    <string name="emotion_wronged_desc">不当な扱いを受けたと感じる</string>
+    <string name="emotion_satisfied_desc">満足感と充足感を感じる</string>
+    <string name="emotion_helpless_desc">無力感やどうしようもない気持ち</string>
+    <string name="emotion_embarrassed_desc">気まずさや不自然さを感じる</string>
+    <string name="emotion_silent_desc">沈黙を選ぶ</string>
     
     <!-- Emotion Intensity -->
     <string name="intensity_very_low">とても低い</string>
@@ -61,6 +83,11 @@
     <string name="last_month">先月</string>
     <string name="last_3_months">過去3ヶ月</string>
     <string name="last_year">過去1年</string>
+    <string name="time_range_selector_label">統計時間範囲を選択</string>
+    <string name="last_six_months">過去半年</string>
+    <string name="custom_range">指定範囲</string>
+    <string name="start_date">開始日</string>
+    <string name="end_date">終了日</string>
     <string name="chart_type">グラフタイプ</string>
     <string name="bar_chart">棒グラフ</string>
     <string name="line_chart">折れ線グラフ</string>
@@ -72,9 +99,46 @@
     <string name="chart_emotion_counts">感情別の回数</string>
     <string name="chart_emotion_trend">感情の変化傾向</string>
     <string name="chart_emotion_distribution">感情の分布</string>
+    <string name="emotion_overview">感情概観</string>
+    <string name="emotion_distribution">感情分布</string>
+    <string name="emotion_trend_change">感情傾向の変化</string>
+    <string name="emotion_patterns">感情パターン</string>
+    <string name="emotion_comparison">感情比較</string>
     <string name="chart_empty_hint">記録を開始してグラフを表示しましょう</string>
     <string name="cd_chart_emotion_counts">感情別回数の棒グラフ</string>
    <string name="cd_chart_distribution">感情分布の円グラフ</string>
+    
+    <!-- Chart Explanations -->
+    <string name="chart_explanation_distribution_title">感情分布とは？</string>
+    <string name="chart_explanation_distribution_content">感情分布は、選択した時間範囲内で、さまざまな感情が記録に占める割合を示します。これにより、自分の感情パターン、主要な感情、あまり現れない感情を理解できます。</string>
+    <string name="chart_insight_distribution">データによると、幸せな感情が最も高い割合（40%）を占めており、全体として積極的で楽観的な人であることを示しています。</string>
+    
+    <string name="chart_explanation_trend_title">感情傾向とは？</string>
+    <string name="chart_explanation_trend_content">感情傾向は、感情の強度が時間とともにどのように変化するかを示します。傾向線を観察することで、感情の変動、感情のピークと谷、感情に影響を与える可能性のある要因を理解できます。</string>
+    <string name="chart_insight_trend">感情傾向によると、水曜日に感情がピークに達し、火曜日は感情が低いです。これは、仕事のスケジュールや社交活動に関連している可能性があります。</string>
+    
+    <string name="chart_explanation_patterns_title">感情パターンとは？</string>
+    <string name="chart_explanation_patterns_content">感情パターンは、感情データを分析して発見された規則性と傾向です。これらのパターンは、時間、天気、平日などの要因に関連している可能性があり、自分の感情変化のパターンをよりよく理解するのに役立ちます。</string>
+    <string name="chart_insight_patterns">データによると、朝は感情がより積極的で、夜はより落ち着いています。これは、感情の変化に一定の日常的なパターンがあることを示しています。</string>
+    
+    <string name="chart_explanation_comparison_title">感情比較とは？</string>
+    <string name="chart_explanation_comparison_content">感情比較は、異なる期間（今週と先週など）でのさまざまな感情の割合の変化を示します。比較分析を通じて、感情の変化傾向を理解し、感情の改善や悪化を特定できます。</string>
+    <string name="chart_insight_comparison" formatted="false">先週と比較して、今週は幸せな感情が10%増加し、穏やかな感情が10%減少しました。これは、今週より刺激的なことを経験した可能性があることを示しています。</string>
+    
+    <!-- Pattern Cards -->
+    <string name="morning_pattern">朝のパターン</string>
+    <string name="evening_pattern">夜のパターン</string>
+    <string name="weekday_pattern">平日パターン</string>
+    <string name="weather_pattern">天気の影響</string>
+    <string name="morning_happiest">朝が最も幸せ</string>
+    <string name="evening_calmest">夜が最も落ち着く</string>
+    <string name="weekday_most_excited">平日が最も興奮</string>
+    <string name="sunny_happier">晴れの日がより幸せ</string>
+    
+    <!-- Comparison Table -->
+    <string name="this_week">今週</string>
+    <string name="last_week_label">先週</string>
+    <string name="change">変化</string>
     
     <!-- Settings Page -->
     <string name="settings">設定</string>
@@ -98,6 +162,8 @@
     <string name="language_ja">日本語</string>
     <string name="language_ko">한국어</string>
     <string name="language_en">English</string>
+    <string name="emotion_management">感情管理</string>
+    <string name="manage_emotions_desc">カスタム感情の追加、編集、削除</string>
 
     <string name="about_app">アプリについて</string>
     <string name="about_app_description">彼女の気分バロメーター - 人生のすべての気分を記録</string>
@@ -120,7 +186,6 @@
     <!-- Date and Time -->
     <string name="today">今日</string>
     <string name="yesterday">昨日</string>
-    <string name="this_week">今週</string>
     <string name="this_month">今月</string>
     <string name="select_date">日付を選択</string>
     <string name="select_time">時間を選択</string>
