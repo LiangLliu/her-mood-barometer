@@ -2,11 +2,13 @@ package com.lianglliu.hermoodbarometer.ui.screen.record.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -29,6 +31,10 @@ import androidx.compose.ui.unit.sp
 import com.lianglliu.hermoodbarometer.domain.model.Emotion
 import com.lianglliu.hermoodbarometer.domain.model.EmotionProvider
 
+
+private const val MIN_EMOTIONS_FOR_SCROLL_INDICATOR = 12
+private val EMOTION_CARD_SIZE = 80.dp // 如果这个尺寸是固定的且多处使用
+
 /**
  * 统一的情绪选择器组件
  * 支持预定义情绪和自定义情绪的选择
@@ -43,65 +49,116 @@ fun EmotionSelector(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val predefinedEmotions = EmotionProvider.getLocalizedDefaultEmotions(context)
-    val allEmotions = predefinedEmotions + userEmotions
+
+    val predefinedEmotions = remember(context) { // Memoize based on context
+        EmotionProvider.getLocalizedDefaultEmotions(context)
+    }
+    val allEmotions by remember(predefinedEmotions, userEmotions) {
+        derivedStateOf { // Or remember { ... }
+            predefinedEmotions + userEmotions
+        }
+    }
+
     val gridState = rememberLazyGridState()
-    
+
     // 计算滚动进度
     val scrollProgress by remember {
         derivedStateOf {
-            val layoutInfo = gridState.layoutInfo
-            if (layoutInfo.totalItemsCount == 0) return@derivedStateOf 0f
-            
-            val visibleItemsInfo = layoutInfo.visibleItemsInfo
-            if (visibleItemsInfo.isEmpty()) return@derivedStateOf 0f
-            
-            val firstVisibleItem = visibleItemsInfo.first()
-            val lastVisibleItem = visibleItemsInfo.last()
-            
-            val firstVisibleItemScrollOffset = firstVisibleItem.offset.packedValue
+            if (gridState.layoutInfo.totalItemsCount == 0) {
+                0f
+            } else {
+                // Index of the first visible item
+                val firstVisibleItemIndex = gridState.firstVisibleItemIndex
+                // Offset of the first visible item from the top of the viewport
+                val firstVisibleItemScrollOffset = gridState.firstVisibleItemScrollOffset
 
-            val totalScrollRange = layoutInfo.viewportEndOffset - layoutInfo.viewportStartOffset
-            val currentScrollOffset = firstVisibleItemScrollOffset
-            
-            currentScrollOffset.toFloat() / (totalScrollRange - layoutInfo.viewportEndOffset + layoutInfo.viewportStartOffset).coerceAtLeast(1)
+                // Estimate the total scrollable height.
+                // This assumes all items have roughly the same height.
+                // For a more precise calculation with varying item heights, this becomes more complex.
+                // In your case, EmotionCard has a fixed size (80.dp), so this is a good approximation.
+                val estimatedTotalContentHeight =
+                    gridState.layoutInfo.totalItemsCount * EMOTION_CARD_SIZE.value // Assuming 80.dp is item height
+                val viewportHeight = gridState.layoutInfo.viewportSize.height
+
+                // Calculate how much content is scrolled "above" the viewport
+                val scrolledPastHeight =
+                    firstVisibleItemIndex * EMOTION_CARD_SIZE.value + firstVisibleItemScrollOffset
+
+                // Total scrollable distance
+                val totalScrollableDistance =
+                    (estimatedTotalContentHeight - viewportHeight).coerceAtLeast(1f) // Ensure not zero or negative
+
+                if (totalScrollableDistance <= 0f) {
+                    0f // Not scrollable or fully visible
+                } else {
+                    (scrolledPastHeight / totalScrollableDistance).coerceIn(0f, 1f)
+                }
+            }
         }
     }
-    
+
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // 滚动进度指示器
-        if (allEmotions.size > 12) { // 只在需要滚动时显示进度条
-            LinearProgressIndicator(
-                progress = scrollProgress,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(4.dp),
-                color = MaterialTheme.colorScheme.primary,
-                trackColor = MaterialTheme.colorScheme.outlineVariant
-            )
-        }
-        
+        ScrollIndicator(
+            isVisible = allEmotions.size > MIN_EMOTIONS_FOR_SCROLL_INDICATOR,
+            progress = scrollProgress
+        )
+
         // 情绪网格
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 80.dp),
-            modifier = Modifier
+        EmotionsGrid(
+            emotions = allEmotions,
+            gridState = gridState,
+            selectedEmotion = selectedEmotion,
+            onEmotionClicked = onEmotionSelected // 或者 onCardClicked，取决于你是否采纳了建议2
+        )
+    }
+}
+
+@Composable
+private fun ScrollIndicator(
+    isVisible: Boolean,
+    progress: Float,
+    modifier: Modifier = Modifier
+) {
+    if (isVisible) {
+        LinearProgressIndicator(
+            progress = { progress },
+            modifier = modifier
                 .fillMaxWidth()
-                .height(300.dp),
-            state = gridState,
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(8.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(allEmotions) { emotion ->
-                EmotionCard(
-                    emotion = emotion,
-                    isSelected = selectedEmotion?.id == emotion.id,
-                    onClick = { onEmotionSelected(emotion) }
-                )
-            }
+                .height(4.dp),
+            color = MaterialTheme.colorScheme.primary,
+            trackColor = MaterialTheme.colorScheme.outlineVariant
+        )
+    }
+}
+
+@Composable
+private fun EmotionsGrid(
+    emotions: List<Emotion>,
+    gridState: LazyGridState,
+    selectedEmotion: Emotion?,
+    onEmotionClicked: (Emotion) -> Unit, // 或者 onCardClicked
+    modifier: Modifier = Modifier
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = EMOTION_CARD_SIZE), // 使用常量
+        modifier = modifier
+            .fillMaxWidth()
+            .height(300.dp), // 这个高度也可以考虑作为参数或常量
+        state = gridState,
+        contentPadding = PaddingValues(8.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        items(emotions, key = { it.id }) { emotion ->
+            EmotionCard(
+                emotion = emotion,
+                isSelected = selectedEmotion?.id == emotion.id,
+                onCardClicked = onEmotionClicked
+            )
         }
     }
 }
@@ -114,11 +171,11 @@ fun EmotionSelector(
 private fun EmotionCard(
     emotion: Emotion,
     isSelected: Boolean,
-    onClick: () -> Unit,
+    onCardClicked: (Emotion) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        onClick = onClick,
+        onClick = { onCardClicked(emotion) },
         modifier = modifier.size(80.dp),
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) {
@@ -144,7 +201,7 @@ private fun EmotionCard(
                 fontSize = 28.sp,
                 textAlign = TextAlign.Center
             )
-            
+
             // 情绪名称
             Text(
                 text = emotion.name,

@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 AppCompatDelegate.setDefaultNightMode(mode)
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             // 安全兜底，异常时遵循系统
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
