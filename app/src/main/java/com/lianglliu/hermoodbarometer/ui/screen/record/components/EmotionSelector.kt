@@ -1,5 +1,6 @@
 package com.lianglliu.hermoodbarometer.ui.screen.record.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,6 +18,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -30,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lianglliu.hermoodbarometer.domain.model.Emotion
 import com.lianglliu.hermoodbarometer.domain.model.EmotionProvider
-
 
 private const val MIN_EMOTIONS_FOR_SCROLL_INDICATOR = 12
 private val EMOTION_CARD_SIZE = 80.dp // 如果这个尺寸是固定的且多处使用
@@ -87,23 +88,38 @@ fun EmotionSelector(
         }
     }
 
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+    OutlinedCard(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+        ),
+        border = BorderStroke(
+            0.5.dp,
+            MaterialTheme.colorScheme.primary
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(280.dp)
     ) {
-        // 滚动进度指示器
-        ScrollIndicator(
-            isVisible = allEmotions.size > MIN_EMOTIONS_FOR_SCROLL_INDICATOR,
-            progress = scrollProgress
-        )
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(top = 0.dp, bottom = 16.dp, start = 4.dp, end = 4.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // 滚动进度指示器
+            ScrollIndicator(
+                isVisible = allEmotions.size > MIN_EMOTIONS_FOR_SCROLL_INDICATOR,
+                progress = scrollProgress
+            )
 
-        // 情绪网格
-        EmotionsGrid(
-            emotions = allEmotions,
-            gridState = gridState,
-            selectedEmotion = selectedEmotion,
-            onEmotionClicked = onEmotionSelected // 或者 onCardClicked，取决于你是否采纳了建议2
-        )
+            // 情绪网格
+            EmotionsGrid(
+                emotions = allEmotions,
+                gridState = gridState,
+                selectedEmotion = selectedEmotion,
+                onEmotionClicked = onEmotionSelected // 或者 onCardClicked，取决于你是否采纳了建议2
+            )
+        }
     }
 }
 

@@ -25,6 +25,7 @@ fun NoteInput(
 ) {
     Card(
         modifier = modifier.fillMaxWidth()
+            .padding(top = 8.dp, bottom = 8.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
