@@ -32,6 +32,35 @@ class RecordViewModel @Inject constructor(
     private val emotionDefinitionRepository: EmotionDefinitionRepository
 ) : ViewModel() {
 
+    companion object {
+        const val DEFAULT_INTENSITY_LEVEL = 3f
+        const val MIN_INTENSITY_LEVEL = 1f
+        const val MAX_INTENSITY_LEVEL = 5f
+        const val MAX_NOTE_LENGTH = 500
+
+        // Error message tags (can be more specific if needed)
+        const val ERROR_TAG_NETWORK = "network"
+        const val ERROR_TAG_TIMEOUT = "timeout"
+        const val ERROR_TAG_DATABASE = "database"
+
+        // Generic error messages
+        const val ERROR_MSG_SAVE_FAILED_RETRY = "保存失败，请重试"
+        const val ERROR_MSG_NETWORK_FAILURE = "网络连接失败，请检查网络后重试"
+        const val ERROR_MSG_REQUEST_TIMEOUT = "请求超时，请重试"
+        const val ERROR_MSG_DATABASE_SAVE_FAILED = "数据保存失败，请重试"
+        const val ERROR_MSG_INVALID_INPUT = "输入数据无效，请检查后重试"
+        const val ERROR_MSG_APP_STATE_ERROR = "应用状态异常，请重启应用后重试"
+        const val ERROR_MSG_SYSTEM_ERROR = "系统异常，请重试"
+
+        // Validation messages
+        const val VALIDATION_MSG_SELECT_EMOTION = "请选择情绪类型"
+        const val VALIDATION_MSG_INTENSITY_RANGE =
+            "情绪强度必须在${MIN_INTENSITY_LEVEL.toInt()}-${MAX_INTENSITY_LEVEL.toInt()}之间"
+
+        fun validationMsgNoteLength(maxLength: Int) = "备注不能超过${maxLength}个字符"
+
+    }
+
     /** 内部可变的UI状态 */
     private val _uiState = MutableStateFlow(RecordUiState())
 
@@ -47,6 +76,7 @@ class RecordViewModel @Inject constructor(
      */
     private fun loadUserEmotions() {
         viewModelScope.launch {
+            // Assuming this flow is designed to emit updates if user emotions change elsewhere
             emotionDefinitionRepository.getUserCreatedEmotions().collect { emotions ->
                 _uiState.update { state ->
                     state.copy(userEmotions = emotions)
@@ -62,7 +92,7 @@ class RecordViewModel @Inject constructor(
         _uiState.update { currentState ->
             currentState.copy(
                 selectedEmotion = emotion,
-                errorMessage = null
+                errorMessage = null // Clear previous error when selection changes
             )
         }
     }
@@ -91,7 +121,6 @@ class RecordViewModel @Inject constructor(
     fun saveEmotionRecord() {
         val currentState = _uiState.value
 
-        // 详细验证数据
         val validationError = validateEmotionRecord(currentState)
         if (validationError != null) {
             _uiState.update { state ->
@@ -100,75 +129,61 @@ class RecordViewModel @Inject constructor(
             return
         }
 
-        val selectedEmotion = currentState.selectedEmotion!!
-        
-        // 使用新的情绪记录创建方法
+        // selectedEmotion is guaranteed to be non-null here due to validation
         val emotionRecord = EmotionRecord.fromEmotion(
-            emotion = selectedEmotion,
+            emotion = currentState.selectedEmotion!!,
             intensity = currentState.intensityLevel.toInt(),
             note = currentState.noteText
         )
 
-        // 显示加载状态
         _uiState.update { state ->
             state.copy(isLoading = true, errorMessage = null)
         }
 
         viewModelScope.launch {
-            try {
-                val result = addEmotionRecordUseCase(emotionRecord)
-                result.fold(
-                    onSuccess = {
-                        // 保存成功，重置表单但保留自定义情绪列表
-                        _uiState.update { state ->
-                            state.copy(
-                                selectedEmotion = null,
-                                intensityLevel = 3f,
-                                noteText = "",
-                                isLoading = false,
-                                errorMessage = null,
-                                showSuccessMessage = true
-                            )
-                        }
-                    },
-                    onFailure = { exception ->
-                        // 保存失败，显示友好的错误信息
-                        val friendlyErrorMessage = when {
-                            exception.message?.contains("network", ignoreCase = true) == true ->
-                                "网络连接失败，请检查网络后重试"
-
-                            exception.message?.contains("timeout", ignoreCase = true) == true ->
-                                "请求超时，请重试"
-
-                            exception.message?.contains("database", ignoreCase = true) == true ->
-                                "数据保存失败，请重试"
-
-                            else -> "保存失败，请重试"
-                        }
-                        _uiState.update { state ->
-                            state.copy(
-                                isLoading = false,
-                                errorMessage = friendlyErrorMessage
-                            )
-                        }
+            addEmotionRecordUseCase(emotionRecord)
+                .onSuccess {
+                    _uiState.update { state ->
+                        state.copy(
+                            selectedEmotion = null,
+                            intensityLevel = DEFAULT_INTENSITY_LEVEL,
+                            noteText = "",
+                            isLoading = false,
+                            errorMessage = null,
+                            showSuccessMessage = true
+                        )
                     }
-                )
-            } catch (e: Exception) {
-                // 处理未捕获的异常
-                val friendlyErrorMessage = when (e) {
-                    is IllegalArgumentException -> "输入数据无效，请检查后重试"
-                    is IllegalStateException -> "应用状态异常，请重启应用后重试"
-                    else -> "系统异常，请重试"
                 }
-                _uiState.update { state ->
-                    state.copy(
-                        isLoading = false,
-                        errorMessage = friendlyErrorMessage
-                    )
+                .onFailure { exception ->
+                    _uiState.update { state ->
+                        state.copy(
+                            isLoading = false,
+                            errorMessage = mapExceptionToFriendlyMessage(exception)
+                        )
+                    }
                 }
-            }
         }
     }
+
+    /**
+     * 将异常映射为用户友好的错误消息。
+     * 假设 UseCase 会将特定的业务异常（如网络、数据库问题）封装并传递。
+     */
+    private fun mapExceptionToFriendlyMessage(exception: Throwable): String {
+        // Log the actual exception for debugging purposes
+        // Log.e("RecordViewModel", "Error saving emotion record", exception)
+
+        val message = exception.message?.lowercase() ?: ""
+        return when {
+            message.contains(ERROR_TAG_NETWORK) -> ERROR_MSG_NETWORK_FAILURE
+            message.contains(ERROR_TAG_TIMEOUT) -> ERROR_MSG_REQUEST_TIMEOUT
+            message.contains(ERROR_TAG_DATABASE) -> ERROR_MSG_DATABASE_SAVE_FAILED
+            exception is IllegalArgumentException -> ERROR_MSG_INVALID_INPUT
+            exception is IllegalStateException -> ERROR_MSG_APP_STATE_ERROR
+            else -> ERROR_MSG_SAVE_FAILED_RETRY
+        }
+    }
+
 
     /**
      * 清除成功消息
@@ -194,13 +209,13 @@ class RecordViewModel @Inject constructor(
     private fun validateEmotionRecord(state: RecordUiState): String? {
         return when {
             state.selectedEmotion == null ->
-                "请选择情绪类型"
+                VALIDATION_MSG_SELECT_EMOTION
 
-            state.intensityLevel < 1f || state.intensityLevel > 5f ->
-                "情绪强度必须在1-5之间"
+            state.intensityLevel < MIN_INTENSITY_LEVEL || state.intensityLevel > MAX_INTENSITY_LEVEL ->
+                VALIDATION_MSG_INTENSITY_RANGE
 
-            state.noteText.length > 500 ->
-                "备注不能超过500个字符"
+            state.noteText.length > MAX_NOTE_LENGTH ->
+                validationMsgNoteLength(MAX_NOTE_LENGTH)
 
             else -> null
         }
@@ -209,10 +224,12 @@ class RecordViewModel @Inject constructor(
 
 /**
  * 记录页面的UI状态
+ * (No changes needed here based on the ViewModel refactoring,
+ * but ensure its KDoc is up-to-date if RecordViewModel.DEFAULT_INTENSITY_LEVEL is used as its default)
  *
  * @property selectedEmotion 当前选中的情绪
  * @property userEmotions 用户创建的情绪列表
- * @property intensityLevel 情绪强度等级（1-5，默认3）
+ * @property intensityLevel 情绪强度等级（默认由 RecordViewModel.DEFAULT_INTENSITY_LEVEL 定义）
  * @property noteText 备注文本内容
  * @property isLoading 是否正在保存数据
  * @property errorMessage 错误信息（null表示无错误）
@@ -226,4 +243,4 @@ data class RecordUiState(
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
     val showSuccessMessage: Boolean = false
-) 
+)
