@@ -42,3 +42,15 @@ fun getBottomNavItems(): List<BottomNavItem> {
         )
     )
 }
+
+/**
+ * 判断是否需要隐藏底部导航栏的页面
+ * 这些页面使用独立的 FullScreenContainer
+ */
+fun shouldHideBottomBar(currentRoute: String?): Boolean {
+    return when (currentRoute) {
+        Screen.EmotionManagement.route -> true
+        // 未来可以添加更多需要全屏显示的页面
+        else -> false
+    }
+}

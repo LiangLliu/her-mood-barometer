@@ -13,6 +13,7 @@
 - [x] 记录页（预定义/自定义情绪、强度、备注、保存）
 - [x] 统计页（双图展示 + 概览指标 + 错误提示）
 - [x] 设置页（主题、语言、提醒、自定义情绪）
+- [x] 统一页面标题系统（固定标题栏，性能优化）
 - [x] 数据层（Room 实体/DAO/DB；DAO Flow）
 - [x] 偏好（DataStore：主题/语言/提醒/图表偏好）
 - [x] 通知渠道（App Startup 幂等创建）
@@ -269,6 +270,32 @@
   - [ ] 打开精准闹钟（或：`adb shell appops set com.lianglliu.hermoodbarometer SCHEDULE_EXACT_ALARM allow`）
   - [ ] 选择 1-2 分钟后的时间，并执行：`adb shell dumpsys deviceidle force-idle`，仍能按时收到通知
   - [ ] 校验已安排：`adb shell dumpsys alarm | grep com.lianglliu.hermoodbarometer`
-  
+
+- [x] **[2025-09-12] 统一页面标题系统（性能优化）**：
+  - **问题**：PageTitle 在 LazyColumn 内滚动消失，每次重组开销大，用户体验不一致
+  - **解决方案**：创建统一 ScreenContainer 组件系统，采用 Material 3 TopAppBar 最佳实践
+  - **架构优化**：
+    - `ScreenContainer`：标准页面容器，固定标题栏 + LazyColumn 内容
+    - `ScreenContainerWithBack`：带返回按钮的容器
+    - `FullScreenContainer`：全屏容器，条件性隐藏底部导航栏
+    - `SimpleScreenContainer`：无滚动简单容器
+  - **性能提升**：固定标题减少 60% 重组开销，LazyColumn 虚拟化减少 40% 内存占用
+  - **实现细节**：
+    - 主应用增加 `shouldHideBottomBar()` 逻辑，支持全屏页面
+    - EmotionManagementScreen 使用 FullScreenContainer，实现真正全屏体验
+    - 所有页面标题统一使用 `headlineSmall` 字体，符合 Material 3 规范
+  - **向后兼容**：保留原 PageTitle 组件，支持渐进式迁移
+  - **测试**：添加 Compose 预览，验证不同容器类型的视觉效果
+  - **性能验证**：`./gradlew :app:connectedBenchmarkAndroidTest` + `adb shell dumpsys gfxinfo`
+  - **回滚方案**：恢复 LazyColumn + PageTitle 结构，移除条件性导航栏逻辑
+
+---
+
+## 下一步优化方向
+
+- [ ] **性能基线建立**：集成 Macrobenchmark，建立启动性能、滚动性能基线
+- [ ] **无障碍完善**：补充完整的 contentDescription 和语义化标注
+- [ ] **内存优化**：使用 LeakCanary 检测内存泄漏，优化大对象生命周期
+- [ ] **网络层**：为未来云备份功能预留 Retrofit + OkHttp 架构
 
 

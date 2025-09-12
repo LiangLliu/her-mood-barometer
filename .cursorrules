@@ -28,6 +28,17 @@ Jetpack Compose、Material 3、Navigation Compose、Kotlin Coroutines、StateFlo
 - Room：KSP；必要索引；变更提供 Migration 或说明 destructive 风险。
 - 安全：不输出可识别私密内容；密钥用占位并给出安全存储方案。
 
+## UI 组件与性能规范（UI Component Standards）
+- **页面容器**：统一使用 `ScreenContainer` 系列组件，禁止在 LazyColumn 内放置 PageTitle
+  - `ScreenContainer`：标准页面（固定标题 + 滚动内容）
+  - `FullScreenContainer`：全屏页面（无底部导航栏 + 返回按钮）
+  - `ScreenContainerWithBack`：带返回按钮的标准页面
+  - `SimpleScreenContainer`：无滚动的简单页面
+- **性能优先**：固定标题栏避免重组开销；LazyColumn 虚拟化；独立重组域
+- **Material 3 规范**：标题使用 `headlineSmall`；遵循 TopAppBar 设计规范
+- **条件性导航**：使用 `shouldHideBottomBar()` 控制底部导航栏显示
+- **预览完备**：所有 UI 组件必须提供 `@Preview` 函数
+
 ## 图表/Vico 规范（2.1.3）
 - 仅柱/线图；Compose M3 用法：`CartesianChartHost(chart = rememberCartesianChart(...), modelProducer = ...)`。
 - 柱：`rememberColumnCartesianLayer()`；线：`rememberLineCartesianLayer()`。
@@ -64,6 +75,7 @@ Jetpack Compose、Material 3、Navigation Compose、Kotlin Coroutines、StateFlo
 
 5. **性能与流畅性评估**
    - 明确性能目标（例如 cold start ≤ 800ms、主线程阻塞 < 10ms、目标帧率 60fps 且掉帧 < 1%）。
+   - **UI 性能要求**：固定标题栏减少重组开销；避免 LazyColumn 内嵌套滚动组件；使用统一页面容器
    - 提供**基线测量方法**与命令（建议用 Macrobenchmark plugin、Android Profiler、Systrace），并说明如何在 CI/本地复现。
    - 如果无法测量（我没提供基线），默认给出建议的 benchmark 步骤与示例命令/脚本供我运行并回传数据。
 
@@ -108,6 +120,10 @@ Jetpack Compose、Material 3、Navigation Compose、Kotlin Coroutines、StateFlo
 - **不要在任何地方硬编码密钥或外部凭证**。若示例用到密钥请使用占位符并提供安全存储说明。
 - **隐私优先**：默认采用本地优先（本地存储 + 可选云备份需用户显式同意）。
 - **无障碍**：UI 相关改动必须补充 accessibility 注释/semantics 验证说明。
+- **UI 组件规范强制执行**：
+  - 新页面必须使用 ScreenContainer 系列组件
+  - 全屏页面必须使用 FullScreenContainer 并配置 shouldHideBottomBar()
+  - 所有自定义组件必须提供 @Preview 预览函数
 - **若请求涉及生成或显示伴侣的敏感信息**，在提供完整实现前先提醒：请确认已取得对方同意并告知数据用途与保留策略。
 
 ## 快速提示模板（当我向你提问时可直接填充）

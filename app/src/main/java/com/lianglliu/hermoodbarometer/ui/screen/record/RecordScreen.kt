@@ -1,12 +1,9 @@
 package com.lianglliu.hermoodbarometer.ui.screen.record
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
@@ -16,7 +13,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -25,7 +21,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.ui.components.ErrorCard
-import com.lianglliu.hermoodbarometer.ui.components.PageTitle
+import com.lianglliu.hermoodbarometer.ui.components.ScreenContainer
 import com.lianglliu.hermoodbarometer.ui.screen.record.components.EmotionIntensitySelector
 import com.lianglliu.hermoodbarometer.ui.screen.record.components.EmotionSelector
 import com.lianglliu.hermoodbarometer.ui.screen.record.components.NoteInput
@@ -74,21 +70,10 @@ fun RecordScreen(
         }
     }
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 8.dp) // Screen content padding
-            .imePadding(), // Handles keyboard
-        verticalArrangement = Arrangement.spacedBy(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally // If you want items like buttons to be centered
+    ScreenContainer(
+        title = stringResource(R.string.record_title),
+        modifier = Modifier.imePadding() // Handles keyboard
     ) {
-        item {
-            PageTitle(
-                title = stringResource(R.string.record_title),
-                modifier = Modifier.padding(top = 16.dp) // Adjust top padding if no TopAppBar
-            )
-        }
-
         item {
             EmotionSelector(
                 selectedEmotion = uiState.selectedEmotion,
@@ -121,7 +106,6 @@ fun RecordScreen(
                 )
             }
         }
-
 
         item {
             SaveButton(

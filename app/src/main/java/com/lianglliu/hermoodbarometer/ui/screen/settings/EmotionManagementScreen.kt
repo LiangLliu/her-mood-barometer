@@ -3,15 +3,13 @@ package com.lianglliu.hermoodbarometer.ui.screen.settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -25,9 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -44,6 +40,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.domain.model.Emotion
+import com.lianglliu.hermoodbarometer.ui.components.FullScreenContainer
 import com.lianglliu.hermoodbarometer.ui.screen.settings.components.EmojiSelector
 
 /**
@@ -69,20 +66,9 @@ fun EmotionManagementScreen(
         }
     }
     
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.manage_emotions)) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.back)
-                        )
-                    }
-                }
-            )
-        },
+    FullScreenContainer(
+        title = stringResource(R.string.manage_emotions),
+        onNavigateBack = onNavigateBack,
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { showAddDialog = true }
@@ -92,45 +78,38 @@ fun EmotionManagementScreen(
                     contentDescription = stringResource(R.string.add_emotion)
                 )
             }
-        }
-    ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            if (uiState.userEmotions.isEmpty()) {
-                item {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = stringResource(R.string.no_user_emotions),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-            } else {
-                items(uiState.userEmotions) { emotion ->
-                    EmotionCard(
-                        emotion = emotion,
-                        onEdit = {
-                            selectedEmotion = emotion
-                            showEditDialog = true
-                        },
-                        onDelete = {
-                            selectedEmotion = emotion
-                            showDeleteDialog = true
-                        }
+        },
+        contentPadding = PaddingValues(16.dp)
+    ) {
+        if (uiState.userEmotions.isEmpty()) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = stringResource(R.string.no_user_emotions),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center
                     )
                 }
+            }
+        } else {
+            items(uiState.userEmotions) { emotion ->
+                EmotionCard(
+                    emotion = emotion,
+                    onEdit = {
+                        selectedEmotion = emotion
+                        showEditDialog = true
+                    },
+                    onDelete = {
+                        selectedEmotion = emotion
+                        showDeleteDialog = true
+                    }
+                )
             }
         }
     }

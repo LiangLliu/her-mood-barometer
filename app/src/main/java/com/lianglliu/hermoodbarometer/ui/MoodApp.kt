@@ -11,7 +11,6 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +35,7 @@ import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.ui.navigation.MoodNavigation
 import com.lianglliu.hermoodbarometer.ui.navigation.Screen
 import com.lianglliu.hermoodbarometer.ui.navigation.getBottomNavItems
+import com.lianglliu.hermoodbarometer.ui.navigation.shouldHideBottomBar
 import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsViewModel
 import com.lianglliu.hermoodbarometer.ui.theme.HerMoodBarometerTheme
 
@@ -64,6 +64,7 @@ fun MoodApp() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+    val currentRoute = currentDestination?.route
 
     HerMoodBarometerTheme(
         darkTheme = isDarkTheme ?: isSystemInDarkTheme(),
@@ -74,64 +75,67 @@ fun MoodApp() {
             containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.onBackground,
             bottomBar = {
-                NavigationBar(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                    tonalElevation = 3.dp
-                ) {
-                    getBottomNavItems().forEach { item ->
-                        val isSelected = currentDestination?.hierarchy?.any {
-                            it.route == item.screen.route
-                        } == true
+                // 条件性显示底部导航栏
+                if (!shouldHideBottomBar(currentRoute)) {
+                    NavigationBar(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                        tonalElevation = 3.dp
+                    ) {
+                        getBottomNavItems().forEach { item ->
+                            val isSelected = currentDestination?.hierarchy?.any {
+                                it.route == item.screen.route
+                            } == true
 
-                        NavigationBarItem(
-                            icon = {
-                                BadgedBox(
-                                    badge = {
-                                        // 可以在这里添加徽章，如通知数量
+                            NavigationBarItem(
+                                icon = {
+                                    BadgedBox(
+                                        badge = {
+                                            // 可以在这里添加徽章，如通知数量
 //                                         Badge { Text("3") }
+                                        }
+                                    ) {
+                                        Icon(
+                                            imageVector = if (isSelected) {
+                                                getFilledIconForScreen(item.screen)
+                                            } else {
+                                                getOutlinedIconForScreen(item.screen)
+                                            },
+                                            contentDescription = getDisplayName(item.titleResId),
+                                            modifier = Modifier.size(24.dp)
+                                        )
                                     }
-                                ) {
-                                    Icon(
-                                        imageVector = if (isSelected) {
-                                            getFilledIconForScreen(item.screen)
-                                        } else {
-                                            getOutlinedIconForScreen(item.screen)
-                                        },
-                                        contentDescription = getDisplayName(item.titleResId),
-                                        modifier = Modifier.size(24.dp)
+                                },
+                                label = {
+                                    Text(
+                                        text = getDisplayName(item.titleResId),
+                                        style = MaterialTheme.typography.labelMedium
                                     )
-                                }
-                            },
-                            label = {
-                                Text(
-                                    text = getDisplayName(item.titleResId),
-                                    style = MaterialTheme.typography.labelMedium
-                                )
-                            },
-                            selected = isSelected,
-                            onClick = {
-                                navController.navigate(item.screen.route) {
-                                    // Pop up to the start destination of the graph to
-                                    // avoid building up a large stack of destinations
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+                                },
+                                selected = isSelected,
+                                onClick = {
+                                    navController.navigate(item.screen.route) {
+                                        // Pop up to the start destination of the graph to
+                                        // avoid building up a large stack of destinations
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        // Avoid multiple copies of the same destination when
+                                        // reselecting the same item
+                                        launchSingleTop = true
+                                        // Restore state when reselecting a previously selected item
+                                        restoreState = true
                                     }
-                                    // Avoid multiple copies of the same destination when
-                                    // reselecting the same item
-                                    launchSingleTop = true
-                                    // Restore state when reselecting a previously selected item
-                                    restoreState = true
-                                }
-                            },
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                indicatorColor = MaterialTheme.colorScheme.primaryContainer,
-                                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                },
+                                colors = NavigationBarItemDefaults.colors(
+                                    selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }

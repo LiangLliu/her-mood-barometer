@@ -1,21 +1,15 @@
 package com.lianglliu.hermoodbarometer.ui.screen.statistics
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.ui.components.ErrorCard
-import com.lianglliu.hermoodbarometer.ui.components.PageTitle
+import com.lianglliu.hermoodbarometer.ui.components.ScreenContainer
 import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.EmotionBarChartCard
 import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.EmotionComparisonExplanation
 import com.lianglliu.hermoodbarometer.ui.screen.statistics.components.EmotionDistributionExplanation
@@ -43,16 +37,9 @@ fun StatisticsScreen(
         }
     }
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ScreenContainer(
+        title = stringResource(R.string.statistics)
     ) {
-        item {
-            PageTitle(title = stringResource(R.string.statistics))
-        }
-
         item {
             TimeRangeSelector(
                 selectedTimeRange = uiState.selectedTimeRange,

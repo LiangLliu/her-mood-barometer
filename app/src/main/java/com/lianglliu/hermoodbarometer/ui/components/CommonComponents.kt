@@ -14,25 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-/**
- * 页面标题组件
- */
-@Composable
-fun PageTitle(
-    title: String,
-    modifier: Modifier = Modifier
-) {
-    Text(
-        text = title,
-        style = MaterialTheme.typography.headlineMedium,
-        modifier = modifier.fillMaxWidth(),
-        textAlign = TextAlign.Center
-    )
-}
 
 /**
  * 统计项组件

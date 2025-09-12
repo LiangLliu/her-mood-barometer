@@ -1,23 +1,19 @@
 package com.lianglliu.hermoodbarometer.ui.screen.settings
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.R
-import com.lianglliu.hermoodbarometer.ui.components.PageTitle
+import com.lianglliu.hermoodbarometer.ui.components.ScreenContainer
 import com.lianglliu.hermoodbarometer.ui.permissions.PermissionHelpers
 import com.lianglliu.hermoodbarometer.ui.screen.settings.components.AboutSection
 import com.lianglliu.hermoodbarometer.ui.screen.settings.components.AppearanceSection
@@ -50,16 +46,10 @@ fun SettingsScreen(
 
     // per-app locales 将自动应用，无需手动重建 Activity
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ScreenContainer(
+        title = stringResource(R.string.settings),
+        contentPadding = PaddingValues(16.dp)
     ) {
-        item {
-            PageTitle(title = stringResource(R.string.settings))
-        }
-
         item {
             // 外观设置
             AppearanceSection(
