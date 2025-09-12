@@ -14,13 +14,12 @@
     <string name="select_emotion">感情を選択</string>
     <string name="predefined_emotions">事前定義された感情</string>
     <string name="custom_emotions">カスタム感情</string>
-    <string name="emotion_intensity">感情の強度</string>
+    <string name="emotion_intensity">感情の強度: %s</string>
     <string name="add_note">メモを追加</string>
     <string name="note_placeholder">今の気分はいかがですか？</string>
     <string name="save_record">記録を保存</string>
     <string name="record_saved">記録が保存されました</string>
     <string name="record_saved_successfully">記録が保存されました！</string>
-    <string name="intensity_level">強度：%s</string>
     
     <!-- Emotion Types -->
     <string name="emotion_happy">嬉しい</string>

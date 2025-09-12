@@ -1,5 +1,6 @@
 package com.lianglliu.hermoodbarometer.ui.screen.record.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,10 +12,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.lianglliu.hermoodbarometer.R
-import com.lianglliu.hermoodbarometer.domain.model.EmotionIntensity
+
+
+private const val NUMBER_OF_INTENSITY_LEVELS = 5
+private const val TAG = "EmotionIntensity" // 用于日志
+
 
 /**
  * 获取情绪强度的本地化显示名称
@@ -27,7 +31,11 @@ private fun getIntensityDisplayName(level: Int): String {
         3 -> stringResource(R.string.intensity_medium)
         4 -> stringResource(R.string.intensity_high)
         5 -> stringResource(R.string.intensity_very_high)
-        else -> stringResource(R.string.intensity_medium)
+        else -> {
+            // 对于非预期值，记录警告并返回一个安全的默认值
+            Log.w(TAG, "Unexpected intensity level: $level, defaulting to medium.")
+            stringResource(R.string.intensity_medium)
+        }
     }
 }
 
@@ -48,22 +56,18 @@ fun EmotionIntensitySelector(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = stringResource(R.string.emotion_intensity),
+                text = stringResource(
+                    R.string.emotion_intensity,
+                    getIntensityDisplayName(intensityLevel.toInt())
+                ),
                 style = MaterialTheme.typography.titleMedium
             )
-            
+
             Slider(
                 value = intensityLevel,
                 onValueChange = onIntensityChanged,
-                valueRange = 1f..5f,
-                steps = 3,
-                modifier = Modifier.fillMaxWidth()
-            )
-            
-            Text(
-                text = stringResource(R.string.intensity_level, getIntensityDisplayName(intensityLevel.toInt())),
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center,
+                valueRange = 1f..NUMBER_OF_INTENSITY_LEVELS.toFloat(),
+                steps = NUMBER_OF_INTENSITY_LEVELS - 2,
                 modifier = Modifier.fillMaxWidth()
             )
         }

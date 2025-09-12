@@ -1,24 +1,23 @@
 <resources>
     <!-- App Basic -->
     <string name="app_name">她的晴雨表</string>
-    
+
     <!-- Navigation -->
     <string name="nav_record">記錄</string>
     <string name="nav_statistics">統計</string>
     <string name="nav_settings">設定</string>
-    
+
     <!-- Record Page -->
     <string name="record_title">記錄當前心情</string>
     <string name="record_emotion">記錄心情</string>
     <string name="select_emotion_type">選擇情緒類型</string>
-    <string name="emotion_intensity">情緒強度</string>
+    <string name="emotion_intensity">情緒強度: %s</string>
     <string name="add_note">添加備註</string>
     <string name="note_placeholder">現在心情如何？</string>
     <string name="save_record">儲存記錄</string>
     <string name="record_saved">記錄儲存成功</string>
     <string name="record_saved_successfully">記錄儲存成功！</string>
-    <string name="intensity_level">強度：%s</string>
-    
+
     <!-- Emotion Types -->
     <string name="emotion_happy">開心</string>
     <string name="emotion_sad">難過</string>
@@ -41,7 +40,7 @@
     <string name="emotion_helpless">無奈</string>
     <string name="emotion_embarrassed">尷尬</string>
     <string name="emotion_silent">沉默</string>
-    
+
     <!-- 情緒描述 -->
     <string name="emotion_happy_desc">感到快樂和滿足</string>
     <string name="emotion_sad_desc">感到悲傷或沮喪</string>
@@ -64,14 +63,14 @@
     <string name="emotion_helpless_desc">感到無奈或無力</string>
     <string name="emotion_embarrassed_desc">感到尷尬或不自在</string>
     <string name="emotion_silent_desc">選擇沉默不語</string>
-    
+
     <!-- Emotion Intensity -->
     <string name="intensity_very_low">非常低</string>
     <string name="intensity_low">較低</string>
     <string name="intensity_medium">中等</string>
     <string name="intensity_high">較高</string>
     <string name="intensity_very_high">非常高</string>
-    
+
     <!-- Statistics Page -->
     <string name="statistics">統計</string>
     <string name="mood_trends">情緒趨勢</string>
@@ -104,24 +103,24 @@
     <string name="chart_empty_hint">開始記錄心情以查看圖表</string>
     <string name="cd_chart_emotion_counts">按情緒的次數長條圖</string>
     <string name="cd_chart_distribution">情緒分佈圓餅圖</string>
-    
+
     <!-- Chart Explanations -->
     <string name="chart_explanation_distribution_title">什麼是情緒分布？</string>
     <string name="chart_explanation_distribution_content">情緒分布顯示了在選定時間範圍內，各種情緒在您的記錄中所佔的比例。這幫助您了解自己的情緒模式，哪些情緒是您的主要情緒，哪些情緒較少出現。</string>
     <string name="chart_insight_distribution">根據您的數據，開心情緒佔比最高（40%），這表明您整體上是一個積極樂觀的人。</string>
-    
+
     <string name="chart_explanation_trend_title">什麼是情緒趨勢？</string>
     <string name="chart_explanation_trend_content">情緒趨勢顯示了您的情緒強度如何隨時間變化。通過觀察趨勢線，您可以了解自己情緒的波動情況，識別出情緒的高峰和低谷，以及可能影響您情緒的因素。</string>
     <string name="chart_insight_trend">您的情緒趨勢顯示，週三情緒達到峰值，而週二情緒較低。這可能與您的工作日程或社交活動有關。</string>
-    
+
     <string name="chart_explanation_patterns_title">什麼是情緒模式？</string>
     <string name="chart_explanation_patterns_content">情緒模式是通過分析您的情緒數據發現的規律和趨勢。這些模式可能與時間、天氣、工作日等因素相關，幫助您更好地了解自己的情緒變化規律。</string>
     <string name="chart_insight_patterns">您的數據顯示，早晨情緒通常較為積極，而晚上則更加平靜。這表明您的情緒變化有一定的日常規律。</string>
-    
+
     <string name="chart_explanation_comparison_title">什麼是情緒對比？</string>
     <string name="chart_explanation_comparison_content">情緒對比顯示了不同時期（如本週與上週）各種情緒的比例變化。通過對比分析，您可以了解自己情緒的變化趨勢，識別出情緒改善或惡化的情況。</string>
     <string name="chart_insight_comparison" formatted="false">與上週相比，這週開心情緒增加了10%，而平靜情緒減少了10%。這可能表明這週經歷了更多令人興奮的事情。</string>
-    
+
     <!-- Pattern Cards -->
     <string name="morning_pattern">早晨模式</string>
     <string name="evening_pattern">夜晚模式</string>
@@ -131,12 +130,12 @@
     <string name="evening_calmest">夜晚最平靜</string>
     <string name="weekday_most_excited">工作日最興奮</string>
     <string name="sunny_happier">晴天更開心</string>
-    
+
     <!-- Comparison Table -->
     <string name="this_week">本週</string>
     <string name="last_week_label">上週</string>
     <string name="change">變化</string>
-    
+
     <!-- Settings Page -->
     <string name="settings">設定</string>
     <string name="custom_emotions">自訂情緒</string>
@@ -167,7 +166,7 @@
     <string name="about_app_description">她的晴雨表 - 記錄生活中的每一份心情</string>
     <string name="version">版本</string>
 
-    
+
     <!-- Common Actions -->
     <string name="save">儲存</string>
     <string name="cancel">取消</string>
@@ -180,25 +179,25 @@
     <string name="back">返回</string>
     <string name="next">下一步</string>
     <string name="close">關閉</string>
-    
+
     <!-- Date and Time -->
     <string name="today">今天</string>
     <string name="yesterday">昨天</string>
     <string name="this_month">本月</string>
     <string name="select_date">選擇日期</string>
     <string name="select_time">選擇時間</string>
-    
+
     <!-- Error Messages -->
     <string name="error_generic">發生錯誤</string>
     <string name="error_no_emotion_selected">請選擇一種情緒</string>
     <string name="error_save_failed">儲存記錄失敗</string>
     <string name="error_delete_failed">刪除記錄失敗</string>
     <string name="error_load_data_failed">載入資料失敗</string>
-    
+
     <!-- Confirmation Messages -->
     <string name="confirm_delete_record">確定要刪除這條記錄嗎？</string>
 
-    
+
     <!-- Notifications -->
     <string name="notification_title">心情簽到</string>
     <string name="notification_text">今天心情如何？</string>
@@ -209,13 +208,13 @@
     <string name="exact_alarm_permission_title">允許精確鬧鐘</string>
     <string name="exact_alarm_permission_message">為了準時觸發提醒，請在系統設定中允許精確鬧鐘。</string>
     <string name="open_settings">開啟設定</string>
-    
+
     <!-- Accessibility -->
     <string name="cd_emotion_button">情緒選擇按鈕</string>
     <string name="cd_intensity_slider">情緒強度滑桿</string>
     <string name="cd_add_note">新增備註按鈕</string>
     <string name="cd_save_record">儲存記錄按鈕</string>
-    
+
     <!-- Custom Emotions -->
     <string name="emotion_name">情緒名稱</string>
     <string name="description">描述</string>

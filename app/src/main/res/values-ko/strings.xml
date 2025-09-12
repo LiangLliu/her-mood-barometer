@@ -14,13 +14,12 @@
     <string name="select_emotion">감정 선택</string>
     <string name="predefined_emotions">미리 정의된 감정</string>
     <string name="custom_emotions">사용자 정의 감정</string>
-    <string name="emotion_intensity">감정 강도</string>
+    <string name="emotion_intensity">감정 강도: %s</string>
     <string name="add_note">메모 추가</string>
     <string name="note_placeholder">지금 기분이 어떠신가요？</string>
     <string name="save_record">기록 저장</string>
     <string name="record_saved">기록이 저장되었습니다</string>
     <string name="record_saved_successfully">기록이 저장되었습니다！</string>
-    <string name="intensity_level">강도：%s</string>
     
     <!-- Emotion Types -->
     <string name="emotion_happy">행복</string>

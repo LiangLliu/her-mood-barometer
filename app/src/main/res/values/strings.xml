@@ -14,13 +14,12 @@
     <string name="select_emotion">Select Emotion</string>
     <string name="predefined_emotions">Predefined Emotions</string>
     <string name="custom_emotions">Custom Emotions</string>
-    <string name="emotion_intensity">Emotion Intensity</string>
+    <string name="emotion_intensity">Emotion Intensity: %s</string>
     <string name="add_note">Add Note</string>
     <string name="note_placeholder">How are you feeling right now?</string>
     <string name="save_record">Save Record</string>
     <string name="record_saved">Record saved successfully</string>
     <string name="record_saved_successfully">Record saved successfully!</string>
-    <string name="intensity_level">Intensity: %s</string>
     
     <!-- Emotion Types -->
     <string name="emotion_happy">Happy</string>
