@@ -40,7 +40,7 @@ fun NoteInput(
                 onValueChange = onNoteChanged,
                 placeholder = { Text(stringResource(R.string.note_placeholder)) },
                 modifier = Modifier.fillMaxWidth(),
-                minLines = 3,
+                minLines = 2,
                 maxLines = 5
             )
         }

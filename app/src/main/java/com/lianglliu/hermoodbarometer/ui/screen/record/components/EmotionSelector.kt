@@ -67,29 +67,19 @@ fun EmotionSelector(
             if (gridState.layoutInfo.totalItemsCount == 0) {
                 0f
             } else {
-                // Index of the first visible item
                 val firstVisibleItemIndex = gridState.firstVisibleItemIndex
-                // Offset of the first visible item from the top of the viewport
                 val firstVisibleItemScrollOffset = gridState.firstVisibleItemScrollOffset
-
-                // Estimate the total scrollable height.
-                // This assumes all items have roughly the same height.
-                // For a more precise calculation with varying item heights, this becomes more complex.
-                // In your case, EmotionCard has a fixed size (80.dp), so this is a good approximation.
                 val estimatedTotalContentHeight =
-                    gridState.layoutInfo.totalItemsCount * EMOTION_CARD_SIZE.value // Assuming 80.dp is item height
+                    gridState.layoutInfo.totalItemsCount * EMOTION_CARD_SIZE.value
                 val viewportHeight = gridState.layoutInfo.viewportSize.height
-
-                // Calculate how much content is scrolled "above" the viewport
                 val scrolledPastHeight =
                     firstVisibleItemIndex * EMOTION_CARD_SIZE.value + firstVisibleItemScrollOffset
 
-                // Total scrollable distance
                 val totalScrollableDistance =
-                    (estimatedTotalContentHeight - viewportHeight).coerceAtLeast(1f) // Ensure not zero or negative
+                    (estimatedTotalContentHeight - viewportHeight).coerceAtLeast(1f)
 
                 if (totalScrollableDistance <= 0f) {
-                    0f // Not scrollable or fully visible
+                    0f
                 } else {
                     (scrolledPastHeight / totalScrollableDistance).coerceIn(0f, 1f)
                 }
@@ -147,11 +137,11 @@ private fun EmotionsGrid(
         columns = GridCells.Adaptive(minSize = EMOTION_CARD_SIZE), // 使用常量
         modifier = modifier
             .fillMaxWidth()
-            .height(300.dp), // 这个高度也可以考虑作为参数或常量
+            .height(250.dp), // 这个高度也可以考虑作为参数或常量
         state = gridState,
-        contentPadding = PaddingValues(8.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        contentPadding = PaddingValues(4.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(emotions, key = { it.id }) { emotion ->
             EmotionCard(
