@@ -101,7 +101,7 @@ private val LightColorScheme = lightColorScheme(
  * 应用主题组件
  * 支持动态色彩、深色模式，并提供自定义设计tokens
  * 符合 Material Design 3 规范
- * 
+ *
  * @param darkTheme 是否使用深色主题
  * @param dynamicColor 是否启用Android 12+的动态色彩
  * @param content 主题内容
@@ -117,6 +117,7 @@ fun HerMoodBarometerTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
+
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }

@@ -46,7 +46,7 @@ fun StatisticsScreen(
                 onTimeRangeChanged = { viewModel.updateTimeRange(it) },
                 customStartDate = uiState.customStartDate,
                 customEndDate = uiState.customEndDate,
-                onCustomDateRangeChanged = { start, end -> 
+                onCustomDateRangeChanged = { start, end ->
                     viewModel.updateCustomDateRange(start, end)
                 }
             )

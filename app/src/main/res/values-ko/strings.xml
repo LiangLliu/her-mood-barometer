@@ -188,6 +188,13 @@
     <string name="this_month">이번 달</string>
     <string name="select_date">날짜 선택</string>
     <string name="select_time">시간 선택</string>
+    <string name="select_start_date">시작 날짜 선택</string>
+    <string name="select_end_date">종료 날짜 선택</string>
+    
+    <!-- Date Range Errors -->
+    <string name="date_range_error_start_after_end">시작 날짜는 종료 날짜보다 늦을 수 없습니다</string>
+    <string name="date_range_error_start_future">시작 날짜는 미래 날짜일 수 없습니다</string>
+    <string name="date_range_error_end_future">종료 날짜는 미래 날짜일 수 없습니다</string>
     
     <!-- Error Messages -->
     <string name="error_generic">오류가 발생했습니다</string>

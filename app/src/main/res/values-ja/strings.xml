@@ -188,6 +188,13 @@
     <string name="this_month">今月</string>
     <string name="select_date">日付を選択</string>
     <string name="select_time">時間を選択</string>
+    <string name="select_start_date">開始日付を選択</string>
+    <string name="select_end_date">終了日付を選択</string>
+    
+    <!-- Date Range Errors -->
+    <string name="date_range_error_start_after_end">開始日付は終了日付より後にできません</string>
+    <string name="date_range_error_start_future">開始日付は未来の日付にできません</string>
+    <string name="date_range_error_end_future">終了日付は未来の日付にできません</string>
     
     <!-- Error Messages -->
     <string name="error_generic">エラーが発生しました</string>

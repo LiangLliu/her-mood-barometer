@@ -29,27 +29,27 @@ data class AppDimens(
     val listItemHeight: Dp = 56.dp,
     val fabSize: Dp = 56.dp,
     val iconButtonSize: Dp = 48.dp,
-    
+
     // 组件宽度
     val dialogMaxWidth: Dp = 560.dp,
     val chipMinWidth: Dp = 96.dp,
     val bottomSheetMaxWidth: Dp = 640.dp,
-    
+
     // 图标尺寸
     val iconSizeSmall: Dp = 16.dp,
     val iconSizeMedium: Dp = 24.dp,
     val iconSizeLarge: Dp = 32.dp,
     val iconSizeXLarge: Dp = 48.dp,
-    
+
     // 头像尺寸
     val avatarSizeSmall: Dp = 32.dp,
     val avatarSizeMedium: Dp = 40.dp,
     val avatarSizeLarge: Dp = 56.dp,
     val avatarSizeXLarge: Dp = 72.dp,
-    
+
     // 缩略图尺寸
     val thumbnailSize: Dp = 72.dp,
-    
+
     // 触摸目标尺寸
     val minTouchTarget: Dp = 48.dp,
 )
@@ -70,23 +70,23 @@ data class AppSpacing(
     val extraLarge: Dp = 32.dp,
     val huge: Dp = 48.dp,
     val massive: Dp = 64.dp,
-    
+
     // 页面间距
     val pageHorizontal: Dp = 16.dp,
     val pageVertical: Dp = 16.dp,
-    
+
     // 卡片间距
     val cardPadding: Dp = 16.dp,
     val cardSpacing: Dp = 8.dp,
-    
+
     // 列表间距
     val listItemPadding: Dp = 16.dp,
     val listItemSpacing: Dp = 8.dp,
-    
+
     // 按钮间距
     val buttonPadding: Dp = 16.dp,
     val buttonSpacing: Dp = 8.dp,
-    
+
     // 对话框间距
     val dialogPadding: Dp = 24.dp,
     val dialogContentSpacing: Dp = 16.dp,
@@ -108,7 +108,7 @@ data class AppShapes(
         large = RoundedCornerShape(16.dp),
         extraLarge = RoundedCornerShape(28.dp)
     ),
-    
+
     // 自定义组件形状
     val button: CornerBasedShape = RoundedCornerShape(8.dp),
     val card: CornerBasedShape = RoundedCornerShape(12.dp),
@@ -118,7 +118,7 @@ data class AppShapes(
     val fab: CornerBasedShape = RoundedCornerShape(16.dp),
     val avatar: CornerBasedShape = RoundedCornerShape(50),
     val image: CornerBasedShape = RoundedCornerShape(8.dp),
-    
+
     // 情绪相关形状
     val emotionCard: CornerBasedShape = RoundedCornerShape(12.dp),
     val emotionChip: CornerBasedShape = RoundedCornerShape(16.dp),
@@ -139,7 +139,7 @@ data class AppElevation(
     val level3: Dp = 6.dp,
     val level4: Dp = 8.dp,
     val level5: Dp = 12.dp,
-    
+
     // 组件特定高程
     val card: Dp = 2.dp,
     val cardElevated: Dp = 6.dp,
@@ -183,17 +183,17 @@ object DesignTokens {
         @androidx.compose.runtime.Composable
         @androidx.compose.runtime.ReadOnlyComposable
         get() = LocalAppDimens.current
-    
+
     val spacing: AppSpacing
         @androidx.compose.runtime.Composable
         @androidx.compose.runtime.ReadOnlyComposable
         get() = LocalAppSpacing.current
-    
+
     val shapes: AppShapes
         @androidx.compose.runtime.Composable
         @androidx.compose.runtime.ReadOnlyComposable
         get() = LocalAppShapes.current
-    
+
     val elevation: AppElevation
         @androidx.compose.runtime.Composable
         @androidx.compose.runtime.ReadOnlyComposable

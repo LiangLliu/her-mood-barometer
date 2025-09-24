@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 /**
  * Material Design 3 色彩系统
  * 基于Material You设计规范的色彩标记系统
- * 
+ *
  * 色彩命名规则：[色相][明度等级]
  * 明度等级：0(最暗) - 100(最亮)
  */

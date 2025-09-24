@@ -103,14 +103,14 @@ internal fun EmotionLineChart(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    
+
                     // 情绪表情符号
                     Text(
                         text = point.emotionEmoji,
                         fontSize = 24.sp,
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
-                    
+
                     // 情绪名称
                     Text(
                         text = point.emotionName,
@@ -118,7 +118,7 @@ internal fun EmotionLineChart(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
-                
+
                 // 分隔线（除了最后一项）
                 if (index < points.size - 1) {
                     androidx.compose.material3.HorizontalDivider(
@@ -135,9 +135,11 @@ internal fun EmotionLineChart(
 @Preview(showBackground = true)
 @Composable
 private fun EmotionLineChartCardEmptyPreview() {
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .height(320.dp)) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(320.dp)
+    ) {
         EmotionLineChartCard(statistics = null)
     }
 }

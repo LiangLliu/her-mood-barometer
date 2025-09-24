@@ -57,7 +57,7 @@ fun StatisticsCard(
             }
         }
     }
-} 
+}
 
 @Composable
 private fun MetricsColumn(
@@ -75,7 +75,9 @@ private fun MetricsColumn(
         )
         StatisticItem(
             label = stringResource(R.string.average_mood),
-            value = if (averageIntensity.isNaN()) stringResource(R.string.no_data) else "%.1f".format(averageIntensity)
+            value = if (averageIntensity.isNaN()) stringResource(R.string.no_data) else "%.1f".format(
+                averageIntensity
+            )
         )
         StatisticItem(
             label = stringResource(R.string.most_frequent_emotion),

@@ -186,6 +186,13 @@
     <string name="this_month">本月</string>
     <string name="select_date">選擇日期</string>
     <string name="select_time">選擇時間</string>
+    <string name="select_start_date">選擇開始日期</string>
+    <string name="select_end_date">選擇結束日期</string>
+    
+    <!-- Date Range Errors -->
+    <string name="date_range_error_start_after_end">開始日期不能晚於結束日期</string>
+    <string name="date_range_error_start_future">開始日期不能是未來日期</string>
+    <string name="date_range_error_end_future">結束日期不能是未來日期</string>
 
     <!-- Error Messages -->
     <string name="error_generic">發生錯誤</string>

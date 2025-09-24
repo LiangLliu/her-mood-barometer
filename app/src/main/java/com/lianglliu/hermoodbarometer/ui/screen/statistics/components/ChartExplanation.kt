@@ -64,7 +64,7 @@ fun ChartExplanation(
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
-            
+
             // 内容
             Text(
                 text = content,
@@ -72,7 +72,7 @@ fun ChartExplanation(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = 20.sp
             )
-            
+
             // 洞察
             Card(
                 colors = CardDefaults.cardColors(

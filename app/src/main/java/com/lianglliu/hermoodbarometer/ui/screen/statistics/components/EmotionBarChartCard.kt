@@ -85,7 +85,7 @@ internal fun EmotionBarChart(
             (statistics.countsByEmotion[it] ?: 0).toFloat()
         }
     }
-    
+
     // 获取表情符号标签用于图表显示
     val chartLabels = remember(emotions, statistics.chartLabelMapping) {
         emotions.map { emotionDisplayText ->

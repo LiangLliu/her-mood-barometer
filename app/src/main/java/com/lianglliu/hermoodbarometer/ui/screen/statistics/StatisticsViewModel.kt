@@ -76,56 +76,56 @@ class StatisticsViewModel @Inject constructor(
     }
 
     /**
- * 清除错误消息
- */
-fun clearErrorMessage() {
-    _uiState.value = _uiState.value.copy(errorMessage = null)
-}
-
-/**
- * 更新自定义日期范围
- */
-fun updateCustomDateRange(startDate: LocalDate, endDate: LocalDate) {
-    _uiState.value = _uiState.value.copy(
-        customStartDate = startDate,
-        customEndDate = endDate
-    )
-    
-    // 如果当前选择的是自定义时间范围，则重新加载数据
-    if (_uiState.value.selectedTimeRange == TimeRange.CUSTOM) {
-        loadCustomStatistics(startDate, endDate)
+     * 清除错误消息
+     */
+    fun clearErrorMessage() {
+        _uiState.value = _uiState.value.copy(errorMessage = null)
     }
-}
 
-/**
- * 加载自定义时间范围的统计数据
- */
-private fun loadCustomStatistics(startDate: LocalDate, endDate: LocalDate) {
-    _uiState.value = _uiState.value.copy(
-        isLoading = true,
-        errorMessage = null
-    )
+    /**
+     * 更新自定义日期范围
+     */
+    fun updateCustomDateRange(startDate: LocalDate, endDate: LocalDate) {
+        _uiState.value = _uiState.value.copy(
+            customStartDate = startDate,
+            customEndDate = endDate
+        )
 
-    viewModelScope.launch {
-        try {
-            // 将 LocalDate 转换为 LocalDateTime
-            val startDateTime = startDate.atStartOfDay()
-            val endDateTime = endDate.atTime(23, 59, 59)
-            
-            getEmotionStatisticsUseCase(startDateTime, endDateTime).collect { statistics ->
-                _uiState.value = _uiState.value.copy(
-                    statistics = statistics,
-                    isLoading = false
-                )
-            }
-        } catch (e: Exception) {
-            _uiState.value = _uiState.value.copy(
-                isLoading = false,
-                errorMessage = e.message ?: "Failed to load custom statistics"
-            )
+        // 如果当前选择的是自定义时间范围，则重新加载数据
+        if (_uiState.value.selectedTimeRange == TimeRange.CUSTOM) {
+            loadCustomStatistics(startDate, endDate)
         }
     }
-}
+
+    /**
+     * 加载自定义时间范围的统计数据
+     */
+    private fun loadCustomStatistics(startDate: LocalDate, endDate: LocalDate) {
+        _uiState.value = _uiState.value.copy(
+            isLoading = true,
+            errorMessage = null
+        )
+
+        viewModelScope.launch {
+            try {
+                // 将 LocalDate 转换为 LocalDateTime
+                val startDateTime = startDate.atStartOfDay()
+                val endDateTime = endDate.atTime(23, 59, 59)
+
+                getEmotionStatisticsUseCase(startDateTime, endDateTime).collect { statistics ->
+                    _uiState.value = _uiState.value.copy(
+                        statistics = statistics,
+                        isLoading = false
+                    )
+                }
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    errorMessage = e.message ?: "Failed to load custom statistics"
+                )
+            }
+        }
+    }
 }
 
 /**

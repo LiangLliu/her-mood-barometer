@@ -188,6 +188,13 @@
     <string name="this_month">This Month</string>
     <string name="select_date">Select Date</string>
     <string name="select_time">Select Time</string>
+    <string name="select_start_date">Select Start Date</string>
+    <string name="select_end_date">Select End Date</string>
+    
+    <!-- Date Range Errors -->
+    <string name="date_range_error_start_after_end">Start date cannot be later than end date</string>
+    <string name="date_range_error_start_future">Start date cannot be in the future</string>
+    <string name="date_range_error_end_future">End date cannot be in the future</string>
     
     <!-- Error Messages -->
     <string name="error_generic">Something went wrong</string>
