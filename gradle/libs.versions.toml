@@ -19,10 +19,10 @@ hilt = "2.57.1"
 hiltNavigation = "1.3.0"
 
 # Room数据库
-room = "2.8.0"
+room = "2.8.1"
 
 # Navigation
-navigationCompose = "2.9.4"
+navigationCompose = "2.9.5"
 
 # DataStore
 datastore = "1.1.7"
@@ -38,7 +38,10 @@ lifecycleRuntime = "2.9.4"
 kotlinxSerialization = "1.9.0"
 
 # WorkManager
-workManager = "2.10.4"
+workManager = "2.10.5"
+
+# aboutLibraries
+aboutLibraries = "12.2.4"
 
 # 新增现代Android依赖
 material3Adaptive = "1.1.1"
@@ -50,6 +53,12 @@ profileinstaller = "1.4.3"
 constraintlayoutCompose = "1.1.1"
 splashscreen = "1.0.1"
 
+# KSP
+ksp = "2.2.20-2.0.3"
+
+# 图表
+vico = "2.2.0"
+
 # 测试相关
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -58,11 +67,6 @@ robolectric = "4.16"
 mockk = "1.14.5"
 turbine = "1.2.1"
 
-# KSP
-ksp = "2.2.20-2.0.3"
-
-# 图表
-vico = "2.2.0"
 
 [libraries]
 # AppCompat
@@ -133,25 +137,19 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
+# vico
 # For Jetpack Compose.
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
-
-# For Material 2 theming in Jetpack Compose.
-vico-compose-m2 = { group = "com.patrykandpatrick.vico", name = "compose-m2", version.ref = "vico" }
-
 # For Material 3 theming in Jetpack Compose.
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
-
-# For Compose Multiplatform (Android, iOS, desktop).
-vico-multiplatform = { group = "com.patrykandpatrick.vico", name = "multiplatform", version.ref = "vico" }
-
-# For Material 2 theming in Compose Multiplatform.
-vico-multiplatform-m2 = { group = "com.patrykandpatrick.vico", name = "multiplatform-m2", version.ref = "vico" }
-
-# For Material 3 theming in Compose Multiplatform.
-vico-multiplatform-m3 = { group = "com.patrykandpatrick.vico", name = "multiplatform-m3", version.ref = "vico" }
 # For the Android view system.
 vico-views = { group = "com.patrykandpatrick.vico", name = "views", version.ref = "vico" }
+
+# aboutlibraries
+# Core module (required for accessing library data)
+aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "aboutLibraries" }
+aboutlibraries-compose-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutLibraries" }      # Material 3 UI
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -160,4 +158,6 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+aboutLibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutLibraries" }
+
 

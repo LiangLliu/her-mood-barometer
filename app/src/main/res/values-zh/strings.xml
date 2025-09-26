@@ -168,6 +168,7 @@
     <string name="about_app_description">她的晴雨表 - 记录生活中的每一份心情</string>
     <string name="about">关于</string>
     <string name="version">版本</string>
+    <string name="licenses">许可</string>
 
     <!-- Common Actions -->
     <string name="save">保存</string>

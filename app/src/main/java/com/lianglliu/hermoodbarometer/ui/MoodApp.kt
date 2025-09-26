@@ -161,6 +161,7 @@ private fun getFilledIconForScreen(screen: Screen): ImageVector {
         Screen.Statistics -> Icons.Default.Info
         Screen.Settings -> Icons.Default.Settings
         Screen.EmotionManagement -> Icons.Default.Settings // 使用设置图标作为默认
+        Screen.AboutLicenses -> Icons.Default.Settings // 使用设置图标作为默认
     }
 }
 
@@ -173,6 +174,7 @@ private fun getOutlinedIconForScreen(screen: Screen): ImageVector {
         Screen.Statistics -> Icons.Outlined.Info
         Screen.Settings -> Icons.Outlined.Settings
         Screen.EmotionManagement -> Icons.Outlined.Settings // 使用设置图标作为默认
+        Screen.AboutLicenses -> Icons.Outlined.Settings // 使用设置图标作为默认
     }
 }
 

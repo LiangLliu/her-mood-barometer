@@ -168,6 +168,7 @@
     <string name="about_app_description">彼女の気分バロメーター - 人生のすべての気分を記録</string>
     <string name="about">アプリについて</string>
     <string name="version">バージョン</string>
+    <string name="licenses">ライセンス</string>
     
     <!-- Common Actions -->
     <string name="save">保存</string>

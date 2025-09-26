@@ -40,7 +40,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.R
 import com.lianglliu.hermoodbarometer.domain.model.Emotion
-import com.lianglliu.hermoodbarometer.ui.components.FullScreenContainer
+import com.lianglliu.hermoodbarometer.ui.components.FullScreenLazyColumnContainer
 import com.lianglliu.hermoodbarometer.ui.screen.settings.components.EmojiSelector
 
 /**
@@ -66,7 +66,7 @@ fun EmotionManagementScreen(
         }
     }
     
-    FullScreenContainer(
+    FullScreenLazyColumnContainer(
         title = stringResource(R.string.manage_emotions),
         onNavigateBack = onNavigateBack,
         floatingActionButton = {

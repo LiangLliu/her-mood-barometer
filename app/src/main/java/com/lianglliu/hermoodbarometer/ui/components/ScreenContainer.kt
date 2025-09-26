@@ -130,7 +130,7 @@ fun ScreenContainerWithBack(
 fun SimpleScreenContainer(
     title: String,
     modifier: Modifier = Modifier,
-    navigationIcon: @Composable (() -> Unit)? = null,
+    onNavigateBack: () -> Unit,
     actions: @Composable (RowScope.() -> Unit)? = null,
     floatingActionButton: @Composable (() -> Unit)? = null,
     content: @Composable () -> Unit
@@ -148,7 +148,19 @@ fun SimpleScreenContainer(
                         }
                     )
                 },
-                navigationIcon = navigationIcon ?: { },
+                navigationIcon = {
+                    IconButton(
+                        onClick = onNavigateBack,
+                        modifier = Modifier.semantics {
+                            contentDescription = "返回上一页"
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.back)
+                        )
+                    }
+                },
                 actions = actions ?: { },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
@@ -184,7 +196,7 @@ fun SimpleScreenContainer(
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FullScreenContainer(
+fun FullScreenLazyColumnContainer(
     title: String,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
@@ -280,7 +292,7 @@ private fun ScreenContainerPreview() {
 @Composable
 private fun FullScreenContainerPreview() {
     HerMoodBarometerTheme {
-        FullScreenContainer(
+        FullScreenLazyColumnContainer(
             title = "全屏页面",
             onNavigateBack = { /* 预览中无操作 */ }
         ) {

@@ -9,6 +9,7 @@ import com.lianglliu.hermoodbarometer.ui.screen.record.RecordScreen
 import com.lianglliu.hermoodbarometer.ui.screen.settings.EmotionManagementScreen
 import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsScreen
 import com.lianglliu.hermoodbarometer.ui.screen.settings.SettingsViewModel
+import com.lianglliu.hermoodbarometer.ui.screen.settings.components.LicensesScreen
 import com.lianglliu.hermoodbarometer.ui.screen.statistics.StatisticsScreen
 
 /**
@@ -40,12 +41,22 @@ fun MoodNavigation(
                 onNavigateToEmotionManagement = {
                     navController.navigate(Screen.EmotionManagement.route)
                 },
+                onNavigateToAboutLicenses = {
+                    navController.navigate(Screen.AboutLicenses.route)
+                },
                 viewModel = settingsViewModel
             )
         }
         
         composable(Screen.EmotionManagement.route) {
             EmotionManagementScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+        composable(Screen.AboutLicenses.route) {
+            LicensesScreen(
                 onNavigateBack = {
                     navController.popBackStack()
                 }

@@ -168,6 +168,7 @@
     <string name="about_app_description">Her Mood Barometer - Record every mood in life</string>
     <string name="about">About</string>
     <string name="version">Version</string>
+    <string name="licenses">Licenses</string>
     
     <!-- Common Actions -->
     <string name="save">Save</string>

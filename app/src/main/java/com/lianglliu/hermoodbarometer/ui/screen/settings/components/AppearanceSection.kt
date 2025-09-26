@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -23,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.lianglliu.hermoodbarometer.R
+import com.lianglliu.hermoodbarometer.ui.components.icons.AppIcons
+import com.lianglliu.hermoodbarometer.ui.components.icons.outlined.Language
 
 /**
  * 外观设置模块
@@ -53,7 +54,7 @@ fun AppearanceSection(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
-            
+
             // 主题设置 todo: 优化主题设置图标
             SettingsItem(
                 icon = if (selectedTheme == "dark") Icons.Default.Info else Icons.Default.Info,
@@ -69,10 +70,10 @@ fun AppearanceSection(
                     )
                 }
             )
-            
+
             // 语言设置 todo: 优化语言设置图标
             SettingsItem(
-                icon = Icons.Default.MoreVert,
+                icon = AppIcons.Outlined.Language,
                 title = stringResource(R.string.language),
                 subtitle = getLanguageDisplayName(selectedLanguage),
                 trailing = {
@@ -123,7 +124,7 @@ fun SettingsItem(
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(24.dp)
             )
-            
+
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(2.dp)
@@ -139,7 +140,7 @@ fun SettingsItem(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            
+
             trailing?.invoke()
         }
     }

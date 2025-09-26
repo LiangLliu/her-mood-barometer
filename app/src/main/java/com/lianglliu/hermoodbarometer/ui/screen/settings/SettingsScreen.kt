@@ -29,6 +29,7 @@ import com.lianglliu.hermoodbarometer.ui.screen.settings.components.TimePickerDi
 @Composable
 fun SettingsScreen(
     onNavigateToEmotionManagement: () -> Unit = {},
+    onNavigateToAboutLicenses: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -94,7 +95,9 @@ fun SettingsScreen(
 
         item {
             // 关于
-            AboutSection()
+            AboutSection(
+                onAboutLicensesClick = onNavigateToAboutLicenses
+            )
         }
     }
 

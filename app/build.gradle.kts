@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.aboutLibraries)
 }
 
 android {
@@ -85,6 +86,17 @@ android {
     }
 }
 
+aboutLibraries {
+    export {
+        prettyPrint = true
+    }
+
+    library {
+        duplicationMode = com.mikepenz.aboutlibraries.plugin.DuplicateMode.MERGE
+        duplicationRule = com.mikepenz.aboutlibraries.plugin.DuplicateRule.SIMPLE
+    }
+}
+
 dependencies {
     // AppCompat (per-app locales backport)
     implementation(libs.androidx.appcompat)
@@ -139,10 +151,12 @@ dependencies {
 
     // 图表库
     implementation(libs.vico.compose)
-    // implementation(libs.vico.compose.m2)
     implementation(libs.vico.compose.m3)
-    // implementation(libs.vico.multiplatform)
     implementation(libs.vico.views)
+
+    // aboutlibraries
+    implementation(libs.aboutlibraries.core)
+    implementation(libs.aboutlibraries.compose.m3)
 
 
     // 测试依赖
