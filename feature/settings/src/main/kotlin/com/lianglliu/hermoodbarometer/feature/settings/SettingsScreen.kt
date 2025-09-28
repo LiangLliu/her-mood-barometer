@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +27,8 @@ import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.FormatPain
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.HistoryEdu
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Info
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Language
+import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.MoreVert
+import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Notifications
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Palette
 import com.lianglliu.hermoodbarometer.core.designsystem.theme.supportsDynamicTheming
 import com.lianglliu.hermoodbarometer.core.locales.R
@@ -45,13 +48,9 @@ import com.lianglliu.hermoodbarometer.feature.settings.components.ThemeDialog
 @Composable
 fun SettingsScreen(
     onNavigateToAboutLicenses: () -> Unit = {},
-    onNavigateToEmotionManagement: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val settingsState by viewModel.settingsUiState.collectAsStateWithLifecycle()
-
-    var showLanguageDialog by remember { mutableStateOf(false) }
-    var showTimePicker by remember { mutableStateOf(false) }
 
     SettingsScreen(
         settingsState = settingsState,
@@ -59,6 +58,8 @@ fun SettingsScreen(
         onDynamicColorPreferenceUpdate = viewModel::updateDynamicColorPreference,
         onDarkThemeConfigUpdate = viewModel::updateDarkThemeConfig,
         onLanguageUpdate = viewModel::updateLanguage,
+        onReminderEnabledChanged = viewModel::updateReminderEnabled,
+//        onReminderTimeClick = viewModel::onReminderTimeClick,
     )
 }
 
@@ -70,7 +71,11 @@ private fun SettingsScreen(
     onDynamicColorPreferenceUpdate: (Boolean) -> Unit,
     onDarkThemeConfigUpdate: (DarkThemeConfig) -> Unit,
     onLanguageUpdate: (String) -> Unit,
+    onReminderEnabledChanged: (Boolean) -> Unit,
+//    onReminderTimeClick: () -> Unit,
 ) {
+
+    var showTimePicker by remember { mutableStateOf(false) }
 
     ScreenContainer(
         title = stringResource(R.string.settings),
@@ -95,21 +100,18 @@ private fun SettingsScreen(
                     onLanguageUpdate = onLanguageUpdate,
                 )
 
+                notification(
+                    settings = settingsState.settings,
+                    onReminderEnabledChanged = onReminderEnabledChanged,
+//                    onReminderTimeClick = onReminderTimeClick,
+//                    showTimePicker = showTimePicker,
+                )
+
                 about(
                     onAboutLicensesClick = onLicensesClick
                 )
             }
         }
-
-//        item {
-//            // 外观设置
-//            AppearanceSection(
-//                selectedTheme = uiState.selectedTheme,
-//                selectedLanguage = uiState.selectedLanguage,
-//                onThemeChanged = { theme -> viewModel.updateTheme(theme) },
-//                onLanguageClick = { showLanguageDialog = true }
-//            )
-//        }
 
 
 //        item {
@@ -146,32 +148,9 @@ private fun SettingsScreen(
 
 
     }
+
 //
-//    // 语言选择对话框
-//    if (showLanguageDialog) {
-//        LanguageSelectionDialog(
-//            currentLanguage = uiState.selectedLanguage,
-//            onLanguageSelected = { language ->
-//                viewModel.updateLanguage(language)
-//                showLanguageDialog = false
-//            },
-//            onDismiss = {
-//                showLanguageDialog = false
-//            }
-//        )
-//    }
-//
-//    // 提醒时间选择对话框
-//    if (showTimePicker) {
-//        TimePickerDialog(
-//            currentTime = uiState.reminderTime,
-//            onTimeSelected = { selected ->
-//                // 选中时间即保存并调度
-//                viewModel.updateReminderSettings(isEnabled = true, time = selected)
-//            },
-//            onDismiss = { showTimePicker = false }
-//        )
-//    }
+
 
 }
 
@@ -257,6 +236,63 @@ private fun LazyListScope.appearance(
                 onCheckedChange = onDynamicColorPreferenceUpdate,
             )
         }
+    }
+}
+
+private fun LazyListScope.notification(
+    settings: UserEditableSettings,
+    onReminderEnabledChanged: (Boolean) -> Unit,
+//    onReminderTimeClick: () -> Unit,
+//    showTimePicker: Boolean,
+//    setShowTimePicker: (Boolean) -> Unit,
+) {
+    item { SectionTitle(stringResource(R.string.notifications)) }
+
+    item {
+        // 每日提醒设置
+        SettingsItem(
+            icon = AppIcons.Outlined.Notifications,
+            title = stringResource(R.string.daily_reminder),
+            subtitle = stringResource(R.string.daily_reminder_description),
+            trailing = {
+                Switch(
+                    checked = settings.isReminderEnabled,
+                    onCheckedChange = onReminderEnabledChanged
+                )
+            }
+        )
+    }
+
+    item {
+        if (settings.isReminderEnabled) {
+            SettingsItem(
+                icon = AppIcons.Outlined.MoreVert,
+                title = stringResource(R.string.reminder_time),
+                subtitle = settings.reminderTime,
+//                trailing = {
+//                    IconButton(onClick = onReminderTimeClick) {
+//                        Icon(
+//                            imageVector = AppIcons.Outlined.ChevronRight,
+//                            contentDescription = null,
+//                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+//                        )
+//                    }
+//                },
+//                onClick = onReminderTimeClick
+            )
+        }
+
+//        //  提醒时间选择对话框
+//        if (showTimePicker) {
+//            TimePickerDialog(
+//                currentTime = settings.reminderTime,
+//                onTimeSelected = { selected ->
+//                    // 选中时间即保存并调度
+//                    viewModel.updateReminderSettings(isEnabled = true, time = selected)
+//                },
+//                onDismiss = { showTimePicker = false }
+//            )
+//        }
     }
 }
 

@@ -35,6 +35,7 @@ class SettingsViewModel @Inject constructor(
             settings = UserEditableSettings(
                 useDynamicColor = userData.useDynamicColor,
                 darkThemeConfig = userData.darkThemeConfig,
+                isReminderEnabled = userData.reminderStatus,
                 language = language,
                 availableLanguages = availableLanguages,
             )
@@ -61,6 +62,29 @@ class SettingsViewModel @Inject constructor(
     fun updateLanguage(language: String) {
         appLocaleManager.updateLocale(language)
     }
+
+    fun updateReminderEnabled(reminderStatus: Boolean) {
+
+        viewModelScope.launch {
+//            if (reminderStatus) {
+//                // 通知权限
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+//                    !PermissionHelpers.notificationsEnabled(context)
+//                ) {
+//                    PermissionHelpers.openAppNotificationSettings(context)
+//                }
+//                // 精准闹钟（S+）
+//                if (!PermissionHelpers.canScheduleExactAlarms(context)) {
+//                    PermissionHelpers.openExactAlarmSettings(context)
+//                }
+//            }
+
+            userDataRepository.setReminderStatus(reminderStatus)
+        }
+
+
+
+    }
 }
 
 /**
@@ -72,13 +96,8 @@ data class UserEditableSettings(
     val language: Language,
     val availableLanguages: List<Language>,
 
-//    val isReminderEnabled: Boolean = false,
-//    val reminderTime: String = "09:00",
-//    val userEmotions: List<Emotion> = emptyList(),
-//    val errorMessage: String? = null,
-//    val shouldRecreateActivity: Boolean = false,
-//    // 标记设置是否已从数据源加载完成，避免启动阶段用默认值覆盖已保存的语言
-//    val isInitialized: Boolean = false
+    val isReminderEnabled: Boolean = false,
+    val reminderTime: String = "09:00",
 )
 
 sealed interface SettingsUiState {

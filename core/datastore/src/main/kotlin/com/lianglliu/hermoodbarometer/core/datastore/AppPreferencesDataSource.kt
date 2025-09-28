@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class CsPreferencesDataSource @Inject constructor(
+class AppPreferencesDataSource @Inject constructor(
     private val userPreferences: DataStore<UserPreferences>,
 ) {
     val userData = userPreferences.data
@@ -32,7 +32,8 @@ class CsPreferencesDataSource @Inject constructor(
                     DarkThemeConfigProto.DARK_THEME_CONFIG_LIGHT -> LIGHT
                     DarkThemeConfigProto.DARK_THEME_CONFIG_DARK -> DARK
                 },
-                useDynamicColor = it.useDynamicColor
+                useDynamicColor = it.useDynamicColor,
+                reminderStatus = it.reminderStatus,
             )
         }
 
@@ -59,6 +60,16 @@ class CsPreferencesDataSource @Inject constructor(
             }
         } catch (e: IOException) {
             Log.e(TAG, "Failed to update theme config.", e)
+        }
+    }
+
+    suspend fun setReminderStatus(reminderStatus: Boolean) {
+        try {
+            userPreferences.updateData {
+                it.copy { this.reminderStatus = reminderStatus }
+            }
+        } catch (e: IOException) {
+            Log.e(TAG, "Failed to update dynamic color.", e)
         }
     }
 }
