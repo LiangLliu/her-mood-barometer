@@ -1,0 +1,253 @@
+<resources>
+  <!-- App Basic -->
+  <string name="app_name">그녀의 기분 기압계</string>
+
+  <string name="app_update_available">새 버전 이용 가능</string>
+  <string name="app_update_downloaded">업데이트가 다운로드되었습니다</string>
+  <string name="update">업데이트</string>
+  <string name="install">설치</string>
+
+  <!-- Navigation -->
+  <string name="nav_record">기록</string>
+  <string name="nav_statistics">통계</string>
+  <string name="nav_settings">설정</string>
+
+  <!-- Record Page -->
+  <string name="record_title">현재 기분 기록</string>
+  <string name="record_emotion">기분 기록</string>
+  <string name="select_emotion_type">감정 유형 선택</string>
+  <string name="select_emotion">감정 선택</string>
+  <string name="predefined_emotions">미리 정의된 감정</string>
+  <string name="custom_emotions">사용자 정의 감정</string>
+  <string name="emotion_intensity">감정 강도: %s</string>
+  <string name="add_note">메모 추가</string>
+  <string name="note_placeholder">지금 기분이 어떠신가요？</string>
+  <string name="save_record">기록 저장</string>
+  <string name="record_saved">기록이 저장되었습니다</string>
+  <string name="record_saved_successfully">기록이 저장되었습니다！</string>
+
+  <!-- Emotion Types -->
+  <string name="emotion_happy">행복</string>
+  <string name="emotion_sad">슬픔</string>
+  <string name="emotion_angry">분노</string>
+  <string name="emotion_anxious">불안</string>
+  <string name="emotion_calm">평온</string>
+  <string name="emotion_excited">흥분</string>
+  <string name="emotion_tired">피곤</string>
+  <string name="emotion_confused">혼란</string>
+  <string name="emotion_grateful">감사</string>
+  <string name="emotion_lonely">외로움</string>
+  <string name="emotion_thinking">생각</string>
+  <string name="emotion_confident">자신감</string>
+  <string name="emotion_celebrating">축하</string>
+  <string name="emotion_fearful">두려움</string>
+  <string name="emotion_dissatisfied">불만</string>
+  <string name="emotion_stressed">스트레스</string>
+  <string name="emotion_wronged">억울함</string>
+  <string name="emotion_satisfied">만족</string>
+  <string name="emotion_helpless">무력감</string>
+  <string name="emotion_embarrassed">당황</string>
+  <string name="emotion_silent">침묵</string>
+
+  <!-- 감정 설명 -->
+  <string name="emotion_happy_desc">기쁘고 만족스러움</string>
+  <string name="emotion_sad_desc">슬프거나 울적함</string>
+  <string name="emotion_angry_desc">화가 나거나 짜증남</string>
+  <string name="emotion_anxious_desc">불안하거나 걱정됨</string>
+  <string name="emotion_calm_desc">평화롭고 여유로움</string>
+  <string name="emotion_excited_desc">흥분되고 열정적임</string>
+  <string name="emotion_tired_desc">피곤하거나 졸리움</string>
+  <string name="emotion_confused_desc">혼란스럽거나 확신이 서지 않음</string>
+  <string name="emotion_grateful_desc">감사하고 고마움</string>
+  <string name="emotion_lonely_desc">고립되거나 외로움</string>
+  <string name="emotion_thinking_desc">깊이 생각하거나 명상에 잠김</string>
+  <string name="emotion_confident_desc">자신감과 확신에 가득참</string>
+  <string name="emotion_celebrating_desc">성취나 즐거운 일을 축하함</string>
+  <string name="emotion_fearful_desc">무서워하거나 두려워함</string>
+  <string name="emotion_dissatisfied_desc">사물에 불만을 느낌</string>
+  <string name="emotion_stressed_desc">압박감이나 긴장을 느낌</string>
+  <string name="emotion_wronged_desc">억울하거나 불공정하다고 느낌</string>
+  <string name="emotion_satisfied_desc">만족하고 충족함을 느낌</string>
+  <string name="emotion_helpless_desc">무력하거나 무기력함을 느낌</string>
+  <string name="emotion_embarrassed_desc">당황하거나 어색함을 느낌</string>
+  <string name="emotion_silent_desc">침묵을 선택함</string>
+
+  <!-- Emotion Intensity -->
+  <string name="intensity_very_low">매우 낮음</string>
+  <string name="intensity_low">낮음</string>
+  <string name="intensity_medium">보통</string>
+  <string name="intensity_high">높음</string>
+  <string name="intensity_very_high">매우 높음</string>
+
+  <!-- Statistics Page -->
+  <string name="statistics">통계</string>
+  <string name="mood_trends">기분 추세</string>
+  <string name="time_range">기간</string>
+  <string name="last_week">지난 주</string>
+  <string name="last_month">지난 달</string>
+  <string name="last_3_months">지난 3개월</string>
+  <string name="last_year">지난 1년</string>
+  <string name="time_range_selector_label">통계 시간 범위 선택</string>
+  <string name="last_six_months">최근 6개월</string>
+  <string name="custom_range">지정 범위</string>
+  <string name="start_date">시작일</string>
+  <string name="end_date">종료일</string>
+  <string name="chart_type">차트 유형</string>
+  <string name="bar_chart">막대 차트</string>
+  <string name="line_chart">선 차트</string>
+  <string name="pie_chart">원형 차트</string>
+  <string name="no_data">데이터가 없습니다</string>
+  <string name="total_records">총 기록 수</string>
+  <string name="average_mood">평균 기분</string>
+  <string name="most_frequent_emotion">가장 빈번한 감정</string>
+  <string name="chart_emotion_counts">감정별 횟수</string>
+  <string name="chart_emotion_trend">감정 변화 추이</string>
+  <string name="chart_emotion_distribution">감정 분포</string>
+  <string name="emotion_overview">감정 개요</string>
+  <string name="emotion_distribution">감정 분포</string>
+  <string name="emotion_trend_change">감정 추세 변화</string>
+  <string name="emotion_patterns">감정 패턴</string>
+  <string name="emotion_comparison">감정 비교</string>
+  <string name="chart_empty_hint">기록을 시작하여 차트를 확인하세요</string>
+  <string name="cd_chart_emotion_counts">감정별 횟수 막대 차트</string>
+  <string name="cd_chart_distribution">감정 분포 원형 차트</string>
+
+  <!-- Chart Explanations -->
+  <string name="chart_explanation_distribution_title">감정 분포란?</string>
+  <string name="chart_explanation_distribution_content">감정 분포는 선택한 시간 범위 내에서 다양한 감정이 기록에서 차지하는 비율을 보여줍니다. 이는 자신의 감정 패턴, 주요 감정, 덜 나타나는 감정을 이해하는 데 도움이 됩니다.</string>
+  <string name="chart_insight_distribution">데이터에 따르면, 행복한 감정이 가장 높은 비율(40%)을 차지하여 전반적으로 긍정적이고 낙관적인 사람임을 나타냅니다.</string>
+
+  <string name="chart_explanation_trend_title">감정 추세란?</string>
+  <string name="chart_explanation_trend_content">감정 추세는 시간에 따른 감정 강도의 변화를 보여줍니다. 추세선을 관찰함으로써 감정의 변동, 감정의 고점과 저점, 감정에 영향을 미칠 수 있는 요인을 이해할 수 있습니다.</string>
+  <string name="chart_insight_trend">감정 추세에 따르면, 수요일에 감정이 최고조에 달하고 화요일에는 감정이 낮습니다. 이는 업무 일정이나 사회 활동과 관련이 있을 수 있습니다.</string>
+
+  <string name="chart_explanation_patterns_title">감정 패턴이란?</string>
+  <string name="chart_explanation_patterns_content">감정 패턴은 감정 데이터를 분석하여 발견된 규칙성과 추세입니다. 이러한 패턴은 시간, 날씨, 평일 등의 요인과 관련될 수 있으며, 자신의 감정 변화 패턴을 더 잘 이해하는 데 도움이 됩니다.</string>
+  <string name="chart_insight_patterns">데이터에 따르면, 아침에는 감정이 더 긍정적이고, 저녁에는 더 차분합니다. 이는 감정 변화에 일정한 일상적인 패턴이 있음을 나타냅니다.</string>
+
+  <string name="chart_explanation_comparison_title">감정 비교란?</string>
+  <string name="chart_explanation_comparison_content">감정 비교는 다른 기간(예: 이번 주와 지난 주)에서 다양한 감정의 비율 변화를 보여줍니다. 비교 분석을 통해 감정 변화 추세를 이해하고 감정의 개선이나 악화를 식별할 수 있습니다.</string>
+  <string name="chart_insight_comparison" formatted="false">지난주와 비교하여 이번주에는 행복한 감정이 10% 증가하고 차분한 감정이 10% 감소했습니다. 이는 이번주에 더 흥미로운 일들을 경험했음을 나타낼 수 있습니다.</string>
+
+  <!-- Pattern Cards -->
+  <string name="morning_pattern">아침 패턴</string>
+  <string name="evening_pattern">저녁 패턴</string>
+  <string name="weekday_pattern">평일 패턴</string>
+  <string name="weather_pattern">날씨 영향</string>
+  <string name="morning_happiest">아침에 가장 행복</string>
+  <string name="evening_calmest">저녁에 가장 차분</string>
+  <string name="weekday_most_excited">평일에 가장 흥분</string>
+  <string name="sunny_happier">맑은 날 더 행복</string>
+
+  <!-- Comparison Table -->
+  <string name="this_week">이번 주</string>
+  <string name="last_week_label">지난 주</string>
+  <string name="change">변화</string>
+
+  <!-- Settings Page -->
+  <string name="settings">설정</string>
+  <string name="add_custom_emotion">커스텀 감정 추가</string>
+  <string name="delete_emotion">감정 삭제</string>
+  <string name="reminder_settings">알림 설정</string>
+  <string name="daily_reminder">일일 알림</string>
+  <string name="reminder_time">알림 시간</string>
+  <string name="language">언어</string>
+  <string name="appearance">외관</string>
+  <string name="dark_mode">다크 모드</string>
+  <string name="dark_mode_description">다크 테마 사용</string>
+  <string name="theme">테마</string>
+  <string name="light_theme">라이트</string>
+  <string name="dark_theme">다크</string>
+  <string name="system_theme">시스템</string>
+  <string name="notifications">알림</string>
+  <string name="daily_reminder_description">일일 기분 기록 알림</string>
+  <string name="language_zh">简体中文</string>
+  <string name="language_zh_tw">繁體中文</string>
+  <string name="language_ja">日本語</string>
+  <string name="language_ko">한국어</string>
+  <string name="language_en">English</string>
+  <string name="emotion_management">감정 관리</string>
+  <string name="manage_emotions_desc">사용자 정의 감정 추가, 편집 또는 삭제</string>
+
+  <string name="about_app">앱 정보</string>
+  <string name="about_app_description">그녀의 기분 기압계 - 인생의 모든 기분을 기록</string>
+  <string name="about">정보</string>
+  <string name="version">버전</string>
+  <string name="licenses">라이선스</string>
+
+  <!-- Common Actions -->
+  <string name="save">저장</string>
+  <string name="cancel">취소</string>
+  <string name="delete">삭제</string>
+  <string name="confirm">확인</string>
+  <string name="ok">확인</string>
+  <string name="yes">예</string>
+  <string name="no">아니오</string>
+  <string name="done">완료</string>
+  <string name="back">뒤로</string>
+  <string name="next">다음</string>
+  <string name="close">닫기</string>
+
+  <!-- Date and Time -->
+  <string name="today">오늘</string>
+  <string name="yesterday">어제</string>
+  <string name="this_month">이번 달</string>
+  <string name="select_date">날짜 선택</string>
+  <string name="select_time">시간 선택</string>
+  <string name="select_start_date">시작 날짜 선택</string>
+  <string name="select_end_date">종료 날짜 선택</string>
+
+  <!-- Date Range Errors -->
+  <string name="date_range_error_start_after_end">시작 날짜는 종료 날짜보다 늦을 수 없습니다</string>
+  <string name="date_range_error_start_future">시작 날짜는 미래 날짜일 수 없습니다</string>
+  <string name="date_range_error_end_future">종료 날짜는 미래 날짜일 수 없습니다</string>
+
+  <!-- Error Messages -->
+  <string name="error_generic">오류가 발생했습니다</string>
+  <string name="error_no_emotion_selected">감정을 선택해주세요</string>
+  <string name="error_save_failed">기록 저장에 실패했습니다</string>
+  <string name="error_delete_failed">기록 삭제에 실패했습니다</string>
+  <string name="error_load_data_failed">데이터 로드에 실패했습니다</string>
+
+  <!-- Confirmation Messages -->
+  <string name="confirm_delete_record">이 기록을 삭제하시겠습니까？</string>
+
+
+  <!-- Notifications -->
+  <string name="notification_title">기분 체크</string>
+  <string name="notification_text">오늘 기분이 어떠신가요？</string>
+  <!-- Permissions -->
+  <string name="notification_permission_title">알림 허용</string>
+  <string name="notification_permission_message">매일 리마인더를 보내기 위해 이 앱의 알림을 허용해 주세요.</string>
+  <string name="exact_alarm_permission_title">정확한 알람 허용</string>
+  <string name="exact_alarm_permission_message">정시에 리마인더를 실행하려면 시스템 설정에서 정확한 알람을 허용해 주세요.</string>
+  <string name="open_settings">설정 열기</string>
+
+  <!-- Accessibility -->
+  <string name="cd_emotion_button">감정 선택 버튼</string>
+  <string name="cd_intensity_slider">감정 강도 슬라이더</string>
+  <string name="cd_add_note">메모 추가 버튼</string>
+  <string name="cd_save_record">기록 저장 버튼</string>
+
+  <!-- Custom Emotions -->
+  <string name="emotion_name">감정 이름</string>
+  <string name="description">설명</string>
+  <string name="manage_emotions">감정 관리</string>
+  <string name="add_emotion">감정 추가</string>
+  <string name="edit_emotion">감정 편집</string>
+  <string name="emotion_description">설명</string>
+  <string name="no_user_emotions">아직 사용자 정의 감정이 없습니다. +를 탭하여 첫 번째 감정을 추가하세요!</string>
+  <string name="confirm_delete_emotion">이 감정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.</string>
+  <string name="selected_emoji">선택된 이모지:</string>
+  <string name="choose_emoji">이모지 선택:</string>
+  <string name="no_custom_emotions">커스텀 감정이 아직 없습니다</string>
+
+  <string name="subscriptions_notification_channel_description">만료 예정 구독 알림</string>
+  <string name="subscriptions_notification_content_text">%2$s 에 구독료로 %1$s 을(를) 지불해야 합니다</string>
+  <string name="subscriptions_title">구독</string>
+  <string name="subscriptions_empty">구독에 항목이 없습니다</string>
+  <string name="subscription_deleted">구독이 삭제되었습니다</string>
+
+  <string name="new_transaction">새 거래</string>
+  <string name="transaction_shortcut_long_label">새 거래 추가</string>
+</resources>

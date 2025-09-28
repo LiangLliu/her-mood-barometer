@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -14,10 +15,40 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
     }
 }
 
-rootProject.name = "Her Mood Barometer"
+rootProject.name = "HerMoodBarometer"
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(":app")
+
+include(":core:analytics")
+include(":core:common")
+include(":core:database")
+include(":core:datastore")
+include(":core:datastore-proto")
+include(":core:data")
+include(":core:designsystem")
+include(":core:domain")
+include(":core:locales")
+include(":core:model")
+include(":core:network")
+include(":core:notifications")
+include(":core:shortcuts")
+include(":core:ui")
+
+include(":feature:record")
+include(":feature:statistics")
+include(":feature:settings")
+
+include(":work")

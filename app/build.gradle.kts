@@ -1,13 +1,13 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import com.lianglliu.hermoodbarometer.AppBuildType
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.app.android.application)
+    alias(libs.plugins.app.android.application.compose)
+//    alias(libs.plugins.app.android.application.firebase)
+    alias(libs.plugins.app.android.application.flavors)
+    alias(libs.plugins.app.hilt)
+    alias(libs.plugins.baselineprofile)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.aboutLibraries)
 }
 
 android {
@@ -28,149 +28,70 @@ android {
         debug {
             isDebuggable = true
             isMinifyEnabled = false
-            applicationIdSuffix = ".debug"
+            applicationIdSuffix = AppBuildType.DEBUG.applicationIdSuffix
             versionNameSuffix = "-debug"
         }
 
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            isDebuggable = false
+            applicationIdSuffix = AppBuildType.RELEASE.applicationIdSuffix
+            baselineProfile.automaticGenerationDuringBuild = true
+            signingConfig = signingConfigs.named("debug").get()
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
-
-            // 启用基线配置文件
-            packaging {
-                resources {
-                    excludes += "/META-INF/{AL2.0,LGPL2.1}"
-                }
-            }
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_21
         }
     }
 
-    buildFeatures {
-        compose = true
-        buildConfig = true
+    androidResources {
+        generateLocaleConfig = true
     }
-
-    lint {
-        disable += setOf(
-            "StateFlowValueCalledInComposition",
-            "UnusedMaterial3ScaffoldPaddingParameter"
-        )
-        abortOnError = false
-        checkReleaseBuilds = false
-        // Avoid text output task that is failing under current toolchain
-        textReport = false
-        xmlReport = false
-        sarifReport = false
-        htmlReport = true
-    }
-
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        }
+    }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
         }
     }
 }
 
-aboutLibraries {
-    export {
-        prettyPrint = true
-    }
-
-    library {
-        duplicationMode = com.mikepenz.aboutlibraries.plugin.DuplicateMode.MERGE
-        duplicationRule = com.mikepenz.aboutlibraries.plugin.DuplicateRule.SIMPLE
-    }
+baselineProfile {
+    automaticGenerationDuringBuild = false
+    dexLayoutOptimization = true
 }
 
 dependencies {
-    // AppCompat (per-app locales backport)
-    implementation(libs.androidx.appcompat)
-    // Core Android
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(projects.feature.record)
+    implementation(projects.feature.statistics)
+    implementation(projects.feature.settings)
+
+    implementation(projects.core.data)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.domain)
+    implementation(projects.core.model)
+    implementation(projects.core.ui)
+
+    implementation(projects.work)
+
     implementation(libs.androidx.activity.compose)
-
-    // Compose BOM和现代UI组件
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
-
-    // 启动画面和性能优化
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.compose.material3.adaptive)
+    implementation(libs.androidx.compose.material3.adaptive.navigation)
+    implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
     implementation(libs.androidx.core.splashscreen)
-//     implementation(libs.androidx.profileinstaller)
-    implementation(libs.androidx.startup.runtime)
-
-    // ViewModel Compose
-    implementation(libs.lifecycle.viewmodel.compose)
-    implementation(libs.lifecycle.runtime.compose)
-
-    // Navigation Compose
-    implementation(libs.navigation.compose)
-
-    // Hilt 依赖注入
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation.compose)
-    ksp(libs.hilt.compiler)
-
-    // Room 数据库
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
-
-    // DataStore
-    implementation(libs.datastore.preferences)
-
-    // Coroutines
-    implementation(libs.kotlinx.coroutines.android)
-
-    // Serialization
+    implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtimeCompose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.profileinstaller)
+    implementation(libs.androidx.tracing)
     implementation(libs.kotlinx.serialization.json)
 
-    // 安全和加密
-    implementation(libs.security.crypto)
+    debugImplementation(libs.androidx.compose.ui.testManifest)
 
-    // WorkManager
-    implementation(libs.work.runtime.ktx)
-
-    // 图表库
-    implementation(libs.vico.compose)
-    implementation(libs.vico.compose.m3)
-    implementation(libs.vico.views)
-
-    // aboutlibraries
-    implementation(libs.aboutlibraries.core)
-    implementation(libs.aboutlibraries.compose.m3)
-
-
-    // 测试依赖
-    testImplementation(libs.junit)
-    testImplementation(libs.turbine)
-    testImplementation(libs.kotlinx.coroutines.test)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-
-    // Debug 工具
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
-
-    // Speed up Room with KSP: incremental (KSP arg via project property)
+//    baselineProfile(projects.baselineprofile)
 }
