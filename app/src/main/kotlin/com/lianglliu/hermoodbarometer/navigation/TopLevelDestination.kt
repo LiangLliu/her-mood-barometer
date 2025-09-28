@@ -12,6 +12,8 @@ import com.lianglliu.hermoodbarometer.feature.record.navigation.RecordBaseRoute
 import com.lianglliu.hermoodbarometer.feature.record.navigation.RecordRoute
 import com.lianglliu.hermoodbarometer.feature.settings.navigation.SettingsBaseRoute
 import com.lianglliu.hermoodbarometer.feature.settings.navigation.SettingsRoute
+import com.lianglliu.hermoodbarometer.feature.statistics.navigation.StatisticsBaseRoute
+import com.lianglliu.hermoodbarometer.feature.statistics.navigation.StatisticsRoute
 
 /**
  * Enum class representing the top-level destinations in the application.
@@ -51,8 +53,8 @@ enum class TopLevelDestination(
         unselectedIcon = AppIcons.Outlined.Info,
         iconTextId = R.string.nav_statistics,
         titleTextId = R.string.nav_statistics,
-        route = SettingsRoute::class,
-        baseRoute = SettingsBaseRoute::class,
+        route = StatisticsRoute::class,
+        baseRoute = StatisticsBaseRoute::class,
     ),
     SETTINGS(
         selectedIcon = AppIcons.Filled.Settings,

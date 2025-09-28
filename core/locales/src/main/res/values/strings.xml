@@ -169,6 +169,8 @@
     <string name="emotion_management">Emotion Management</string>
     <string name="manage_emotions_desc">Add, edit or delete custom emotions</string>
 
+    <string name="dynamic_color">Dynamic Color</string>
+
     <string name="about_app">About App</string>
     <string name="about_app_description">Her Mood Barometer - Record every mood in life</string>
     <string name="about">About</string>
@@ -251,4 +253,5 @@
 
     <string name="new_transaction">New transaction</string>
     <string name="transaction_shortcut_long_label">Add a new transaction</string>
+
 </resources>

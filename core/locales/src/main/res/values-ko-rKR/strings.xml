@@ -168,6 +168,7 @@
   <string name="language_en">English</string>
   <string name="emotion_management">감정 관리</string>
   <string name="manage_emotions_desc">사용자 정의 감정 추가, 편집 또는 삭제</string>
+  <string name="dynamic_color">다이내믹 색상</string>
 
   <string name="about_app">앱 정보</string>
   <string name="about_app_description">그녀의 기분 기압계 - 인생의 모든 기분을 기록</string>

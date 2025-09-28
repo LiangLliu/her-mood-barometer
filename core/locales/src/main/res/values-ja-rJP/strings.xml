@@ -169,6 +169,8 @@
   <string name="emotion_management">感情管理</string>
   <string name="manage_emotions_desc">カスタム感情の追加、編集、削除</string>
 
+  <string name="dynamic_color">ダイナミックカラー</string>
+
   <string name="about_app">アプリについて</string>
   <string name="about_app_description">彼女の気分バロメーター - 人生のすべての気分を記録</string>
   <string name="about">アプリについて</string>

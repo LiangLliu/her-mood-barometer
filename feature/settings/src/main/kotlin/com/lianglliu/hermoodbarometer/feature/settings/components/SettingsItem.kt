@@ -147,31 +147,3 @@ fun SettingsItem(
         modifier = clickableModifier
     )
 }
-
-/**
- * 共享的Settings组件
- * 避免在各个模块中重复定义相同的组件
- */
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SettingsSection(
-    title: String,
-    content: @Composable ColumnScope.() -> Unit
-) {
-    Card(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary
-            )
-            content()
-        }
-    }
-}

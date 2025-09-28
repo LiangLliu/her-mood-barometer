@@ -15,7 +15,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CsListItem(
+fun ListItem(
     headlineContent: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
@@ -42,7 +42,7 @@ fun CsListItem(
 }
 
 @Composable
-fun CsToggableListItem(
+fun ToggableListItem(
     headlineContent: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     onCheckedChange: ((Boolean) -> Unit)? = null,

@@ -168,6 +168,7 @@
   <string name="language_en">English</string>
   <string name="emotion_management">情绪管理</string>
   <string name="manage_emotions_desc">添加、编辑或删除自定义情绪</string>
+  <string name="dynamic_color">动态颜色</string>
 
   <string name="about_app">关于应用</string>
   <string name="about_app_description">她的晴雨表 - 记录生活中的每一份心情</string>
