@@ -148,10 +148,6 @@ private fun SettingsScreen(
 
 
     }
-
-//
-
-
 }
 
 
@@ -317,8 +313,8 @@ private fun LazyListScope.about(
     item {
         SettingsItem(
             icon = AppIcons.Outlined.Info,
-            title = stringResource(R.string.version),
-            subtitle = "1.0.0"
+            title = stringResource(R.string.app_name),
+            subtitle = "${stringResource(R.string.version)}: 1.0.0"
         )
     }
 }
