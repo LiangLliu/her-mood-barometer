@@ -23,7 +23,7 @@ import com.lianglliu.hermoodbarometer.core.ui.component.StatisticItem
 @Composable
 fun StatisticsCard(
     statistics: EmotionStatistics?,
-    isLoading: Boolean,
+    isLoading: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     Card(

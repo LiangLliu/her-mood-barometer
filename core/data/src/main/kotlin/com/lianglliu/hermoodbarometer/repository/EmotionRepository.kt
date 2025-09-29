@@ -2,7 +2,7 @@ package com.lianglliu.hermoodbarometer.repository
 
 
 import com.lianglliu.hermoodbarometer.core.model.data.EmotionRecord
-import com.lianglliu.hermoodbarometer.model.TimeRange
+import com.lianglliu.hermoodbarometer.core.model.data.TimeRange
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 

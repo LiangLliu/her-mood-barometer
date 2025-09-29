@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.lianglliu.hermoodbarometer.core.locales.R
-import com.lianglliu.hermoodbarometer.model.TimeRange
+import com.lianglliu.hermoodbarometer.core.model.data.TimeRange
 import java.time.LocalDate
 
 /**
@@ -36,9 +36,9 @@ import java.time.LocalDate
 fun TimeRangeSelector(
     selectedTimeRange: TimeRange,
     onTimeRangeChanged: (TimeRange) -> Unit,
-    customStartDate: LocalDate?,
-    customEndDate: LocalDate?,
-    onCustomDateRangeChanged: (LocalDate, LocalDate) -> Unit,
+    customStartDate: LocalDate? = null,
+    customEndDate: LocalDate? = null,
+    onCustomDateRangeChanged: (startDate: LocalDate, endDate: LocalDate) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }

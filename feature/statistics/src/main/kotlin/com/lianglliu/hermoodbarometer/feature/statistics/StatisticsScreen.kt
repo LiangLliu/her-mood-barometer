@@ -1,13 +1,16 @@
 package com.lianglliu.hermoodbarometer.feature.statistics
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.lianglliu.hermoodbarometer.core.ui.component.ErrorCard
+import com.lianglliu.hermoodbarometer.core.locales.R
+import com.lianglliu.hermoodbarometer.core.model.data.TimeRange
+import com.lianglliu.hermoodbarometer.core.ui.component.LoadingState
 import com.lianglliu.hermoodbarometer.core.ui.component.ScreenContainer
 import com.lianglliu.hermoodbarometer.feature.statistics.components.EmotionBarChartCard
 import com.lianglliu.hermoodbarometer.feature.statistics.components.EmotionComparisonExplanation
@@ -17,79 +20,91 @@ import com.lianglliu.hermoodbarometer.feature.statistics.components.EmotionPatte
 import com.lianglliu.hermoodbarometer.feature.statistics.components.EmotionTrendExplanation
 import com.lianglliu.hermoodbarometer.feature.statistics.components.StatisticsCard
 import com.lianglliu.hermoodbarometer.feature.statistics.components.TimeRangeSelector
-import com.lianglliu.hermoodbarometer.core.locales.R
+import java.time.LocalDate
 
 /**
  * 统计页面
  * 显示情绪数据的统计分析
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatisticsScreen(
     viewModel: StatisticsViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.statisticsUiState.collectAsStateWithLifecycle()
 
-    // 处理错误消息
-    LaunchedEffect(uiState.errorMessage) {
-        if (uiState.errorMessage != null) {
-            // 可以在这里显示Snackbar或其他错误提示
-        }
-    }
+    StatisticsScreen(
+        statisticsUiState = uiState,
+        updateTimeRange = viewModel::updateTimeRange,
+        updateCustomDateRange = viewModel::updateCustomDateRange,
+    )
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun StatisticsScreen(
+    statisticsUiState: StatisticsUiState,
+    updateTimeRange: (TimeRange) -> Unit,
+    updateCustomDateRange: (startDate: LocalDate, endDate: LocalDate) -> Unit,
+) {
     ScreenContainer(
         title = stringResource(R.string.statistics)
     ) {
-        item {
-            TimeRangeSelector(
-                selectedTimeRange = uiState.selectedTimeRange,
-                onTimeRangeChanged = { viewModel.updateTimeRange(it) },
-                customStartDate = uiState.customStartDate,
-                customEndDate = uiState.customEndDate,
-                onCustomDateRangeChanged = { start, end ->
-                    viewModel.updateCustomDateRange(start, end)
+
+        when (statisticsUiState) {
+            StatisticsUiState.Loading -> {
+                item {
+                    LoadingState(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                    )
                 }
-            )
-        }
+            }
 
-        item {
-            StatisticsCard(
-                statistics = uiState.statistics,
-                isLoading = uiState.isLoading
-            )
-        }
+            is StatisticsUiState.Success -> {
+                item {
+                    TimeRangeSelector(
+                        selectedTimeRange = statisticsUiState.timeRange,
+                        customStartDate = statisticsUiState.emotionRecordFilter.startDateTime.toLocalDate(),
+                        customEndDate = statisticsUiState.emotionRecordFilter.endDateTime.toLocalDate(),
+                        onTimeRangeChanged = { updateTimeRange(it) },
+                        onCustomDateRangeChanged = { startDate, endDate -> updateCustomDateRange(startDate, endDate)}
+                    )
+                }
 
-        item {
-            EmotionBarChartCard(
-                statistics = uiState.statistics
-            )
-        }
+                item {
+                    StatisticsCard(
+                        statistics = statisticsUiState.statistics,
+                    )
+                }
 
-        item {
-            EmotionDistributionExplanation()
-        }
+                item {
+                    EmotionBarChartCard(
+                        statistics = statisticsUiState.statistics
+                    )
+                }
 
-        item {
-            EmotionLineChartCard(
-                statistics = uiState.statistics
-            )
-        }
+                item {
+                    EmotionDistributionExplanation()
+                }
 
-        item {
-            EmotionTrendExplanation()
-        }
+                item {
+                    EmotionLineChartCard(
+                        statistics = statisticsUiState.statistics
+                    )
+                }
 
-        item {
-            EmotionPatternsExplanation()
-        }
+                item {
+                    EmotionTrendExplanation()
+                }
 
-        item {
-            EmotionComparisonExplanation()
-        }
+                item {
+                    EmotionPatternsExplanation()
+                }
 
-        if (uiState.errorMessage != null) {
-            item {
-                ErrorCard(message = uiState.errorMessage!!)
+                item {
+                    EmotionComparisonExplanation()
+                }
+
             }
         }
     }

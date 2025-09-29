@@ -1,7 +1,8 @@
 package com.lianglliu.hermoodbarometer.core.domain
 
 import com.lianglliu.hermoodbarometer.core.model.data.EmotionRecord
-import com.lianglliu.hermoodbarometer.model.TimeRange
+import com.lianglliu.hermoodbarometer.core.model.data.TimeRange
+import com.lianglliu.hermoodbarometer.core.model.data.statistics.EmotionRecordFilter
 import com.lianglliu.hermoodbarometer.repository.EmotionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -16,28 +17,42 @@ import javax.inject.Inject
 class GetEmotionStatisticsUseCase @Inject constructor(
     private val emotionRepository: EmotionRepository
 ) {
-    
-    /**
- * 获取指定时间范围的统计数据
- * @param timeRange 时间范围
- * @return 统计数据流
- */
-operator fun invoke(timeRange: TimeRange): Flow<EmotionStatistics> {
-    return emotionRepository.getEmotionRecordsByTimeRange(timeRange)
-        .map { records -> calculateStatistics(records) }
-}
 
-/**
- * 获取自定义时间范围的统计数据
- * @param startDateTime 开始时间
- * @param endDateTime 结束时间
- * @return 统计数据流
- */
-operator fun invoke(startDateTime: LocalDateTime, endDateTime: LocalDateTime): Flow<EmotionStatistics> {
-    return emotionRepository.getEmotionRecordsByCustomTimeRange(startDateTime, endDateTime)
-        .map { records -> calculateStatistics(records) }
-}
-    
+    /**
+     * 获取指定时间范围的统计数据
+     * @param timeRange 时间范围
+     * @return 统计数据流
+     */
+    operator fun invoke(filter: EmotionRecordFilter): Flow<EmotionStatistics> {
+        return emotionRepository.getEmotionRecordsByCustomTimeRange(
+            startDateTime = filter.startDateTime,
+            endDateTime = filter.endDateTime)
+            .map { records -> calculateStatistics(records) }
+    }
+    /**
+     * 获取指定时间范围的统计数据
+     * @param timeRange 时间范围
+     * @return 统计数据流
+     */
+    operator fun invoke(timeRange: TimeRange): Flow<EmotionStatistics> {
+        return emotionRepository.getEmotionRecordsByTimeRange(timeRange)
+            .map { records -> calculateStatistics(records) }
+    }
+
+    /**
+     * 获取自定义时间范围的统计数据
+     * @param startDateTime 开始时间
+     * @param endDateTime 结束时间
+     * @return 统计数据流
+     */
+    operator fun invoke(
+        startDateTime: LocalDateTime,
+        endDateTime: LocalDateTime
+    ): Flow<EmotionStatistics> {
+        return emotionRepository.getEmotionRecordsByCustomTimeRange(startDateTime, endDateTime)
+            .map { records -> calculateStatistics(records) }
+    }
+
     /**
      * 计算统计数据
      */
@@ -54,30 +69,32 @@ operator fun invoke(startDateTime: LocalDateTime, endDateTime: LocalDateTime): F
                 dailyEmotionTrend = emptyList()
             )
         }
-        
+
         // 计算总记录数
         val totalRecords = records.size
-        
+
         // 计算平均强度
         val averageIntensity = records.map { it.intensity.toDouble() }.average().toFloat()
-        
+
         // 计算最频繁的情绪类型（使用表情符号+名称作为显示标签）
         val emotionCounts = records.groupBy { record ->
             record.getDisplayText() // 使用 "😊 开心" 格式
         }
             .mapValues { it.value.size }
         val mostFrequentEmotion = emotionCounts.maxByOrNull { it.value }?.key
-        
+
         // 计算情绪分布
         val emotionDistribution = emotionCounts.mapValues { it.value.toFloat() / totalRecords }
-        
+
         // 计算每种情绪的平均强度
         val averageIntensityByEmotion = records
             .groupBy { record ->
                 record.getDisplayText() // 使用 "😊 开心" 格式
             }
-            .mapValues { entry -> entry.value.map { record -> record.intensity.toDouble() }.average().toFloat() }
-            
+            .mapValues { entry ->
+                entry.value.map { record -> record.intensity.toDouble() }.average().toFloat()
+            }
+
         // 为图表生成简化的表情符号映射
         val chartLabelMapping = records.groupBy { it.getDisplayText() }
             .mapValues { it.value.first().getChartLabel() } // 获取表情符号用于图表显示
@@ -97,7 +114,7 @@ operator fun invoke(startDateTime: LocalDateTime, endDateTime: LocalDateTime): F
                     intensity = dominantEmotion?.intensity ?: 0
                 )
             }
-        
+
         return EmotionStatistics(
             totalRecords = totalRecords,
             averageIntensity = averageIntensity,

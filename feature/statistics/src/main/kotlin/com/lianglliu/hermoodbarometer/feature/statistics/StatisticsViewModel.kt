@@ -4,12 +4,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lianglliu.hermoodbarometer.core.domain.EmotionStatistics
 import com.lianglliu.hermoodbarometer.core.domain.GetEmotionStatisticsUseCase
-import com.lianglliu.hermoodbarometer.model.TimeRange
+import com.lianglliu.hermoodbarometer.core.model.data.TimeRange
+import com.lianglliu.hermoodbarometer.core.model.data.statistics.EmotionRecordFilter
+import com.lianglliu.hermoodbarometer.core.network.AppDispatchers
+import com.lianglliu.hermoodbarometer.core.network.Dispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -19,127 +29,78 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
-    private val getEmotionStatisticsUseCase: GetEmotionStatisticsUseCase
+    private val getEmotionStatisticsUseCase: GetEmotionStatisticsUseCase,
+    @Dispatcher(AppDispatchers.Default) private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
-    // UI状态
-    private val _uiState = MutableStateFlow(StatisticsUiState())
-    val uiState: StateFlow<StatisticsUiState> = _uiState.asStateFlow()
-
-    init {
-        // 初始化时加载默认时间范围的数据
-        loadStatistics(TimeRange.LAST_WEEK)
-    }
-
-    /**
-     * 加载统计数据
-     * @param timeRange 时间范围
-     */
-    fun loadStatistics(timeRange: TimeRange) {
-        _uiState.value = _uiState.value.copy(
-            selectedTimeRange = timeRange,
-            isLoading = true,
-            errorMessage = null
+    private val emotionRecordFilterState = MutableStateFlow(
+        EmotionRecordFilter(
+            startDateTime = TimeRange.LAST_WEEK.getStartDateTime(),
+            endDateTime = TimeRange.LAST_WEEK.getEndDateTime()
         )
+    )
 
-        viewModelScope.launch {
-            try {
-                getEmotionStatisticsUseCase(timeRange).collect { statistics ->
-                    _uiState.value = _uiState.value.copy(
-                        statistics = statistics,
-                        isLoading = false
+    private val selectedTimeRangeEnumState = MutableStateFlow(TimeRange.LAST_WEEK)
+
+    val statisticsUiState: StateFlow<StatisticsUiState> = emotionRecordFilterState
+        .flatMapLatest { filter ->
+            getEmotionStatisticsUseCase(filter)
+                .map { it ->
+                    StatisticsUiState.Success(
+                        emotionRecordFilter = filter,
+                        statistics = it,
+                        timeRange = TimeRange.LAST_WEEK,
+                        customStartDate = LocalDate.now().minusDays(7),
+                        customEndDate = LocalDate.now()
                     )
                 }
-            } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(
-                    isLoading = false,
-                    errorMessage = e.message ?: "Failed to load statistics"
-                )
-            }
-        }
-    }
+                .flowOn(defaultDispatcher)
+                .onStart { StatisticsUiState.Loading }
+                .catch { StatisticsUiState.Loading }
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = StatisticsUiState.Loading,
+        )
 
     /**
      * 更新选中的时间范围
      */
     fun updateTimeRange(timeRange: TimeRange) {
-        if (_uiState.value.selectedTimeRange != timeRange) {
-            loadStatistics(timeRange)
+
+        selectedTimeRangeEnumState.value = timeRange
+
+        emotionRecordFilterState.update {
+            it.copy(
+                startDateTime = timeRange.getStartDateTime(),
+                endDateTime = timeRange.getEndDateTime()
+            )
         }
     }
 
-    /**
-     * 更新选中的图表类型
-     */
-    fun updateChartType(chartType: ChartType) {
-        _uiState.value = _uiState.value.copy(selectedChartType = chartType)
-    }
-
-    /**
-     * 清除错误消息
-     */
-    fun clearErrorMessage() {
-        _uiState.value = _uiState.value.copy(errorMessage = null)
-    }
-
-    /**
-     * 更新自定义日期范围
-     */
     fun updateCustomDateRange(startDate: LocalDate, endDate: LocalDate) {
-        _uiState.value = _uiState.value.copy(
-            customStartDate = startDate,
-            customEndDate = endDate
-        )
-
-        // 如果当前选择的是自定义时间范围，则重新加载数据
-        if (_uiState.value.selectedTimeRange == TimeRange.CUSTOM) {
-            loadCustomStatistics(startDate, endDate)
-        }
-    }
-
-    /**
-     * 加载自定义时间范围的统计数据
-     */
-    private fun loadCustomStatistics(startDate: LocalDate, endDate: LocalDate) {
-        _uiState.value = _uiState.value.copy(
-            isLoading = true,
-            errorMessage = null
-        )
-
-        viewModelScope.launch {
-            try {
-                // 将 LocalDate 转换为 LocalDateTime
-                val startDateTime = startDate.atStartOfDay()
-                val endDateTime = endDate.atTime(23, 59, 59)
-
-                getEmotionStatisticsUseCase(startDateTime, endDateTime).collect { statistics ->
-                    _uiState.value = _uiState.value.copy(
-                        statistics = statistics,
-                        isLoading = false
-                    )
-                }
-            } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(
-                    isLoading = false,
-                    errorMessage = e.message ?: "Failed to load custom statistics"
-                )
-            }
+        selectedTimeRangeEnumState.value = TimeRange.CUSTOM
+        emotionRecordFilterState.update {
+            it.copy(
+                startDateTime = startDate.atStartOfDay(),
+                endDateTime = endDate.plusDays(1).atStartOfDay()
+            )
         }
     }
 }
 
-/**
- * 统计页面的UI状态
- */
-data class StatisticsUiState(
-    val selectedTimeRange: TimeRange = TimeRange.LAST_WEEK,
-    val selectedChartType: ChartType = ChartType.BAR,
-    val statistics: EmotionStatistics? = null,
-    val isLoading: Boolean = false,
-    val errorMessage: String? = null,
-    val customStartDate: LocalDate? = null,
-    val customEndDate: LocalDate? = null
-)
+sealed interface StatisticsUiState {
+
+    data object Loading : StatisticsUiState
+
+    data class Success(
+        val emotionRecordFilter: EmotionRecordFilter,
+        val statistics: EmotionStatistics,
+        val timeRange: TimeRange,
+        val customStartDate: LocalDate,
+        val customEndDate: LocalDate,
+    ) : StatisticsUiState
+}
 
 /**
  * 图表类型枚举
