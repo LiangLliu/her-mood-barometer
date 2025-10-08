@@ -20,6 +20,7 @@ import com.lianglliu.hermoodbarometer.feature.statistics.components.EmotionPatte
 import com.lianglliu.hermoodbarometer.feature.statistics.components.EmotionTrendExplanation
 import com.lianglliu.hermoodbarometer.feature.statistics.components.StatisticsCard
 import com.lianglliu.hermoodbarometer.feature.statistics.components.TimeRangeSelector
+import com.lianglliu.hermoodbarometer.feature.statistics.components.sentimentOverview
 import java.time.LocalDate
 
 /**
@@ -67,9 +68,16 @@ private fun StatisticsScreen(
                         customStartDate = statisticsUiState.emotionRecordFilter.startDateTime.toLocalDate(),
                         customEndDate = statisticsUiState.emotionRecordFilter.endDateTime.toLocalDate(),
                         onTimeRangeChanged = { updateTimeRange(it) },
-                        onCustomDateRangeChanged = { startDate, endDate -> updateCustomDateRange(startDate, endDate)}
+                        onCustomDateRangeChanged = { startDate, endDate ->
+                            updateCustomDateRange(
+                                startDate,
+                                endDate
+                            )
+                        }
                     )
                 }
+
+                sentimentOverview()
 
                 item {
                     StatisticsCard(
