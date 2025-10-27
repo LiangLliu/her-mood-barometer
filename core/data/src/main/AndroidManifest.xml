@@ -5,10 +5,11 @@
 
     <application>
         <receiver
-            android:name=".util.ReminderBroadcastReceiver"
+            android:name="com.lianglliu.hermoodbarometer.util.ReminderBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.lianglliu.hermoodbarometer.ACTION_MOOD_REMINDER" />
             </intent-filter>
         </receiver>
 

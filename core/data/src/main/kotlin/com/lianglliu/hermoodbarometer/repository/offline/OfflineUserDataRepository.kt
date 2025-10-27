@@ -23,4 +23,8 @@ internal class OfflineUserDataRepository @Inject constructor(
         appPreferencesDataSource.setReminderStatus(reminderStatus)
     }
 
+    override suspend fun setReminderTime(reminderTime: String) {
+        appPreferencesDataSource.setReminderTime(reminderTime)
+    }
+
 }

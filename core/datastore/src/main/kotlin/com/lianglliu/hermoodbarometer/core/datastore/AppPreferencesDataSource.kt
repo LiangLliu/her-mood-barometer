@@ -34,6 +34,7 @@ class AppPreferencesDataSource @Inject constructor(
                 },
                 useDynamicColor = it.useDynamicColor,
                 reminderStatus = it.reminderStatus,
+                reminderTime = it.reminderTime.ifEmpty { "09:00" },
             )
         }
 
@@ -70,6 +71,16 @@ class AppPreferencesDataSource @Inject constructor(
             }
         } catch (e: IOException) {
             Log.e(TAG, "Failed to update dynamic color.", e)
+        }
+    }
+
+    suspend fun setReminderTime(reminderTime: String) {
+        try {
+            userPreferences.updateData {
+                it.copy { this.reminderTime = reminderTime }
+            }
+        } catch (e: IOException) {
+            Log.e(TAG, "Failed to update reminder time.", e)
         }
     }
 }

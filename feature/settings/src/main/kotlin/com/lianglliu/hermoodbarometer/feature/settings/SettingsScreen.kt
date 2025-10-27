@@ -40,6 +40,7 @@ import com.lianglliu.hermoodbarometer.feature.settings.components.LanguageDialog
 import com.lianglliu.hermoodbarometer.feature.settings.components.SectionTitle
 import com.lianglliu.hermoodbarometer.feature.settings.components.SettingsItem
 import com.lianglliu.hermoodbarometer.feature.settings.components.ThemeDialog
+import com.lianglliu.hermoodbarometer.feature.settings.components.TimePickerDialog
 
 /**
  * 设置页面
@@ -59,7 +60,7 @@ fun SettingsScreen(
         onDarkThemeConfigUpdate = viewModel::updateDarkThemeConfig,
         onLanguageUpdate = viewModel::updateLanguage,
         onReminderEnabledChanged = viewModel::updateReminderEnabled,
-//        onReminderTimeClick = viewModel::onReminderTimeClick,
+        onReminderTimeChanged = viewModel::updateReminderTime,
     )
 }
 
@@ -72,7 +73,7 @@ private fun SettingsScreen(
     onDarkThemeConfigUpdate: (DarkThemeConfig) -> Unit,
     onLanguageUpdate: (String) -> Unit,
     onReminderEnabledChanged: (Boolean) -> Unit,
-//    onReminderTimeClick: () -> Unit,
+    onReminderTimeChanged: (String) -> Unit,
 ) {
 
     var showTimePicker by remember { mutableStateOf(false) }
@@ -103,8 +104,12 @@ private fun SettingsScreen(
                 notification(
                     settings = settingsState.settings,
                     onReminderEnabledChanged = onReminderEnabledChanged,
-//                    onReminderTimeClick = onReminderTimeClick,
-//                    showTimePicker = showTimePicker,
+                    onReminderTimeClick = { showTimePicker = !showTimePicker },
+                    showTimePicker = showTimePicker,
+                    onTimeSelected = { time ->
+                        onReminderTimeChanged(time)
+                        showTimePicker = false
+                    },
                 )
 
                 about(
@@ -238,9 +243,9 @@ private fun LazyListScope.appearance(
 private fun LazyListScope.notification(
     settings: UserEditableSettings,
     onReminderEnabledChanged: (Boolean) -> Unit,
-//    onReminderTimeClick: () -> Unit,
-//    showTimePicker: Boolean,
-//    setShowTimePicker: (Boolean) -> Unit,
+    onReminderTimeClick: () -> Unit,
+    showTimePicker: Boolean,
+    onTimeSelected: (String) -> Unit,
 ) {
     item { SectionTitle(stringResource(R.string.notifications)) }
 
@@ -265,30 +270,18 @@ private fun LazyListScope.notification(
                 icon = AppIcons.Outlined.MoreVert,
                 title = stringResource(R.string.reminder_time),
                 subtitle = settings.reminderTime,
-//                trailing = {
-//                    IconButton(onClick = onReminderTimeClick) {
-//                        Icon(
-//                            imageVector = AppIcons.Outlined.ChevronRight,
-//                            contentDescription = null,
-//                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-//                        )
-//                    }
-//                },
-//                onClick = onReminderTimeClick
+                onClick = onReminderTimeClick
             )
         }
 
-//        //  提醒时间选择对话框
-//        if (showTimePicker) {
-//            TimePickerDialog(
-//                currentTime = settings.reminderTime,
-//                onTimeSelected = { selected ->
-//                    // 选中时间即保存并调度
-//                    viewModel.updateReminderSettings(isEnabled = true, time = selected)
-//                },
-//                onDismiss = { showTimePicker = false }
-//            )
-//        }
+        //  提醒时间选择对话框
+        if (showTimePicker) {
+            TimePickerDialog(
+                currentTime = settings.reminderTime,
+                onTimeSelected = onTimeSelected,
+                onDismiss = onReminderTimeClick
+            )
+        }
     }
 }
 

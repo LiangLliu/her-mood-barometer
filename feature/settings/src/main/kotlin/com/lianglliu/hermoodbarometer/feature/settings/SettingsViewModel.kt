@@ -6,6 +6,7 @@ import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig
 import com.lianglliu.hermoodbarometer.core.model.data.Language
 import com.lianglliu.hermoodbarometer.repository.UserDataRepository
 import com.lianglliu.hermoodbarometer.util.AppLocaleManager
+import com.lianglliu.hermoodbarometer.util.ReminderScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
     private val appLocaleManager: AppLocaleManager,
+    private val reminderScheduler: ReminderScheduler,
 ) : ViewModel() {
     private val availableLanguages = Language.entries
 
@@ -36,6 +38,7 @@ class SettingsViewModel @Inject constructor(
                 useDynamicColor = userData.useDynamicColor,
                 darkThemeConfig = userData.darkThemeConfig,
                 isReminderEnabled = userData.reminderStatus,
+                reminderTime = userData.reminderTime,
                 language = language,
                 availableLanguages = availableLanguages,
             )
@@ -64,26 +67,41 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun updateReminderEnabled(reminderStatus: Boolean) {
-
         viewModelScope.launch {
-//            if (reminderStatus) {
-//                // 通知权限
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-//                    !PermissionHelpers.notificationsEnabled(context)
-//                ) {
-//                    PermissionHelpers.openAppNotificationSettings(context)
-//                }
-//                // 精准闹钟（S+）
-//                if (!PermissionHelpers.canScheduleExactAlarms(context)) {
-//                    PermissionHelpers.openExactAlarmSettings(context)
-//                }
-//            }
-
             userDataRepository.setReminderStatus(reminderStatus)
+            if (reminderStatus) {
+                // Schedule daily reminder with current time
+                val currentSettings = settingsUiState.value
+                if (currentSettings is SettingsUiState.Success) {
+                    scheduleDailyReminder(currentSettings.settings.reminderTime)
+                }
+            } else {
+                // Cancel daily reminder
+                reminderScheduler.cancelDailyReminder()
+            }
         }
+    }
 
+    fun updateReminderTime(reminderTime: String) {
+        viewModelScope.launch {
+            userDataRepository.setReminderTime(reminderTime)
+            // If reminder is enabled, reschedule with new time
+            val currentSettings = settingsUiState.value
+            if (currentSettings is SettingsUiState.Success &&
+                currentSettings.settings.isReminderEnabled) {
+                scheduleDailyReminder(reminderTime)
+            }
+        }
+    }
 
-
+    private fun scheduleDailyReminder(reminderTime: String) {
+        // Parse the time string (HH:mm)
+        val timeParts = reminderTime.split(":")
+        if (timeParts.size == 2) {
+            val hour = timeParts[0].toIntOrNull() ?: 9
+            val minute = timeParts[1].toIntOrNull() ?: 0
+            reminderScheduler.scheduleDailyReminder(hour, minute)
+        }
     }
 }
 

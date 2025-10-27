@@ -30,6 +30,8 @@ internal class ReminderBroadcastReceiver : BroadcastReceiver() {
                 appScope.launch {
                     withTimeoutOrNull(4500L) {
                         notifier.postDailyReminderNotification()
+                        // Reschedule for next day since we're using setExact instead of setRepeating
+                        reminderSchedulerImpl.scheduleDailyReminder()
                     }
                 }
             }

@@ -12,5 +12,6 @@ interface UserDataRepository {
 
     suspend fun setDynamicColorPreference(useDynamicColor: Boolean)
     suspend fun setReminderStatus(reminderStatus: Boolean)
+    suspend fun setReminderTime(reminderTime: String)
 
 }
