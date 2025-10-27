@@ -24,34 +24,32 @@ internal class ReminderBroadcastReceiver : BroadcastReceiver() {
     lateinit var appScope: CoroutineScope
 
     override fun onReceive(context: Context, intent: Intent) {
-
-        val reminderId = intent.getIntExtra(EXTRA_REMINDER_ID, 0)
-
-        appScope.launch {
-            withTimeoutOrNull(4500L)  {
-                if (reminderId != 0) {
-                    findSubscriptionAndPostNotification(reminderId)
+        when (intent.action) {
+            ACTION_MOOD_REMINDER -> {
+                // Post daily reminder notification
+                appScope.launch {
+                    withTimeoutOrNull(4500L) {
+                        notifier.postDailyReminderNotification()
+                    }
                 }
-                if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-                    rescheduleSubscriptionReminders()
+            }
+            Intent.ACTION_BOOT_COMPLETED -> {
+                // Reschedule reminders after device boot
+                appScope.launch {
+                    withTimeoutOrNull(4500L) {
+                        rescheduleDailyReminders()
+                    }
                 }
             }
         }
     }
 
-    private suspend fun rescheduleSubscriptionReminders() {
-//        subscriptionsRepository.getSubscriptions().firstOrNull()
-//            ?.filter { it.reminder != null }
-//            ?.forEach { subscription ->
-//                subscription.reminder?.let {
-//                    reminderSchedulerImpl.schedule(it)
-//                }
-//            }
+    private suspend fun rescheduleDailyReminders() {
+        // Reschedule daily reminders after device restart
+        reminderSchedulerImpl.scheduleDailyReminder()
     }
 
-    private suspend fun findSubscriptionAndPostNotification(reminderId: Int) {
-//        subscriptionsRepository.getSubscriptions().firstOrNull()
-//            ?.find { it.id.hashCode() == reminderId }
-//            ?.let { notifier.postSubscriptionNotification(it) }
+    companion object {
+        const val ACTION_MOOD_REMINDER = "com.lianglliu.hermoodbarometer.ACTION_MOOD_REMINDER"
     }
 }

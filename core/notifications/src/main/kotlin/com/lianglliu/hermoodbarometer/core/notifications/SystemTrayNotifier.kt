@@ -11,30 +11,18 @@ import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import androidx.core.app.ActivityCompat.checkSelfPermission
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationCompat.InboxStyle
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toJavaZoneId
-import com.lianglliu.hermoodbarometer.core.model.data.Subscription
-import com.lianglliu.hermoodbarometer.core.ui.util.formatAmount
 import com.lianglliu.hermoodbarometer.core.util.Constants.DEEP_LINK_SCHEME_AND_HOST
-import com.lianglliu.hermoodbarometer.core.util.Constants.SUBSCRIPTIONS_PATH
 import com.lianglliu.hermoodbarometer.core.util.Constants.TARGET_ACTIVITY_NAME
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.time.Instant
-import kotlin.time.toJavaInstant
 import com.lianglliu.hermoodbarometer.core.locales.R as localesR
 
-private const val SUBSCRIPTIONS_NOTIFICATION_REQUEST_CODE = 0
-private const val SUBSCRIPTIONS_NOTIFICATION_SUMMARY_ID = 1
-private const val SUBSCRIPTIONS_NOTIFICATION_CHANNEL_ID = ""
-private const val SUBSCRIPTIONS_NOTIFICATION_GROUP = "SUBSCRIPTIONS_NOTIFICATIONS"
+private const val MOOD_REMINDER_NOTIFICATION_REQUEST_CODE = 0
+private const val MOOD_REMINDER_NOTIFICATION_ID = 1
+private const val MOOD_REMINDER_NOTIFICATION_CHANNEL_ID = "mood_reminder_channel"
 
 /**
  * Implementation of [Notifier] that displays notifications in the system tray.
@@ -44,67 +32,35 @@ internal class SystemTrayNotifier @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : Notifier {
 
-    override fun postSubscriptionNotification(
-        subscription: Subscription,
-    ) = with(context) {
+    override fun postDailyReminderNotification() = with(context) {
         if (checkSelfPermission(this, permission.POST_NOTIFICATIONS) != PERMISSION_GRANTED) return
 
-        val subscriptionNotification = createSubscriptionNotification {
-            val price = subscription.amount.formatAmount(subscription.currency)
-            val date = subscription.paymentDate.formatDate()
-            val contentText = getString(localesR.string.subscriptions_notification_content_text, price, date)
-            setSmallIcon(R.drawable.ic_outlined_payments)
-                .setContentTitle(subscription.title)
-                .setContentText(contentText)
-                .setContentIntent(subscriptionPendingIntent())
-                .setGroup(SUBSCRIPTIONS_NOTIFICATION_GROUP)
+        val notification = createMoodReminderNotification {
+            setSmallIcon(android.R.drawable.ic_menu_my_calendar)
+                .setContentTitle(getString(localesR.string.notification_title))
+                .setContentText(getString(localesR.string.notification_text))
+                .setContentIntent(moodRecordPendingIntent())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
-        }
-        val summaryNotification = createSubscriptionNotification {
-            val title = getString(localesR.string.subscriptions_title)
-            setContentTitle(title)
-                .setContentText(title)
-                .setSmallIcon(R.drawable.ic_outlined_payments)
-                .setStyle(subscriptionsNotificationStyle(subscription, title))
-                .setGroup(SUBSCRIPTIONS_NOTIFICATION_GROUP)
-                .setGroupSummary(true)
-                .setAutoCancel(true)
-                .build()
         }
 
-        // Send the notifications
+        // Send the notification
         val notificationManager = NotificationManagerCompat.from(this)
-        notificationManager.notify(
-            subscription.id.hashCode(),
-            subscriptionNotification,
-        )
-        notificationManager.notify(SUBSCRIPTIONS_NOTIFICATION_SUMMARY_ID, summaryNotification)
+        notificationManager.notify(MOOD_REMINDER_NOTIFICATION_ID, notification)
     }
-
-    /**
-     * Creates an inbox style summary notification for subscriptions
-     */
-    private fun subscriptionsNotificationStyle(
-        subscription: Subscription,
-        title: String,
-    ): InboxStyle = InboxStyle()
-        .addLine(subscription.title)
-        .setBigContentTitle(title)
-        .setSummaryText(title)
 }
 
 /**
- * Creates a notification for configured for subscription
+ * Creates a notification for mood reminder
  */
-private fun Context.createSubscriptionNotification(
+private fun Context.createMoodReminderNotification(
     block: NotificationCompat.Builder.() -> Unit,
 ): Notification {
     ensureNotificationChannelExists()
     return NotificationCompat.Builder(
         this,
-        SUBSCRIPTIONS_NOTIFICATION_CHANNEL_ID,
+        MOOD_REMINDER_NOTIFICATION_CHANNEL_ID,
     )
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .apply(block)
         .build()
 }
@@ -114,21 +70,21 @@ private fun Context.createSubscriptionNotification(
  */
 private fun Context.ensureNotificationChannelExists() {
     val channel = NotificationChannel(
-        SUBSCRIPTIONS_NOTIFICATION_CHANNEL_ID,
-        getString(localesR.string.subscriptions_title),
+        MOOD_REMINDER_NOTIFICATION_CHANNEL_ID,
+        getString(localesR.string.daily_reminder),
         NotificationManager.IMPORTANCE_DEFAULT,
     ).apply {
-        description = getString(localesR.string.subscriptions_notification_channel_description)
+        description = getString(localesR.string.daily_reminder_description)
     }
     NotificationManagerCompat.from(this).createNotificationChannel(channel)
 }
 
-private fun Context.subscriptionPendingIntent(): PendingIntent? = PendingIntent.getActivity(
+private fun Context.moodRecordPendingIntent(): PendingIntent? = PendingIntent.getActivity(
     this,
-    SUBSCRIPTIONS_NOTIFICATION_REQUEST_CODE,
+    MOOD_REMINDER_NOTIFICATION_REQUEST_CODE,
     Intent().apply {
         action = Intent.ACTION_VIEW
-        data = "$DEEP_LINK_SCHEME_AND_HOST/$SUBSCRIPTIONS_PATH".toUri()
+        data = "$DEEP_LINK_SCHEME_AND_HOST/record".toUri()
         component = ComponentName(
             packageName,
             TARGET_ACTIVITY_NAME,
@@ -136,10 +92,3 @@ private fun Context.subscriptionPendingIntent(): PendingIntent? = PendingIntent.
     },
     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
 )
-
-private fun Instant.formatDate(): String =
-    DateTimeFormatter
-        .ofLocalizedDate(FormatStyle.MEDIUM)
-        .withLocale(Locale.getDefault())
-        .withZone(TimeZone.currentSystemDefault().toJavaZoneId())
-        .format(toJavaInstant())

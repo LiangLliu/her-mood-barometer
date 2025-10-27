@@ -7,4 +7,14 @@ interface ReminderScheduler {
     fun schedule(reminder: Reminder)
 
     fun cancel(reminderId: Int)
+
+    /**
+     * Schedule daily mood reminder notification
+     */
+    fun scheduleDailyReminder()
+
+    /**
+     * Cancel daily mood reminder notification
+     */
+    fun cancelDailyReminder()
 }

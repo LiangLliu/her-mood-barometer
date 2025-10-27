@@ -1,39 +1,34 @@
 <resources>
-    <!-- App Basic -->
+    <!-- ==================== App Basic ==================== -->
     <string name="app_name">她的晴雨表</string>
 
-    <string name="app_update_available">新版本可用</string>
-    <string name="app_update_downloaded">更新已下载</string>
-    <string name="update">更新</string>
-    <string name="install">安装</string>
-
-    <!-- Navigation -->
+    <!-- ==================== Navigation ==================== -->
     <string name="nav_record">記錄</string>
     <string name="nav_statistics">統計</string>
     <string name="nav_settings">設定</string>
 
-    <!-- Record Page -->
-    <string name="record_title">記錄當前心情</string>
+    <!-- ==================== Record Screen ==================== -->
+    <!-- Page Title and Actions -->
+    <string name="record_title">記錄</string>
     <string name="record_emotion">記錄心情</string>
-    <string name="select_emotion_type">選擇情緒類型</string>
+    <string name="select_emotion">選擇情緒</string>
     <string name="emotion_intensity">情緒強度: %s</string>
     <string name="add_note">添加備註</string>
     <string name="note_placeholder">現在心情如何？</string>
     <string name="save_record">儲存記錄</string>
-    <string name="record_saved">記錄儲存成功</string>
     <string name="record_saved_successfully">記錄儲存成功！</string>
 
     <!-- Emotion Types -->
     <string name="emotion_happy">開心</string>
-    <string name="emotion_sad">難過</string>
-    <string name="emotion_angry">憤怒</string>
-    <string name="emotion_anxious">焦慮</string>
-    <string name="emotion_calm">平靜</string>
     <string name="emotion_excited">興奮</string>
+    <string name="emotion_calm">平靜</string>
+    <string name="emotion_grateful">感激</string>
+    <string name="emotion_sad">難過</string>
+    <string name="emotion_anxious">焦慮</string>
+    <string name="emotion_angry">憤怒</string>
+    <string name="emotion_lonely">孤獨</string>
     <string name="emotion_tired">疲憊</string>
     <string name="emotion_confused">困惑</string>
-    <string name="emotion_grateful">感激</string>
-    <string name="emotion_lonely">孤獨</string>
     <string name="emotion_thinking">思考</string>
     <string name="emotion_confident">自信</string>
     <string name="emotion_celebrating">慶祝</string>
@@ -46,17 +41,17 @@
     <string name="emotion_embarrassed">尷尬</string>
     <string name="emotion_silent">沉默</string>
 
-    <!-- 情緒描述 -->
+    <!-- Emotion Descriptions -->
     <string name="emotion_happy_desc">感到快樂和滿足</string>
-    <string name="emotion_sad_desc">感到悲傷或沮喪</string>
-    <string name="emotion_angry_desc">感到生氣或憤怒</string>
-    <string name="emotion_anxious_desc">感到緊張或擔心</string>
-    <string name="emotion_calm_desc">感到平和與寧靜</string>
     <string name="emotion_excited_desc">感到激動和興奮</string>
+    <string name="emotion_calm_desc">感到平和與寧靜</string>
+    <string name="emotion_grateful_desc">感到感激和感謝</string>
+    <string name="emotion_sad_desc">感到悲傷或沮喪</string>
+    <string name="emotion_anxious_desc">感到緊張或擔心</string>
+    <string name="emotion_angry_desc">感到生氣或憤怒</string>
+    <string name="emotion_lonely_desc">感到孤單或寂寞</string>
     <string name="emotion_tired_desc">感到疲勞和困倦</string>
     <string name="emotion_confused_desc">感到迷茫或困惑</string>
-    <string name="emotion_grateful_desc">感到感激和感謝</string>
-    <string name="emotion_lonely_desc">感到孤單或寂寞</string>
     <string name="emotion_thinking_desc">深入思考或沉思</string>
     <string name="emotion_confident_desc">充滿自信和肯定</string>
     <string name="emotion_celebrating_desc">慶祝成就或喜事</string>
@@ -76,38 +71,42 @@
     <string name="intensity_high">較高</string>
     <string name="intensity_very_high">非常高</string>
 
-    <!-- Statistics Page -->
+    <!-- ==================== Statistics Screen ==================== -->
+    <!-- Page Title and Overview -->
     <string name="statistics">統計</string>
-    <string name="mood_trends">情緒趨勢</string>
+    <string name="emotion_overview">情緒概覽</string>
+    <string name="total_records">總記錄數</string>
+    <string name="average_mood">平均情緒</string>
+    <string name="most_frequent_emotion">最常出現的情緒</string>
+
+    <!-- Time Range -->
     <string name="time_range">時間範圍</string>
+    <string name="time_range_selector_label">選擇統計時間範圍</string>
     <string name="last_week">最近一週</string>
     <string name="last_month">最近一個月</string>
     <string name="last_3_months">最近三個月</string>
-    <string name="last_year">最近一年</string>
-    <string name="time_range_selector_label">選擇統計時間範圍</string>
     <string name="last_six_months">最近半年內</string>
+    <string name="last_year">最近一年</string>
     <string name="custom_range">指定範圍</string>
     <string name="start_date">開始日期</string>
     <string name="end_date">結束日期</string>
+    <string name="select_start_date">選擇開始日期</string>
+    <string name="select_end_date">選擇結束日期</string>
+
+    <!-- Chart Related -->
     <string name="chart_type">圖表類型</string>
     <string name="bar_chart">長條圖</string>
     <string name="line_chart">折線圖</string>
     <string name="pie_chart">圓餅圖</string>
-    <string name="no_data">暫無資料</string>
-    <string name="total_records">總記錄數</string>
-    <string name="average_mood">平均情緒</string>
-    <string name="most_frequent_emotion">最常出現的情緒</string>
-    <string name="chart_emotion_counts">各情緒出現次數</string>
-    <string name="chart_emotion_trend">情緒變化趨勢</string>
-    <string name="emotion_overview">情緒概覽</string>
     <string name="emotion_distribution">情緒分布</string>
-    <string name="chart_emotion_distribution">情緒占比</string>
     <string name="emotion_trend_change">情緒趨勢變化</string>
     <string name="emotion_patterns">情緒模式</string>
     <string name="emotion_comparison">情緒對比</string>
+    <string name="no_data">暫無資料</string>
     <string name="chart_empty_hint">開始記錄心情以查看圖表</string>
-    <string name="cd_chart_emotion_counts">按情緒的次數長條圖</string>
-    <string name="cd_chart_distribution">情緒分佈圓餅圖</string>
+    <string name="chart_emotion_counts">情緒次數</string>
+    <string name="chart_emotion_trend">情緒趨勢</string>
+    <string name="mood_trends">心情趨勢</string>
 
     <!-- Chart Explanations -->
     <string name="chart_explanation_distribution_title">什麼是情緒分布？</string>
@@ -141,41 +140,51 @@
     <string name="last_week_label">上週</string>
     <string name="change">變化</string>
 
-    <!-- Settings Page -->
+    <!-- ==================== Settings Screen ==================== -->
     <string name="settings">設定</string>
-    <string name="custom_emotions">自訂情緒</string>
-    <string name="add_custom_emotion">新增自訂情緒</string>
-    <string name="delete_emotion">刪除情緒</string>
-    <string name="reminder_settings">提醒設定</string>
-    <string name="daily_reminder">每日提醒</string>
-    <string name="reminder_time">提醒時間</string>
-    <string name="language">語言</string>
+
+    <!-- Appearance -->
     <string name="appearance">外觀</string>
-    <string name="dark_mode">深色模式</string>
-    <string name="dark_mode_description">使用深色主題</string>
-    <string name="theme">主題</string>
-    <string name="light_theme">淺色</string>
-    <string name="dark_theme">深色</string>
-    <string name="system_theme">跟隨系統</string>
-    <string name="notifications">通知</string>
-    <string name="daily_reminder_description">每日心情記錄提醒</string>
+    <string name="language">語言</string>
+    <string name="language_en">English</string>
     <string name="language_zh">简体中文</string>
     <string name="language_zh_tw">繁體中文</string>
     <string name="language_ja">日本語</string>
     <string name="language_ko">한국어</string>
-    <string name="language_en">English</string>
-    <string name="emotion_management">情緒管理</string>
-    <string name="manage_emotions_desc">添加、編輯或刪除自定義情緒</string>
+    <string name="theme">主題</string>
+    <string name="system_theme">跟隨系統</string>
+    <string name="light_theme">淺色</string>
+    <string name="dark_theme">深色</string>
+    <string name="dynamic_color">動態顏色</string>
+
+    <!-- Notifications -->
+    <string name="notifications">通知</string>
+    <string name="daily_reminder">每日提醒</string>
+    <string name="daily_reminder_description">每日心情記錄提醒</string>
+    <string name="reminder_time">提醒時間</string>
+
+    <!-- About -->
     <string name="about">關於</string>
     <string name="about_app">關於應用</string>
     <string name="about_app_description">她的晴雨表 - 記錄生活中的每一份心情</string>
-    <string name="version">版本</string>
     <string name="licenses">授權</string>
     <string name="licenses_description">開源授權條款</string>
-    <string name="dynamic_color">动态颜色</string>
+    <string name="version">版本</string>
 
+    <!-- Emotion Management (Legacy - kept for compatibility) -->
+    <string name="emotion_management">情緒管理</string>
+    <string name="manage_emotions">管理情緒</string>
+    <string name="manage_emotions_desc">添加自定義情緒</string>
+    <string name="add_emotion">添加情緒</string>
+    <string name="edit_emotion">編輯情緒</string>
+    <string name="delete_emotion">刪除情緒</string>
+    <string name="emotion_name">情緒名稱</string>
+    <string name="emotion_description">情緒描述</string>
+    <string name="no_user_emotions">沒有自定義情緒</string>
+    <string name="confirm_delete_emotion">確定要刪除這個情緒嗎？</string>
 
-    <!-- Common Actions -->
+    <!-- ==================== Common ==================== -->
+    <!-- Actions -->
     <string name="save">儲存</string>
     <string name="cancel">取消</string>
     <string name="delete">刪除</string>
@@ -194,9 +203,7 @@
     <string name="this_month">本月</string>
     <string name="select_date">選擇日期</string>
     <string name="select_time">選擇時間</string>
-    <string name="select_start_date">選擇開始日期</string>
-    <string name="select_end_date">選擇結束日期</string>
-    
+
     <!-- Date Range Errors -->
     <string name="date_range_error_start_after_end">開始日期不能晚於結束日期</string>
     <string name="date_range_error_start_future">開始日期不能是未來日期</string>
@@ -212,39 +219,28 @@
     <!-- Confirmation Messages -->
     <string name="confirm_delete_record">確定要刪除這條記錄嗎？</string>
 
-
     <!-- Notifications -->
     <string name="notification_title">心情簽到</string>
     <string name="notification_text">今天心情如何？</string>
 
-    <!-- 權限 -->
+    <!-- Permissions -->
     <string name="notification_permission_title">允許通知</string>
     <string name="notification_permission_message">為了發送每日提醒，請為本應用開啟通知。</string>
     <string name="exact_alarm_permission_title">允許精確鬧鐘</string>
     <string name="exact_alarm_permission_message">為了準時觸發提醒，請在系統設定中允許精確鬧鐘。</string>
     <string name="open_settings">開啟設定</string>
 
+    <!-- App Updates -->
+    <string name="app_update_available">有新的更新可用</string>
+    <string name="app_update_downloaded">更新已下載，準備安裝</string>
+    <string name="update">更新</string>
+    <string name="install">安裝</string>
+
     <!-- Accessibility -->
     <string name="cd_emotion_button">情緒選擇按鈕</string>
     <string name="cd_intensity_slider">情緒強度滑桿</string>
     <string name="cd_add_note">新增備註按鈕</string>
     <string name="cd_save_record">儲存記錄按鈕</string>
-
-    <!-- Custom Emotions -->
-    <string name="emotion_name">情緒名稱</string>
-    <string name="description">描述</string>
-    <string name="manage_emotions">管理情緒</string>
-    <string name="add_emotion">添加情緒</string>
-    <string name="edit_emotion">編輯情緒</string>
-    <string name="emotion_description">描述</string>
-    <string name="no_user_emotions">還沒有自定義情緒。點擊 + 添加你的第一個情緒！</string>
-    <string name="confirm_delete_emotion">確定要刪除這個情緒嗎？此操作無法撤銷。</string>
-    <string name="selected_emoji">選擇的表情：</string>
-    <string name="choose_emoji">選擇一個表情：</string>
-    <string name="no_custom_emotions">暫無自訂情緒</string>
-    <string name="select_emotion">選擇情緒</string>
-    <string name="predefined_emotions">預設情緒</string>
-
-    <string name="new_transaction">新建交易</string>
-    <string name="transaction_shortcut_long_label">添加新交易</string>
+    <string name="cd_chart_emotion_counts">按情緒的次數長條圖</string>
+    <string name="cd_chart_distribution">情緒分佈圓餅圖</string>
 </resources>
