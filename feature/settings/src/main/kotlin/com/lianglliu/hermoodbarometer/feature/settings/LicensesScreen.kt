@@ -6,10 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.lianglliu.hermoodbarometer.core.locales.R as localesR
 import com.lianglliu.hermoodbarometer.core.ui.component.SimpleScreenContainer
-import com.mikepenz.aboutlibraries.ui.compose.android.rememberLibraries
+import com.mikepenz.aboutlibraries.ui.compose.android.produceLibraries
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
+import com.lianglliu.hermoodbarometer.core.locales.R as localesR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,7 +23,8 @@ internal fun LicensesScreen(
         modifier = modifier,
     )
     {
-        val libraries by rememberLibraries(R.raw.aboutlibraries)
+        val libraries by produceLibraries(R.raw.aboutlibraries)
+
         LibrariesContainer(
             libraries = libraries,
             modifier = Modifier.fillMaxSize(),
