@@ -176,6 +176,7 @@
     <string name="about">About</string>
     <string name="version">Version</string>
     <string name="licenses">Licenses</string>
+    <string name="licenses_description">Open source licenses</string>
 
     <!-- Common Actions -->
     <string name="save">Save</string>

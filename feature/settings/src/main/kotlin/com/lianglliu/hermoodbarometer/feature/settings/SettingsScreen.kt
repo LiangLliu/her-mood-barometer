@@ -307,6 +307,7 @@ private fun LazyListScope.about(
         SettingsItem(
             icon = AppIcons.Outlined.HistoryEdu,
             title = stringResource(R.string.licenses),
+            subtitle = stringResource(R.string.licenses_description),
             onClick = onAboutLicensesClick
         )
     }

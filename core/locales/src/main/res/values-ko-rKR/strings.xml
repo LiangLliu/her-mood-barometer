@@ -175,6 +175,7 @@
   <string name="about">정보</string>
   <string name="version">버전</string>
   <string name="licenses">라이선스</string>
+  <string name="licenses_description">오픈 소스 라이선스</string>
 
   <!-- Common Actions -->
   <string name="save">저장</string>

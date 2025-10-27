@@ -1838,11 +1838,12 @@
 </head>
 <body>
     <div class="theme-toggle">
-        <span class="theme-toggle-label">深色模式</span>
-        <label class="switch">
-            <input type="checkbox" id="theme-toggle">
-            <span class="switch-slider"></span>
-        </label>
+        <span class="theme-toggle-label">主题：</span>
+        <select id="theme-select" style="background: transparent; border: 1px solid var(--color-outline); border-radius: 4px; padding: 4px 8px; color: var(--color-on-surface);">
+            <option value="system">跟随系统</option>
+            <option value="light">浅色</option>
+            <option value="dark">深色</option>
+        </select>
     </div>
 
     <div class="container">
@@ -2325,19 +2326,6 @@
                         外观
                     </div>
                     <div class="settings-item">
-                        <div class="settings-icon">🌙</div>
-                        <div class="settings-content">
-                            <div class="settings-title">深色模式</div>
-                            <div class="settings-subtitle">使用深色主题</div>
-                        </div>
-                        <div class="settings-action">
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="switch-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="settings-item">
                         <div class="settings-icon">🌐</div>
                         <div class="settings-content">
                             <div class="settings-title">语言</div>
@@ -2345,6 +2333,29 @@
                         </div>
                         <div class="settings-action">
                             <span>›</span>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-icon">🎨</div>
+                        <div class="settings-content">
+                            <div class="settings-title">主题</div>
+                            <div class="settings-subtitle">跟随系统</div>
+                        </div>
+                        <div class="settings-action">
+                            <span>›</span>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-icon">🌈</div>
+                        <div class="settings-content">
+                            <div class="settings-title">动态颜色</div>
+                            <div class="settings-subtitle">使用Material You动态颜色</div>
+                        </div>
+                        <div class="settings-action">
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="switch-slider"></span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -2362,36 +2373,19 @@
                         </div>
                         <div class="settings-action">
                             <label class="switch">
-                                <input type="checkbox" checked>
+                                <input type="checkbox" id="reminder-toggle" checked>
                                 <span class="switch-slider"></span>
                             </label>
                         </div>
                     </div>
-                    <div class="settings-item">
+                    <div class="settings-item" id="reminder-time-item">
                         <div class="settings-icon">⏰</div>
                         <div class="settings-content">
                             <div class="settings-title">提醒时间</div>
                             <div class="settings-subtitle">上午 9:00</div>
                         </div>
                         <div class="settings-action">
-                            <span>›</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-title">
-                        <span class="card-title-icon">😊</span>
-                        情绪管理
-                    </div>
-                    <div class="settings-item">
-                        <div class="settings-icon">😊</div>
-                        <div class="settings-content">
-                            <div class="settings-title">管理情绪</div>
-                            <div class="settings-subtitle">添加、编辑或删除自定义情绪</div>
-                        </div>
-                        <div class="settings-action">
-                            <span>›</span>
+                            <span></span>
                         </div>
                     </div>
                 </div>
@@ -2403,6 +2397,23 @@
                     </div>
                     <div class="settings-item">
                         <div class="settings-icon">ℹ️</div>
+                        <div class="settings-content">
+                            <div class="settings-title">关于应用</div>
+                            <div class="settings-subtitle">她的晴雨表 - 记录生活中的每一份心情</div>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-icon">📄</div>
+                        <div class="settings-content">
+                            <div class="settings-title">许可</div>
+                            <div class="settings-subtitle">开源许可证</div>
+                        </div>
+                        <div class="settings-action">
+                            <span>›</span>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-icon">🔢</div>
                         <div class="settings-content">
                             <div class="settings-title">她的晴雨表</div>
                             <div class="settings-subtitle">版本 1.0.0</div>
@@ -2428,26 +2439,48 @@
     </div>
 
     <script>
-        // Theme Toggle
-        const themeToggle = document.getElementById('theme-toggle');
+        // Theme Selector
+        const themeSelect = document.getElementById('theme-select');
         const body = document.body;
-        
-        // Check for saved theme preference or default to light
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        if (currentTheme === 'dark') {
-            body.setAttribute('data-theme', 'dark');
-            themeToggle.checked = true;
-        }
-        
-        themeToggle.addEventListener('change', function() {
-            if (this.checked) {
+
+        // Check for saved theme preference or default to system
+        const currentTheme = localStorage.getItem('theme') || 'system';
+        themeSelect.value = currentTheme;
+
+        // Apply theme
+        function applyTheme(theme) {
+            if (theme === 'dark') {
                 body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            } else {
+            } else if (theme === 'light') {
                 body.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
+            } else if (theme === 'system') {
+                // Check system preference
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    body.setAttribute('data-theme', 'dark');
+                } else {
+                    body.removeAttribute('data-theme');
+                }
             }
+        }
+
+        // Apply initial theme
+        applyTheme(currentTheme);
+
+        // Listen for theme changes
+        themeSelect.addEventListener('change', function() {
+            const selectedTheme = this.value;
+            localStorage.setItem('theme', selectedTheme);
+            applyTheme(selectedTheme);
         });
+
+        // Listen for system theme changes
+        if (window.matchMedia) {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (themeSelect.value === 'system') {
+                    applyTheme('system');
+                }
+            });
+        }
         
         // Tab Navigation
         const tabs = document.querySelectorAll('.nav-tab');
@@ -2587,7 +2620,7 @@
         const customRangeContainer = document.getElementById('custom-range-container');
         const startDateInput = document.getElementById('start-date');
         const endDateInput = document.getElementById('end-date');
-        
+
         // Handle time range selection
         timeRangeSelect.addEventListener('change', function() {
             if (this.value === 'custom') {
@@ -2596,13 +2629,31 @@
                 const endDate = new Date();
                 const startDate = new Date();
                 startDate.setDate(startDate.getDate() - 30);
-                
+
                 endDateInput.value = endDate.toISOString().split('T')[0];
                 startDateInput.value = startDate.toISOString().split('T')[0];
             } else {
                 customRangeContainer.classList.remove('active');
             }
         });
+
+        // Reminder Toggle
+        const reminderToggle = document.getElementById('reminder-toggle');
+        const reminderTimeItem = document.getElementById('reminder-time-item');
+
+        // Handle reminder toggle
+        reminderToggle.addEventListener('change', function() {
+            if (this.checked) {
+                reminderTimeItem.style.display = 'flex';
+            } else {
+                reminderTimeItem.style.display = 'none';
+            }
+        });
+
+        // Initialize reminder time visibility
+        if (!reminderToggle.checked) {
+            reminderTimeItem.style.display = 'none';
+        }
     </script>
 </body>
 </html>
