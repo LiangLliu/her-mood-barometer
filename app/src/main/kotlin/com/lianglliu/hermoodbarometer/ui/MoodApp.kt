@@ -138,10 +138,12 @@ fun MoodApp(
                 NavigationSuiteItem(
                     selected = selected,
                     icon = {
-                        val navItemIcon = if (selected) {
-                            destination.selectedIcon
-                        } else {
-                            destination.unselectedIcon
+                        val navItemIcon = remember(selected) {
+                            if (selected) {
+                                destination.selectedIcon
+                            } else {
+                                destination.unselectedIcon
+                            }
                         }
                         Icon(
                             imageVector = navItemIcon,
@@ -149,16 +151,19 @@ fun MoodApp(
                         )
                     },
                     label = {
+                        val labelText = stringResource(destination.iconTextId)
                         Text(
-                            text = stringResource(destination.iconTextId),
+                            text = labelText,
                             maxLines = 1,
                         )
                     },
-                    onClick = {
-                        if (currentTopLevelDestination != null && currentTopLevelDestination != SETTINGS) {
-                            previousDestination = currentTopLevelDestination
+                    onClick = remember(currentTopLevelDestination, destination) {
+                        {
+                            if (currentTopLevelDestination != null && currentTopLevelDestination != SETTINGS) {
+                                previousDestination = currentTopLevelDestination
+                            }
+                            appState.navigateToTopLevelDestination(destination)
                         }
-                        appState.navigateToTopLevelDestination(destination)
                     },
                 )
             }

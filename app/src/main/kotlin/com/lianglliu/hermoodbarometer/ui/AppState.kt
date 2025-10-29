@@ -1,5 +1,6 @@
 package com.lianglliu.hermoodbarometer.ui
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -92,6 +93,9 @@ class AppState(
         )
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
+        val startTime = System.currentTimeMillis()
+        Log.d("Navigation", "Navigate to ${topLevelDestination.name}")
+
         trace("Navigation: ${topLevelDestination.name}") {
             val topLevelNavOptions = navOptions {
                 popUpTo(navController.graph.findStartDestination().id) {
@@ -102,9 +106,18 @@ class AppState(
             }
 
             when (topLevelDestination) {
-                RECORD -> navController.navigateToRecord(navOptions = topLevelNavOptions)
-                STATISTICS -> navController.navigateToStatistics(topLevelNavOptions)
-                SETTINGS -> navController.navigateToSettings(topLevelNavOptions)
+                RECORD -> {
+                    navController.navigateToRecord(navOptions = topLevelNavOptions)
+                    Log.d("Navigation", "→ RECORD (${System.currentTimeMillis() - startTime}ms)")
+                }
+                STATISTICS -> {
+                    navController.navigateToStatistics(topLevelNavOptions)
+                    Log.d("Navigation", "→ STATISTICS (${System.currentTimeMillis() - startTime}ms)")
+                }
+                SETTINGS -> {
+                    navController.navigateToSettings(topLevelNavOptions)
+                    Log.d("Navigation", "→ SETTINGS (${System.currentTimeMillis() - startTime}ms)")
+                }
             }
         }
     }

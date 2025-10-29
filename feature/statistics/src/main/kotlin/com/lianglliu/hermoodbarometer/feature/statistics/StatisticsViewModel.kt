@@ -1,5 +1,6 @@
 package com.lianglliu.hermoodbarometer.feature.statistics
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lianglliu.hermoodbarometer.core.domain.EmotionStatistics
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -33,6 +35,10 @@ class StatisticsViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.Default) private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
+    init {
+        Log.d("StatisticsVM", "Init StatisticsViewModel")
+    }
+
     private val emotionRecordFilterState = MutableStateFlow(
         EmotionRecordFilter(
             startDateTime = TimeRange.LAST_WEEK.getStartDateTime(),
@@ -42,22 +48,36 @@ class StatisticsViewModel @Inject constructor(
 
     private val selectedTimeRangeEnumState = MutableStateFlow(TimeRange.LAST_WEEK)
 
-    val statisticsUiState: StateFlow<StatisticsUiState> = emotionRecordFilterState
-        .flatMapLatest { filter ->
+    val statisticsUiState: StateFlow<StatisticsUiState> = combine(
+        emotionRecordFilterState,
+        selectedTimeRangeEnumState
+    ) { filter, timeRange ->
+        Pair(filter, timeRange)
+    }
+        .flatMapLatest { (filter, timeRange) ->
+            val startTime = System.currentTimeMillis()
+
             getEmotionStatisticsUseCase(filter)
-                .map { it ->
+                .map { statistics ->
+                    Log.d("StatisticsVM", "Statistics loaded: ${statistics.totalRecords} records (${System.currentTimeMillis() - startTime}ms)")
                     StatisticsUiState.Success(
                         emotionRecordFilter = filter,
-                        statistics = it,
-                        timeRange = TimeRange.LAST_WEEK,
-                        customStartDate = LocalDate.now().minusDays(7),
-                        customEndDate = LocalDate.now()
-                    )
+                        statistics = statistics,
+                        timeRange = timeRange,
+                        customStartDate = filter.startDateTime.toLocalDate(),
+                        customEndDate = filter.endDateTime.toLocalDate()
+                    ) as StatisticsUiState
                 }
-                .flowOn(defaultDispatcher)
-                .onStart { StatisticsUiState.Loading }
-                .catch { StatisticsUiState.Loading }
-        }.stateIn(
+                .onStart {
+                    emit(StatisticsUiState.Loading)
+                }
+                .catch { error ->
+                    Log.e("StatisticsVM", "Error loading statistics: ${error.message}")
+                    emit(StatisticsUiState.Loading)
+                }
+        }
+        .flowOn(defaultDispatcher)
+        .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = StatisticsUiState.Loading,
@@ -67,7 +87,6 @@ class StatisticsViewModel @Inject constructor(
      * 更新选中的时间范围
      */
     fun updateTimeRange(timeRange: TimeRange) {
-
         selectedTimeRangeEnumState.value = timeRange
 
         emotionRecordFilterState.update {

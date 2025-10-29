@@ -1,5 +1,6 @@
 package com.lianglliu.hermoodbarometer.feature.settings
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig
@@ -26,6 +27,10 @@ class SettingsViewModel @Inject constructor(
     private val reminderScheduler: ReminderScheduler,
 ) : ViewModel() {
     private val availableLanguages = Language.entries
+
+    init {
+        Log.d("SettingsVM", "Init SettingsViewModel")
+    }
 
     val settingsUiState: StateFlow<SettingsUiState> = combine(
         userDataRepository.userData,

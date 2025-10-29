@@ -1,5 +1,6 @@
 package com.lianglliu.hermoodbarometer.feature.record
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lianglliu.hermoodbarometer.core.domain.AddEmotionRecordUseCase
@@ -10,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -68,20 +70,32 @@ class RecordViewModel @Inject constructor(
     val uiState: StateFlow<RecordUiState> = _uiState.asStateFlow()
 
     init {
-        loadUserEmotions()
+        Log.d("RecordVM", "Init RecordViewModel")
+
+        // 延迟加载用户情绪，避免初始化时的性能压力
+        viewModelScope.launch {
+            // 给UI一点时间完成初始渲染
+            kotlinx.coroutines.delay(300)
+            loadUserEmotions()
+        }
     }
 
     /**
      * 加载用户创建的情绪
      */
     private fun loadUserEmotions() {
+        val startTime = System.currentTimeMillis()
+
         viewModelScope.launch {
             // Assuming this flow is designed to emit updates if user emotions change elsewhere
-            emotionDefinitionRepository.getUserCreatedEmotions().collect { emotions ->
-                _uiState.update { state ->
-                    state.copy(userEmotions = emotions)
+            emotionDefinitionRepository.getUserCreatedEmotions()
+                .flowOn(kotlinx.coroutines.Dispatchers.IO)
+                .collect { emotions ->
+                    Log.d("RecordVM", "Emotions loaded: ${emotions.size} items (${System.currentTimeMillis() - startTime}ms)")
+                    _uiState.update { state ->
+                        state.copy(userEmotions = emotions)
+                    }
                 }
-            }
         }
     }
 
@@ -119,6 +133,8 @@ class RecordViewModel @Inject constructor(
      * 保存情绪记录
      */
     fun saveEmotionRecord() {
+        val startTime = System.currentTimeMillis()
+
         val currentState = _uiState.value
 
         val validationError = validateEmotionRecord(currentState)
@@ -143,6 +159,7 @@ class RecordViewModel @Inject constructor(
         viewModelScope.launch {
             addEmotionRecordUseCase(emotionRecord)
                 .onSuccess {
+                    Log.d("RecordVM", "Record saved (${System.currentTimeMillis() - startTime}ms)")
                     _uiState.update { state ->
                         state.copy(
                             selectedEmotion = null,
@@ -155,10 +172,12 @@ class RecordViewModel @Inject constructor(
                     }
                 }
                 .onFailure { exception ->
+                    val errorMsg = mapExceptionToFriendlyMessage(exception)
+                    Log.e("RecordVM", "Save failed: $errorMsg")
                     _uiState.update { state ->
                         state.copy(
                             isLoading = false,
-                            errorMessage = mapExceptionToFriendlyMessage(exception)
+                            errorMessage = errorMsg
                         )
                     }
                 }
@@ -170,9 +189,6 @@ class RecordViewModel @Inject constructor(
      * 假设 UseCase 会将特定的业务异常（如网络、数据库问题）封装并传递。
      */
     private fun mapExceptionToFriendlyMessage(exception: Throwable): String {
-        // Log the actual exception for debugging purposes
-        // Log.e("RecordViewModel", "Error saving emotion record", exception)
-
         val message = exception.message?.lowercase() ?: ""
         return when {
             message.contains(ERROR_TAG_NETWORK) -> ERROR_MSG_NETWORK_FAILURE
