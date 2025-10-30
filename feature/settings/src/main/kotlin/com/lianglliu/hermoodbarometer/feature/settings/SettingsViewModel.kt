@@ -1,15 +1,19 @@
 package com.lianglliu.hermoodbarometer.feature.settings
 
-import android.os.Build
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig
 import com.lianglliu.hermoodbarometer.core.model.data.Language
+import com.lianglliu.hermoodbarometer.core.permissions.PermissionCheckResult
+import com.lianglliu.hermoodbarometer.core.permissions.PermissionHelpers
+import com.lianglliu.hermoodbarometer.core.permissions.PermissionState
 import com.lianglliu.hermoodbarometer.repository.UserDataRepository
 import com.lianglliu.hermoodbarometer.util.AppLocaleManager
 import com.lianglliu.hermoodbarometer.util.ReminderScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -23,11 +27,16 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
+    application: Application,
     private val userDataRepository: UserDataRepository,
     private val appLocaleManager: AppLocaleManager,
     private val reminderScheduler: ReminderScheduler,
-) : ViewModel() {
+) : AndroidViewModel(application) {
     private val availableLanguages = Language.entries
+
+    // 权限状态流
+    private val _permissionState = MutableStateFlow<PermissionCheckResult>(PermissionCheckResult.Idle)
+    val permissionState: StateFlow<PermissionCheckResult> = _permissionState
 
     init {
         Log.d("SettingsVM", "Init SettingsViewModel")
@@ -73,33 +82,67 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun updateReminderEnabled(reminderStatus: Boolean) {
-/*        if (reminderStatus) {
-            // 通知权限
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-                !PermissionHelpers.notificationsEnabled(context)
-            ) {
-                PermissionHelpers.openAppNotificationSettings(context)
-            }
-            // 精准闹钟（S+）
-            if (!PermissionHelpers.canScheduleExactAlarms(context)) {
-                PermissionHelpers.openExactAlarmSettings(context)
-            }
-        }*/
+        if (reminderStatus) {
+            // 检查所需权限
+            val missingPermissions = checkRequiredPermissions()
 
+            if (missingPermissions.isNotEmpty()) {
+                // 有权限未授予，通知UI层处理
+                _permissionState.value = PermissionCheckResult.PermissionsRequired(missingPermissions)
+                return
+            }
+        }
 
+        // 权限已授予或关闭提醒，继续处理
         viewModelScope.launch {
             userDataRepository.setReminderStatus(reminderStatus)
             if (reminderStatus) {
-                // Schedule daily reminder with current time
                 val currentSettings = settingsUiState.value
                 if (currentSettings is SettingsUiState.Success) {
                     scheduleDailyReminder(currentSettings.settings.reminderTime)
                 }
             } else {
-                // Cancel daily reminder
                 reminderScheduler.cancelDailyReminder()
             }
+            _permissionState.value = PermissionCheckResult.Success
         }
+    }
+
+    /**
+     * 检查所需权限
+     */
+    private fun checkRequiredPermissions(): List<String> {
+        val context = getApplication<Application>()
+        val missingPermissions = mutableListOf<String>()
+
+        // 检查通知权限
+        if (PermissionHelpers.checkPermissionState(context, "notification") != PermissionState.Granted) {
+            missingPermissions.add("notification")
+        }
+
+        // 检查精确闹钟权限
+        if (PermissionHelpers.checkPermissionState(context, "exact_alarm") != PermissionState.Granted) {
+            missingPermissions.add("exact_alarm")
+        }
+
+        return missingPermissions
+    }
+
+    /**
+     * 从设置页面返回后重新检查权限
+     */
+    fun recheckPermissionsAndContinue() {
+        val settingsState = settingsUiState.value
+        if (settingsState is SettingsUiState.Success && settingsState.settings.isReminderEnabled) {
+            updateReminderEnabled(true)
+        }
+    }
+
+    /**
+     * 清除权限状态
+     */
+    fun clearPermissionState() {
+        _permissionState.value = PermissionCheckResult.Idle
     }
 
     fun updateReminderTime(reminderTime: String) {

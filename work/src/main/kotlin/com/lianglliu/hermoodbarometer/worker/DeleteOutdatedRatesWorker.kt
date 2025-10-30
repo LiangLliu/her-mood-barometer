@@ -6,8 +6,8 @@ import androidx.tracing.traceAsync
 import androidx.work.CoroutineWorker
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkerParameters
-import com.lianglliu.hermoodbarometer.core.network.AppDispatchers
-import com.lianglliu.hermoodbarometer.core.network.Dispatcher
+import com.lianglliu.hermoodbarometer.core.common.concurrency.AppDispatchers
+import com.lianglliu.hermoodbarometer.core.common.concurrency.Dispatcher
 import com.lianglliu.hermoodbarometer.initializer.SyncConstraints
 import com.lianglliu.hermoodbarometer.repository.UserDataRepository
 import dagger.assisted.Assisted

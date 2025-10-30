@@ -36,7 +36,7 @@ kotlinxDatetime = "0.7.1"
 kotlinxSerializationJson = "1.9.0"
 ksp = "2.3.0"
 ktor = "3.3.1"
-lottie = "6.6.10"
+lottie = "6.7.0"
 playAppUpdate = "2.1.0"
 playReview = "2.0.2"
 protobuf = "4.33.0"
@@ -44,6 +44,7 @@ protobufPlugin = "0.9.5"
 room = "2.8.3"
 vico = "2.2.1"
 zip4j = "2.11.5"
+coreVersion = "1.17.0"
 
 [libraries]
 aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", version.ref = "aboutLibraries" }
@@ -127,6 +128,7 @@ firebase-performance-gradlePlugin = { group = "com.google.firebase", name = "per
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+androidx-core = { group = "androidx.core", name = "core", version.ref = "coreVersion" }
 
 [plugins]
 aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin.android", version.ref = "aboutLibraries" }

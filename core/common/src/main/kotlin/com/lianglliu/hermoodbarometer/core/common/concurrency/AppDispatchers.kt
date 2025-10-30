@@ -1,4 +1,4 @@
-package com.lianglliu.hermoodbarometer.core.network
+package com.lianglliu.hermoodbarometer.core.common.concurrency
 
 import javax.inject.Qualifier
 import kotlin.annotation.AnnotationRetention.RUNTIME

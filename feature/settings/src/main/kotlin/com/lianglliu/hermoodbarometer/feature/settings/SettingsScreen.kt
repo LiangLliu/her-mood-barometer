@@ -32,6 +32,7 @@ import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Palette
 import com.lianglliu.hermoodbarometer.core.designsystem.theme.supportsDynamicTheming
 import com.lianglliu.hermoodbarometer.core.locales.R
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig
+import com.lianglliu.hermoodbarometer.core.permissions.PermissionCheckResult
 import com.lianglliu.hermoodbarometer.core.ui.component.LoadingState
 import com.lianglliu.hermoodbarometer.core.ui.component.ScreenContainer
 import com.lianglliu.hermoodbarometer.feature.settings.SettingsUiState.Loading
@@ -39,6 +40,7 @@ import com.lianglliu.hermoodbarometer.feature.settings.components.LanguageDialog
 import com.lianglliu.hermoodbarometer.feature.settings.components.SectionTitle
 import com.lianglliu.hermoodbarometer.feature.settings.components.ThemeDialog
 import com.lianglliu.hermoodbarometer.feature.settings.components.TimePickerDialog
+import com.lianglliu.hermoodbarometer.core.permissions.PermissionHandler
 
 /**
  * 设置页面
@@ -49,21 +51,53 @@ fun SettingsScreen(
     onNavigateToAboutLicenses: () -> Unit = {}, viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val settingsState by viewModel.settingsUiState.collectAsStateWithLifecycle()
+    val permissionState by viewModel.permissionState.collectAsStateWithLifecycle()
 
-    SettingsScreen(
-        settingsState = settingsState,
-        onLicensesClick = onNavigateToAboutLicenses,
-        onDynamicColorPreferenceUpdate = viewModel::updateDynamicColorPreference,
-        onDarkThemeConfigUpdate = viewModel::updateDarkThemeConfig,
-        onLanguageUpdate = viewModel::updateLanguage,
-        onReminderEnabledChanged = viewModel::updateReminderEnabled,
-        onReminderTimeChanged = viewModel::updateReminderTime,
-    )
+    // 处理权限请求结果
+    when (val state = permissionState) {
+        is PermissionCheckResult.PermissionsRequired -> {
+            PermissionHandler(
+                permissions = state.permissions,
+                onAllPermissionsGranted = {
+                    // 所有权限已授予，继续开启提醒
+                    viewModel.recheckPermissionsAndContinue()
+                },
+                onPermissionsDenied = {
+                    // 用户拒绝了权限，清除状态
+                    viewModel.clearPermissionState()
+                }
+            ) {
+                // 正常显示设置界面
+                SettingsScreenContent(
+                    settingsState = settingsState,
+                    onLicensesClick = onNavigateToAboutLicenses,
+                    onDynamicColorPreferenceUpdate = viewModel::updateDynamicColorPreference,
+                    onDarkThemeConfigUpdate = viewModel::updateDarkThemeConfig,
+                    onLanguageUpdate = viewModel::updateLanguage,
+                    onReminderEnabledChanged = viewModel::updateReminderEnabled,
+                    onReminderTimeChanged = viewModel::updateReminderTime,
+                )
+            }
+        }
+
+        else -> {
+            // 正常显示设置界面
+            SettingsScreenContent(
+                settingsState = settingsState,
+                onLicensesClick = onNavigateToAboutLicenses,
+                onDynamicColorPreferenceUpdate = viewModel::updateDynamicColorPreference,
+                onDarkThemeConfigUpdate = viewModel::updateDarkThemeConfig,
+                onLanguageUpdate = viewModel::updateLanguage,
+                onReminderEnabledChanged = viewModel::updateReminderEnabled,
+                onReminderTimeChanged = viewModel::updateReminderTime,
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SettingsScreen(
+private fun SettingsScreenContent(
     settingsState: SettingsUiState,
     onLicensesClick: () -> Unit,
     onDynamicColorPreferenceUpdate: (Boolean) -> Unit,

@@ -1,4 +1,4 @@
-package com.lianglliu.hermoodbarometer.core.util
+package com.lianglliu.hermoodbarometer.core.common.util
 
 object Constants {
     const val DEEP_LINK_SCHEME_AND_HOST = "hermoodbarometer://lianglliu.com"

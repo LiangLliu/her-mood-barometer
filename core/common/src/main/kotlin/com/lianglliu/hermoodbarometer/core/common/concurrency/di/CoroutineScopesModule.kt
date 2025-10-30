@@ -1,5 +1,7 @@
-package com.lianglliu.hermoodbarometer.core.network.di
+package com.lianglliu.hermoodbarometer.core.common.concurrency.di
 
+import com.lianglliu.hermoodbarometer.core.common.concurrency.AppDispatchers
+import com.lianglliu.hermoodbarometer.core.common.concurrency.Dispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -7,8 +9,6 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import com.lianglliu.hermoodbarometer.core.network.AppDispatchers.Default
-import com.lianglliu.hermoodbarometer.core.network.Dispatcher
 import javax.inject.Qualifier
 import javax.inject.Singleton
 import kotlin.annotation.AnnotationRetention.RUNTIME
@@ -25,6 +25,6 @@ internal object CoroutineScopesModule {
     @Singleton
     @ApplicationScope
     fun providesCoroutineScope(
-        @Dispatcher(Default) dispatcher: CoroutineDispatcher,
+        @Dispatcher(AppDispatchers.Default) dispatcher: CoroutineDispatcher,
     ): CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 }

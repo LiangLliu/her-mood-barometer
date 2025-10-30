@@ -1,24 +1,23 @@
-package com.lianglliu.hermoodbarometer.core.network.di
+package com.lianglliu.hermoodbarometer.core.common.concurrency.di
 
+import com.lianglliu.hermoodbarometer.core.common.concurrency.AppDispatchers
+import com.lianglliu.hermoodbarometer.core.common.concurrency.Dispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import com.lianglliu.hermoodbarometer.core.network.AppDispatchers.Default
-import com.lianglliu.hermoodbarometer.core.network.AppDispatchers.IO
-import com.lianglliu.hermoodbarometer.core.network.Dispatcher
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DispatchersModule {
 
     @Provides
-    @Dispatcher(IO)
+    @Dispatcher(AppDispatchers.IO)
     fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     @Provides
-    @Dispatcher(Default)
+    @Dispatcher(AppDispatchers.Default)
     fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
 }

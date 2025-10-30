@@ -14,8 +14,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import dagger.hilt.android.qualifiers.ApplicationContext
-import com.lianglliu.hermoodbarometer.core.util.Constants.DEEP_LINK_SCHEME_AND_HOST
-import com.lianglliu.hermoodbarometer.core.util.Constants.TARGET_ACTIVITY_NAME
+import com.lianglliu.hermoodbarometer.core.common.util.Constants.DEEP_LINK_SCHEME_AND_HOST
+import com.lianglliu.hermoodbarometer.core.common.util.Constants.TARGET_ACTIVITY_NAME
 import javax.inject.Inject
 import javax.inject.Singleton
 import com.lianglliu.hermoodbarometer.core.locales.R as localesR

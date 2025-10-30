@@ -6,9 +6,9 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import com.lianglliu.hermoodbarometer.core.datastore.UserPreferences
 import com.lianglliu.hermoodbarometer.core.datastore.UserPreferencesSerializer
-import com.lianglliu.hermoodbarometer.core.network.AppDispatchers
-import com.lianglliu.hermoodbarometer.core.network.Dispatcher
-import com.lianglliu.hermoodbarometer.core.network.di.ApplicationScope
+import com.lianglliu.hermoodbarometer.core.common.concurrency.AppDispatchers
+import com.lianglliu.hermoodbarometer.core.common.concurrency.Dispatcher
+import com.lianglliu.hermoodbarometer.core.common.concurrency.di.ApplicationScope
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

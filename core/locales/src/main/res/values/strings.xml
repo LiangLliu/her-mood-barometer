@@ -230,6 +230,18 @@
     <string name="exact_alarm_permission_message">To trigger reminders on time, please allow exact alarms in system settings.</string>
     <string name="open_settings">Open settings</string>
 
+    <!-- Permission Dialogs -->
+    <string name="permission_required">Permission Required</string>
+    <string name="permission_go_to_settings">Go to Settings</string>
+    <string name="permission_cancel">Cancel</string>
+
+    <!-- Permission Types -->
+    <string name="permission_notification_title">Notification Permission Required</string>
+    <string name="permission_notification_rationale">To send you daily reminders, we need permission to show notifications. Please enable notifications in settings.</string>
+    <string name="permission_exact_alarm_title">Exact Alarm Permission Required</string>
+    <string name="permission_exact_alarm_rationale">To schedule precise daily reminders, we need permission to set exact alarms. Please enable this permission in settings.</string>
+    <string name="permission_default_rationale">This app needs permission to function properly. Please grant the permission in settings.</string>
+
     <!-- App Updates -->
     <string name="app_update_available">A new update is available</string>
     <string name="app_update_downloaded">Update downloaded and ready to install</string>

@@ -7,9 +7,9 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.net.toUri
-import com.lianglliu.hermoodbarometer.core.util.Constants.DEEP_LINK_SCHEME_AND_HOST
+import com.lianglliu.hermoodbarometer.core.common.util.Constants.DEEP_LINK_SCHEME_AND_HOST
 import dagger.hilt.android.qualifiers.ApplicationContext
-import com.lianglliu.hermoodbarometer.core.util.Constants.TARGET_ACTIVITY_NAME
+import com.lianglliu.hermoodbarometer.core.common.util.Constants.TARGET_ACTIVITY_NAME
 import javax.inject.Inject
 import com.lianglliu.hermoodbarometer.core.locales.R as localR
 

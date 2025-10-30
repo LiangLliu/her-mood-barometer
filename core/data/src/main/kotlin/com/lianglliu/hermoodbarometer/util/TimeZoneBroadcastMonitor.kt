@@ -7,9 +7,9 @@ import android.content.IntentFilter
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import androidx.tracing.trace
-import com.lianglliu.hermoodbarometer.core.network.AppDispatchers
-import com.lianglliu.hermoodbarometer.core.network.Dispatcher
-import com.lianglliu.hermoodbarometer.core.network.di.ApplicationScope
+import com.lianglliu.hermoodbarometer.core.common.concurrency.AppDispatchers
+import com.lianglliu.hermoodbarometer.core.common.concurrency.Dispatcher
+import com.lianglliu.hermoodbarometer.core.common.concurrency.di.ApplicationScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope

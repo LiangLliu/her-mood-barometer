@@ -230,6 +230,18 @@
     <string name="exact_alarm_permission_message">정시에 리마인더를 실행하려면 시스템 설정에서 정확한 알람을 허용해 주세요.</string>
     <string name="open_settings">설정 열기</string>
 
+    <!-- Permission Dialogs -->
+    <string name="permission_required">권한 필요</string>
+    <string name="permission_go_to_settings">설정으로 이동</string>
+    <string name="permission_cancel">취소</string>
+
+    <!-- Permission Types -->
+    <string name="permission_notification_title">알림 권한이 필요합니다</string>
+    <string name="permission_notification_rationale">매일 리마인더를 보내드리기 위해 알림을 표시할 권한이 필요합니다. 설정에서 알림을 활성화해 주세요.</string>
+    <string name="permission_exact_alarm_title">정확한 알람 권한이 필요합니다</string>
+    <string name="permission_exact_alarm_rationale">정확한 시간에 매일 리마인더를 예약하기 위해 정확한 알람을 설정할 권한이 필요합니다. 설정에서 이 권한을 활성화해 주세요.</string>
+    <string name="permission_default_rationale">앱이 정상적으로 작동하려면 이 권한이 필요합니다. 설정에서 권한을 부여해 주세요.</string>
+
     <!-- App Updates -->
     <string name="app_update_available">새로운 업데이트가 있습니다</string>
     <string name="app_update_downloaded">업데이트가 다운로드되어 설치 준비 완료</string>

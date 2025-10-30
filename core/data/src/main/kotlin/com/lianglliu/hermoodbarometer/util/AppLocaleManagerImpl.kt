@@ -10,9 +10,9 @@ import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.tracing.trace
-import com.lianglliu.hermoodbarometer.core.network.AppDispatchers
-import com.lianglliu.hermoodbarometer.core.network.Dispatcher
-import com.lianglliu.hermoodbarometer.core.network.di.ApplicationScope
+import com.lianglliu.hermoodbarometer.core.common.concurrency.AppDispatchers
+import com.lianglliu.hermoodbarometer.core.common.concurrency.Dispatcher
+import com.lianglliu.hermoodbarometer.core.common.concurrency.di.ApplicationScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher

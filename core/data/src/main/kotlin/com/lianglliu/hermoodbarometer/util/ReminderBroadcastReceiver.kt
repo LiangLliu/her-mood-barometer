@@ -3,7 +3,7 @@ package com.lianglliu.hermoodbarometer.util
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.lianglliu.hermoodbarometer.core.network.di.ApplicationScope
+import com.lianglliu.hermoodbarometer.core.common.concurrency.di.ApplicationScope
 import com.lianglliu.hermoodbarometer.core.notifications.Notifier
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope

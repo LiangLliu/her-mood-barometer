@@ -44,6 +44,7 @@ include(":core:locales")
 include(":core:model")
 include(":core:network")
 include(":core:notifications")
+include(":core:permissions")
 include(":core:shortcuts")
 include(":core:ui")
 

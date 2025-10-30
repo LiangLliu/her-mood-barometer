@@ -7,8 +7,8 @@ import com.lianglliu.hermoodbarometer.core.domain.EmotionStatistics
 import com.lianglliu.hermoodbarometer.core.domain.GetEmotionStatisticsUseCase
 import com.lianglliu.hermoodbarometer.core.model.data.TimeRange
 import com.lianglliu.hermoodbarometer.core.model.data.statistics.EmotionRecordFilter
-import com.lianglliu.hermoodbarometer.core.network.AppDispatchers
-import com.lianglliu.hermoodbarometer.core.network.Dispatcher
+import com.lianglliu.hermoodbarometer.core.common.concurrency.AppDispatchers
+import com.lianglliu.hermoodbarometer.core.common.concurrency.Dispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -230,6 +230,18 @@
     <string name="exact_alarm_permission_message">リマインダーを時間どおりに実行するため、システム設定で正確なアラームを許可してください。</string>
     <string name="open_settings">設定を開く</string>
 
+    <!-- Permission Dialogs -->
+    <string name="permission_required">権限が必要です</string>
+    <string name="permission_go_to_settings">設定へ移動</string>
+    <string name="permission_cancel">キャンセル</string>
+
+    <!-- Permission Types -->
+    <string name="permission_notification_title">通知権限が必要です</string>
+    <string name="permission_notification_rationale">毎日のリマインダーをお送りするため、通知を表示する権限が必要です。設定で通知を有効にしてください。</string>
+    <string name="permission_exact_alarm_title">正確なアラーム権限が必要です</string>
+    <string name="permission_exact_alarm_rationale">正確な時刻に毎日のリマインダーを設定するため、正確なアラームを設定する権限が必要です。設定でこの権限を有効にしてください。</string>
+    <string name="permission_default_rationale">アプリが正常に動作するためにこの権限が必要です。設定で権限を付与してください。</string>
+
     <!-- App Updates -->
     <string name="app_update_available">新しいアップデートが利用可能です</string>
     <string name="app_update_downloaded">アップデートがダウンロードされ、インストール準備完了</string>

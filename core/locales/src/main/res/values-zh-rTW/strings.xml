@@ -230,6 +230,18 @@
     <string name="exact_alarm_permission_message">為了準時觸發提醒，請在系統設定中允許精確鬧鐘。</string>
     <string name="open_settings">開啟設定</string>
 
+    <!-- Permission Dialogs -->
+    <string name="permission_required">需要權限</string>
+    <string name="permission_go_to_settings">前往設定</string>
+    <string name="permission_cancel">取消</string>
+
+    <!-- Permission Types -->
+    <string name="permission_notification_title">需要通知權限</string>
+    <string name="permission_notification_rationale">為了給您發送每日提醒，我們需要顯示通知的權限。請在設定中啟用通知。</string>
+    <string name="permission_exact_alarm_title">需要精確鬧鐘權限</string>
+    <string name="permission_exact_alarm_rationale">為了準時安排每日提醒，我們需要設定精確鬧鐘的權限。請在設定中啟用此權限。</string>
+    <string name="permission_default_rationale">應用程式需要此權限才能正常運作。請在設定中授予權限。</string>
+
     <!-- App Updates -->
     <string name="app_update_available">有新的更新可用</string>
     <string name="app_update_downloaded">更新已下載，準備安裝</string>
