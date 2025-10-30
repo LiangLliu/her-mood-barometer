@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- 开机启动权限已在 app 模块声明 -->
 
     <application>
+        <!-- 提醒广播接收器 -->
         <receiver
             android:name="com.lianglliu.hermoodbarometer.util.ReminderBroadcastReceiver"
-            android:exported="false">
+            android:exported="false"
+            android:enabled="true"
+            android:directBootAware="false">
             <intent-filter>
+                <!-- 设备启动完成事件 - 需要 RECEIVE_BOOT_COMPLETED 权限 -->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <!-- 自定义提醒事件 - 用于触发心情记录提醒 -->
                 <action android:name="com.lianglliu.hermoodbarometer.ACTION_MOOD_REMINDER" />
             </intent-filter>
         </receiver>
-
-        <service
-            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
-            android:enabled="false"
-            android:exported="false">
-            <meta-data
-                android:name="autoStoreLocales"
-                android:value="true" />
-        </service>
     </application>
 </manifest>
