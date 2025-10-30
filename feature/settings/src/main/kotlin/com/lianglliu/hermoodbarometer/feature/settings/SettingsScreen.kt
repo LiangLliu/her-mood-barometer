@@ -1,17 +1,16 @@
 package com.lianglliu.hermoodbarometer.feature.settings
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -38,7 +37,6 @@ import com.lianglliu.hermoodbarometer.core.ui.component.ScreenContainer
 import com.lianglliu.hermoodbarometer.feature.settings.SettingsUiState.Loading
 import com.lianglliu.hermoodbarometer.feature.settings.components.LanguageDialog
 import com.lianglliu.hermoodbarometer.feature.settings.components.SectionTitle
-import com.lianglliu.hermoodbarometer.feature.settings.components.SettingsItem
 import com.lianglliu.hermoodbarometer.feature.settings.components.ThemeDialog
 import com.lianglliu.hermoodbarometer.feature.settings.components.TimePickerDialog
 
@@ -48,8 +46,7 @@ import com.lianglliu.hermoodbarometer.feature.settings.components.TimePickerDial
  */
 @Composable
 fun SettingsScreen(
-    onNavigateToAboutLicenses: () -> Unit = {},
-    viewModel: SettingsViewModel = hiltViewModel()
+    onNavigateToAboutLicenses: () -> Unit = {}, viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val settingsState by viewModel.settingsUiState.collectAsStateWithLifecycle()
 
@@ -75,20 +72,15 @@ private fun SettingsScreen(
     onReminderEnabledChanged: (Boolean) -> Unit,
     onReminderTimeChanged: (String) -> Unit,
 ) {
-
-    var showTimePicker by remember { mutableStateOf(false) }
-
     ScreenContainer(
-        title = stringResource(R.string.settings),
-        contentPadding = PaddingValues(16.dp)
+        title = stringResource(R.string.settings), contentPadding = PaddingValues(16.dp)
     ) {
 
         when (settingsState) {
             Loading -> {
                 item {
                     LoadingState(
-                        modifier = Modifier
-                            .fillMaxSize(),
+                        modifier = Modifier.fillMaxSize(),
                     )
                 }
             }
@@ -104,11 +96,9 @@ private fun SettingsScreen(
                 notification(
                     settings = settingsState.settings,
                     onReminderEnabledChanged = onReminderEnabledChanged,
-                    onReminderTimeClick = { showTimePicker = !showTimePicker },
-                    showTimePicker = showTimePicker,
                     onTimeSelected = { time ->
+                        Log.d("Setting", "Set notification time to $time")
                         onReminderTimeChanged(time)
-                        showTimePicker = false
                     },
                 )
 
@@ -126,18 +116,7 @@ private fun SettingsScreen(
 //                reminderTime = uiState.reminderTime,
 //                onReminderEnabledChanged = { enabled ->
 //                    // 最佳实践：提示用户开启必要权限/设置
-////                    if (enabled) {
-////                        // 通知权限
-////                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-////                            !PermissionHelpers.notificationsEnabled(context)
-////                        ) {
-////                            PermissionHelpers.openAppNotificationSettings(context)
-////                        }
-////                        // 精准闹钟（S+）
-////                        if (!PermissionHelpers.canScheduleExactAlarms(context)) {
-////                            PermissionHelpers.openExactAlarmSettings(context)
-////                        }
-////                    }
+
 //                    viewModel.updateReminderSettings(enabled)
 //                },
 //                onReminderTimeClick = { showTimePicker = true }
@@ -243,44 +222,54 @@ private fun LazyListScope.appearance(
 private fun LazyListScope.notification(
     settings: UserEditableSettings,
     onReminderEnabledChanged: (Boolean) -> Unit,
-    onReminderTimeClick: () -> Unit,
-    showTimePicker: Boolean,
     onTimeSelected: (String) -> Unit,
 ) {
     item { SectionTitle(stringResource(R.string.notifications)) }
 
     item {
-        // 每日提醒设置
-        SettingsItem(
-            icon = AppIcons.Outlined.Notifications,
-            title = stringResource(R.string.daily_reminder),
-            subtitle = stringResource(R.string.daily_reminder_description),
-            trailing = {
-                Switch(
-                    checked = settings.isReminderEnabled,
-                    onCheckedChange = onReminderEnabledChanged
+        ToggableListItem(
+            headlineContent = { Text(stringResource(R.string.daily_reminder)) },
+            supportingContent = { Text(stringResource(R.string.daily_reminder_description)) },
+            leadingContent = {
+                Icon(
+                    imageVector = AppIcons.Outlined.Notifications,
+                    contentDescription = null,
                 )
-            }
+            },
+            trailingContent = {
+                AppSwitch(
+                    checked = settings.isReminderEnabled,
+                    onCheckedChange = null,
+                )
+            },
+            checked = settings.isReminderEnabled,
+            onCheckedChange = onReminderEnabledChanged,
         )
     }
 
     item {
         if (settings.isReminderEnabled) {
-            SettingsItem(
-                icon = AppIcons.Outlined.MoreVert,
-                title = stringResource(R.string.reminder_time),
-                subtitle = settings.reminderTime,
-                onClick = onReminderTimeClick
+            var showTimePickerDialog by rememberSaveable { mutableStateOf(false) }
+            ListItem(
+                headlineContent = { Text(stringResource(R.string.reminder_time)) },
+                leadingContent = {
+                    Icon(
+                        imageVector = AppIcons.Outlined.MoreVert,
+                        contentDescription = null,
+                    )
+                },
+                supportingContent = { Text(settings.reminderTime) },
+                onClick = { showTimePickerDialog = !showTimePickerDialog },
             )
-        }
 
-        //  提醒时间选择对话框
-        if (showTimePicker) {
-            TimePickerDialog(
-                currentTime = settings.reminderTime,
-                onTimeSelected = onTimeSelected,
-                onDismiss = onReminderTimeClick
-            )
+
+            //  提醒时间选择对话框
+            if (showTimePickerDialog) {
+                TimePickerDialog(
+                    currentTime = settings.reminderTime,
+                    onTimeSelected = onTimeSelected,
+                    onDismiss = { showTimePickerDialog = false })
+            }
         }
     }
 }
@@ -290,25 +279,42 @@ private fun LazyListScope.about(
 ) {
     item { SectionTitle(stringResource(R.string.about)) }
     item {
-        SettingsItem(
-            icon = AppIcons.Outlined.Info,
-            title = stringResource(R.string.about_app),
-            subtitle = stringResource(R.string.about_app_description)
+        ListItem(
+            headlineContent = { Text(stringResource(R.string.about_app)) },
+            leadingContent = {
+                Icon(
+                    imageVector = AppIcons.Outlined.Info,
+                    contentDescription = null,
+                )
+            },
+            supportingContent = { Text(stringResource(R.string.about_app_description)) },
+        )
+    }
+
+
+    item {
+        ListItem(
+            headlineContent = { Text(stringResource(R.string.licenses)) },
+            leadingContent = {
+                Icon(
+                    imageVector = AppIcons.Outlined.HistoryEdu,
+                    contentDescription = null,
+                )
+            },
+            supportingContent = { stringResource(R.string.licenses_description) },
+            onClick = { onAboutLicensesClick },
         )
     }
     item {
-        SettingsItem(
-            icon = AppIcons.Outlined.HistoryEdu,
-            title = stringResource(R.string.licenses),
-            subtitle = stringResource(R.string.licenses_description),
-            onClick = onAboutLicensesClick
-        )
-    }
-    item {
-        SettingsItem(
-            icon = AppIcons.Outlined.Info,
-            title = stringResource(R.string.app_name),
-            subtitle = "${stringResource(R.string.version)}: 1.0.0"
+        ListItem(
+            headlineContent = { Text(stringResource(R.string.app_name)) },
+            leadingContent = {
+                Icon(
+                    imageVector = AppIcons.Outlined.Info,
+                    contentDescription = null,
+                )
+            },
+            supportingContent = { Text("${stringResource(R.string.version)}: 1.0.0") },
         )
     }
 }

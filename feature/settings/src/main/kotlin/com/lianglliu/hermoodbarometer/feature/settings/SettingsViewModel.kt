@@ -1,5 +1,6 @@
 package com.lianglliu.hermoodbarometer.feature.settings
 
+import android.os.Build
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -72,6 +73,20 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun updateReminderEnabled(reminderStatus: Boolean) {
+/*        if (reminderStatus) {
+            // 通知权限
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                !PermissionHelpers.notificationsEnabled(context)
+            ) {
+                PermissionHelpers.openAppNotificationSettings(context)
+            }
+            // 精准闹钟（S+）
+            if (!PermissionHelpers.canScheduleExactAlarms(context)) {
+                PermissionHelpers.openExactAlarmSettings(context)
+            }
+        }*/
+
+
         viewModelScope.launch {
             userDataRepository.setReminderStatus(reminderStatus)
             if (reminderStatus) {
