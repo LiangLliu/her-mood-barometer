@@ -17,46 +17,51 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Singleton
 
 @Singleton
 internal class AppLocaleManagerImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
-    @ApplicationScope appScope: CoroutineScope,
+    @ApplicationScope private val appScope: CoroutineScope,
 ) : AppLocaleManager {
 
-    override val currentLocale: SharedFlow<String> = callbackFlow {
-        trySend(getLanguageCode())
+    // MutableSharedFlow to allow manual updates
+    private val _currentLocale = MutableSharedFlow<String>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
 
+    init {
+        // Initialize with current language code
+        appScope.launch {
+            _currentLocale.emit(getLanguageCode())
+        }
+
+        // Setup broadcast receiver for system locale changes
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 if (intent.action != Intent.ACTION_LOCALE_CHANGED) return
-                trySend(getLanguageCode())
+                appScope.launch {
+                    _currentLocale.emit(getLanguageCode())
+                }
             }
         }
 
         trace("AppLocaleBroadcastReceiver.register") {
             context.registerReceiver(receiver, IntentFilter(Intent.ACTION_LOCALE_CHANGED))
         }
-
-        trySend(getLanguageCode())
-
-        awaitClose {
-            context.unregisterReceiver(receiver)
-        }
     }
+
+    override val currentLocale: SharedFlow<String> = _currentLocale
         .distinctUntilChanged()
-        .conflate()
-        .flowOn(ioDispatcher)
         .shareIn(
             scope = appScope,
             started = SharingStarted.WhileSubscribed(5_000),
@@ -70,14 +75,19 @@ internal class AppLocaleManagerImpl @Inject constructor(
         } else {
             AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(languageCode))
         }
+
+        // Immediately emit the new language code to update UI state
+        appScope.launch {
+            _currentLocale.emit(languageCode)
+        }
     }
 
     private fun getLanguageCode(): String {
-        val languageCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             context.getSystemService(LocaleManager::class.java).applicationLocales.get(0)
         } else {
             AppCompatDelegate.getApplicationLocales().get(0)
         }
-        return languageCode?.language ?: "en"
+        return locale?.toLanguageTag() ?: "en"
     }
 }
