@@ -84,6 +84,14 @@ class EmotionRecordRepositoryImpl @Inject constructor(
             entities.map { it.toDomainModel() }
         }
     }
+
+    override fun getEmotionRecordsByMonth(year: Int, month: Int): Flow<List<EmotionRecord>> {
+        val startDateTime = LocalDateTime.of(year, month, 1, 0, 0)
+        val endDateTime = startDateTime.plusMonths(1).minusNanos(1)
+        return emotionRecordDao.getRecordsByTimeRange(startDateTime, endDateTime).map { entities ->
+            entities.map { it.toDomainModel() }
+        }
+    }
 }
 
 /**
@@ -97,7 +105,10 @@ private fun EmotionRecordEntity.toDomainModel(): EmotionRecord {
         emotionEmoji = emotionEmoji,
         intensity = intensity,
         note = note,
-        timestamp = timestamp
+        timestamp = timestamp,
+        // 暂时使用默认值，等待数据库迁移后再从数据库读取
+        weather = null,
+        activities = emptyList()
     )
 }
 
@@ -113,5 +124,6 @@ private fun EmotionRecord.toEntity(): EmotionRecordEntity {
         intensity = intensity,
         note = note,
         timestamp = timestamp
+        // weather和activities字段暂时不保存，等待数据库迁移
     )
 }

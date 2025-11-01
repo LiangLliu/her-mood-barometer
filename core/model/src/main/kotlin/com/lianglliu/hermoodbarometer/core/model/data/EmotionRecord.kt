@@ -11,9 +11,11 @@ data class EmotionRecord(
     val emotionId: Long, // 情绪ID，关联emotions表的id
     val emotionName: String, // 情绪名称
     val emotionEmoji: String, // 情绪表情符号
-    val intensity: Int, // 情绪强度（1-5）
+    val intensity: Int = 3, // 情绪强度（1-5），默认中等强度
     val note: String = "", // 备注
-    val timestamp: LocalDateTime // 记录时间戳
+    val timestamp: LocalDateTime, // 记录时间戳
+    val weather: String? = null, // 天气（可选）
+    val activities: List<String> = emptyList() // 活动列表（可选）
 ) {
     /**
      * 获取情绪显示文本（表情符号 + 名称）
@@ -21,7 +23,7 @@ data class EmotionRecord(
     fun getDisplayText(): String {
         return "$emotionEmoji $emotionName"
     }
-    
+
     /**
      * 获取用于图表显示的简短标签
      */
@@ -35,9 +37,11 @@ data class EmotionRecord(
          */
         fun fromEmotion(
             emotion: Emotion,
-            intensity: Int,
+            intensity: Int = 3,
             note: String = "",
-            timestamp: LocalDateTime = LocalDateTime.now()
+            timestamp: LocalDateTime = LocalDateTime.now(),
+            weather: String? = null,
+            activities: List<String> = emptyList()
         ): EmotionRecord {
             return EmotionRecord(
                 emotionId = emotion.id,
@@ -45,7 +49,9 @@ data class EmotionRecord(
                 emotionEmoji = emotion.emoji,
                 intensity = intensity,
                 note = note,
-                timestamp = timestamp
+                timestamp = timestamp,
+                weather = weather,
+                activities = activities
             )
         }
 

@@ -13,14 +13,17 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import androidx.tracing.trace
-import com.lianglliu.hermoodbarometer.feature.record.navigation.RecordRoute
-import com.lianglliu.hermoodbarometer.feature.record.navigation.navigateToRecord
+import com.lianglliu.hermoodbarometer.feature.diary.navigation.DiaryRoute
+import com.lianglliu.hermoodbarometer.feature.diary.navigation.navigateToDiary
+import com.lianglliu.hermoodbarometer.feature.calendar.navigation.CalendarRoute
+import com.lianglliu.hermoodbarometer.feature.calendar.navigation.navigateToCalendar
 import com.lianglliu.hermoodbarometer.feature.settings.navigation.SettingsRoute
 import com.lianglliu.hermoodbarometer.feature.settings.navigation.navigateToSettings
 import com.lianglliu.hermoodbarometer.feature.statistics.navigation.StatisticsRoute
 import com.lianglliu.hermoodbarometer.feature.statistics.navigation.navigateToStatistics
 import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination
-import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.RECORD
+import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.DIARY
+import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.CALENDAR
 import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.SETTINGS
 import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.STATISTICS
 import com.lianglliu.hermoodbarometer.util.InAppUpdateManager
@@ -66,11 +69,12 @@ class AppState(
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() {
             with(currentDestination) {
-                if (this?.hasRoute<RecordRoute>() == true
-                ) return RECORD
+                if (this?.hasRoute<DiaryRoute>() == true
+                ) return DIARY
                 if (this?.hasRoute<StatisticsRoute>() == true
                 ) return STATISTICS
-
+                if (this?.hasRoute<CalendarRoute>() == true
+                ) return CALENDAR
                 if (this?.hasRoute<SettingsRoute>() == true) return SETTINGS
             }
             return null
@@ -106,13 +110,17 @@ class AppState(
             }
 
             when (topLevelDestination) {
-                RECORD -> {
-                    navController.navigateToRecord(navOptions = topLevelNavOptions)
-                    Log.d("Navigation", "→ RECORD (${System.currentTimeMillis() - startTime}ms)")
+                DIARY -> {
+                    navController.navigateToDiary()
+                    Log.d("Navigation", "→ DIARY (${System.currentTimeMillis() - startTime}ms)")
                 }
                 STATISTICS -> {
                     navController.navigateToStatistics(topLevelNavOptions)
                     Log.d("Navigation", "→ STATISTICS (${System.currentTimeMillis() - startTime}ms)")
+                }
+                CALENDAR -> {
+                    navController.navigateToCalendar()
+                    Log.d("Navigation", "→ CALENDAR (${System.currentTimeMillis() - startTime}ms)")
                 }
                 SETTINGS -> {
                     navController.navigateToSettings(topLevelNavOptions)

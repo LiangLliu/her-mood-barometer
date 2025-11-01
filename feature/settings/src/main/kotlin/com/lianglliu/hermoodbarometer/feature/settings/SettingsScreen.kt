@@ -4,9 +4,13 @@ import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -106,65 +110,51 @@ private fun SettingsScreenContent(
     onReminderEnabledChanged: (Boolean) -> Unit,
     onReminderTimeChanged: (String) -> Unit,
 ) {
-    ScreenContainer(
-        title = stringResource(R.string.settings), contentPadding = PaddingValues(16.dp)
-    ) {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text(text = stringResource(R.string.settings)) }
+            )
+        }
+    ) { paddingValues ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            contentPadding = PaddingValues(vertical = 8.dp)
+        ) {
+            when (settingsState) {
+                Loading -> {
+                    item {
+                        LoadingState(
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
+                }
 
-        when (settingsState) {
-            Loading -> {
-                item {
-                    LoadingState(
-                        modifier = Modifier.fillMaxSize(),
+                is SettingsUiState.Success -> {
+                    appearance(
+                        settings = settingsState.settings,
+                        onDynamicColorPreferenceUpdate = onDynamicColorPreferenceUpdate,
+                        onDarkThemeConfigUpdate = onDarkThemeConfigUpdate,
+                        onLanguageUpdate = onLanguageUpdate,
+                    )
+
+                    notification(
+                        settings = settingsState.settings,
+                        onReminderEnabledChanged = onReminderEnabledChanged,
+                        onTimeSelected = { time ->
+                            Log.d("Setting", "Set notification time to $time")
+                            onReminderTimeChanged(time)
+                        },
+                    )
+
+                    about(
+                        onAboutLicensesClick = onLicensesClick
                     )
                 }
             }
-
-            is SettingsUiState.Success -> {
-                appearance(
-                    settings = settingsState.settings,
-                    onDynamicColorPreferenceUpdate = onDynamicColorPreferenceUpdate,
-                    onDarkThemeConfigUpdate = onDarkThemeConfigUpdate,
-                    onLanguageUpdate = onLanguageUpdate,
-                )
-
-                notification(
-                    settings = settingsState.settings,
-                    onReminderEnabledChanged = onReminderEnabledChanged,
-                    onTimeSelected = { time ->
-                        Log.d("Setting", "Set notification time to $time")
-                        onReminderTimeChanged(time)
-                    },
-                )
-
-                about(
-                    onAboutLicensesClick = onLicensesClick
-                )
-            }
         }
-
-
-//        item {
-//            // 通知设置
-//            NotificationSection(
-//                isReminderEnabled = uiState.isReminderEnabled,
-//                reminderTime = uiState.reminderTime,
-//                onReminderEnabledChanged = { enabled ->
-//                    // 最佳实践：提示用户开启必要权限/设置
-
-//                    viewModel.updateReminderSettings(enabled)
-//                },
-//                onReminderTimeClick = { showTimePicker = true }
-//            )
-//        }
-
-//        item {
-//            // 情绪管理
-//            CustomEmotionSection(
-//                onCustomEmotionClick = onNavigateToEmotionManagement
-//            )
-//        }
-
-
     }
 }
 

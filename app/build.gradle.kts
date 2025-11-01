@@ -67,6 +67,8 @@ baselineProfile {
 
 dependencies {
     implementation(projects.feature.record)
+    implementation(projects.feature.diary)
+    implementation(projects.feature.calendar)
     implementation(projects.feature.statistics)
     implementation(projects.feature.settings)
 

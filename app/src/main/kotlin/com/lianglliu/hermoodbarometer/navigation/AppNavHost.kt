@@ -1,16 +1,17 @@
 package com.lianglliu.hermoodbarometer.navigation
 
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
-import com.lianglliu.hermoodbarometer.feature.record.navigation.RecordBaseRoute
-import com.lianglliu.hermoodbarometer.feature.record.navigation.recordScreen
+import com.lianglliu.hermoodbarometer.feature.calendar.navigation.calendarScreen
+import com.lianglliu.hermoodbarometer.feature.diary.navigation.DiaryBaseRoute
+import com.lianglliu.hermoodbarometer.feature.diary.navigation.diaryScreen
 import com.lianglliu.hermoodbarometer.feature.settings.navigation.licensesScreen
 import com.lianglliu.hermoodbarometer.feature.settings.navigation.navigateToLicenses
 import com.lianglliu.hermoodbarometer.feature.settings.navigation.settingsScreen
@@ -40,14 +41,15 @@ fun MoodNavHost(
 
     NavHost(
         navController = navController,
-        startDestination = RecordBaseRoute,
+        startDestination = DiaryBaseRoute,
         modifier = modifier,
         enterTransition = { fadeIn(animationSpec = tween(300)) },
         exitTransition = { fadeOut(animationSpec = tween(300)) },
         popEnterTransition = { fadeIn(animationSpec = tween(300)) },
         popExitTransition = { fadeOut(animationSpec = tween(300)) },
     ) {
-        recordScreen()
+        diaryScreen()
+        calendarScreen()
         statisticsScreen()
         settingsScreen(
             onLicensesClick = navController::navigateToLicenses,

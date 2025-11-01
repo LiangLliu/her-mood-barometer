@@ -49,6 +49,8 @@ include(":core:shortcuts")
 include(":core:ui")
 
 include(":feature:record")
+include(":feature:diary")
+include(":feature:calendar")
 include(":feature:statistics")
 include(":feature:settings")
 

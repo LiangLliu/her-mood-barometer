@@ -255,4 +255,12 @@
     <string name="cd_save_record">保存记录按钮</string>
     <string name="cd_chart_emotion_counts">按情绪的次数柱状图</string>
     <string name="cd_chart_distribution">情绪分布饼图</string>
+
+    <!-- Statistics Page -->
+    <string name="days_tracked">记录天数</string>
+    <string name="emotion_trend">情绪趋势</string>
+    <string name="daily_average">日均记录</string>
+    <string name="records_per_day">条记录/天</string>
+    <string name="most_common_emotion">最常见情绪</string>
+    <string name="times_recorded">次记录</string>
 </resources>

@@ -38,13 +38,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
+import com.lianglliu.hermoodbarometer.MainActivityViewModel
+import com.lianglliu.hermoodbarometer.QuickRecordSaveState
 import com.lianglliu.hermoodbarometer.core.designsystem.component.CsFloatingActionButton
 import com.lianglliu.hermoodbarometer.navigation.MoodNavHost
-import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.RECORD
+import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.DIARY
+import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.CALENDAR
 import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.SETTINGS
 import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.STATISTICS
 import com.lianglliu.hermoodbarometer.util.InAppUpdateResult
@@ -56,10 +60,14 @@ import com.lianglliu.hermoodbarometer.core.locales.R
 fun MoodApp(
     appState: AppState,
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
+    viewModel: MainActivityViewModel = hiltViewModel()
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val currentDestination = appState.currentDestination
     val currentTopLevelDestination = appState.currentTopLevelDestination
+
+    val showQuickRecordDialog by viewModel.showQuickRecordDialog.collectAsStateWithLifecycle()
+    val quickRecordSaveState by viewModel.quickRecordSaveState.collectAsStateWithLifecycle()
 
     val inAppUpdateResult = appState.inAppUpdateResult.collectAsStateWithLifecycle().value
 
@@ -69,6 +77,7 @@ fun MoodApp(
     val updateDownloadedMessage = stringResource(R.string.app_update_downloaded)
     val updateText = stringResource(R.string.update)
     val installText = stringResource(R.string.install)
+    val recordSavedMessage = stringResource(R.string.record_saved_successfully)
 
     LaunchedEffect(inAppUpdateResult) {
         when (inAppUpdateResult) {
@@ -95,7 +104,27 @@ fun MoodApp(
         }
     }
 
-    var previousDestination by remember { mutableStateOf(RECORD) }
+    // Handle quick record save state
+    LaunchedEffect(quickRecordSaveState) {
+        val saveState = quickRecordSaveState
+        when (saveState) {
+            is QuickRecordSaveState.Success -> {
+                snackbarHostState.showSnackbar(
+                    message = recordSavedMessage,
+                    duration = Short,
+                )
+            }
+            is QuickRecordSaveState.Error -> {
+                snackbarHostState.showSnackbar(
+                    message = saveState.message,
+                    duration = Short,
+                )
+            }
+            else -> {}
+        }
+    }
+
+    var previousDestination by remember { mutableStateOf(DIARY) }
 
     val navigationSuiteType = NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(windowAdaptiveInfo)
 
@@ -115,12 +144,7 @@ fun MoodApp(
                         contentDescriptionRes = fabTitleRes,
                         icon = fabIconVector,
                         onClick = {
-                            when (currentTopLevelDestination) {
-                                RECORD -> { /* TODO: 定义 RECORD 的 FAB 点击行为 */ }
-                                STATISTICS -> { /* TODO: 定义 STATISTICS 的 FAB 点击行为 */ }
-                                // SETTINGS 的 FAB 因为上面的 visible 条件不会显示，但以防万一可以留空或移除
-                                SETTINGS -> {}
-                            }
+                            viewModel.showQuickRecordDialog()
                         },
                         modifier = Modifier
                             .animateFloatingActionButton(
@@ -213,6 +237,43 @@ fun MoodApp(
                     ),
             )
         }
+    }
+
+    // Quick Record Dialog
+    if (showQuickRecordDialog) {
+        // Pre-resolve emotion names
+        val emotionHappy = stringResource(R.string.emotion_happy)
+        val emotionCalm = stringResource(R.string.emotion_calm)
+        val emotionTouched = stringResource(R.string.emotion_touched)
+        val emotionAnxious = stringResource(R.string.emotion_anxious)
+        val emotionWronged = stringResource(R.string.emotion_wronged)
+        val emotionTired = stringResource(R.string.emotion_tired)
+
+        QuickRecordDialog(
+            onDismiss = { viewModel.hideQuickRecordDialog() },
+            onConfirm = { emotion, weather, activities, note, dateTime ->
+                // Map emotion enum to name
+                val emotionName = when (emotion) {
+                    Emotion.HAPPY -> emotionHappy
+                    Emotion.CALM -> emotionCalm
+                    Emotion.TOUCHED -> emotionTouched
+                    Emotion.ANXIOUS -> emotionAnxious
+                    Emotion.WRONGED -> emotionWronged
+                    Emotion.TIRED -> emotionTired
+                }
+
+                // Map emotion enum to ID and save
+                viewModel.saveQuickRecord(
+                    emotionId = emotion.ordinal.toLong() + 1, // Emotion IDs start from 1
+                    emotionName = emotionName,
+                    emotionEmoji = emotion.emoji,
+                    weather = weather?.name?.lowercase(),
+                    activities = activities.map { it.name.lowercase() },
+                    note = note,
+                    timestamp = dateTime
+                )
+            }
+        )
     }
 }
 

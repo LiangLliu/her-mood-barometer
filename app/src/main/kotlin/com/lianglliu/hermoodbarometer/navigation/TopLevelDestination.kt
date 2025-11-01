@@ -6,10 +6,17 @@ import kotlin.reflect.KClass
 import com.lianglliu.hermoodbarometer.core.locales.R
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.AppIcons
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.filled.Settings
+import com.lianglliu.hermoodbarometer.core.designsystem.icon.filled.Book
+import com.lianglliu.hermoodbarometer.core.designsystem.icon.filled.CalendarToday
+import com.lianglliu.hermoodbarometer.core.designsystem.icon.filled.Add
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Edit
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Info
-import com.lianglliu.hermoodbarometer.feature.record.navigation.RecordBaseRoute
-import com.lianglliu.hermoodbarometer.feature.record.navigation.RecordRoute
+import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Book
+import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.CalendarToday
+import com.lianglliu.hermoodbarometer.feature.diary.navigation.DiaryBaseRoute
+import com.lianglliu.hermoodbarometer.feature.diary.navigation.DiaryRoute
+import com.lianglliu.hermoodbarometer.feature.calendar.navigation.CalendarBaseRoute
+import com.lianglliu.hermoodbarometer.feature.calendar.navigation.CalendarRoute
 import com.lianglliu.hermoodbarometer.feature.settings.navigation.SettingsBaseRoute
 import com.lianglliu.hermoodbarometer.feature.settings.navigation.SettingsRoute
 import com.lianglliu.hermoodbarometer.feature.statistics.navigation.StatisticsBaseRoute
@@ -40,13 +47,15 @@ enum class TopLevelDestination(
     val fabIcon: ImageVector? = null,
     @StringRes val fabTitle: Int? = null,
 ) {
-    RECORD(
-        selectedIcon = AppIcons.Outlined.Edit,
-        unselectedIcon = AppIcons.Outlined.Edit,
-        iconTextId = R.string.nav_record,
-        titleTextId = R.string.nav_record,
-        route = RecordRoute::class,
-        baseRoute = RecordBaseRoute::class,
+    DIARY(
+        selectedIcon = AppIcons.Filled.Book,
+        unselectedIcon = AppIcons.Outlined.Book,
+        iconTextId = R.string.nav_diary,
+        titleTextId = R.string.nav_diary,
+        route = DiaryRoute::class,
+        baseRoute = DiaryBaseRoute::class,
+        fabIcon = AppIcons.Filled.Add,
+        fabTitle = R.string.record_mood,
     ),
     STATISTICS(
         selectedIcon = AppIcons.Outlined.Info,
@@ -55,6 +64,18 @@ enum class TopLevelDestination(
         titleTextId = R.string.nav_statistics,
         route = StatisticsRoute::class,
         baseRoute = StatisticsBaseRoute::class,
+        fabIcon = AppIcons.Filled.Add,
+        fabTitle = R.string.record_mood,
+    ),
+    CALENDAR(
+        selectedIcon = AppIcons.Filled.CalendarToday,
+        unselectedIcon = AppIcons.Outlined.CalendarToday,
+        iconTextId = R.string.nav_calendar,
+        titleTextId = R.string.nav_calendar,
+        route = CalendarRoute::class,
+        baseRoute = CalendarBaseRoute::class,
+        fabIcon = AppIcons.Filled.Add,
+        fabTitle = R.string.record_mood,
     ),
     SETTINGS(
         selectedIcon = AppIcons.Filled.Settings,

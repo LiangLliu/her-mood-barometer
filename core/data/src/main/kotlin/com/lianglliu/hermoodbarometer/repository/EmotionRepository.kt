@@ -92,4 +92,14 @@ fun getEmotionRecordsByCustomTimeRange(
      * 根据情绪类型获取记录
      */
     fun getEmotionRecordsByType(emotionType: String): Flow<List<EmotionRecord>>
+
+    /**
+     * 根据年月获取情绪记录
+     */
+    fun getEmotionRecordsByMonth(year: Int, month: Int): Flow<List<EmotionRecord>>
+
+    /**
+     * 删除情绪记录（按ID）
+     */
+    suspend fun deleteEmotionRecord(id: Long) = deleteRecord(id)
 }

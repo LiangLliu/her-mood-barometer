@@ -4,10 +4,13 @@
 
     <!-- ==================== Navigation ==================== -->
     <string name="nav_record">Record</string>
+    <string name="nav_diary">Diary</string>
     <string name="nav_statistics">Statistics</string>
+    <string name="nav_calendar">Calendar</string>
     <string name="nav_settings">Settings</string>
 
     <!-- ==================== Record Screen ==================== -->
+    <string name="record_mood">Record Mood</string>
     <!-- Page Title and Actions -->
     <string name="record_title">Record</string>
     <string name="record_emotion">Record Emotion</string>
@@ -41,6 +44,8 @@
     <string name="emotion_embarrassed">Embarrassed</string>
     <string name="emotion_silent">Silent</string>
 
+    <string name="emotion_touched">Touched</string>
+
     <!-- Emotion Descriptions -->
     <string name="emotion_happy_desc">Feel joy and contentment</string>
     <string name="emotion_excited_desc">Feel thrilled and energetic</string>
@@ -63,6 +68,20 @@
     <string name="emotion_helpless_desc">Feeling helpless or powerless</string>
     <string name="emotion_embarrassed_desc">Feeling embarrassed or awkward</string>
     <string name="emotion_silent_desc">Choosing to remain silent</string>
+
+    <!-- Weather -->
+    <string name="weather_sunny">Sunny</string>
+    <string name="weather_cloudy">Cloudy</string>
+    <string name="weather_rainy">Rainy</string>
+    <string name="weather_snowy">Snowy</string>
+
+    <!-- Activities -->
+    <string name="activity_work">Work</string>
+    <string name="activity_exercise">Exercise</string>
+    <string name="activity_reading">Reading</string>
+    <string name="activity_social">Social</string>
+    <string name="activity_entertainment">Entertainment</string>
+    <string name="activity_rest">Rest</string>
 
     <!-- Emotion Intensity -->
     <string name="intensity_very_low">Very Low</string>
@@ -183,6 +202,22 @@
     <string name="no_user_emotions">No custom emotions</string>
     <string name="confirm_delete_emotion">Are you sure you want to delete this emotion?</string>
 
+    <!-- ==================== Quick Record Dialog ==================== -->
+    <string name="how_feeling_now">How are you feeling now?</string>
+    <string name="weather_and_activities">Weather &amp; Activities</string>
+    <string name="note_optional">Note (Optional)</string>
+
+    <!-- Activity Types -->
+    <string name="activity_home">Home</string>
+    <string name="activity_friends">Friends</string>
+    <string name="activity_shopping">Shopping</string>
+    <string name="activity_dining">Dining</string>
+    <string name="activity_study">Study</string>
+
+    <!-- ==================== Diary Screen ==================== -->
+    <string name="diary_empty">No mood records yet</string>
+    <string name="diary_empty_hint">Tap the + button to record your first mood</string>
+
     <!-- ==================== Common ==================== -->
     <!-- Actions -->
     <string name="save">Save</string>
@@ -255,4 +290,12 @@
     <string name="cd_save_record">Save record button</string>
     <string name="cd_chart_emotion_counts">Bar chart of counts per emotion</string>
     <string name="cd_chart_distribution">Pie chart of emotion distribution</string>
+
+    <!-- Statistics Page -->
+    <string name="days_tracked">Days Tracked</string>
+    <string name="emotion_trend">Emotion Trend</string>
+    <string name="daily_average">Daily Average</string>
+    <string name="records_per_day">records/day</string>
+    <string name="most_common_emotion">Most Common Emotion</string>
+    <string name="times_recorded">times recorded</string>
 </resources>
