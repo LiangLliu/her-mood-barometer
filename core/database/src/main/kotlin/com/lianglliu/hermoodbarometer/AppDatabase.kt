@@ -2,18 +2,16 @@ package com.lianglliu.hermoodbarometer
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.lianglliu.hermoodbarometer.dao.EmotionDao
 import com.lianglliu.hermoodbarometer.dao.EmotionRecordDao
 import com.lianglliu.hermoodbarometer.model.EmotionEntity
 import com.lianglliu.hermoodbarometer.model.EmotionRecordEntity
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.lianglliu.hermoodbarometer.util.InstantConverter
 
 /**
- * 心情数据库
- * 使用Room持久化库管理情绪记录和自定义情绪数据
+ * Mood tracking database
+ * Uses Room persistence library to manage emotion records and custom emotions
  */
 @Database(
     entities = [
@@ -23,50 +21,23 @@ import java.time.format.DateTimeFormatter
     version = 1,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
+@TypeConverters(InstantConverter::class)
 abstract class MoodDatabase : RoomDatabase() {
 
     /**
-     * 情绪记录数据访问对象
+     * Emotion record data access object
      */
     abstract fun emotionRecordDao(): EmotionRecordDao
 
     /**
-     * 统一情绪数据访问对象
+     * Unified emotion data access object
      */
     abstract fun emotionDao(): EmotionDao
 
     companion object {
         /**
-         * 数据库名称
+         * Database name constant
          */
         const val DATABASE_NAME = "mood_database"
     }
-}
-
-/**
- * 类型转换器
- * 用于Room数据库中的自定义类型转换
- */
-class Converters {
-
-    private val dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
-
-    /**
-     * LocalDateTime 转 String
-     */
-    @TypeConverter
-    fun fromLocalDateTime(value: LocalDateTime?): String? {
-        return value?.format(dateTimeFormatter)
-    }
-
-    /**
-     * String 转 LocalDateTime
-     */
-    @TypeConverter
-    fun toLocalDateTime(value: String?): LocalDateTime? {
-        return value?.let { LocalDateTime.parse(it, dateTimeFormatter) }
-    }
-
-
 }

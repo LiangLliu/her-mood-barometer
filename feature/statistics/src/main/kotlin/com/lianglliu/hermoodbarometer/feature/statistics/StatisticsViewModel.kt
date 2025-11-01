@@ -3,12 +3,12 @@ package com.lianglliu.hermoodbarometer.feature.statistics
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lianglliu.hermoodbarometer.core.domain.EmotionStatistics
 import com.lianglliu.hermoodbarometer.core.domain.GetEmotionStatisticsUseCase
 import com.lianglliu.hermoodbarometer.core.model.data.TimeRange
 import com.lianglliu.hermoodbarometer.core.model.data.statistics.EmotionRecordFilter
 import com.lianglliu.hermoodbarometer.core.common.concurrency.AppDispatchers
 import com.lianglliu.hermoodbarometer.core.common.concurrency.Dispatcher
+import com.lianglliu.hermoodbarometer.core.model.data.EmotionStatistics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,7 +57,7 @@ class StatisticsViewModel @Inject constructor(
         .flatMapLatest { (filter, timeRange) ->
             val startTime = System.currentTimeMillis()
 
-            getEmotionStatisticsUseCase(filter)
+            getEmotionStatisticsUseCase(filter.startDateTime, filter.endDateTime)
                 .map { statistics ->
                     Log.d("StatisticsVM", "Statistics loaded: ${statistics.totalRecords} records (${System.currentTimeMillis() - startTime}ms)")
                     StatisticsUiState.Success(
@@ -122,9 +122,9 @@ sealed interface StatisticsUiState {
 }
 
 /**
- * 图表类型枚举
+ * Chart type enumeration
  */
 enum class ChartType {
-    BAR,    // 柱状图
-    LINE    // 折线图
+    BAR,    // Bar chart
+    LINE    // Line chart
 } 

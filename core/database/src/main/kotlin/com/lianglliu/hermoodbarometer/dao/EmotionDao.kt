@@ -3,75 +3,137 @@ package com.lianglliu.hermoodbarometer.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.lianglliu.hermoodbarometer.model.EmotionEntity
 import kotlinx.coroutines.flow.Flow
 
 /**
- * 统一情绪数据访问对象
- * 管理所有情绪的数据库操作
+ * Data Access Object for emotions table
+ * Manages all emotion-related database operations
  */
 @Dao
 interface EmotionDao {
 
     /**
-     * 获取所有活跃的情绪
+     * Get all active emotions ordered by user-created status and sort order
+     * Predefined emotions come first, followed by user-created ones
      */
-    @Query("SELECT * FROM emotions WHERE isActive = 1 ORDER BY isUserCreated ASC, name ASC")
+    @Query("""
+        SELECT * FROM emotions
+        WHERE isActive = 1
+        ORDER BY isUserCreated ASC, sortOrder ASC, name ASC
+    """)
     fun getAllActiveEmotions(): Flow<List<EmotionEntity>>
 
     /**
-     * 获取所有用户创建的情绪
+     * Get only user-created active emotions
      */
-    @Query("SELECT * FROM emotions WHERE isUserCreated = 1 AND isActive = 1 ORDER BY name ASC")
+    @Query("""
+        SELECT * FROM emotions
+        WHERE isUserCreated = 1 AND isActive = 1
+        ORDER BY sortOrder ASC, name ASC
+    """)
     fun getUserCreatedEmotions(): Flow<List<EmotionEntity>>
 
     /**
-     * 根据ID获取情绪
+     * Get only predefined active emotions
+     */
+    @Query("""
+        SELECT * FROM emotions
+        WHERE isUserCreated = 0 AND isActive = 1
+        ORDER BY sortOrder ASC
+    """)
+    fun getPredefinedEmotions(): Flow<List<EmotionEntity>>
+
+    /**
+     * Get emotion by ID
      */
     @Query("SELECT * FROM emotions WHERE id = :id")
     suspend fun getEmotionById(id: Long): EmotionEntity?
 
     /**
-     * 插入新情绪
+     * Get multiple emotions by IDs
      */
-    @Insert
+    @Query("SELECT * FROM emotions WHERE id IN (:ids)")
+    suspend fun getEmotionsByIds(ids: List<Long>): List<EmotionEntity>
+
+    /**
+     * Insert new emotion
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEmotion(emotion: EmotionEntity): Long
 
     /**
-     * 更新情绪
+     * Insert multiple emotions
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertEmotions(emotions: List<EmotionEntity>)
+
+    /**
+     * Update emotion
      */
     @Update
     suspend fun updateEmotion(emotion: EmotionEntity)
 
     /**
-     * 删除情绪
+     * Delete emotion (hard delete - use with caution)
      */
     @Delete
     suspend fun deleteEmotion(emotion: EmotionEntity)
 
     /**
-     * 根据ID删除情绪
-     */
-    @Query("DELETE FROM emotions WHERE id = :id")
-    suspend fun deleteEmotionById(id: Long)
-
-    /**
-     * 软删除情绪（设置为非活跃）
+     * Soft delete emotion by setting isActive to false
      */
     @Query("UPDATE emotions SET isActive = 0 WHERE id = :id")
     suspend fun deactivateEmotion(id: Long)
 
     /**
-     * 检查情绪名称是否已存在
+     * Reactivate a deactivated emotion
      */
-    @Query("SELECT COUNT(*) FROM emotions WHERE name = :name AND isActive = 1")
-    suspend fun countEmotionsByName(name: String): Int
+    @Query("UPDATE emotions SET isActive = 1 WHERE id = :id")
+    suspend fun reactivateEmotion(id: Long)
 
     /**
-     * 获取情绪总数
+     * Check if an emotion name already exists for active emotions
+     * Case-insensitive comparison
+     */
+    @Query("""
+        SELECT COUNT(*) FROM emotions
+        WHERE LOWER(name) = LOWER(:name)
+        AND isActive = 1
+        AND (:excludeId IS NULL OR id != :excludeId)
+    """)
+    suspend fun countEmotionsByName(name: String, excludeId: Long? = null): Int
+
+    /**
+     * Get total count of active emotions
      */
     @Query("SELECT COUNT(*) FROM emotions WHERE isActive = 1")
-    suspend fun getEmotionCount(): Int
+    suspend fun getActiveEmotionCount(): Int
+
+    /**
+     * Get total count of user-created active emotions
+     */
+    @Query("SELECT COUNT(*) FROM emotions WHERE isUserCreated = 1 AND isActive = 1")
+    suspend fun getUserCreatedEmotionCount(): Int
+
+    /**
+     * Update sort order for multiple emotions
+     * Used for reordering emotions in the UI
+     */
+    @Transaction
+    suspend fun updateSortOrders(updates: List<Pair<Long, Int>>) {
+        updates.forEach { (id, sortOrder) ->
+            updateSortOrder(id, sortOrder)
+        }
+    }
+
+    /**
+     * Update sort order for a single emotion
+     */
+    @Query("UPDATE emotions SET sortOrder = :sortOrder WHERE id = :id")
+    suspend fun updateSortOrder(id: Long, sortOrder: Int)
 }

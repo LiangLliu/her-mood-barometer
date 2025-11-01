@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lianglliu.hermoodbarometer.core.locales.R
-import com.lianglliu.hermoodbarometer.core.domain.EmotionStatistics
+import com.lianglliu.hermoodbarometer.core.model.data.EmotionStatistics
 import com.lianglliu.hermoodbarometer.core.ui.component.LoadingIndicator
 import com.lianglliu.hermoodbarometer.core.ui.component.StatisticItem
 
@@ -45,7 +45,7 @@ fun StatisticsCard(
                     MetricsColumn(
                         totalRecords = statistics.totalRecords,
                         averageIntensity = statistics.averageIntensity,
-                        mostFrequentEmotion = statistics.mostFrequentEmotion
+                        mostFrequentEmotion = statistics.mostFrequentEmotion?.emotionEmoji
                     )
                 } else {
                     MetricsColumn(

@@ -3,8 +3,8 @@ package com.lianglliu.hermoodbarometer.di
 import com.lianglliu.hermoodbarometer.repository.EmotionDefinitionRepository
 import com.lianglliu.hermoodbarometer.repository.EmotionRepository
 import com.lianglliu.hermoodbarometer.repository.UserDataRepository
+import com.lianglliu.hermoodbarometer.repository.offline.EmotionDefinitionRepositoryImpl
 import com.lianglliu.hermoodbarometer.repository.offline.EmotionRecordRepositoryImpl
-import com.lianglliu.hermoodbarometer.repository.offline.EmotionRepositoryImpl
 import com.lianglliu.hermoodbarometer.repository.offline.OfflineUserDataRepository
 import com.lianglliu.hermoodbarometer.util.AppLocaleManager
 import com.lianglliu.hermoodbarometer.util.AppLocaleManagerImpl
@@ -32,7 +32,7 @@ internal abstract class DataModule {
 
     @Binds
     internal abstract fun provideEmotionDefinitionRepository(
-        emotionRepositoryImpl: EmotionRepositoryImpl
+        emotionDefinitionRepositoryImpl: EmotionDefinitionRepositoryImpl
     ): EmotionDefinitionRepository
 
     @Binds

@@ -1,9 +1,10 @@
 package com.lianglliu.hermoodbarometer.feature.settings
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lianglliu.hermoodbarometer.core.model.data.Emotion
-
+import com.lianglliu.hermoodbarometer.core.locales.R as LocalesR
 import com.lianglliu.hermoodbarometer.repository.EmotionDefinitionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,16 +48,20 @@ class EmotionManagementViewModel @Inject constructor(
     fun addEmotion(name: String, emoji: String, description: String) {
         viewModelScope.launch {
             try {
-                val emotion = Emotion.createUserEmotion(
+                val emotion = Emotion(
                     name = name,
                     emoji = emoji,
                     description = description,
-                    id = System.currentTimeMillis() // 使用时间戳作为临时ID
+                    isUserCreated = true,
+                    id = 0L // Let the database generate the ID
                 )
                 emotionDefinitionRepository.insertEmotion(emotion)
             } catch (e: Exception) {
                 _uiState.update { state ->
-                    state.copy(errorMessage = "添加情绪失败：${e.message}")
+                    state.copy(
+                        errorMessageResId = LocalesR.string.error_add_emotion_failed,
+                        errorMessageArg = e.message
+                    )
                 }
             }
         }
@@ -71,7 +76,10 @@ class EmotionManagementViewModel @Inject constructor(
                 emotionDefinitionRepository.updateEmotion(emotion)
             } catch (e: Exception) {
                 _uiState.update { state ->
-                    state.copy(errorMessage = "更新情绪失败：${e.message}")
+                    state.copy(
+                        errorMessageResId = LocalesR.string.error_update_emotion_failed,
+                        errorMessageArg = e.message
+                    )
                 }
             }
         }
@@ -83,10 +91,13 @@ class EmotionManagementViewModel @Inject constructor(
     fun deleteEmotion(emotion: Emotion) {
         viewModelScope.launch {
             try {
-                emotionDefinitionRepository.deleteEmotion(emotion)
+                emotionDefinitionRepository.deactivateEmotion(emotion.id)
             } catch (e: Exception) {
                 _uiState.update { state ->
-                    state.copy(errorMessage = "删除情绪失败：${e.message}")
+                    state.copy(
+                        errorMessageResId = LocalesR.string.error_delete_emotion_failed,
+                        errorMessageArg = e.message
+                    )
                 }
             }
         }
@@ -97,7 +108,7 @@ class EmotionManagementViewModel @Inject constructor(
      */
     fun clearErrorMessage() {
         _uiState.update { state ->
-            state.copy(errorMessage = null)
+            state.copy(errorMessageResId = null, errorMessageArg = null)
         }
     }
 }
@@ -107,5 +118,6 @@ class EmotionManagementViewModel @Inject constructor(
  */
 data class EmotionManagementUiState(
     val userEmotions: List<Emotion> = emptyList(),
-    val errorMessage: String? = null
+    @StringRes val errorMessageResId: Int? = null,
+    val errorMessageArg: String? = null
 )

@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.AppIcons
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Info
 import com.lianglliu.hermoodbarometer.core.locales.R
-import com.lianglliu.hermoodbarometer.core.domain.EmotionStatistics
+import com.lianglliu.hermoodbarometer.core.model.data.EmotionStatistics
 import com.lianglliu.hermoodbarometer.core.ui.component.EmptyState
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
@@ -77,20 +77,17 @@ internal fun EmotionBarChart(
     statistics: EmotionStatistics,
     modifier: Modifier = Modifier
 ) {
-    val emotions = remember(statistics.countsByEmotion) {
-        statistics.countsByEmotion.entries.sortedByDescending { it.value }.map { it.key }
+    val emotionData = remember(statistics.emotionDistribution) {
+        statistics.emotionDistribution.sortedByDescending { it.count }
     }
-    val values = remember(statistics.countsByEmotion) {
-        emotions.map {
-            (statistics.countsByEmotion[it] ?: 0).toFloat()
-        }
+
+    val values = remember(emotionData) {
+        emotionData.map { it.count.toFloat() }
     }
 
     // 获取表情符号标签用于图表显示
-    val chartLabels = remember(emotions, statistics.chartLabelMapping) {
-        emotions.map { emotionDisplayText ->
-            statistics.chartLabelMapping[emotionDisplayText] ?: "😊"
-        }
+    val chartLabels = remember(emotionData) {
+        emotionData.map { it.emotionEmoji }
     }
 
     val modelProducer = remember { CartesianChartModelProducer() }

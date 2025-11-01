@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -28,8 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.AppIcons
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Star
 import com.lianglliu.hermoodbarometer.core.locales.R
-import com.lianglliu.hermoodbarometer.core.domain.DailyEmotionPoint
-import com.lianglliu.hermoodbarometer.core.domain.EmotionStatistics
+import com.lianglliu.hermoodbarometer.core.model.data.EmotionStatistics
 import com.lianglliu.hermoodbarometer.core.ui.component.EmptyState
 
 @Composable
@@ -72,9 +70,8 @@ internal fun EmotionLineChart(
     statistics: EmotionStatistics,
     modifier: Modifier = Modifier
 ) {
-    val points: List<DailyEmotionPoint> = statistics.dailyEmotionTrend
-    val labels = remember(points) { points.map { it.date.toString().substring(5) } }
-    val emotionLabels = remember(points) { points.map { it.emotionEmoji } }
+    val dailyRecords = statistics.dailyRecords
+    val labels = remember(dailyRecords) { dailyRecords.map { it.date.toString().substring(5) } }
 
     val cd = stringResource(R.string.cd_chart_emotion_counts)
     Column(
@@ -88,12 +85,12 @@ internal fun EmotionLineChart(
             color = MaterialTheme.colorScheme.primary
         )
 
-        // 显示情绪趋势时间线
+        // 显示每日记录统计
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            points.forEachIndexed { index, point ->
+            dailyRecords.forEachIndexed { index, record ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -106,23 +103,16 @@ internal fun EmotionLineChart(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
-                    // 情绪表情符号
+                    // 记录数量
                     Text(
-                        text = point.emotionEmoji,
-                        fontSize = 24.sp,
-                        modifier = Modifier.padding(horizontal = 8.dp)
-                    )
-
-                    // 情绪名称
-                    Text(
-                        text = point.emotionName,
+                        text = "${record.count}",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
                 // 分隔线（除了最后一项）
-                if (index < points.size - 1) {
+                if (index < dailyRecords.size - 1) {
                     HorizontalDivider(
                         modifier = Modifier.padding(vertical = 4.dp),
                         color = MaterialTheme.colorScheme.outlineVariant

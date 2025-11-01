@@ -59,14 +59,7 @@ fun EmotionManagementScreen(
     var showEditDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
     var selectedEmotion by remember { mutableStateOf<Emotion?>(null) }
-    
-    // 处理错误消息
-    LaunchedEffect(uiState.errorMessage) {
-        if (uiState.errorMessage != null) {
-            viewModel.clearErrorMessage()
-        }
-    }
-    
+
     FullScreenLazyColumnContainer(
         title = stringResource(R.string.manage_emotions),
         onNavigateBack = onNavigateBack,

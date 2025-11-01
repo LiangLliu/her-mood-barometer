@@ -1,6 +1,5 @@
 package com.lianglliu.hermoodbarometer.core.domain
 
-
 import com.lianglliu.hermoodbarometer.core.model.data.EmotionRecord
 import com.lianglliu.hermoodbarometer.core.model.data.TimeRange
 import com.lianglliu.hermoodbarometer.repository.EmotionRepository
@@ -8,36 +7,54 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
- * 获取情绪记录的用例
- * 负责从Repository获取情绪记录数据
+ * Use case for retrieving emotion records
+ * Handles various query scenarios for emotion records
  */
 class GetEmotionRecordsUseCase @Inject constructor(
     private val emotionRepository: EmotionRepository
 ) {
-    
+
     /**
-     * 获取所有情绪记录
-     * @return 情绪记录流
+     * Get all emotion records
+     * @return Flow of emotion records
      */
     operator fun invoke(): Flow<List<EmotionRecord>> {
-        return emotionRepository.getAllEmotionRecords()
+        return emotionRepository.getAllRecords()
     }
-    
+
     /**
-     * 根据时间范围获取情绪记录
-     * @param timeRange 时间范围
-     * @return 指定时间范围内的情绪记录流
+     * Get emotion records by time range
+     * @param timeRange Time range filter
+     * @return Flow of emotion records within the specified time range
      */
     operator fun invoke(timeRange: TimeRange): Flow<List<EmotionRecord>> {
-        return emotionRepository.getEmotionRecordsByTimeRange(timeRange)
+        return emotionRepository.getRecordsByTimeRange(timeRange)
     }
-    
+
     /**
-     * 根据情绪类型获取记录
-     * @param emotionType 情绪类型
-     * @return 指定情绪类型的记录流
+     * Get emotion records by emotion ID
+     * @param emotionId The ID of the emotion type
+     * @return Flow of emotion records for the specified emotion
      */
-    operator fun invoke(emotionType: String): Flow<List<EmotionRecord>> {
-        return emotionRepository.getEmotionRecordsByType(emotionType)
+    fun byEmotionId(emotionId: Long): Flow<List<EmotionRecord>> {
+        return emotionRepository.getRecordsByEmotionId(emotionId)
+    }
+
+    /**
+     * Get recent emotion records
+     * @param limit Number of recent records to retrieve
+     * @return Flow of recent emotion records
+     */
+    fun getRecent(limit: Int = 10): Flow<List<EmotionRecord>> {
+        return emotionRepository.getRecentRecords(limit)
+    }
+
+    /**
+     * Search emotion records by note content
+     * @param query Search query for note content
+     * @return Flow of matching emotion records
+     */
+    fun searchByNote(query: String): Flow<List<EmotionRecord>> {
+        return emotionRepository.searchRecordsByNote(query)
     }
 } 

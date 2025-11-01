@@ -3,91 +3,206 @@ package com.lianglliu.hermoodbarometer.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.lianglliu.hermoodbarometer.dao.model.EmotionStatsResult
 import com.lianglliu.hermoodbarometer.model.EmotionRecordEntity
-import com.lianglliu.hermoodbarometer.model.EmotionStatisticsEntity
 import kotlinx.coroutines.flow.Flow
-import java.time.LocalDateTime
+import java.time.Instant
 
 /**
- * 情绪记录数据访问对象
- * 提供对情绪记录数据的增删改查操作
+ * Data Access Object for emotion records
+ * Provides CRUD operations and statistical queries
  */
 @Dao
 interface EmotionRecordDao {
 
     /**
-     * 插入新的情绪记录
+     * Insert new emotion record
      */
-    @Insert
-    suspend fun insert(emotionRecord: EmotionRecordEntity): Long
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRecord(record: EmotionRecordEntity): Long
 
     /**
-     * 更新情绪记录
+     * Insert multiple emotion records
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRecords(records: List<EmotionRecordEntity>)
+
+    /**
+     * Update emotion record
      */
     @Update
-    suspend fun update(emotionRecord: EmotionRecordEntity)
+    suspend fun updateRecord(record: EmotionRecordEntity)
 
     /**
-     * 删除情绪记录
+     * Delete emotion record
      */
     @Delete
-    suspend fun delete(emotionRecord: EmotionRecordEntity)
+    suspend fun deleteRecord(record: EmotionRecordEntity)
 
     /**
-     * 根据ID删除情绪记录
+     * Delete record by ID
      */
     @Query("DELETE FROM emotion_records WHERE id = :id")
-    suspend fun deleteById(id: Long)
+    suspend fun deleteRecordById(id: Long)
 
     /**
-     * 获取所有情绪记录（按时间倒序）
+     * Delete all records (use with caution)
      */
-    @Query("SELECT * FROM emotion_records ORDER BY timestamp DESC")
+    @Query("DELETE FROM emotion_records")
+    suspend fun deleteAllRecords()
+
+    /**
+     * Get all emotion records ordered by timestamp (newest first)
+     */
+    @Query("""
+        SELECT * FROM emotion_records
+        ORDER BY timestamp DESC
+    """)
     fun getAllRecords(): Flow<List<EmotionRecordEntity>>
 
     /**
-     * 根据ID获取情绪记录
+     * Get record by ID
      */
     @Query("SELECT * FROM emotion_records WHERE id = :id")
     suspend fun getRecordById(id: Long): EmotionRecordEntity?
 
     /**
-     * 获取指定时间范围内的情绪记录
+     * Get records by time range
      */
-    @Query("SELECT * FROM emotion_records WHERE timestamp BETWEEN :startTime AND :endTime ORDER BY timestamp DESC")
+    @Query("""
+        SELECT * FROM emotion_records
+        WHERE timestamp >= :startTime AND timestamp <= :endTime
+        ORDER BY timestamp DESC
+    """)
     fun getRecordsByTimeRange(
-        startTime: LocalDateTime,
-        endTime: LocalDateTime
+        startTime: Instant,
+        endTime: Instant
     ): Flow<List<EmotionRecordEntity>>
 
     /**
-     * 获取指定情绪ID的记录
+     * Get records for specific emotion
      */
-    @Query("SELECT * FROM emotion_records WHERE emotionId = :emotionId ORDER BY timestamp DESC")
+    @Query("""
+        SELECT * FROM emotion_records
+        WHERE emotionId = :emotionId
+        ORDER BY timestamp DESC
+    """)
     fun getRecordsByEmotionId(emotionId: Long): Flow<List<EmotionRecordEntity>>
 
     /**
-     * 获取最近的N条记录
+     * Get recent records with limit
      */
-    @Query("SELECT * FROM emotion_records ORDER BY timestamp DESC LIMIT :limit")
+    @Query("""
+        SELECT * FROM emotion_records
+        ORDER BY timestamp DESC
+        LIMIT :limit
+    """)
     fun getRecentRecords(limit: Int): Flow<List<EmotionRecordEntity>>
 
     /**
-     * 获取情绪统计信息
+     * Get records by year and month (for calendar view)
      */
-    @Query(
-        """
-        SELECT emotionId, emotionName, emotionEmoji, COUNT(*) as count, AVG(intensity) as avgIntensity
-        FROM emotion_records 
-        WHERE timestamp BETWEEN :startTime AND :endTime
-        GROUP BY emotionId, emotionName, emotionEmoji
+    @Query("""
+        SELECT * FROM emotion_records
+        WHERE timestamp >= :startOfMonth AND timestamp < :startOfNextMonth
+        ORDER BY timestamp ASC
+    """)
+    fun getRecordsByMonth(
+        startOfMonth: Instant,
+        startOfNextMonth: Instant
+    ): Flow<List<EmotionRecordEntity>>
+
+    /**
+     * Get records count
+     */
+    @Query("SELECT COUNT(*) FROM emotion_records")
+    fun getRecordCount(): Flow<Int>
+
+    /**
+     * Get emotion statistics for time range
+     */
+    @Query("""
+        SELECT
+            emotionId,
+            emotionEmoji,
+            COUNT(*) as count,
+            AVG(CAST(intensity as FLOAT)) as avgIntensity
+        FROM emotion_records
+        WHERE timestamp >= :startTime AND timestamp <= :endTime
+        GROUP BY emotionId, emotionEmoji
         ORDER BY count DESC
-    """
-    )
+    """)
     fun getEmotionStatistics(
-        startTime: LocalDateTime,
-        endTime: LocalDateTime
-    ): Flow<List<EmotionStatisticsEntity>>
+        startTime: Instant,
+        endTime: Instant
+    ): Flow<List<EmotionStatsResult>>
+
+    /**
+     * Get all records within time range for daily statistics
+     * Date grouping will be handled in the repository layer
+     */
+    @Query("""
+        SELECT * FROM emotion_records
+        WHERE timestamp >= :startTime AND timestamp <= :endTime
+        ORDER BY timestamp ASC
+    """)
+    suspend fun getRecordsForDailyStats(
+        startTime: Instant,
+        endTime: Instant
+    ): List<EmotionRecordEntity>
+
+    /**
+     * Check if any records exist for given emotion
+     */
+    @Query("""
+        SELECT EXISTS(
+            SELECT 1 FROM emotion_records
+            WHERE emotionId = :emotionId
+            LIMIT 1
+        )
+    """)
+    suspend fun hasRecordsForEmotion(emotionId: Long): Boolean
+
+    /**
+     * Get records with pagination
+     */
+    @Query("""
+        SELECT * FROM emotion_records
+        ORDER BY timestamp DESC
+        LIMIT :limit OFFSET :offset
+    """)
+    fun getRecordsPaged(limit: Int, offset: Int): Flow<List<EmotionRecordEntity>>
+
+    /**
+     * Search records by note content
+     */
+    @Query("""
+        SELECT * FROM emotion_records
+        WHERE note LIKE '%' || :query || '%'
+        ORDER BY timestamp DESC
+    """)
+    fun searchRecordsByNote(query: String): Flow<List<EmotionRecordEntity>>
+
+    /**
+     * Get records with specific intensity
+     */
+    @Query("""
+        SELECT * FROM emotion_records
+        WHERE intensity = :intensity
+        ORDER BY timestamp DESC
+    """)
+    fun getRecordsByIntensity(intensity: Int): Flow<List<EmotionRecordEntity>>
+
+    /**
+     * Get the most recent record's timestamp
+     */
+    @Query("""
+        SELECT timestamp FROM emotion_records
+        ORDER BY timestamp DESC
+        LIMIT 1
+    """)
+    suspend fun getMostRecentTimestamp(): Instant?
 }

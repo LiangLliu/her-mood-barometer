@@ -38,7 +38,7 @@ class DiaryViewModel @Inject constructor(
                     // Group records by date
                     val recordsByDate = records
                         .sortedByDescending { it.timestamp }
-                        .groupBy { it.timestamp.toLocalDate() }
+                        .groupBy { it.getLocalDateTime().toLocalDate() }
 
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,

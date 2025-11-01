@@ -1,20 +1,31 @@
 package com.lianglliu.hermoodbarometer.feature.statistics
 
-import androidx.compose.animation.*
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
-import androidx.compose.material.icons.filled.BarChart
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.PieChart
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,13 +34,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.core.locales.R
+import com.lianglliu.hermoodbarometer.core.model.data.EmotionStatistics
 import com.lianglliu.hermoodbarometer.core.model.data.TimeRange
 import com.lianglliu.hermoodbarometer.core.ui.component.LoadingState
 import com.lianglliu.hermoodbarometer.feature.statistics.components.EmotionBarChartCard
 import com.lianglliu.hermoodbarometer.feature.statistics.components.EmotionLineChartCard
 import com.lianglliu.hermoodbarometer.feature.statistics.components.TimeRangeSelector
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 /**
  * 统计页面
@@ -151,7 +162,7 @@ private fun StatisticsScreen(
 
 @Composable
 private fun QuickStatsOverview(
-    statistics: com.lianglliu.hermoodbarometer.core.domain.EmotionStatistics
+    statistics: EmotionStatistics
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -173,7 +184,7 @@ private fun QuickStatsOverview(
 
         StatCard(
             modifier = Modifier.weight(1f),
-            value = statistics.dailyEmotionTrend.size.toString(),
+            value = statistics.timeRange?.totalDays?.toString() ?: "0",
             label = stringResource(R.string.days_tracked),
             color = MaterialTheme.colorScheme.tertiary
         )
@@ -261,11 +272,9 @@ private fun ModernChartCard(
 
 @Composable
 private fun DailyAverageCard(
-    statistics: com.lianglliu.hermoodbarometer.core.domain.EmotionStatistics
+    statistics: EmotionStatistics
 ) {
-    val averageRecordsPerDay = if (statistics.dailyEmotionTrend.isNotEmpty()) {
-        statistics.totalRecords.toFloat() / statistics.dailyEmotionTrend.size
-    } else 0f
+    val averageRecordsPerDay = statistics.timeRange?.getAverageRecordsPerDay(statistics.totalRecords) ?: 0f
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -308,11 +317,11 @@ private fun DailyAverageCard(
 
 @Composable
 private fun MostCommonEmotionCard(
-    statistics: com.lianglliu.hermoodbarometer.core.domain.EmotionStatistics
+    statistics: EmotionStatistics
 ) {
-    val mostCommon = statistics.countsByEmotion.maxByOrNull { it.value }
+    val mostCommon = statistics.mostFrequentEmotion
 
-    mostCommon?.let {
+    mostCommon?.let { emotionCount ->
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -337,7 +346,7 @@ private fun MostCommonEmotionCard(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "${it.value} ${stringResource(R.string.times_recorded)}",
+                        text = "${emotionCount.count} ${stringResource(R.string.times_recorded)}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f)
                     )
@@ -346,14 +355,13 @@ private fun MostCommonEmotionCard(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = it.key, // The key is already in format "😊 开心"
+                        text = emotionCount.emotionEmoji,
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.secondary
                     )
-                    val percentage = (it.value * 100f / statistics.totalRecords).toInt()
                     Text(
-                        text = "$percentage%",
+                        text = "${emotionCount.percentage.toInt()}%",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.7f)
                     )

@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.AppIcons
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Info
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Star
-import com.lianglliu.hermoodbarometer.core.domain.EmotionStatistics
+import com.lianglliu.hermoodbarometer.core.model.data.EmotionStatistics
 import com.lianglliu.hermoodbarometer.feature.statistics.ChartType
 
 @Composable

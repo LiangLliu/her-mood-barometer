@@ -1,28 +1,36 @@
 package com.lianglliu.hermoodbarometer.model
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.time.Instant
 
 /**
- * 统一情绪数据库实体
- * 存储所有类型的情绪，包括预定义和用户创建的
- *
- * @property id 情绪ID，主键，自增
- * @property name 情绪名称
- * @property emoji 情绪emoji表情符号
- * @property description 情绪描述
- * @property isUserCreated 是否为用户创建的情绪
- * @property isActive 是否启用
- * @property createdAt 创建时间
+ * Unified emotion database entity
+ * Stores both predefined and user-created emotions
  */
-@Entity(tableName = "emotions")
+@Entity(
+    tableName = "emotions",
+    indices = [
+        Index(value = ["isActive", "isUserCreated", "sortOrder"]), // For efficient querying
+        Index(value = ["name"], unique = false) // For name-based lookups
+    ]
+)
 data class EmotionEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
+
+    // For predefined emotions: stores resource key (e.g., "happy")
+    // For user emotions: stores custom name
     val name: String,
-    val emoji: String = "😊",
+
+    val emoji: String,
+
+    // Optional description for user-created emotions
     val description: String = "",
+
     val isUserCreated: Boolean = false,
     val isActive: Boolean = true,
-    val createdAt: Long = System.currentTimeMillis()
+    val sortOrder: Int = Int.MAX_VALUE,
+    val createdAt: Instant = Instant.now()
 )

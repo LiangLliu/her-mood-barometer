@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,7 +21,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -31,6 +29,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.core.locales.R
 import com.lianglliu.hermoodbarometer.core.model.data.EmotionRecord
+import kotlinx.datetime.format
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -292,7 +291,7 @@ private fun SelectedDateDetails(
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(
-                    text = date.format(DateTimeFormatter.ofPattern("yyyy年M月d日")),
+                    text = date.format(DateTimeFormatter.ofPattern(stringResource(R.string.date_format_full_cn))),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -347,13 +346,9 @@ private fun RecordCard(
                 )
 
                 Column {
+                    // Remove emotion name since it's not available
                     Text(
-                        text = record.emotionName,
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = record.timestamp.format(DateTimeFormatter.ofPattern("HH:mm")),
+                        text = record.getLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm")),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

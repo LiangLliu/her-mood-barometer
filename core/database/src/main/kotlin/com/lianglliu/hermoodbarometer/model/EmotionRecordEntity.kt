@@ -1,35 +1,53 @@
 package com.lianglliu.hermoodbarometer.model
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.time.LocalDateTime
+import java.time.Instant
 
 /**
- * 情绪记录数据库实体
- *
- * @property id 记录ID，主键，自增
- * @property emotionId 情绪ID（关联emotions表的id）
- * @property emotionName 情绪名称
- * @property emotionEmoji 情绪表情符号
- * @property intensity 情绪强度（1-5）
- * @property note 备注信息
- * @property timestamp 记录时间戳
+ * Emotion record database entity
+ * Stores individual emotion recordings with references to emotions table
  */
 @Entity(
     tableName = "emotion_records",
+    foreignKeys = [
+        ForeignKey(
+            entity = EmotionEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["emotionId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
     indices = [
-        Index(value = ["timestamp"]), // 时间戳索引，用于时间范围查询
-        Index(value = ["emotionId"]) // 情绪ID索引，用于统计查询
+        Index(value = ["timestamp"]), // For time-based queries
+        Index(value = ["emotionId"]), // For emotion-based statistics
+        Index(value = ["emotionId", "timestamp"]) // For combined queries
     ]
 )
 data class EmotionRecordEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val emotionId: Long, // 情绪ID
-    val emotionName: String, // 情绪名称
-    val emotionEmoji: String, // 表情符号
+
+    // Foreign key to emotions table
+    val emotionId: Long,
+
+    // Cached emoji for performance (avoids joins in many cases)
+    val emotionEmoji: String,
+
+    // Intensity as integer (1-5)
     val intensity: Int,
+
+    // Optional user note
     val note: String = "",
-    val timestamp: LocalDateTime
+
+    // Timestamp of the record
+    val timestamp: Instant = Instant.now(),
+
+    // Optional weather as string (enum name)
+    val weather: String? = null,
+
+    // Activities stored as comma-separated string
+    val activities: String = ""
 )

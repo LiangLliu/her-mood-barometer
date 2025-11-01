@@ -1,64 +1,88 @@
 package com.lianglliu.hermoodbarometer.repository
 
-
 import com.lianglliu.hermoodbarometer.core.model.data.Emotion
 import kotlinx.coroutines.flow.Flow
 
 /**
- * 情绪定义仓库接口
- * 定义情绪相关的数据操作契约
+ * Repository interface for emotion definitions
+ * Manages predefined and user-created emotions
  */
 interface EmotionDefinitionRepository {
-    
+
     /**
-     * 获取所有活跃的情绪
+     * Get all active emotions (predefined + user-created)
+     * Ordered by user-created status and sort order
      */
-    fun getAllEmotions(): Flow<List<Emotion>>
-    
+    fun getAllActiveEmotions(): Flow<List<Emotion>>
+
     /**
-     * 获取所有用户创建的情绪
+     * Get only user-created emotions
      */
     fun getUserCreatedEmotions(): Flow<List<Emotion>>
-    
+
     /**
-     * 根据ID获取情绪
+     * Get only predefined emotions
+     */
+    fun getPredefinedEmotions(): Flow<List<Emotion>>
+
+    /**
+     * Get emotion by ID
      */
     suspend fun getEmotionById(id: Long): Emotion?
-    
 
-    
     /**
-     * 插入新情绪
+     * Get multiple emotions by IDs
+     */
+    suspend fun getEmotionsByIds(ids: List<Long>): List<Emotion>
+
+    /**
+     * Insert new user-created emotion
      */
     suspend fun insertEmotion(emotion: Emotion): Long
-    
+
     /**
-     * 更新情绪
+     * Update existing emotion
      */
     suspend fun updateEmotion(emotion: Emotion)
-    
+
     /**
-     * 删除情绪
-     */
-    suspend fun deleteEmotion(emotion: Emotion)
-    
-    /**
-     * 根据ID删除情绪
-     */
-    suspend fun deleteEmotionById(id: Long)
-    
-    /**
-     * 软删除情绪（设置为非活跃）
+     * Deactivate emotion (soft delete)
+     * Preferred over hard delete to maintain referential integrity
      */
     suspend fun deactivateEmotion(id: Long)
-    
+
     /**
-     * 检查情绪名称是否已存在
+     * Reactivate a previously deactivated emotion
      */
-    suspend fun isEmotionNameExists(name: String): Boolean
-    
+    suspend fun reactivateEmotion(id: Long)
+
     /**
-     * 获取情绪总数
+     * Check if emotion name already exists
+     * Case-insensitive comparison
+     *
+     * @param name Emotion name to check
+     * @param excludeId Optional ID to exclude (for update operations)
      */
-    suspend fun getEmotionCount(): Int
+    suspend fun isEmotionNameExists(name: String, excludeId: Long? = null): Boolean
+
+    /**
+     * Get count of active emotions
+     */
+    suspend fun getActiveEmotionCount(): Int
+
+    /**
+     * Get count of user-created emotions
+     */
+    suspend fun getUserCreatedEmotionCount(): Int
+
+    /**
+     * Update sort orders for multiple emotions
+     * Used for reordering emotions in the UI
+     */
+    suspend fun updateSortOrders(updates: List<Pair<Long, Int>>)
+
+    /**
+     * Initialize predefined emotions if not already present
+     */
+    suspend fun initializePredefinedEmotions()
 }

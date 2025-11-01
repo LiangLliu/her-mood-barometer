@@ -11,7 +11,6 @@
 
     <!-- ==================== Record Screen ==================== -->
     <string name="record_mood">Record Mood</string>
-    <!-- Page Title and Actions -->
     <string name="record_title">Record</string>
     <string name="record_emotion">Record Emotion</string>
     <string name="select_emotion">Select Emotion</string>
@@ -43,20 +42,19 @@
     <string name="emotion_helpless">Helpless</string>
     <string name="emotion_embarrassed">Embarrassed</string>
     <string name="emotion_silent">Silent</string>
-
     <string name="emotion_touched">Touched</string>
 
     <!-- Emotion Descriptions -->
-    <string name="emotion_happy_desc">Feel joy and contentment</string>
-    <string name="emotion_excited_desc">Feel thrilled and energetic</string>
-    <string name="emotion_calm_desc">Feel peaceful and relaxed</string>
-    <string name="emotion_grateful_desc">Feel thankful and appreciative</string>
-    <string name="emotion_sad_desc">Feel sorrow or sadness</string>
-    <string name="emotion_anxious_desc">Feel nervous or worried</string>
-    <string name="emotion_angry_desc">Feel anger or frustration</string>
-    <string name="emotion_lonely_desc">Feel isolated or alone</string>
-    <string name="emotion_tired_desc">Feel exhausted or fatigued</string>
-    <string name="emotion_confused_desc">Feel puzzled or uncertain</string>
+    <string name="emotion_happy_desc">Feeling joyful and content</string>
+    <string name="emotion_excited_desc">Feeling thrilled and energetic</string>
+    <string name="emotion_calm_desc">Feeling peaceful and relaxed</string>
+    <string name="emotion_grateful_desc">Feeling thankful and appreciative</string>
+    <string name="emotion_sad_desc">Feeling sorrow or unhappy</string>
+    <string name="emotion_anxious_desc">Feeling nervous or worried</string>
+    <string name="emotion_angry_desc">Feeling anger or frustration</string>
+    <string name="emotion_lonely_desc">Feeling isolated or alone</string>
+    <string name="emotion_tired_desc">Feeling exhausted or sleepy</string>
+    <string name="emotion_confused_desc">Feeling puzzled or uncertain</string>
     <string name="emotion_thinking_desc">Deep in thought or contemplation</string>
     <string name="emotion_confident_desc">Full of confidence and certainty</string>
     <string name="emotion_celebrating_desc">Celebrating achievements or happy events</string>
@@ -68,6 +66,7 @@
     <string name="emotion_helpless_desc">Feeling helpless or powerless</string>
     <string name="emotion_embarrassed_desc">Feeling embarrassed or awkward</string>
     <string name="emotion_silent_desc">Choosing to remain silent</string>
+    <string name="emotion_touched_desc">Feeling emotionally moved</string>
 
     <!-- Weather -->
     <string name="weather_sunny">Sunny</string>
@@ -82,6 +81,11 @@
     <string name="activity_social">Social</string>
     <string name="activity_entertainment">Entertainment</string>
     <string name="activity_rest">Rest</string>
+    <string name="activity_home">Home</string>
+    <string name="activity_friends">Friends</string>
+    <string name="activity_shopping">Shopping</string>
+    <string name="activity_dining">Dining</string>
+    <string name="activity_study">Study</string>
 
     <!-- Emotion Intensity -->
     <string name="intensity_very_low">Very Low</string>
@@ -91,7 +95,6 @@
     <string name="intensity_very_high">Very High</string>
 
     <!-- ==================== Statistics Screen ==================== -->
-    <!-- Page Title and Overview -->
     <string name="statistics">Statistics</string>
     <string name="emotion_overview">Emotion Overview</string>
     <string name="total_records">Total Records</string>
@@ -190,7 +193,7 @@
     <string name="licenses_description">Open source licenses</string>
     <string name="version">Version</string>
 
-    <!-- Emotion Management (Legacy - kept for compatibility) -->
+    <!-- Emotion Management -->
     <string name="emotion_management">Emotion Management</string>
     <string name="manage_emotions">Manage Emotions</string>
     <string name="manage_emotions_desc">Add custom emotions</string>
@@ -206,13 +209,6 @@
     <string name="how_feeling_now">How are you feeling now?</string>
     <string name="weather_and_activities">Weather &amp; Activities</string>
     <string name="note_optional">Note (Optional)</string>
-
-    <!-- Activity Types -->
-    <string name="activity_home">Home</string>
-    <string name="activity_friends">Friends</string>
-    <string name="activity_shopping">Shopping</string>
-    <string name="activity_dining">Dining</string>
-    <string name="activity_study">Study</string>
 
     <!-- ==================== Diary Screen ==================== -->
     <string name="diary_empty">No mood records yet</string>
@@ -250,6 +246,33 @@
     <string name="error_save_failed">Failed to save record</string>
     <string name="error_delete_failed">Failed to delete record</string>
     <string name="error_load_data_failed">Failed to load data</string>
+    <string name="error_network_failed">Network connection failed, please check your network and try again</string>
+    <string name="error_timeout">Request timeout, please try again</string>
+    <string name="error_data_save_failed">Failed to save data, please try again</string>
+    <string name="error_invalid_input">Invalid input data, please check and try again</string>
+    <string name="error_app_state">App state error, please restart the app and try again</string>
+    <string name="error_system">System error, please try again</string>
+    <string name="error_add_emotion_failed">Failed to add emotion: %1$s</string>
+    <string name="error_update_emotion_failed">Failed to update emotion: %1$s</string>
+    <string name="error_delete_emotion_failed">Failed to delete emotion: %1$s</string>
+
+    <!-- Validation Messages -->
+    <string name="validation_select_emotion">Please select an emotion type</string>
+    <string name="validation_intensity_range">Emotion intensity must be between 1 and 5</string>
+    <string name="validation_note_too_long">Note cannot exceed %1$d characters</string>
+
+    <!-- UI Labels -->
+    <string name="label_emotion">Emotion</string>
+    <string name="label_weather">Weather</string>
+    <string name="label_activity">Activity</string>
+    <string name="label_note">Note</string>
+    <string name="label_positive">Positive</string>
+    <string name="label_happy">Happy</string>
+    <string name="label_click_select_start_date">Click to select start date</string>
+
+    <!-- Date Formats -->
+    <string name="date_format_full_cn">yyyy年M月d日</string>
+    <string name="date_format_full">MMMM d, yyyy</string>
 
     <!-- Confirmation Messages -->
     <string name="confirm_delete_record">Are you sure you want to delete this record?</string>

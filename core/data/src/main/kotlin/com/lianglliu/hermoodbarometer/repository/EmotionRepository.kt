@@ -1,105 +1,100 @@
 package com.lianglliu.hermoodbarometer.repository
 
-
 import com.lianglliu.hermoodbarometer.core.model.data.EmotionRecord
+import com.lianglliu.hermoodbarometer.core.model.data.EmotionStatistics
 import com.lianglliu.hermoodbarometer.core.model.data.TimeRange
 import kotlinx.coroutines.flow.Flow
-import java.time.LocalDateTime
+import java.time.Instant
 
 /**
- * 情绪记录仓库接口
- * 定义情绪记录相关的数据操作契约
+ * Repository interface for emotion records
+ * Defines the contract for emotion record data operations
  */
 interface EmotionRepository {
-    
+
     /**
-     * 获取所有情绪记录
+     * Get all emotion records ordered by timestamp (newest first)
      */
     fun getAllRecords(): Flow<List<EmotionRecord>>
-    
+
     /**
-     * 获取所有情绪记录（别名方法）
-     */
-    fun getAllEmotionRecords(): Flow<List<EmotionRecord>> = getAllRecords()
-    
-    /**
-     * 根据时间范围获取情绪记录
+     * Get emotion records by predefined time range
      */
     fun getRecordsByTimeRange(timeRange: TimeRange): Flow<List<EmotionRecord>>
-    
-    /**
- * 根据时间范围获取情绪记录（别名方法）
- */
-fun getEmotionRecordsByTimeRange(timeRange: TimeRange): Flow<List<EmotionRecord>> = getRecordsByTimeRange(timeRange)
 
-/**
- * 根据自定义时间范围获取情绪记录（别名方法）
- */
-fun getEmotionRecordsByCustomTimeRange(
-    startDateTime: LocalDateTime,
-    endDateTime: LocalDateTime
-): Flow<List<EmotionRecord>> = getRecordsByDateRange(startDateTime, endDateTime)
-    
     /**
-     * 根据时间段获取情绪记录
+     * Get emotion records by custom date range
      */
     fun getRecordsByDateRange(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): Flow<List<EmotionRecord>>
-    
+
     /**
-     * 根据ID获取情绪记录
+     * Get emotion record by ID
      */
     suspend fun getRecordById(id: Long): EmotionRecord?
-    
+
     /**
-     * 插入新的情绪记录
+     * Insert new emotion record
      */
     suspend fun insertRecord(record: EmotionRecord): Long
-    
+
     /**
-     * 添加情绪记录（别名方法）
-     */
-    suspend fun addEmotionRecord(record: EmotionRecord): Long = insertRecord(record)
-    
-    /**
-     * 更新情绪记录
+     * Update existing emotion record
      */
     suspend fun updateRecord(record: EmotionRecord)
-    
+
     /**
-     * 删除情绪记录
+     * Delete emotion record by ID
      */
     suspend fun deleteRecord(id: Long)
-    
+
     /**
-     * 删除所有记录
+     * Delete all emotion records
      */
     suspend fun deleteAllRecords()
-    
+
     /**
-     * 获取记录总数
+     * Get total record count as Flow
      */
     fun getRecordCount(): Flow<Int>
-    
+
     /**
-     * 获取最近的记录
+     * Get recent emotion records with limit
      */
     fun getRecentRecords(limit: Int = 10): Flow<List<EmotionRecord>>
-    
-    /**
-     * 根据情绪类型获取记录
-     */
-    fun getEmotionRecordsByType(emotionType: String): Flow<List<EmotionRecord>>
 
     /**
-     * 根据年月获取情绪记录
+     * Get emotion records by specific emotion ID
      */
-    fun getEmotionRecordsByMonth(year: Int, month: Int): Flow<List<EmotionRecord>>
+    fun getRecordsByEmotionId(emotionId: Long): Flow<List<EmotionRecord>>
 
     /**
-     * 删除情绪记录（按ID）
+     * Get emotion records by year and month
      */
-    suspend fun deleteEmotionRecord(id: Long) = deleteRecord(id)
+    fun getRecordsByMonth(year: Int, month: Int): Flow<List<EmotionRecord>>
+
+    /**
+     * Search emotion records by note content
+     */
+    fun searchRecordsByNote(query: String): Flow<List<EmotionRecord>>
+
+    /**
+     * Get emotion statistics for a time range
+     */
+    suspend fun getEmotionStatistics(
+        startDate: Instant,
+        endDate: Instant
+    ): EmotionStatistics
+
+    /**
+     * Check if emotion has any records (before deletion)
+     */
+    suspend fun hasRecordsForEmotion(emotionId: Long): Boolean
+
+    /**
+     * Get the most recent record timestamp
+     */
+    suspend fun getMostRecentTimestamp(): Instant?
 }

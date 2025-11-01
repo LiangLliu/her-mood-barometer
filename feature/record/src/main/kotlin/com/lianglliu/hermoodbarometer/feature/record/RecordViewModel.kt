@@ -1,12 +1,15 @@
 package com.lianglliu.hermoodbarometer.feature.record
 
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lianglliu.hermoodbarometer.core.domain.AddEmotionRecordUseCase
 import com.lianglliu.hermoodbarometer.core.model.data.Emotion
+import com.lianglliu.hermoodbarometer.core.model.data.EmotionIntensity
 import com.lianglliu.hermoodbarometer.core.model.data.EmotionRecord
 import com.lianglliu.hermoodbarometer.repository.EmotionDefinitionRepository
+import com.lianglliu.hermoodbarometer.core.locales.R as LocalesR
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -44,23 +47,6 @@ class RecordViewModel @Inject constructor(
         const val ERROR_TAG_NETWORK = "network"
         const val ERROR_TAG_TIMEOUT = "timeout"
         const val ERROR_TAG_DATABASE = "database"
-
-        // Generic error messages
-        const val ERROR_MSG_SAVE_FAILED_RETRY = "保存失败，请重试"
-        const val ERROR_MSG_NETWORK_FAILURE = "网络连接失败，请检查网络后重试"
-        const val ERROR_MSG_REQUEST_TIMEOUT = "请求超时，请重试"
-        const val ERROR_MSG_DATABASE_SAVE_FAILED = "数据保存失败，请重试"
-        const val ERROR_MSG_INVALID_INPUT = "输入数据无效，请检查后重试"
-        const val ERROR_MSG_APP_STATE_ERROR = "应用状态异常，请重启应用后重试"
-        const val ERROR_MSG_SYSTEM_ERROR = "系统异常，请重试"
-
-        // Validation messages
-        const val VALIDATION_MSG_SELECT_EMOTION = "请选择情绪类型"
-        const val VALIDATION_MSG_INTENSITY_RANGE =
-            "情绪强度必须在${MIN_INTENSITY_LEVEL.toInt()}-${MAX_INTENSITY_LEVEL.toInt()}之间"
-
-        fun validationMsgNoteLength(maxLength: Int) = "备注不能超过${maxLength}个字符"
-
     }
 
     /** 内部可变的UI状态 */
@@ -106,7 +92,7 @@ class RecordViewModel @Inject constructor(
         _uiState.update { currentState ->
             currentState.copy(
                 selectedEmotion = emotion,
-                errorMessage = null // Clear previous error when selection changes
+                errorMessageResId = null // Clear previous error when selection changes
             )
         }
     }
@@ -137,23 +123,25 @@ class RecordViewModel @Inject constructor(
 
         val currentState = _uiState.value
 
-        val validationError = validateEmotionRecord(currentState)
-        if (validationError != null) {
+        val validationErrorResId = validateEmotionRecord(currentState)
+        if (validationErrorResId != null) {
             _uiState.update { state ->
-                state.copy(errorMessage = validationError)
+                state.copy(errorMessageResId = validationErrorResId)
             }
             return
         }
 
         // selectedEmotion is guaranteed to be non-null here due to validation
-        val emotionRecord = EmotionRecord.fromEmotion(
-            emotion = currentState.selectedEmotion!!,
-            intensity = currentState.intensityLevel.toInt(),
+        val emotion = currentState.selectedEmotion!!
+        val emotionRecord = EmotionRecord(
+            emotionId = emotion.id,
+            emotionEmoji = emotion.emoji,
+            intensity = EmotionIntensity.fromLevel(currentState.intensityLevel.toInt()),
             note = currentState.noteText
         )
 
         _uiState.update { state ->
-            state.copy(isLoading = true, errorMessage = null)
+            state.copy(isLoading = true, errorMessageResId = null)
         }
 
         viewModelScope.launch {
@@ -166,18 +154,18 @@ class RecordViewModel @Inject constructor(
                             intensityLevel = DEFAULT_INTENSITY_LEVEL,
                             noteText = "",
                             isLoading = false,
-                            errorMessage = null,
+                            errorMessageResId = null,
                             showSuccessMessage = true
                         )
                     }
                 }
                 .onFailure { exception ->
-                    val errorMsg = mapExceptionToFriendlyMessage(exception)
-                    Log.e("RecordVM", "Save failed: $errorMsg")
+                    val errorResId = mapExceptionToErrorResourceId(exception)
+                    Log.e("RecordVM", "Save failed: error resource $errorResId")
                     _uiState.update { state ->
                         state.copy(
                             isLoading = false,
-                            errorMessage = errorMsg
+                            errorMessageResId = errorResId
                         )
                     }
                 }
@@ -185,18 +173,19 @@ class RecordViewModel @Inject constructor(
     }
 
     /**
-     * 将异常映射为用户友好的错误消息。
+     * 将异常映射为用户友好的错误消息资源ID。
      * 假设 UseCase 会将特定的业务异常（如网络、数据库问题）封装并传递。
      */
-    private fun mapExceptionToFriendlyMessage(exception: Throwable): String {
+    @StringRes
+    private fun mapExceptionToErrorResourceId(exception: Throwable): Int {
         val message = exception.message?.lowercase() ?: ""
         return when {
-            message.contains(ERROR_TAG_NETWORK) -> ERROR_MSG_NETWORK_FAILURE
-            message.contains(ERROR_TAG_TIMEOUT) -> ERROR_MSG_REQUEST_TIMEOUT
-            message.contains(ERROR_TAG_DATABASE) -> ERROR_MSG_DATABASE_SAVE_FAILED
-            exception is IllegalArgumentException -> ERROR_MSG_INVALID_INPUT
-            exception is IllegalStateException -> ERROR_MSG_APP_STATE_ERROR
-            else -> ERROR_MSG_SAVE_FAILED_RETRY
+            message.contains(ERROR_TAG_NETWORK) -> LocalesR.string.error_network_failed
+            message.contains(ERROR_TAG_TIMEOUT) -> LocalesR.string.error_timeout
+            message.contains(ERROR_TAG_DATABASE) -> LocalesR.string.error_data_save_failed
+            exception is IllegalArgumentException -> LocalesR.string.error_invalid_input
+            exception is IllegalStateException -> LocalesR.string.error_app_state
+            else -> LocalesR.string.error_save_failed
         }
     }
 
@@ -215,23 +204,25 @@ class RecordViewModel @Inject constructor(
      */
     fun clearErrorMessage() {
         _uiState.update { state ->
-            state.copy(errorMessage = null)
+            state.copy(errorMessageResId = null)
         }
     }
 
     /**
      * 验证情绪记录数据
+     * @return 错误消息的资源ID，如果验证通过则返回null
      */
-    private fun validateEmotionRecord(state: RecordUiState): String? {
+    @StringRes
+    private fun validateEmotionRecord(state: RecordUiState): Int? {
         return when {
             state.selectedEmotion == null ->
-                VALIDATION_MSG_SELECT_EMOTION
+                LocalesR.string.validation_select_emotion
 
             state.intensityLevel < MIN_INTENSITY_LEVEL || state.intensityLevel > MAX_INTENSITY_LEVEL ->
-                VALIDATION_MSG_INTENSITY_RANGE
+                LocalesR.string.validation_intensity_range
 
             state.noteText.length > MAX_NOTE_LENGTH ->
-                validationMsgNoteLength(MAX_NOTE_LENGTH)
+                LocalesR.string.validation_note_too_long
 
             else -> null
         }
@@ -240,15 +231,13 @@ class RecordViewModel @Inject constructor(
 
 /**
  * 记录页面的UI状态
- * (No changes needed here based on the ViewModel refactoring,
- * but ensure its KDoc is up-to-date if RecordViewModel.DEFAULT_INTENSITY_LEVEL is used as its default)
  *
  * @property selectedEmotion 当前选中的情绪
  * @property userEmotions 用户创建的情绪列表
  * @property intensityLevel 情绪强度等级（默认由 RecordViewModel.DEFAULT_INTENSITY_LEVEL 定义）
  * @property noteText 备注文本内容
  * @property isLoading 是否正在保存数据
- * @property errorMessage 错误信息（null表示无错误）
+ * @property errorMessageResId 错误信息资源ID（null表示无错误）
  * @property showSuccessMessage 是否显示成功提示
  */
 data class RecordUiState(
@@ -257,6 +246,6 @@ data class RecordUiState(
     val intensityLevel: Float = 3f,
     val noteText: String = "",
     val isLoading: Boolean = false,
-    val errorMessage: String? = null,
+    @StringRes val errorMessageResId: Int? = null,
     val showSuccessMessage: Boolean = false
 )

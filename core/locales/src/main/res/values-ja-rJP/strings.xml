@@ -215,6 +215,33 @@
     <string name="error_save_failed">記録の保存に失敗しました</string>
     <string name="error_delete_failed">記録の削除に失敗しました</string>
     <string name="error_load_data_failed">データの読み込みに失敗しました</string>
+    <string name="error_network_failed">ネットワーク接続に失敗しました。ネットワークを確認してから再試行してください</string>
+    <string name="error_timeout">リクエストがタイムアウトしました。再試行してください</string>
+    <string name="error_data_save_failed">データの保存に失敗しました。再試行してください</string>
+    <string name="error_invalid_input">入力データが無効です。確認してから再試行してください</string>
+    <string name="error_app_state">アプリの状態が異常です。アプリを再起動してから再試行してください</string>
+    <string name="error_system">システムエラーが発生しました。再試行してください</string>
+    <string name="error_add_emotion_failed">感情の追加に失敗しました：%1$s</string>
+    <string name="error_update_emotion_failed">感情の更新に失敗しました：%1$s</string>
+    <string name="error_delete_emotion_failed">感情の削除に失敗しました：%1$s</string>
+
+    <!-- Validation Messages -->
+    <string name="validation_select_emotion">感情タイプを選択してください</string>
+    <string name="validation_intensity_range">感情の強度は1〜5の間でなければなりません</string>
+    <string name="validation_note_too_long">メモは%1$d文字を超えることはできません</string>
+
+    <!-- UI Labels -->
+    <string name="label_emotion">感情</string>
+    <string name="label_weather">天気</string>
+    <string name="label_activity">アクティビティ</string>
+    <string name="label_note">メモ</string>
+    <string name="label_positive">ポジティブ</string>
+    <string name="label_happy">幸せ</string>
+    <string name="label_click_select_start_date">クリックして開始日を選択</string>
+
+    <!-- Date Formats -->
+    <string name="date_format_full_cn">yyyy年M月d日</string>
+    <string name="date_format_full">yyyy年M月d日</string>
 
     <!-- Confirmation Messages -->
     <string name="confirm_delete_record">この記録を削除しますか？</string>

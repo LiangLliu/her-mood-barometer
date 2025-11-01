@@ -55,7 +55,7 @@ fun LazyListScope.sentimentOverview() {
                     valueContent = {
                         ValueTagThemed {
                             Text(
-                                text = "积极",
+                                text = stringResource(R.string.label_positive),
                                 style = MaterialTheme.typography.labelLarge,
                                 color = MaterialTheme.colorScheme.onSecondaryContainer
                             )
@@ -75,7 +75,7 @@ fun LazyListScope.sentimentOverview() {
                                     modifier = Modifier.padding(end = 4.dp)
                                 )
                                 Text(
-                                    text = "开心",
+                                    text = stringResource(R.string.emotion_happy),
                                     style = MaterialTheme.typography.labelLarge,
                                     color = MaterialTheme.colorScheme.onSecondaryContainer
                                 )

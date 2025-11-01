@@ -27,11 +27,11 @@ class CalendarViewModel @Inject constructor(
 
     val monthlyRecords: StateFlow<Map<LocalDate, List<EmotionRecord>>> =
         currentYearMonth.flatMapLatest { yearMonth ->
-            emotionRepository.getEmotionRecordsByMonth(
+            emotionRepository.getRecordsByMonth(
                 yearMonth.year,
                 yearMonth.monthValue
             ).map { records ->
-                records.groupBy { it.timestamp.toLocalDate() }
+                records.groupBy { it.getLocalDateTime().toLocalDate() }
             }
         }.stateIn(
             scope = viewModelScope,
@@ -73,7 +73,7 @@ class CalendarViewModel @Inject constructor(
 
     fun deleteRecord(recordId: Long) {
         viewModelScope.launch {
-            emotionRepository.deleteEmotionRecord(recordId)
+            emotionRepository.deleteRecord(recordId)
         }
     }
 

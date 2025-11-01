@@ -8,6 +8,9 @@ import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig.DARK
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig.FOLLOW_SYSTEM
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig.LIGHT
 import com.lianglliu.hermoodbarometer.core.model.data.EmotionRecord
+import com.lianglliu.hermoodbarometer.core.model.data.EmotionIntensity
+import com.lianglliu.hermoodbarometer.core.model.data.Weather
+import com.lianglliu.hermoodbarometer.core.model.data.Activity
 import com.lianglliu.hermoodbarometer.core.model.data.UserData
 import com.lianglliu.hermoodbarometer.repository.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +22,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.inject.Inject
 
 @HiltViewModel
@@ -64,13 +68,18 @@ class MainActivityViewModel @Inject constructor(
 
             val record = EmotionRecord(
                 emotionId = emotionId,
-                emotionName = emotionName,
                 emotionEmoji = emotionEmoji,
-                intensity = 3, // Default intensity for quick records
+                intensity = EmotionIntensity.fromLevel(3), // Default intensity for quick records
                 note = note,
-                timestamp = timestamp,
-                weather = weather,
-                activities = activities
+                timestamp = timestamp.atZone(ZoneId.systemDefault()).toInstant(),
+                weather = weather?.let { Weather.valueOf(it) },
+                activities = activities.mapNotNull { activityName ->
+                    try {
+                        Activity.valueOf(activityName)
+                    } catch (e: IllegalArgumentException) {
+                        null
+                    }
+                }
             )
 
             addEmotionRecordUseCase(record)

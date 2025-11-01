@@ -155,6 +155,8 @@ fun SingleDateRangeSelector(
             .withLocale(Locale.getDefault())
     }
 
+    val clickSelectStartDateText = stringResource(R.string.label_click_select_start_date)
+
     OutlinedTextField(
         value = date?.format(dateFormatter) ?: "",
         onValueChange = { /* 忽略输入，只响应点击 */ },
@@ -177,7 +179,7 @@ fun SingleDateRangeSelector(
             .fillMaxWidth()
             .clickable { showDatePicker = true }
             .semantics {
-                contentDescription = "点击选择开始日期"
+                contentDescription = clickSelectStartDateText
             },
         isError = dateRangeError != null && date != null,
         interactionSource = remember {

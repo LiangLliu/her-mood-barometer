@@ -45,12 +45,13 @@ fun RecordScreen(
     }
 
     // Handle success messages with Snackbar
+    val successMessage = stringResource(R.string.record_saved_successfully)
     LaunchedEffect(uiState.showSuccessMessage) {
         if (uiState.showSuccessMessage) {
             keyboardController?.hide() // Hide keyboard on success
             scope.launch {
                 snackbarHostState.showSnackbar(
-                    message = "记录已成功保存！", // Or from stringResource
+                    message = successMessage,
                     duration = SnackbarDuration.Short
                 )
             }
@@ -59,11 +60,12 @@ fun RecordScreen(
     }
 
     // Handle error messages with Snackbar
-    LaunchedEffect(uiState.errorMessage) {
-        uiState.errorMessage?.let { errorMessage ->
+    val errorMessages = uiState.errorMessageResId?.let { stringResource(it) }
+    LaunchedEffect(errorMessages) {
+        errorMessages?.let { message ->
             scope.launch {
                 snackbarHostState.showSnackbar(
-                    message = errorMessage,
+                    message = message,
                     duration = SnackbarDuration.Long // Errors might need longer visibility
                 )
             }
@@ -96,10 +98,11 @@ fun RecordScreen(
             )
         }
 
-        if (uiState.errorMessage != null && isValidationMessage(uiState.errorMessage!!)) {
+        val errorResId = uiState.errorMessageResId
+        if (errorResId != null) {
             item {
                 ErrorCard(
-                    message = uiState.errorMessage!!,
+                    message = stringResource(errorResId),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp)
@@ -123,9 +126,4 @@ fun RecordScreen(
     }
 }
 
-private fun isValidationMessage(errorMessage: String): Boolean {
-    return errorMessage == RecordViewModel.VALIDATION_MSG_SELECT_EMOTION ||
-            errorMessage.startsWith("情绪强度必须在") ||
-            errorMessage.startsWith("备注不能超过")
-}
 

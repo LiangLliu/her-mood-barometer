@@ -5,28 +5,33 @@ import com.lianglliu.hermoodbarometer.repository.EmotionRepository
 import javax.inject.Inject
 
 /**
- * Use case for adding emotion records
- * Validates data and delegates to repository for persistence
+ * Use case for updating emotion records
+ * Validates and updates existing emotion records
  */
-class AddEmotionRecordUseCase @Inject constructor(
+class UpdateEmotionRecordUseCase @Inject constructor(
     private val emotionRepository: EmotionRepository
 ) {
 
     /**
-     * Execute the add emotion record operation
-     * @param emotionRecord The emotion record to add
-     * @return Result containing the record ID on success
+     * Execute the update emotion record operation
+     * @param emotionRecord The emotion record to update
+     * @return Result indicating success or failure
      */
-    suspend operator fun invoke(emotionRecord: EmotionRecord): Result<Long> {
+    suspend operator fun invoke(emotionRecord: EmotionRecord): Result<Unit> {
         return try {
+            // Validate that the record has an ID
+            if (emotionRecord.id <= 0) {
+                return Result.failure(IllegalArgumentException("Invalid record ID"))
+            }
+
             // Validate record data
             if (!isValidRecord(emotionRecord)) {
                 return Result.failure(IllegalArgumentException("Invalid emotion record data"))
             }
 
-            // Save record and return the generated ID
-            val recordId = emotionRepository.insertRecord(emotionRecord)
-            Result.success(recordId)
+            // Update the record
+            emotionRepository.updateRecord(emotionRecord)
+            Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -40,4 +45,4 @@ class AddEmotionRecordUseCase @Inject constructor(
                record.emotionEmoji.isNotBlank() &&
                record.intensity.level in 1..5
     }
-} 
+}

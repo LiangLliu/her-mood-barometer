@@ -63,7 +63,7 @@ fun QuickRecordDialog(
             ) {
                 // Title
                 Text(
-                    text = "此刻感觉怎么样？",
+                    text = stringResource(R.string.how_feeling_now),
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center
@@ -78,7 +78,7 @@ fun QuickRecordDialog(
                 // Emotion Selection
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     Text(
-                        text = "情绪",
+                        text = stringResource(R.string.label_emotion),
                         style = MaterialTheme.typography.titleMedium
                     )
                     LazyVerticalGrid(
@@ -100,7 +100,7 @@ fun QuickRecordDialog(
                 // Weather Selection
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     Text(
-                        text = "天气",
+                        text = stringResource(R.string.label_weather),
                         style = MaterialTheme.typography.titleMedium
                     )
                     Row(
@@ -121,7 +121,7 @@ fun QuickRecordDialog(
                 // Activities Selection
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     Text(
-                        text = "活动",
+                        text = stringResource(R.string.label_activity),
                         style = MaterialTheme.typography.titleMedium
                     )
                     FlowRow(
@@ -148,7 +148,7 @@ fun QuickRecordDialog(
                 OutlinedTextField(
                     value = note,
                     onValueChange = { note = it },
-                    label = { Text("备注") },
+                    label = { Text(stringResource(R.string.label_note)) },
                     modifier = Modifier.fillMaxWidth(),
                     minLines = 2,
                     maxLines = 4
@@ -163,7 +163,7 @@ fun QuickRecordDialog(
                         onClick = onDismiss,
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("取消")
+                        Text(stringResource(R.string.cancel))
                     }
                     Button(
                         onClick = {
@@ -177,7 +177,7 @@ fun QuickRecordDialog(
                         },
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("保存")
+                        Text(stringResource(R.string.save))
                     }
                 }
             }
@@ -185,12 +185,15 @@ fun QuickRecordDialog(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DateTimeSelector(
     selectedDateTime: LocalDateTime,
     onDateTimeSelected: (LocalDateTime) -> Unit
 ) {
     val context = LocalContext.current
+    var showDatePicker by remember { mutableStateOf(false) }
+    var showTimePicker by remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -198,10 +201,10 @@ private fun DateTimeSelector(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = selectedDateTime.format(DateTimeFormatter.ofPattern("yyyy年M月d日", Locale.CHINESE)),
+            text = selectedDateTime.format(DateTimeFormatter.ofPattern(stringResource(R.string.date_format_full_cn), Locale.getDefault())),
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.clickable {
-                // TODO: Show date picker
+                showDatePicker = true
             }
         )
         Text(
@@ -212,9 +215,85 @@ private fun DateTimeSelector(
             text = selectedDateTime.format(DateTimeFormatter.ofPattern("HH:mm")),
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.clickable {
-                // TODO: Show time picker
+                showTimePicker = true
             }
         )
+    }
+
+    // Date Picker Dialog
+    if (showDatePicker) {
+        val datePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = selectedDateTime.toLocalDate().toEpochDay() * 86400000L
+        )
+
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        datePickerState.selectedDateMillis?.let { millis ->
+                            val newDate = java.time.Instant.ofEpochMilli(millis)
+                                .atZone(java.time.ZoneId.systemDefault())
+                                .toLocalDate()
+                            onDateTimeSelected(selectedDateTime.withYear(newDate.year)
+                                .withMonth(newDate.monthValue)
+                                .withDayOfMonth(newDate.dayOfMonth))
+                        }
+                        showDatePicker = false
+                    }
+                ) {
+                    Text(stringResource(R.string.confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePicker = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+        ) {
+            DatePicker(state = datePickerState)
+        }
+    }
+
+    // Time Picker Dialog
+    if (showTimePicker) {
+        val timePickerState = rememberTimePickerState(
+            initialHour = selectedDateTime.hour,
+            initialMinute = selectedDateTime.minute
+        )
+
+        Dialog(onDismissRequest = { showTimePicker = false }) {
+            Card(
+                modifier = Modifier.padding(16.dp),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    TimePicker(state = timePickerState)
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        TextButton(onClick = { showTimePicker = false }) {
+                            Text(stringResource(R.string.cancel))
+                        }
+                        TextButton(
+                            onClick = {
+                                onDateTimeSelected(selectedDateTime
+                                    .withHour(timePickerState.hour)
+                                    .withMinute(timePickerState.minute))
+                                showTimePicker = false
+                            }
+                        ) {
+                            Text(stringResource(R.string.confirm))
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

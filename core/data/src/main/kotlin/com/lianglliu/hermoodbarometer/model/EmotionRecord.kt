@@ -1,5 +1,6 @@
 package com.lianglliu.hermoodbarometer.model
 
+import com.lianglliu.hermoodbarometer.core.model.data.Emotion
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Contextual
 import java.time.LocalDateTime

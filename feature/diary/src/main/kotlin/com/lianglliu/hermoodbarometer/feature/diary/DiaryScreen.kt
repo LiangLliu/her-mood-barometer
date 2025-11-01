@@ -141,7 +141,7 @@ private fun DateHeader(
     val dateText = when {
         isToday -> stringResource(R.string.today)
         isYesterday -> stringResource(R.string.yesterday)
-        else -> date.format(DateTimeFormatter.ofPattern("yyyy年M月d日", Locale.CHINESE))
+        else -> date.format(DateTimeFormatter.ofPattern(stringResource(R.string.date_format_full_cn), Locale.getDefault()))
     }
 
     Box(
@@ -184,7 +184,7 @@ private fun EmotionRecordCard(
         ) {
             // Time
             Text(
-                text = record.timestamp.format(DateTimeFormatter.ofPattern("HH:mm")),
+                text = record.getLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm")),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.width(50.dp)
@@ -206,14 +206,10 @@ private fun EmotionRecordCard(
                         text = record.emotionEmoji,
                         style = MaterialTheme.typography.headlineSmall
                     )
-                    Text(
-                        text = record.emotionName,
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Medium
-                    )
+                    // We can show just the emoji since we don't have emotion name
 
                     // Intensity indicator
-                    IntensityIndicator(intensity = record.intensity)
+                    IntensityIndicator(intensity = record.intensity.level)
                 }
 
                 // Note
