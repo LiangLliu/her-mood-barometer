@@ -30,7 +30,14 @@ import java.util.Locale
 @Composable
 fun QuickRecordDialog(
     onDismiss: () -> Unit,
-    onConfirm: (emotion: Emotion, weather: Weather, activities: List<ActivityType>, note: String, dateTime: LocalDateTime) -> Unit,
+    onConfirm:
+        (
+            emotion: Emotion,
+            weather: Weather,
+            activities: List<ActivityType>,
+            note: String,
+            dateTime: LocalDateTime,
+        ) -> Unit,
 ) {
     var selectedEmotion by remember { mutableStateOf(Emotion.HAPPY) }
     var selectedWeather by remember { mutableStateOf(Weather.SUNNY) }
@@ -40,58 +47,52 @@ fun QuickRecordDialog(
 
     Dialog(
         onDismissRequest = onDismiss,
-        properties = DialogProperties(
-            dismissOnBackPress = true,
-            dismissOnClickOutside = true,
-            usePlatformDefaultWidth = false
-        )
+        properties =
+            DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true,
+                usePlatformDefaultWidth = false,
+            ),
     ) {
         Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .clip(RoundedCornerShape(28.dp)),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface,
-            ),
+            modifier = Modifier.fillMaxWidth().padding(16.dp).clip(RoundedCornerShape(28.dp)),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         ) {
             Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .padding(24.dp),
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                modifier = Modifier.verticalScroll(rememberScrollState()).padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
                 // Title
                 Text(
                     text = stringResource(R.string.how_feeling_now),
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
 
                 // Date and Time
                 DateTimeSelector(
                     selectedDateTime = selectedDateTime,
-                    onDateTimeSelected = { selectedDateTime = it }
+                    onDateTimeSelected = { selectedDateTime = it },
                 )
 
                 // Emotion Selection
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     Text(
                         text = stringResource(R.string.label_emotion),
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(3),
                         modifier = Modifier.height(160.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         items(Emotion.values()) { emotion ->
                             EmotionCard(
                                 emotion = emotion,
                                 isSelected = selectedEmotion == emotion,
-                                onClick = { selectedEmotion = emotion }
+                                onClick = { selectedEmotion = emotion },
                             )
                         }
                     }
@@ -101,18 +102,18 @@ fun QuickRecordDialog(
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     Text(
                         text = stringResource(R.string.label_weather),
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
                     ) {
                         Weather.values().forEach { weather ->
                             WeatherChip(
                                 weather = weather,
                                 isSelected = selectedWeather == weather,
                                 onClick = { selectedWeather = weather },
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(1f),
                             )
                         }
                     }
@@ -122,12 +123,9 @@ fun QuickRecordDialog(
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     Text(
                         text = stringResource(R.string.label_activity),
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
-                    FlowRow(
-                        horizontalSpacing = 8.dp,
-                        verticalSpacing = 8.dp
-                    ) {
+                    FlowRow(horizontalSpacing = 8.dp, verticalSpacing = 8.dp) {
                         ActivityType.values().forEach { activity ->
                             ActivityChip(
                                 activity = activity,
@@ -138,7 +136,7 @@ fun QuickRecordDialog(
                                     } else {
                                         selectedActivities = selectedActivities + activity
                                     }
-                                }
+                                },
                             )
                         }
                     }
@@ -151,18 +149,15 @@ fun QuickRecordDialog(
                     label = { Text(stringResource(R.string.label_note)) },
                     modifier = Modifier.fillMaxWidth(),
                     minLines = 2,
-                    maxLines = 4
+                    maxLines = 4,
                 )
 
                 // Buttons
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
-                    OutlinedButton(
-                        onClick = onDismiss,
-                        modifier = Modifier.weight(1f)
-                    ) {
+                    OutlinedButton(onClick = onDismiss, modifier = Modifier.weight(1f)) {
                         Text(stringResource(R.string.cancel))
                     }
                     Button(
@@ -172,10 +167,10 @@ fun QuickRecordDialog(
                                 selectedWeather,
                                 selectedActivities.toList(),
                                 note,
-                                selectedDateTime
+                                selectedDateTime,
                             )
                         },
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     ) {
                         Text(stringResource(R.string.save))
                     }
@@ -189,7 +184,7 @@ fun QuickRecordDialog(
 @Composable
 private fun DateTimeSelector(
     selectedDateTime: LocalDateTime,
-    onDateTimeSelected: (LocalDateTime) -> Unit
+    onDateTimeSelected: (LocalDateTime) -> Unit,
 ) {
     val context = LocalContext.current
     var showDatePicker by remember { mutableStateOf(false) }
@@ -198,33 +193,33 @@ private fun DateTimeSelector(
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = selectedDateTime.format(DateTimeFormatter.ofPattern(stringResource(R.string.date_format_full_cn), Locale.getDefault())),
+            text =
+                selectedDateTime.format(
+                    DateTimeFormatter.ofPattern(
+                        stringResource(R.string.date_format_full_cn),
+                        Locale.getDefault(),
+                    )
+                ),
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.clickable {
-                showDatePicker = true
-            }
+            modifier = Modifier.clickable { showDatePicker = true },
         )
-        Text(
-            text = " · ",
-            style = MaterialTheme.typography.bodyLarge
-        )
+        Text(text = " · ", style = MaterialTheme.typography.bodyLarge)
         Text(
             text = selectedDateTime.format(DateTimeFormatter.ofPattern("HH:mm")),
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.clickable {
-                showTimePicker = true
-            }
+            modifier = Modifier.clickable { showTimePicker = true },
         )
     }
 
     // Date Picker Dialog
     if (showDatePicker) {
-        val datePickerState = rememberDatePickerState(
-            initialSelectedDateMillis = selectedDateTime.toLocalDate().toEpochDay() * 86400000L
-        )
+        val datePickerState =
+            rememberDatePickerState(
+                initialSelectedDateMillis = selectedDateTime.toLocalDate().toEpochDay() * 86400000L
+            )
 
         DatePickerDialog(
             onDismissRequest = { showDatePicker = false },
@@ -232,12 +227,16 @@ private fun DateTimeSelector(
                 TextButton(
                     onClick = {
                         datePickerState.selectedDateMillis?.let { millis ->
-                            val newDate = java.time.Instant.ofEpochMilli(millis)
-                                .atZone(java.time.ZoneId.systemDefault())
-                                .toLocalDate()
-                            onDateTimeSelected(selectedDateTime.withYear(newDate.year)
-                                .withMonth(newDate.monthValue)
-                                .withDayOfMonth(newDate.dayOfMonth))
+                            val newDate =
+                                java.time.Instant.ofEpochMilli(millis)
+                                    .atZone(java.time.ZoneId.systemDefault())
+                                    .toLocalDate()
+                            onDateTimeSelected(
+                                selectedDateTime
+                                    .withYear(newDate.year)
+                                    .withMonth(newDate.monthValue)
+                                    .withDayOfMonth(newDate.dayOfMonth)
+                            )
                         }
                         showDatePicker = false
                     }
@@ -249,7 +248,7 @@ private fun DateTimeSelector(
                 TextButton(onClick = { showDatePicker = false }) {
                     Text(stringResource(R.string.cancel))
                 }
-            }
+            },
         ) {
             DatePicker(state = datePickerState)
         }
@@ -257,34 +256,34 @@ private fun DateTimeSelector(
 
     // Time Picker Dialog
     if (showTimePicker) {
-        val timePickerState = rememberTimePickerState(
-            initialHour = selectedDateTime.hour,
-            initialMinute = selectedDateTime.minute
-        )
+        val timePickerState =
+            rememberTimePickerState(
+                initialHour = selectedDateTime.hour,
+                initialMinute = selectedDateTime.minute,
+            )
 
         Dialog(onDismissRequest = { showTimePicker = false }) {
-            Card(
-                modifier = Modifier.padding(16.dp),
-                shape = RoundedCornerShape(16.dp)
-            ) {
+            Card(modifier = Modifier.padding(16.dp), shape = RoundedCornerShape(16.dp)) {
                 Column(
                     modifier = Modifier.padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     TimePicker(state = timePickerState)
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
+                        horizontalArrangement = Arrangement.End,
                     ) {
                         TextButton(onClick = { showTimePicker = false }) {
                             Text(stringResource(R.string.cancel))
                         }
                         TextButton(
                             onClick = {
-                                onDateTimeSelected(selectedDateTime
-                                    .withHour(timePickerState.hour)
-                                    .withMinute(timePickerState.minute))
+                                onDateTimeSelected(
+                                    selectedDateTime
+                                        .withHour(timePickerState.hour)
+                                        .withMinute(timePickerState.minute)
+                                )
                                 showTimePicker = false
                             }
                         ) {
@@ -299,40 +298,31 @@ private fun DateTimeSelector(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EmotionCard(
-    emotion: Emotion,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
+private fun EmotionCard(emotion: Emotion, isSelected: Boolean, onClick: () -> Unit) {
     Card(
         onClick = onClick,
-        modifier = Modifier
-            .aspectRatio(1f)
-            .clip(RoundedCornerShape(16.dp)),
-        colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) {
-                MaterialTheme.colorScheme.primaryContainer
-            } else {
-                MaterialTheme.colorScheme.surfaceVariant
-            }
-        )
+        modifier = Modifier.aspectRatio(1f).clip(RoundedCornerShape(16.dp)),
+        colors =
+            CardDefaults.cardColors(
+                containerColor =
+                    if (isSelected) {
+                        MaterialTheme.colorScheme.primaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.surfaceVariant
+                    }
+            ),
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
+            modifier = Modifier.fillMaxSize().padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
-            Text(
-                text = emotion.emoji,
-                style = MaterialTheme.typography.headlineLarge
-            )
+            Text(text = emotion.emoji, style = MaterialTheme.typography.headlineLarge)
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = stringResource(emotion.nameRes),
                 style = MaterialTheme.typography.bodySmall,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
     }
@@ -343,7 +333,7 @@ private fun WeatherChip(
     weather: Weather,
     isSelected: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     FilterChip(
         selected = isSelected,
@@ -352,28 +342,23 @@ private fun WeatherChip(
             Text(
                 text = "${weather.emoji} ${stringResource(weather.nameRes)}",
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         },
         modifier = modifier,
-        border = if (!isSelected) {
-            BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
-        } else null
+        border =
+            if (!isSelected) {
+                BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+            } else null,
     )
 }
 
 @Composable
-private fun ActivityChip(
-    activity: ActivityType,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
+private fun ActivityChip(activity: ActivityType, isSelected: Boolean, onClick: () -> Unit) {
     FilterChip(
         selected = isSelected,
         onClick = onClick,
-        label = {
-            Text("${activity.emoji} ${stringResource(activity.nameRes)}")
-        }
+        label = { Text("${activity.emoji} ${stringResource(activity.nameRes)}") },
     )
 }
 
@@ -382,12 +367,9 @@ private fun FlowRow(
     modifier: Modifier = Modifier,
     horizontalSpacing: Dp = 0.dp,
     verticalSpacing: Dp = 0.dp,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
-    Layout(
-        modifier = modifier,
-        content = content
-    ) { measurables, constraints ->
+    Layout(modifier = modifier, content = content) { measurables, constraints ->
         val horizontalSpacingPx = horizontalSpacing.roundToPx()
         val verticalSpacingPx = verticalSpacing.roundToPx()
 
@@ -433,20 +415,20 @@ private fun FlowRow(
     }
 }
 
-enum class Emotion(val emoji: String, val nameRes: Int) {
-    HAPPY("😊", R.string.emotion_happy),
-    CALM("😌", R.string.emotion_calm),
-    TOUCHED("🥺", R.string.emotion_touched),
-    ANXIOUS("😰", R.string.emotion_anxious),
-    WRONGED("😢", R.string.emotion_wronged),
-    TIRED("😔", R.string.emotion_tired)
+enum class Emotion(val emoji: String, val nameRes: Int, val predefinedId: Long) {
+    HAPPY("😊", R.string.emotion_happy, 1L),
+    CALM("😌", R.string.emotion_calm, 5L),
+    TOUCHED("🥺", R.string.emotion_touched, 9L),
+    ANXIOUS("😰", R.string.emotion_anxious, 4L),
+    WRONGED("😢", R.string.emotion_wronged, 2L),
+    TIRED("😔", R.string.emotion_tired, 7L),
 }
 
 enum class Weather(val emoji: String, val nameRes: Int) {
     SUNNY("☀️", R.string.weather_sunny),
     CLOUDY("☁️", R.string.weather_cloudy),
     RAINY("🌧️", R.string.weather_rainy),
-    SNOWY("❄️", R.string.weather_snowy)
+    SNOWY("❄️", R.string.weather_snowy),
 }
 
 enum class ActivityType(val emoji: String, val nameRes: Int) {
@@ -455,5 +437,5 @@ enum class ActivityType(val emoji: String, val nameRes: Int) {
     READING("📖", R.string.activity_reading),
     SOCIAL("👥", R.string.activity_social),
     ENTERTAINMENT("🎮", R.string.activity_entertainment),
-    REST("😴", R.string.activity_rest)
+    REST("😴", R.string.activity_rest),
 }

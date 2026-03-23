@@ -46,21 +46,19 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import com.lianglliu.hermoodbarometer.MainActivityViewModel
 import com.lianglliu.hermoodbarometer.QuickRecordSaveState
 import com.lianglliu.hermoodbarometer.core.designsystem.component.CsFloatingActionButton
+import com.lianglliu.hermoodbarometer.core.locales.R
 import com.lianglliu.hermoodbarometer.navigation.MoodNavHost
 import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.DIARY
-import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.CALENDAR
 import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.SETTINGS
-import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.STATISTICS
 import com.lianglliu.hermoodbarometer.util.InAppUpdateResult
 import kotlin.reflect.KClass
-import com.lianglliu.hermoodbarometer.core.locales.R
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MoodApp(
     appState: AppState,
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
-    viewModel: MainActivityViewModel = hiltViewModel()
+    viewModel: MainActivityViewModel = hiltViewModel(),
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val currentDestination = appState.currentDestination
@@ -82,21 +80,23 @@ fun MoodApp(
     LaunchedEffect(inAppUpdateResult) {
         when (inAppUpdateResult) {
             is InAppUpdateResult.Available -> {
-                val snackbarResult = snackbarHostState.showSnackbar(
-                    message = updateAvailableMessage,
-                    actionLabel = updateText,
-                    duration = Indefinite,
-                    withDismissAction = true,
-                ) == ActionPerformed
+                val snackbarResult =
+                    snackbarHostState.showSnackbar(
+                        message = updateAvailableMessage,
+                        actionLabel = updateText,
+                        duration = Indefinite,
+                        withDismissAction = true,
+                    ) == ActionPerformed
                 if (snackbarResult) activity?.let { inAppUpdateResult.startFlexibleUpdate(it, 120) }
             }
 
             is InAppUpdateResult.Downloaded -> {
-                val snackbarResult = snackbarHostState.showSnackbar(
-                    message = updateDownloadedMessage,
-                    actionLabel = installText,
-                    duration = Indefinite,
-                ) == ActionPerformed
+                val snackbarResult =
+                    snackbarHostState.showSnackbar(
+                        message = updateDownloadedMessage,
+                        actionLabel = installText,
+                        duration = Indefinite,
+                    ) == ActionPerformed
                 if (snackbarResult) inAppUpdateResult.completeUpdate()
             }
 
@@ -109,16 +109,10 @@ fun MoodApp(
         val saveState = quickRecordSaveState
         when (saveState) {
             is QuickRecordSaveState.Success -> {
-                snackbarHostState.showSnackbar(
-                    message = recordSavedMessage,
-                    duration = Short,
-                )
+                snackbarHostState.showSnackbar(message = recordSavedMessage, duration = Short)
             }
             is QuickRecordSaveState.Error -> {
-                snackbarHostState.showSnackbar(
-                    message = saveState.message,
-                    duration = Short,
-                )
+                snackbarHostState.showSnackbar(message = saveState.message, duration = Short)
             }
             else -> {}
         }
@@ -126,28 +120,33 @@ fun MoodApp(
 
     var previousDestination by remember { mutableStateOf(DIARY) }
 
-    val navigationSuiteType = NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(windowAdaptiveInfo)
+    val navigationSuiteType =
+        NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(windowAdaptiveInfo)
 
     NavigationSuiteScaffold(
         primaryActionContent = {
             if (currentTopLevelDestination != null) {
                 // 安全获取 fabTitle 和 fabIcon
-                val fabTitleRes = currentTopLevelDestination.fabTitle
-                    ?: previousDestination.fabTitle // 使用 elvis 操作符替代 !!
-                val fabIconVector = currentTopLevelDestination.fabIcon
-                    ?: previousDestination.fabIcon // 使用 elvis 操作符替代 !!
+                val fabTitleRes =
+                    currentTopLevelDestination.fabTitle
+                        ?: previousDestination.fabTitle // 使用 elvis 操作符替代 !!
+                val fabIconVector =
+                    currentTopLevelDestination.fabIcon
+                        ?: previousDestination.fabIcon // 使用 elvis 操作符替代 !!
 
                 // 只有当 fabTitleRes 和 fabIconVector 都不为 null 时才显示 FAB
                 // 并且 currentTopLevelDestination 不是 SETTINGS
-                if (fabTitleRes != null && fabIconVector != null && currentTopLevelDestination != SETTINGS) {
+                if (
+                    fabTitleRes != null &&
+                        fabIconVector != null &&
+                        currentTopLevelDestination != SETTINGS
+                ) {
                     CsFloatingActionButton(
                         contentDescriptionRes = fabTitleRes,
                         icon = fabIconVector,
-                        onClick = {
-                            viewModel.showQuickRecordDialog()
-                        },
-                        modifier = Modifier
-                            .animateFloatingActionButton(
+                        onClick = { viewModel.showQuickRecordDialog() },
+                        modifier =
+                            Modifier.animateFloatingActionButton(
                                 // visible 条件现在移到了外层 if 判断中一部分
                                 visible = true, // 因为外层已经判断了 currentTopLevelDestination != SETTINGS
                                 alignment = Alignment.BottomEnd,
@@ -162,33 +161,32 @@ fun MoodApp(
                 NavigationSuiteItem(
                     selected = selected,
                     icon = {
-                        val navItemIcon = remember(selected) {
-                            if (selected) {
-                                destination.selectedIcon
-                            } else {
-                                destination.unselectedIcon
+                        val navItemIcon =
+                            remember(selected) {
+                                if (selected) {
+                                    destination.selectedIcon
+                                } else {
+                                    destination.unselectedIcon
+                                }
                             }
-                        }
-                        Icon(
-                            imageVector = navItemIcon,
-                            contentDescription = null,
-                        )
+                        Icon(imageVector = navItemIcon, contentDescription = null)
                     },
                     label = {
                         val labelText = stringResource(destination.iconTextId)
-                        Text(
-                            text = labelText,
-                            maxLines = 1,
-                        )
+                        Text(text = labelText, maxLines = 1)
                     },
-                    onClick = remember(currentTopLevelDestination, destination) {
-                        {
-                            if (currentTopLevelDestination != null && currentTopLevelDestination != SETTINGS) {
-                                previousDestination = currentTopLevelDestination
+                    onClick =
+                        remember(currentTopLevelDestination, destination) {
+                            {
+                                if (
+                                    currentTopLevelDestination != null &&
+                                        currentTopLevelDestination != SETTINGS
+                                ) {
+                                    previousDestination = currentTopLevelDestination
+                                }
+                                appState.navigateToTopLevelDestination(destination)
                             }
-                            appState.navigateToTopLevelDestination(destination)
-                        }
-                    },
+                        },
                 )
             }
         },
@@ -199,23 +197,23 @@ fun MoodApp(
             snackbarHost = {
                 SnackbarHost(
                     hostState = snackbarHostState,
-                    modifier = Modifier
-                        .windowInsetsPadding(WindowInsets.safeDrawing)
-                        .then(
-                            if (navigationSuiteType != NavigationSuiteType.ShortNavigationBarCompact &&
-                                currentTopLevelDestination != SETTINGS
-                            ) {
-                                Modifier.padding(bottom = 100.dp)
-                            } else {
-                                Modifier
-                            },
-                        ),
+                    modifier =
+                        Modifier.windowInsetsPadding(WindowInsets.safeDrawing)
+                            .then(
+                                if (
+                                    navigationSuiteType !=
+                                        NavigationSuiteType.ShortNavigationBarCompact &&
+                                        currentTopLevelDestination != SETTINGS
+                                ) {
+                                    Modifier.padding(bottom = 100.dp)
+                                } else {
+                                    Modifier
+                                }
+                            ),
                 )
             },
             contentWindowInsets = WindowInsets(0, 0, 0, 0),
-            modifier = Modifier.semantics {
-                testTagsAsResourceId = true
-            },
+            modifier = Modifier.semantics { testTagsAsResourceId = true },
         ) { innerPadding ->
             MoodNavHost(
                 appState = appState,
@@ -226,15 +224,13 @@ fun MoodApp(
                         duration = Short,
                     ) == ActionPerformed
                 },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .consumeWindowInsets(innerPadding)
-                    .windowInsetsPadding(
-                        WindowInsets.safeDrawing.only(
-                            WindowInsetsSides.Horizontal,
+                modifier =
+                    Modifier.fillMaxSize()
+                        .padding(innerPadding)
+                        .consumeWindowInsets(innerPadding)
+                        .windowInsetsPadding(
+                            WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)
                         ),
-                    ),
             )
         }
     }
@@ -253,26 +249,27 @@ fun MoodApp(
             onDismiss = { viewModel.hideQuickRecordDialog() },
             onConfirm = { emotion, weather, activities, note, dateTime ->
                 // Map emotion enum to name
-                val emotionName = when (emotion) {
-                    Emotion.HAPPY -> emotionHappy
-                    Emotion.CALM -> emotionCalm
-                    Emotion.TOUCHED -> emotionTouched
-                    Emotion.ANXIOUS -> emotionAnxious
-                    Emotion.WRONGED -> emotionWronged
-                    Emotion.TIRED -> emotionTired
-                }
+                val emotionName =
+                    when (emotion) {
+                        Emotion.HAPPY -> emotionHappy
+                        Emotion.CALM -> emotionCalm
+                        Emotion.TOUCHED -> emotionTouched
+                        Emotion.ANXIOUS -> emotionAnxious
+                        Emotion.WRONGED -> emotionWronged
+                        Emotion.TIRED -> emotionTired
+                    }
 
                 // Map emotion enum to ID and save
                 viewModel.saveQuickRecord(
-                    emotionId = emotion.ordinal.toLong() + 1, // Emotion IDs start from 1
+                    emotionId = emotion.predefinedId,
                     emotionName = emotionName,
                     emotionEmoji = emotion.emoji,
-                    weather = weather?.name?.lowercase(),
-                    activities = activities.map { it.name.lowercase() },
+                    weather = weather?.name,
+                    activities = activities.map { it.name },
                     note = note,
-                    timestamp = dateTime
+                    timestamp = dateTime,
                 )
-            }
+            },
         )
     }
 }

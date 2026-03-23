@@ -7,33 +7,30 @@ import com.lianglliu.hermoodbarometer.repository.EmotionDefinitionRepository
 import com.lianglliu.hermoodbarometer.repository.mapper.toDomainModel
 import com.lianglliu.hermoodbarometer.repository.mapper.toDomainModels
 import com.lianglliu.hermoodbarometer.repository.mapper.toEntity
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 /**
- * Implementation of EmotionDefinitionRepository using Room database
- * Manages both predefined and user-created emotions
+ * Implementation of EmotionDefinitionRepository using Room database Manages both predefined and
+ * user-created emotions
  */
 @Singleton
-class EmotionDefinitionRepositoryImpl @Inject constructor(
-    private val emotionDao: EmotionDao
-) : EmotionDefinitionRepository {
+class EmotionDefinitionRepositoryImpl @Inject constructor(private val emotionDao: EmotionDao) :
+    EmotionDefinitionRepository {
 
     override fun getAllActiveEmotions(): Flow<List<Emotion>> {
-        return emotionDao.getAllActiveEmotions()
-            .map { entities -> entities.toDomainModels() }
+        return emotionDao.getAllActiveEmotions().map { entities -> entities.toDomainModels() }
     }
 
     override fun getUserCreatedEmotions(): Flow<List<Emotion>> {
-        return emotionDao.getUserCreatedEmotions()
-            .map { entities -> entities.toDomainModels() }
+        return emotionDao.getUserCreatedEmotions().map { entities -> entities.toDomainModels() }
     }
 
     override fun getPredefinedEmotions(): Flow<List<Emotion>> {
-        return emotionDao.getPredefinedEmotions()
-            .map { entities -> entities.toDomainModels() }
+        return emotionDao.getPredefinedEmotions().map { entities -> entities.toDomainModels() }
     }
 
     override suspend fun getEmotionById(id: Long): Emotion? {
@@ -78,32 +75,28 @@ class EmotionDefinitionRepositoryImpl @Inject constructor(
 
     override suspend fun initializePredefinedEmotions() {
         // Get existing predefined emotion IDs
-        val existingIds = emotionDao.getPredefinedEmotions()
-            .map { entities -> entities.map { it.id } }
-            .let { flow ->
-                val list = mutableListOf<Long>()
-                flow.collect { list.addAll(it) }
-                list
-            }
+        val existingIds = emotionDao.getPredefinedEmotions().first().map { it.id }
 
         // Create entities for missing predefined emotions
-        val missingEmotions = PredefinedEmotions.emotions
-            .filter { it.id !in existingIds }
-            .map { predefinedEmotion ->
-                Emotion(
-                    id = predefinedEmotion.id,
-                    name = predefinedEmotion.resourceKey, // Store resource key as name
-                    emoji = predefinedEmotion.emoji,
-                    description = "",
-                    isUserCreated = false,
-                    isActive = true,
-                    sortOrder = predefinedEmotion.sortOrder
-                ).toEntity()
-            }
+        val missingEmotions =
+            PredefinedEmotions.emotions
+                .filter { it.id !in existingIds }
+                .map { predefinedEmotion ->
+                    Emotion(
+                            id = predefinedEmotion.id,
+                            name = predefinedEmotion.resourceKey, // Store resource key as name
+                            emoji = predefinedEmotion.emoji,
+                            description = "",
+                            isUserCreated = false,
+                            isActive = true,
+                            sortOrder = predefinedEmotion.sortOrder,
+                        )
+                        .toEntity()
+                }
 
         // Insert missing predefined emotions
         if (missingEmotions.isNotEmpty()) {
             emotionDao.insertEmotions(missingEmotions)
         }
     }
-} 
+}
