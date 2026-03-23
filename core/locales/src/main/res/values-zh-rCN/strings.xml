@@ -1,156 +1,98 @@
 <resources>
-    <!-- ==================== App Basic ==================== -->
-    <string name="app_name">她的晴雨表</string>
+    <!-- ==================== App Basic Info ==================== -->
+    <string name="app_name">她的心情晴雨表</string>
+    <string name="app_description">记录生活中的每一份心情</string>
 
     <!-- ==================== Navigation ==================== -->
     <string name="nav_record">记录</string>
+    <string name="nav_diary">日记</string>
     <string name="nav_statistics">统计</string>
+    <string name="nav_calendar">日历</string>
     <string name="nav_settings">设置</string>
 
-    <!-- ==================== Record Screen ==================== -->
-    <!-- Page Title and Actions -->
-    <string name="record_title">记录</string>
+    <!-- ==================== Record Module ==================== -->
+    <string name="record_title">记录心情</string>
+    <string name="record_subtitle">你现在感觉如何？</string>
+    <string name="record_mood">记录心情</string>
     <string name="record_emotion">记录情绪</string>
+    <string name="how_feeling_now">你现在感觉如何？</string>
     <string name="select_emotion">选择情绪</string>
-    <string name="emotion_intensity">情绪强度: %s</string>
+    <string name="emotion_intensity">情绪强度</string>
     <string name="add_note">添加备注</string>
-    <string name="note_placeholder">现在心情如何？</string>
-    <string name="save_record">保存记录</string>
-    <string name="record_saved_successfully">记录保存成功！</string>
+    <string name="note_placeholder">你在想什么？</string>
+    <string name="save_record">保存</string>
+    <string name="record_saved_successfully">心情保存成功</string>
 
-    <!-- Emotion Types -->
-    <string name="emotion_happy">开心</string>
-    <string name="emotion_excited">兴奋</string>
-    <string name="emotion_calm">平静</string>
-    <string name="emotion_grateful">感激</string>
-    <string name="emotion_sad">难过</string>
-    <string name="emotion_anxious">焦虑</string>
-    <string name="emotion_angry">愤怒</string>
-    <string name="emotion_lonely">孤独</string>
-    <string name="emotion_tired">疲惫</string>
-    <string name="emotion_confused">困惑</string>
-    <string name="emotion_thinking">思考</string>
-    <string name="emotion_confident">自信</string>
-    <string name="emotion_celebrating">庆祝</string>
-    <string name="emotion_fearful">恐惧</string>
-    <string name="emotion_dissatisfied">不满</string>
-    <string name="emotion_stressed">压力</string>
-    <string name="emotion_wronged">委屈</string>
-    <string name="emotion_satisfied">满足</string>
-    <string name="emotion_helpless">无奈</string>
-    <string name="emotion_embarrassed">尴尬</string>
-    <string name="emotion_silent">沉默</string>
+    <!-- ==================== Diary Module ==================== -->
+    <string name="diary_title">心情日记</string>
+    <string name="diary_empty">还没有心情记录</string>
+    <string name="diary_empty_hint">开始记录你的心情吧</string>
+    <string name="today">今天</string>
+    <string name="yesterday">昨天</string>
 
-    <!-- Emotion Descriptions -->
-    <string name="emotion_happy_desc">感到快乐和满足</string>
-    <string name="emotion_excited_desc">感到激动和兴奋</string>
-    <string name="emotion_calm_desc">感到平和与宁静</string>
-    <string name="emotion_grateful_desc">感到感激和感谢</string>
-    <string name="emotion_sad_desc">感到悲伤或沮丧</string>
-    <string name="emotion_anxious_desc">感到紧张或担心</string>
-    <string name="emotion_angry_desc">感到生气或愤怒</string>
-    <string name="emotion_lonely_desc">感到孤单或寂寞</string>
-    <string name="emotion_tired_desc">感到疲劳和困倦</string>
-    <string name="emotion_confused_desc">感到迷茫或困惑</string>
-    <string name="emotion_thinking_desc">深入思考或沉思</string>
-    <string name="emotion_confident_desc">充满自信和肯定</string>
-    <string name="emotion_celebrating_desc">庆祝成就或喜事</string>
-    <string name="emotion_fearful_desc">感到害怕或恐惧</string>
-    <string name="emotion_dissatisfied_desc">对事物感到不满</string>
-    <string name="emotion_stressed_desc">感到压力或紧张</string>
-    <string name="emotion_wronged_desc">感到委屈或不公</string>
-    <string name="emotion_satisfied_desc">感到满足和知足</string>
-    <string name="emotion_helpless_desc">感到无奈或无力</string>
-    <string name="emotion_embarrassed_desc">感到尴尬或不自在</string>
-    <string name="emotion_silent_desc">选择沉默不语</string>
-
-    <!-- Emotion Intensity -->
-    <string name="intensity_very_low">很低</string>
-    <string name="intensity_low">低</string>
-    <string name="intensity_medium">中等</string>
-    <string name="intensity_high">高</string>
-    <string name="intensity_very_high">很高</string>
-
-    <!-- ==================== Statistics Screen ==================== -->
-    <!-- Page Title and Overview -->
-    <string name="statistics">统计</string>
+    <!-- ==================== Statistics Module ==================== -->
+    <string name="statistics_title">统计</string>
     <string name="emotion_overview">情绪概览</string>
-    <string name="total_records">总记录数</string>
-    <string name="average_mood">平均情绪</string>
-    <string name="most_frequent_emotion">最常出现的情绪</string>
+    <string name="label_positive">积极</string>
+    <string name="most_frequent_emotion">最常见的情绪</string>
+    <string name="mood_trends">心情趋势</string>
+    <string name="chart_emotion_counts">情绪计数</string>
+    <string name="chart_emotion_trend">情绪趋势</string>
+    <string name="label_click_select_start_date">点击选择开始日期</string>
+    <string name="total_records">总记录</string>
+    <string name="average_mood">平均心情</string>
+    <string name="days_tracked">追踪天数</string>
+    <string name="emotion_distribution">情绪分布</string>
+    <string name="emotion_trend">情绪趋势</string>
+    <string name="daily_average">日均</string>
+    <string name="records_per_day">条记录/天</string>
+    <string name="most_common_emotion">最常见的情绪</string>
+    <string name="times_recorded">次</string>
 
     <!-- Time Range -->
     <string name="time_range">时间范围</string>
-    <string name="time_range_selector_label">选择统计时间范围</string>
     <string name="last_week">最近一周</string>
-    <string name="last_month">最近一个月</string>
-    <string name="last_3_months">最近三个月</string>
-    <string name="last_six_months">最近半年内</string>
+    <string name="last_month">最近一月</string>
+    <string name="last_3_months">最近三月</string>
+    <string name="last_six_months">最近半年</string>
     <string name="last_year">最近一年</string>
-    <string name="custom_range">指定范围</string>
+    <string name="custom_range">自定义</string>
     <string name="start_date">开始日期</string>
     <string name="end_date">结束日期</string>
-    <string name="select_start_date">选择开始日期</string>
-    <string name="select_end_date">选择结束日期</string>
 
     <!-- Chart Related -->
+    <string name="no_data">暂无数据</string>
+    <string name="chart_empty_hint">开始记录以查看统计</string>
     <string name="chart_type">图表类型</string>
     <string name="bar_chart">柱状图</string>
     <string name="line_chart">折线图</string>
-    <string name="pie_chart">饼图</string>
-    <string name="emotion_distribution">情绪分布</string>
-    <string name="emotion_trend_change">情绪趋势变化</string>
-    <string name="emotion_patterns">情绪模式</string>
-    <string name="emotion_comparison">情绪对比</string>
-    <string name="no_data">暂无数据</string>
-    <string name="chart_empty_hint">开始记录心情以查看图表</string>
-    <string name="chart_emotion_counts">情绪次数</string>
-    <string name="chart_emotion_trend">情绪趋势</string>
-    <string name="mood_trends">心情趋势</string>
+    <string name="chart_explanation_distribution_title">情绪分布</string>
+    <string name="chart_explanation_distribution_content">显示各种情绪类型的频率</string>
+    <string name="chart_insight_distribution">了解您最常见的情绪状态</string>
+    <string name="chart_explanation_trend_title">情绪趋势</string>
+    <string name="chart_explanation_trend_content">追踪您的情绪随时间的变化</string>
+    <string name="chart_insight_trend">识别模式和情绪进展</string>
+    <string name="chart_explanation_patterns_title">情绪模式</string>
+    <string name="chart_explanation_patterns_content">揭示重复出现的情绪模式</string>
+    <string name="chart_insight_patterns">发现您的情绪节奏</string>
+    <string name="chart_explanation_comparison_title">期间对比</string>
+    <string name="chart_explanation_comparison_content">比较不同时期的情绪</string>
+    <string name="chart_insight_comparison">了解您的情绪状态如何演变</string>
+    <string name="cd_chart_emotion_counts">情绪计数图表</string>
+    <string name="cd_chart_emotion_trend">情绪趋势图表</string>
 
-    <!-- Chart Explanations -->
-    <string name="chart_explanation_distribution_title">什么是情绪分布？</string>
-    <string name="chart_explanation_distribution_content">情绪分布显示了在选定时间范围内，各种情绪在您的记录中所占的比例。这帮助您了解自己的情绪模式，哪些情绪是您的主要情绪，哪些情绪较少出现。</string>
-    <string name="chart_insight_distribution">根据您的数据，开心情绪占比最高（40%），这表明您整体上是一个积极乐观的人。</string>
+    <!-- ==================== Calendar Module ==================== -->
+    <string name="calendar_title">日历</string>
+    <string name="calendar_month_format">yyyy年M月</string>
 
-    <string name="chart_explanation_trend_title">什么是情绪趋势？</string>
-    <string name="chart_explanation_trend_content">情绪趋势显示了您的情绪强度如何随时间变化。通过观察趋势线，您可以了解自己情绪的波动情况，识别出情绪的高峰和低谷，以及可能影响您情绪的因素。</string>
-    <string name="chart_insight_trend">您的情绪趋势显示，周三情绪达到峰值，而周二情绪较低。这可能与您的工作日程或社交活动有关。</string>
-
-    <string name="chart_explanation_patterns_title">什么是情绪模式？</string>
-    <string name="chart_explanation_patterns_content">情绪模式是通过分析您的情绪数据发现的规律和趋势。这些模式可能与时间、天气、工作日等因素相关，帮助您更好地了解自己的情绪变化规律。</string>
-    <string name="chart_insight_patterns">您的数据显示，早晨情绪通常较为积极，而晚上则更加平静。这表明您的情绪变化有一定的日常规律。</string>
-
-    <string name="chart_explanation_comparison_title">什么是情绪对比？</string>
-    <string name="chart_explanation_comparison_content">情绪对比显示了不同时期（如本周与上周）各种情绪的比例变化。通过对比分析，您可以了解自己情绪的变化趋势，识别出情绪改善或恶化的情况。</string>
-    <string name="chart_insight_comparison" formatted="false">与上周相比，你这周开心情绪增加了10%，而平静情绪减少了10%。这可能表明你这周经历了更多令人兴奋的事情。</string>
-
-    <!-- Pattern Cards -->
-    <string name="morning_pattern">早晨模式</string>
-    <string name="evening_pattern">夜晚模式</string>
-    <string name="weekday_pattern">工作日模式</string>
-    <string name="weather_pattern">天气影响</string>
-    <string name="morning_happiest">早晨最开心</string>
-    <string name="evening_calmest">夜晚最平静</string>
-    <string name="weekday_most_excited">工作日最兴奋</string>
-    <string name="sunny_happier">晴天更开心</string>
-
-    <!-- Comparison Table -->
-    <string name="this_week">本周</string>
-    <string name="last_week_label">上周</string>
-    <string name="change">变化</string>
-
-    <!-- ==================== Settings Screen ==================== -->
+    <!-- ==================== Settings Module ==================== -->
     <string name="settings">设置</string>
+    <string name="settings_title">设置</string>
+    <string name="statistics">统计</string>
 
     <!-- Appearance -->
     <string name="appearance">外观</string>
     <string name="language">语言</string>
-    <string name="language_en">English</string>
-    <string name="language_zh">简体中文</string>
-    <string name="language_zh_tw">繁體中文</string>
-    <string name="language_ja">日本語</string>
-    <string name="language_ko">한국어</string>
     <string name="theme">主题</string>
     <string name="system_theme">跟随系统</string>
     <string name="light_theme">浅色</string>
@@ -160,134 +102,228 @@
     <!-- Notifications -->
     <string name="notifications">通知</string>
     <string name="daily_reminder">每日提醒</string>
-    <string name="daily_reminder_description">每日情绪记录提醒</string>
+    <string name="daily_reminder_desc">提醒你记录心情</string>
     <string name="reminder_time">提醒时间</string>
 
-    <!-- About -->
-    <string name="about">关于</string>
-    <string name="about_app">关于应用</string>
-    <string name="about_app_description">她的晴雨表 - 记录生活中的每一份心情</string>
-    <string name="licenses">许可</string>
-    <string name="licenses_description">开源许可证</string>
-    <string name="version">版本</string>
-
-    <!-- Emotion Management (Legacy - kept for compatibility) -->
+    <!-- Emotion Management -->
     <string name="emotion_management">情绪管理</string>
     <string name="manage_emotions">管理情绪</string>
-    <string name="manage_emotions_desc">添加自定义情绪</string>
+    <string name="manage_emotions_desc">添加或编辑自定义情绪</string>
     <string name="add_emotion">添加情绪</string>
     <string name="edit_emotion">编辑情绪</string>
     <string name="delete_emotion">删除情绪</string>
     <string name="emotion_name">情绪名称</string>
-    <string name="emotion_description">情绪描述</string>
-    <string name="no_user_emotions">没有自定义情绪</string>
-    <string name="confirm_delete_emotion">确定要删除这个情绪吗？</string>
+    <string name="emotion_emoji">表情</string>
+    <string name="emotion_description">描述</string>
+    <string name="no_custom_emotions">还没有自定义情绪</string>
+    <string name="no_user_emotions">还没有用户情绪</string>
 
-    <!-- ==================== Common ==================== -->
-    <!-- Actions -->
+    <!-- About -->
+    <string name="about">关于</string>
+    <string name="about_app">关于应用</string>
+    <string name="about_app_description">她的心情晴雨表 - 记录你的情绪与心情</string>
+    <string name="version">版本</string>
+    <string name="licenses">开源许可</string>
+    <string name="licenses_description">查看开源许可证</string>
+
+    <!-- ==================== Emotions ==================== -->
+    <!-- Positive Emotions -->
+    <string name="emotion_happy">开心</string>
+    <string name="emotion_happy_desc">感到快乐和满足</string>
+
+    <string name="emotion_excited">兴奋</string>
+    <string name="emotion_excited_desc">感到激动和充满活力</string>
+
+    <string name="emotion_calm">平静</string>
+    <string name="emotion_calm_desc">感到宁静和放松</string>
+
+    <string name="emotion_grateful">感激</string>
+    <string name="emotion_grateful_desc">感到感恩和感谢</string>
+
+    <string name="emotion_confident">自信</string>
+    <string name="emotion_confident_desc">感到自信和有能力</string>
+
+    <string name="emotion_satisfied">满意</string>
+    <string name="emotion_satisfied_desc">感到满足和充实</string>
+
+    <string name="emotion_touched">感动</string>
+    <string name="emotion_touched_desc">感到情感上的触动</string>
+
+    <string name="emotion_celebrating">庆祝</string>
+    <string name="emotion_celebrating_desc">感到节日和欢庆的气氛</string>
+
+    <!-- Negative Emotions -->
+    <string name="emotion_sad">难过</string>
+    <string name="emotion_sad_desc">感到悲伤或不快</string>
+
+    <string name="emotion_anxious">焦虑</string>
+    <string name="emotion_anxious_desc">感到紧张或担心</string>
+
+    <string name="emotion_angry">生气</string>
+    <string name="emotion_angry_desc">感到愤怒或沮丧</string>
+
+    <string name="emotion_lonely">孤独</string>
+    <string name="emotion_lonely_desc">感到孤立或独自一人</string>
+
+    <string name="emotion_fearful">恐惧</string>
+    <string name="emotion_fearful_desc">感到害怕或恐慌</string>
+
+    <string name="emotion_stressed">压力</string>
+    <string name="emotion_stressed_desc">感到压力或紧张</string>
+
+    <string name="emotion_dissatisfied">不满</string>
+    <string name="emotion_dissatisfied_desc">感到不满或不开心</string>
+
+    <string name="emotion_helpless">无助</string>
+    <string name="emotion_helpless_desc">感到无能为力</string>
+
+    <string name="emotion_embarrassed">尴尬</string>
+    <string name="emotion_embarrassed_desc">感到难为情或羞愧</string>
+
+    <string name="emotion_wronged">委屈</string>
+    <string name="emotion_wronged_desc">感到受到不公平对待</string>
+
+    <!-- Neutral Emotions -->
+    <string name="emotion_tired">疲倦</string>
+    <string name="emotion_tired_desc">感到精疲力尽</string>
+
+    <string name="emotion_confused">困惑</string>
+    <string name="emotion_confused_desc">感到迷茫或不确定</string>
+
+    <string name="emotion_thinking">思考</string>
+    <string name="emotion_thinking_desc">深入思考或反思</string>
+
+    <string name="emotion_silent">沉默</string>
+    <string name="emotion_silent_desc">更喜欢安静的沉思</string>
+
+    <!-- Emotion Intensity -->
+    <string name="intensity_very_low">很低</string>
+    <string name="intensity_low">低</string>
+    <string name="intensity_medium">中等</string>
+    <string name="intensity_high">高</string>
+    <string name="intensity_very_high">很高</string>
+
+    <!-- ==================== Labels ==================== -->
+    <string name="label_emotion">情绪</string>
+    <string name="label_weather">天气</string>
+    <string name="label_activity">活动</string>
+    <string name="label_note">备注</string>
+
+    <!-- ==================== Weather ==================== -->
+    <string name="weather_label">天气</string>
+    <string name="weather_sunny">晴天</string>
+    <string name="weather_cloudy">多云</string>
+    <string name="weather_rainy">雨天</string>
+    <string name="weather_snowy">雪天</string>
+
+    <!-- ==================== Activities ==================== -->
+    <string name="activities_label">活动</string>
+    <string name="activity_work">工作</string>
+    <string name="activity_exercise">运动</string>
+    <string name="activity_entertainment">娱乐</string>
+    <string name="activity_social">社交</string>
+    <string name="activity_reading">阅读</string>
+    <string name="activity_rest">休息</string>
+    <string name="activity_shopping">购物</string>
+    <string name="activity_dining">用餐</string>
+    <string name="activity_study">学习</string>
+    <string name="activity_home">居家</string>
+    <string name="activity_friends">朋友</string>
+
+    <!-- ==================== Common Actions ==================== -->
     <string name="save">保存</string>
     <string name="cancel">取消</string>
     <string name="delete">删除</string>
     <string name="confirm">确认</string>
     <string name="ok">确定</string>
-    <string name="yes">是</string>
-    <string name="no">否</string>
     <string name="done">完成</string>
+    <string name="close">关闭</string>
     <string name="back">返回</string>
     <string name="next">下一步</string>
-    <string name="close">关闭</string>
-
-    <!-- Date and Time -->
-    <string name="today">今天</string>
-    <string name="yesterday">昨天</string>
-    <string name="this_month">本月</string>
-    <string name="select_date">选择日期</string>
-    <string name="select_time">选择时间</string>
-
-    <!-- Date Range Errors -->
-    <string name="date_range_error_start_after_end">开始日期不能晚于结束日期</string>
-    <string name="date_range_error_start_future">开始日期不能是未来日期</string>
-    <string name="date_range_error_end_future">结束日期不能是未来日期</string>
-
-    <!-- Error Messages -->
-    <string name="error_generic">出现错误</string>
-    <string name="error_no_emotion_selected">请选择一种情绪</string>
-    <string name="error_save_failed">保存记录失败</string>
-    <string name="error_delete_failed">删除记录失败</string>
-    <string name="error_load_data_failed">加载数据失败</string>
-    <string name="error_network_failed">网络连接失败，请检查网络后重试</string>
-    <string name="error_timeout">请求超时，请重试</string>
-    <string name="error_data_save_failed">数据保存失败，请重试</string>
-    <string name="error_invalid_input">输入数据无效，请检查后重试</string>
-    <string name="error_app_state">应用状态异常，请重启应用后重试</string>
-    <string name="error_system">系统异常，请重试</string>
-    <string name="error_add_emotion_failed">添加情绪失败：%1$s</string>
-    <string name="error_update_emotion_failed">更新情绪失败：%1$s</string>
-    <string name="error_delete_emotion_failed">删除情绪失败：%1$s</string>
-
-    <!-- Validation Messages -->
-    <string name="validation_select_emotion">请选择情绪类型</string>
-    <string name="validation_intensity_range">情绪强度必须在1-5之间</string>
-    <string name="validation_note_too_long">备注不能超过%1$d个字符</string>
-
-    <!-- UI Labels -->
-    <string name="label_emotion">情绪</string>
-    <string name="label_weather">天气</string>
-    <string name="label_activity">活动</string>
-    <string name="label_note">备注</string>
-    <string name="label_positive">积极</string>
-    <string name="label_happy">开心</string>
-    <string name="label_click_select_start_date">点击选择开始日期</string>
-
-    <!-- Date Formats -->
-    <string name="date_format_full_cn">yyyy年M月d日</string>
-    <string name="date_format_full">yyyy年M月d日</string>
-
-    <!-- Confirmation Messages -->
-    <string name="confirm_delete_record">确定要删除这条记录吗？</string>
-
-    <!-- Notifications -->
-    <string name="notification_title">心情签到</string>
-    <string name="notification_text">今天心情如何？</string>
-
-    <!-- Permissions -->
-    <string name="notification_permission_title">允许通知</string>
-    <string name="notification_permission_message">为了发送每日提醒，请为本应用开启通知。</string>
-    <string name="exact_alarm_permission_title">允许精确闹钟</string>
-    <string name="exact_alarm_permission_message">为了按时触发提醒，请在系统设置中允许精确闹钟。</string>
-    <string name="open_settings">打开设置</string>
-
-    <!-- Permission Dialogs -->
-    <string name="permission_required">需要权限</string>
-    <string name="permission_go_to_settings">前往设置</string>
-    <string name="permission_cancel">取消</string>
-
-    <!-- Permission Types -->
-    <string name="permission_notification_title">需要通知权限</string>
-    <string name="permission_notification_rationale">为了给您发送每日提醒，我们需要显示通知的权限。请在设置中启用通知。</string>
-    <string name="permission_exact_alarm_title">需要精确闹钟权限</string>
-    <string name="permission_exact_alarm_rationale">为了准时安排每日提醒，我们需要设置精确闹钟的权限。请在设置中启用此权限。</string>
-    <string name="permission_default_rationale">应用需要此权限才能正常运行。请在设置中授予权限。</string>
-
-    <!-- App Updates -->
-    <string name="app_update_available">有新的更新可用</string>
-    <string name="app_update_downloaded">更新已下载，准备安装</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
     <string name="update">更新</string>
     <string name="install">安装</string>
+    <string name="open_settings">打开设置</string>
+    <string name="app_update_available">有可用更新</string>
+    <string name="app_update_downloaded">更新已下载</string>
 
-    <!-- Accessibility -->
-    <string name="cd_emotion_button">情绪选择按钮</string>
-    <string name="cd_intensity_slider">情绪强度滑块</string>
-    <string name="cd_add_note">添加备注按钮</string>
-    <string name="cd_save_record">保存记录按钮</string>
-    <string name="cd_chart_emotion_counts">按情绪的次数柱状图</string>
-    <string name="cd_chart_distribution">情绪分布饼图</string>
+    <!-- ==================== Date & Time ==================== -->
+    <string name="select_date">选择日期</string>
+    <string name="select_time">选择时间</string>
+    <string name="select_start_date">选择开始日期</string>
+    <string name="select_end_date">选择结束日期</string>
+    <string name="date_format_full">yyyy年M月d日</string>
+    <string name="date_format_full_cn">M月d日</string>
+    <string name="date_format_short">yyyy/MM/dd</string>
+    <string name="time_format">HH:mm</string>
 
-    <!-- Statistics Page -->
-    <string name="days_tracked">记录天数</string>
-    <string name="emotion_trend">情绪趋势</string>
-    <string name="daily_average">日均记录</string>
-    <string name="records_per_day">条记录/天</string>
-    <string name="most_common_emotion">最常见情绪</string>
-    <string name="times_recorded">次记录</string>
+    <!-- ==================== Validation Messages ==================== -->
+    <string name="validation_select_emotion">请选择一个情绪</string>
+    <string name="validation_intensity_range">强度必须在1到5之间</string>
+    <string name="validation_note_too_long">备注太长</string>
+    <string name="validation_date_range_invalid">开始日期必须早于结束日期</string>
+    <string name="validation_date_future">日期不能在未来</string>
+    <string name="date_range_error_start_after_end">开始日期必须早于结束日期</string>
+    <string name="date_range_error_start_future">开始日期不能在未来</string>
+    <string name="date_range_error_end_future">结束日期不能在未来</string>
+
+    <!-- ==================== Error Messages ==================== -->
+    <string name="error_generic">出了点问题</string>
+    <string name="error_save_failed">保存失败</string>
+    <string name="error_delete_failed">删除失败</string>
+    <string name="error_load_failed">加载数据失败</string>
+    <string name="error_network_failed">网络错误</string>
+    <string name="error_timeout">请求超时</string>
+    <string name="error_invalid_input">输入无效</string>
+    <string name="error_system">系统错误</string>
+    <string name="error_data_save_failed">数据保存失败</string>
+    <string name="error_app_state">应用状态错误</string>
+    <string name="error_add_emotion_failed">添加情绪失败</string>
+    <string name="error_update_emotion_failed">更新情绪失败</string>
+    <string name="error_delete_emotion_failed">删除情绪失败</string>
+
+    <!-- ==================== Confirmation Messages ==================== -->
+    <string name="confirm_delete_record">删除这条心情记录？</string>
+    <string name="confirm_delete_emotion">删除这个自定义情绪？</string>
+    <string name="confirm_discard_changes">放弃未保存的更改？</string>
+
+    <!-- ==================== Notifications ==================== -->
+    <string name="notification_channel_name">心情提醒</string>
+    <string name="notification_channel_desc">每日提醒记录心情</string>
+    <string name="notification_title">你感觉怎么样？</string>
+    <string name="notification_message">花点时间记录你的心情</string>
+    <string name="notification_text">花点时间记录你的心情</string>
+    <string name="daily_reminder_description">每天提醒你记录心情</string>
+
+    <!-- ==================== Permissions ==================== -->
+    <string name="permission_notification_title">启用通知</string>
+    <string name="permission_notification_message">允许通知以接收心情提醒</string>
+    <string name="permission_exact_alarm_title">启用精确闹钟</string>
+    <string name="permission_exact_alarm_message">允许精确闹钟以准时提醒</string>
+    <string name="permission_required">需要权限</string>
+    <string name="permission_denied">权限被拒绝</string>
+    <string name="permission_go_to_settings">前往设置</string>
+    <string name="permission_cancel">取消</string>
+    <string name="permission_notification_rationale">我们需要通知权限来向您发送每日记录心情的提醒。请在设置中启用通知。</string>
+    <string name="permission_exact_alarm_rationale">我们需要精确闹钟权限来在准确的时间安排提醒。请在设置中启用此权限。</string>
+    <string name="permission_default_rationale">此权限是应用正常运行所必需的。请在设置中授予权限。</string>
+
+    <!-- ==================== Accessibility ==================== -->
+    <string name="cd_emotion_icon">情绪图标</string>
+    <string name="cd_intensity_slider">强度滑块</string>
+    <string name="cd_calendar_day">日历日期 %s</string>
+    <string name="cd_delete_button">删除按钮</string>
+    <string name="cd_back_button">返回按钮</string>
+    <string name="cd_settings_button">设置按钮</string>
+    <string name="cd_add_button">添加按钮</string>
+    <string name="cd_chart">统计图表</string>
+
+    <!-- ==================== Quick Record ==================== -->
+    <string name="quick_record_title">快速记录</string>
+    <string name="weather_and_activities">天气与活动</string>
+    <string name="note_optional">备注（可选）</string>
+    <string name="label_click_select_date">点击选择日期</string>
+    <string name="label_click_select_time">点击选择时间</string>
+    <string name="label_click_select_end_date">点击选择结束日期</string>
 </resources>

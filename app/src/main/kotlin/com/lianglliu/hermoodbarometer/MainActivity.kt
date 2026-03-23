@@ -29,29 +29,23 @@ import com.lianglliu.hermoodbarometer.util.InAppUpdateManager
 import com.lianglliu.hermoodbarometer.util.TimeZoneMonitor
 import com.lianglliu.hermoodbarometer.utils.isSystemInDarkTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import kotlin.getValue
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import kotlin.getValue
 
-/**
- * 现代化主Activity
- * 集成了Edge-to-Edge设计和性能优化
- */
+/** 现代化主Activity 集成了Edge-to-Edge设计和性能优化 */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var analyticsHelper: AnalyticsHelper
+    @Inject lateinit var analyticsHelper: AnalyticsHelper
 
-    @Inject
-    lateinit var timeZoneMonitor: TimeZoneMonitor
+    @Inject lateinit var timeZoneMonitor: TimeZoneMonitor
 
-    @Inject
-    lateinit var inAppUpdateManager: InAppUpdateManager
+    @Inject lateinit var inAppUpdateManager: InAppUpdateManager
 
     private val viewModel: MainActivityViewModel by viewModels()
 
@@ -61,38 +55,42 @@ class MainActivity : AppCompatActivity() {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        var themeSettings by mutableStateOf(
-            ThemeSettings(
-                darkTheme = resources.configuration.isSystemInDarkTheme,
-                dynamicTheme = Loading.shouldUseDynamicTheming,
-            ),
-        )
+        var themeSettings by
+            mutableStateOf(
+                ThemeSettings(
+                    darkTheme = resources.configuration.isSystemInDarkTheme,
+                    dynamicTheme = Loading.shouldUseDynamicTheming,
+                )
+            )
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                combine(
-                    isSystemInDarkTheme(),
-                    viewModel.uiState,
-                ) { systemDark, uiState ->
-                    ThemeSettings(
-                        darkTheme = uiState.shouldUseDarkTheme(systemDark),
-                        dynamicTheme = uiState.shouldUseDynamicTheming,
-                    )
-                }
+                combine(isSystemInDarkTheme(), viewModel.uiState) { systemDark, uiState ->
+                        ThemeSettings(
+                            darkTheme = uiState.shouldUseDarkTheme(systemDark),
+                            dynamicTheme = uiState.shouldUseDynamicTheming,
+                        )
+                    }
                     .onEach { themeSettings = it }
                     .map { it.darkTheme }
                     .distinctUntilChanged()
                     .collect { darkTheme ->
                         trace("csEdgeToEdge") {
                             enableEdgeToEdge(
-                                statusBarStyle = SystemBarStyle.auto(
-                                    lightScrim = Color.Transparent.toArgb(),
-                                    darkScrim = Color.Transparent.toArgb(),
-                                ) { darkTheme },
-                                navigationBarStyle = SystemBarStyle.auto(
-                                    lightScrim = Color.Transparent.toArgb(),
-                                    darkScrim = Color.Transparent.toArgb(),
-                                ) { darkTheme },
+                                statusBarStyle =
+                                    SystemBarStyle.auto(
+                                        lightScrim = Color.Transparent.toArgb(),
+                                        darkScrim = Color.Transparent.toArgb(),
+                                    ) {
+                                        darkTheme
+                                    },
+                                navigationBarStyle =
+                                    SystemBarStyle.auto(
+                                        lightScrim = Color.Transparent.toArgb(),
+                                        darkScrim = Color.Transparent.toArgb(),
+                                    ) {
+                                        darkTheme
+                                    },
                             )
                         }
                     }
@@ -102,10 +100,11 @@ class MainActivity : AppCompatActivity() {
         splashScreen.setKeepOnScreenCondition { viewModel.uiState.value.shouldKeepSplashScreen() }
 
         setContent {
-            val appState = rememberAppState(
-                timeZoneMonitor = timeZoneMonitor,
-                inAppUpdateManager = inAppUpdateManager,
-            )
+            val appState =
+                rememberAppState(
+                    timeZoneMonitor = timeZoneMonitor,
+                    inAppUpdateManager = inAppUpdateManager,
+                )
 
             val currentTimeZone by appState.currentTimeZone.collectAsStateWithLifecycle()
 
@@ -124,7 +123,4 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-data class ThemeSettings(
-    val darkTheme: Boolean,
-    val dynamicTheme: Boolean,
-)
+data class ThemeSettings(val darkTheme: Boolean, val dynamicTheme: Boolean)

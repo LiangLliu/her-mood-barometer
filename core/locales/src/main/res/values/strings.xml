@@ -1,6 +1,7 @@
 <resources>
-    <!-- ==================== App Basic ==================== -->
+    <!-- ==================== App Basic Info ==================== -->
     <string name="app_name">Her Mood Barometer</string>
+    <string name="app_description">Record every mood in life</string>
 
     <!-- ==================== Navigation ==================== -->
     <string name="nav_record">Record</string>
@@ -9,170 +10,89 @@
     <string name="nav_calendar">Calendar</string>
     <string name="nav_settings">Settings</string>
 
-    <!-- ==================== Record Screen ==================== -->
+    <!-- ==================== Record Module ==================== -->
+    <string name="record_title">Record Mood</string>
+    <string name="record_subtitle">How are you feeling now?</string>
     <string name="record_mood">Record Mood</string>
-    <string name="record_title">Record</string>
     <string name="record_emotion">Record Emotion</string>
+    <string name="how_feeling_now">How are you feeling now?</string>
     <string name="select_emotion">Select Emotion</string>
-    <string name="emotion_intensity">Emotion Intensity: %s</string>
+    <string name="emotion_intensity">Emotion Intensity</string>
     <string name="add_note">Add Note</string>
-    <string name="note_placeholder">How are you feeling right now?</string>
-    <string name="save_record">Save Record</string>
-    <string name="record_saved_successfully">Record saved successfully!</string>
+    <string name="note_placeholder">What\'s on your mind?</string>
+    <string name="save_record">Save</string>
+    <string name="record_saved_successfully">Mood saved successfully</string>
 
-    <!-- Emotion Types -->
-    <string name="emotion_happy">Happy</string>
-    <string name="emotion_excited">Excited</string>
-    <string name="emotion_calm">Calm</string>
-    <string name="emotion_grateful">Grateful</string>
-    <string name="emotion_sad">Sad</string>
-    <string name="emotion_anxious">Anxious</string>
-    <string name="emotion_angry">Angry</string>
-    <string name="emotion_lonely">Lonely</string>
-    <string name="emotion_tired">Tired</string>
-    <string name="emotion_confused">Confused</string>
-    <string name="emotion_thinking">Thinking</string>
-    <string name="emotion_confident">Confident</string>
-    <string name="emotion_celebrating">Celebrating</string>
-    <string name="emotion_fearful">Fearful</string>
-    <string name="emotion_dissatisfied">Dissatisfied</string>
-    <string name="emotion_stressed">Stressed</string>
-    <string name="emotion_wronged">Wronged</string>
-    <string name="emotion_satisfied">Satisfied</string>
-    <string name="emotion_helpless">Helpless</string>
-    <string name="emotion_embarrassed">Embarrassed</string>
-    <string name="emotion_silent">Silent</string>
-    <string name="emotion_touched">Touched</string>
+    <!-- ==================== Diary Module ==================== -->
+    <string name="diary_title">Mood Diary</string>
+    <string name="diary_empty">No mood records yet</string>
+    <string name="diary_empty_hint">Start recording your moods</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
 
-    <!-- Emotion Descriptions -->
-    <string name="emotion_happy_desc">Feeling joyful and content</string>
-    <string name="emotion_excited_desc">Feeling thrilled and energetic</string>
-    <string name="emotion_calm_desc">Feeling peaceful and relaxed</string>
-    <string name="emotion_grateful_desc">Feeling thankful and appreciative</string>
-    <string name="emotion_sad_desc">Feeling sorrow or unhappy</string>
-    <string name="emotion_anxious_desc">Feeling nervous or worried</string>
-    <string name="emotion_angry_desc">Feeling anger or frustration</string>
-    <string name="emotion_lonely_desc">Feeling isolated or alone</string>
-    <string name="emotion_tired_desc">Feeling exhausted or sleepy</string>
-    <string name="emotion_confused_desc">Feeling puzzled or uncertain</string>
-    <string name="emotion_thinking_desc">Deep in thought or contemplation</string>
-    <string name="emotion_confident_desc">Full of confidence and certainty</string>
-    <string name="emotion_celebrating_desc">Celebrating achievements or happy events</string>
-    <string name="emotion_fearful_desc">Feeling scared or afraid</string>
-    <string name="emotion_dissatisfied_desc">Feeling dissatisfied with things</string>
-    <string name="emotion_stressed_desc">Feeling pressure or tension</string>
-    <string name="emotion_wronged_desc">Feeling wronged or treated unfairly</string>
-    <string name="emotion_satisfied_desc">Feeling satisfied and content</string>
-    <string name="emotion_helpless_desc">Feeling helpless or powerless</string>
-    <string name="emotion_embarrassed_desc">Feeling embarrassed or awkward</string>
-    <string name="emotion_silent_desc">Choosing to remain silent</string>
-    <string name="emotion_touched_desc">Feeling emotionally moved</string>
-
-    <!-- Weather -->
-    <string name="weather_sunny">Sunny</string>
-    <string name="weather_cloudy">Cloudy</string>
-    <string name="weather_rainy">Rainy</string>
-    <string name="weather_snowy">Snowy</string>
-
-    <!-- Activities -->
-    <string name="activity_work">Work</string>
-    <string name="activity_exercise">Exercise</string>
-    <string name="activity_reading">Reading</string>
-    <string name="activity_social">Social</string>
-    <string name="activity_entertainment">Entertainment</string>
-    <string name="activity_rest">Rest</string>
-    <string name="activity_home">Home</string>
-    <string name="activity_friends">Friends</string>
-    <string name="activity_shopping">Shopping</string>
-    <string name="activity_dining">Dining</string>
-    <string name="activity_study">Study</string>
-
-    <!-- Emotion Intensity -->
-    <string name="intensity_very_low">Very Low</string>
-    <string name="intensity_low">Low</string>
-    <string name="intensity_medium">Medium</string>
-    <string name="intensity_high">High</string>
-    <string name="intensity_very_high">Very High</string>
-
-    <!-- ==================== Statistics Screen ==================== -->
-    <string name="statistics">Statistics</string>
+    <!-- ==================== Statistics Module ==================== -->
+    <string name="statistics_title">Statistics</string>
     <string name="emotion_overview">Emotion Overview</string>
+    <string name="label_positive">Positive</string>
+    <string name="most_frequent_emotion">Most Frequent Emotion</string>
+    <string name="mood_trends">Mood Trends</string>
+    <string name="chart_emotion_counts">Emotion Counts</string>
+    <string name="chart_emotion_trend">Emotion Trend</string>
+    <string name="label_click_select_start_date">Click to select start date</string>
     <string name="total_records">Total Records</string>
     <string name="average_mood">Average Mood</string>
-    <string name="most_frequent_emotion">Most Frequent Emotion</string>
+    <string name="days_tracked">Days Tracked</string>
+    <string name="emotion_distribution">Emotion Distribution</string>
+    <string name="emotion_trend">Emotion Trend</string>
+    <string name="daily_average">Daily Average</string>
+    <string name="records_per_day">records per day</string>
+    <string name="most_common_emotion">Most Common Emotion</string>
+    <string name="times_recorded">times</string>
 
     <!-- Time Range -->
     <string name="time_range">Time Range</string>
-    <string name="time_range_selector_label">Select statistics time range</string>
     <string name="last_week">Last Week</string>
     <string name="last_month">Last Month</string>
     <string name="last_3_months">Last 3 Months</string>
-    <string name="last_six_months">Last Six Months</string>
+    <string name="last_six_months">Last 6 Months</string>
     <string name="last_year">Last Year</string>
-    <string name="custom_range">Custom Range</string>
+    <string name="custom_range">Custom</string>
     <string name="start_date">Start Date</string>
     <string name="end_date">End Date</string>
-    <string name="select_start_date">Select Start Date</string>
-    <string name="select_end_date">Select End Date</string>
 
     <!-- Chart Related -->
+    <string name="no_data">No data available</string>
+    <string name="chart_empty_hint">Start recording to see statistics</string>
     <string name="chart_type">Chart Type</string>
     <string name="bar_chart">Bar Chart</string>
     <string name="line_chart">Line Chart</string>
-    <string name="pie_chart">Pie Chart</string>
-    <string name="emotion_distribution">Emotion Distribution</string>
-    <string name="emotion_trend_change">Emotion Trend Change</string>
-    <string name="emotion_patterns">Emotion Patterns</string>
-    <string name="emotion_comparison">Emotion Comparison</string>
-    <string name="no_data">No data available</string>
-    <string name="chart_empty_hint">Start recording moods to see your charts</string>
-    <string name="chart_emotion_counts">Emotion Counts</string>
-    <string name="chart_emotion_trend">Emotion Trend</string>
-    <string name="mood_trends">Mood Trends</string>
+    <string name="chart_explanation_distribution_title">Emotion Distribution</string>
+    <string name="chart_explanation_distribution_content">Shows the frequency of each emotion type</string>
+    <string name="chart_insight_distribution">Understand your most common emotional states</string>
+    <string name="chart_explanation_trend_title">Emotion Trends</string>
+    <string name="chart_explanation_trend_content">Tracks how your emotions change over time</string>
+    <string name="chart_insight_trend">Identify patterns and emotional progress</string>
+    <string name="chart_explanation_patterns_title">Emotion Patterns</string>
+    <string name="chart_explanation_patterns_content">Reveals recurring emotional patterns</string>
+    <string name="chart_insight_patterns">Discover your emotional rhythms</string>
+    <string name="chart_explanation_comparison_title">Period Comparison</string>
+    <string name="chart_explanation_comparison_content">Compare emotions across different time periods</string>
+    <string name="chart_insight_comparison">See how your emotional state evolves</string>
+    <string name="cd_chart_emotion_counts">Emotion counts chart</string>
+    <string name="cd_chart_emotion_trend">Emotion trend chart</string>
 
-    <!-- Chart Explanations -->
-    <string name="chart_explanation_distribution_title">What is Emotion Distribution?</string>
-    <string name="chart_explanation_distribution_content">Emotion distribution shows the proportion of various emotions in your records within the selected time range. This helps you understand your emotional patterns, which emotions are your primary emotions, and which emotions appear less frequently.</string>
-    <string name="chart_insight_distribution">According to your data, happy emotion accounts for the highest proportion (40%), indicating that you are generally a positive and optimistic person.</string>
+    <!-- ==================== Calendar Module ==================== -->
+    <string name="calendar_title">Calendar</string>
+    <string name="calendar_month_format">MMMM yyyy</string>
 
-    <string name="chart_explanation_trend_title">What is Emotion Trend?</string>
-    <string name="chart_explanation_trend_content">Emotion trend shows how your emotional intensity changes over time. By observing the trend line, you can understand the fluctuations of your emotions, identify peaks and valleys in your emotions, and possible factors that may affect your emotions.</string>
-    <string name="chart_insight_trend">Your emotion trend shows that emotions peak on Wednesdays, while emotions are lower on Tuesdays. This may be related to your work schedule or social activities.</string>
-
-    <string name="chart_explanation_patterns_title">What are Emotion Patterns?</string>
-    <string name="chart_explanation_patterns_content">Emotion patterns are regularities and trends discovered by analyzing your emotional data. These patterns may be related to time, weather, weekdays, and other factors, helping you better understand the patterns of your emotional changes.</string>
-    <string name="chart_insight_patterns">Your data shows that emotions are usually more positive in the morning, while evenings are calmer. This indicates that your emotional changes have certain daily patterns.</string>
-
-    <string name="chart_explanation_comparison_title">What is Emotion Comparison?</string>
-    <string name="chart_explanation_comparison_content">Emotion comparison shows the proportion changes of various emotions in different periods (such as this week vs. last week). Through comparative analysis, you can understand the trend of your emotional changes and identify improvements or deteriorations in your emotions.</string>
-    <string name="chart_insight_comparison" formatted="false">Compared to last week, your happy emotion increased by 10% this week, while calm emotion decreased by 10%. This may indicate that you experienced more exciting things this week.</string>
-
-    <!-- Pattern Cards -->
-    <string name="morning_pattern">Morning Pattern</string>
-    <string name="evening_pattern">Evening Pattern</string>
-    <string name="weekday_pattern">Weekday Pattern</string>
-    <string name="weather_pattern">Weather Impact</string>
-    <string name="morning_happiest">Happiest in Morning</string>
-    <string name="evening_calmest">Calmest in Evening</string>
-    <string name="weekday_most_excited">Most Excited on Weekdays</string>
-    <string name="sunny_happier">Happier on Sunny Days</string>
-
-    <!-- Comparison Table -->
-    <string name="this_week">This Week</string>
-    <string name="last_week_label">Last Week</string>
-    <string name="change">Change</string>
-
-    <!-- ==================== Settings Screen ==================== -->
+    <!-- ==================== Settings Module ==================== -->
     <string name="settings">Settings</string>
+    <string name="settings_title">Settings</string>
+    <string name="statistics">Statistics</string>
 
     <!-- Appearance -->
     <string name="appearance">Appearance</string>
     <string name="language">Language</string>
-    <string name="language_en">English</string>
-    <string name="language_zh">简体中文</string>
-    <string name="language_zh_tw">繁體中文</string>
-    <string name="language_ja">日本語</string>
-    <string name="language_ko">한국어</string>
     <string name="theme">Theme</string>
     <string name="system_theme">System</string>
     <string name="light_theme">Light</string>
@@ -182,143 +102,228 @@
     <!-- Notifications -->
     <string name="notifications">Notifications</string>
     <string name="daily_reminder">Daily Reminder</string>
-    <string name="daily_reminder_description">Daily mood recording reminder</string>
+    <string name="daily_reminder_desc">Get reminded to record your mood</string>
     <string name="reminder_time">Reminder Time</string>
-
-    <!-- About -->
-    <string name="about">About</string>
-    <string name="about_app">About App</string>
-    <string name="about_app_description">Her Mood Barometer - Record every mood in life</string>
-    <string name="licenses">Licenses</string>
-    <string name="licenses_description">Open source licenses</string>
-    <string name="version">Version</string>
 
     <!-- Emotion Management -->
     <string name="emotion_management">Emotion Management</string>
     <string name="manage_emotions">Manage Emotions</string>
-    <string name="manage_emotions_desc">Add custom emotions</string>
+    <string name="manage_emotions_desc">Add or edit custom emotions</string>
     <string name="add_emotion">Add Emotion</string>
     <string name="edit_emotion">Edit Emotion</string>
     <string name="delete_emotion">Delete Emotion</string>
     <string name="emotion_name">Emotion Name</string>
-    <string name="emotion_description">Emotion Description</string>
-    <string name="no_user_emotions">No custom emotions</string>
-    <string name="confirm_delete_emotion">Are you sure you want to delete this emotion?</string>
+    <string name="emotion_emoji">Emoji</string>
+    <string name="emotion_description">Description</string>
+    <string name="no_custom_emotions">No custom emotions yet</string>
+    <string name="no_user_emotions">No user emotions yet</string>
 
-    <!-- ==================== Quick Record Dialog ==================== -->
-    <string name="how_feeling_now">How are you feeling now?</string>
-    <string name="weather_and_activities">Weather &amp; Activities</string>
-    <string name="note_optional">Note (Optional)</string>
+    <!-- About -->
+    <string name="about">About</string>
+    <string name="about_app">About App</string>
+    <string name="about_app_description">Her Mood Barometer - Track your emotions and moods</string>
+    <string name="version">Version</string>
+    <string name="licenses">Open Source Licenses</string>
+    <string name="licenses_description">View open source licenses</string>
 
-    <!-- ==================== Diary Screen ==================== -->
-    <string name="diary_empty">No mood records yet</string>
-    <string name="diary_empty_hint">Tap the + button to record your first mood</string>
+    <!-- ==================== Emotions ==================== -->
+    <!-- Positive Emotions -->
+    <string name="emotion_happy">Happy</string>
+    <string name="emotion_happy_desc">Feeling joyful and content</string>
 
-    <!-- ==================== Common ==================== -->
-    <!-- Actions -->
+    <string name="emotion_excited">Excited</string>
+    <string name="emotion_excited_desc">Feeling thrilled and energetic</string>
+
+    <string name="emotion_calm">Calm</string>
+    <string name="emotion_calm_desc">Feeling peaceful and relaxed</string>
+
+    <string name="emotion_grateful">Grateful</string>
+    <string name="emotion_grateful_desc">Feeling thankful and appreciative</string>
+
+    <string name="emotion_confident">Confident</string>
+    <string name="emotion_confident_desc">Feeling self-assured and capable</string>
+
+    <string name="emotion_satisfied">Satisfied</string>
+    <string name="emotion_satisfied_desc">Feeling content and fulfilled</string>
+
+    <string name="emotion_touched">Touched</string>
+    <string name="emotion_touched_desc">Feeling emotionally moved</string>
+
+    <string name="emotion_celebrating">Celebrating</string>
+    <string name="emotion_celebrating_desc">Feeling festive and joyous</string>
+
+    <!-- Negative Emotions -->
+    <string name="emotion_sad">Sad</string>
+    <string name="emotion_sad_desc">Feeling sorrow or unhappy</string>
+
+    <string name="emotion_anxious">Anxious</string>
+    <string name="emotion_anxious_desc">Feeling nervous or worried</string>
+
+    <string name="emotion_angry">Angry</string>
+    <string name="emotion_angry_desc">Feeling anger or frustration</string>
+
+    <string name="emotion_lonely">Lonely</string>
+    <string name="emotion_lonely_desc">Feeling isolated or alone</string>
+
+    <string name="emotion_fearful">Fearful</string>
+    <string name="emotion_fearful_desc">Feeling scared or afraid</string>
+
+    <string name="emotion_stressed">Stressed</string>
+    <string name="emotion_stressed_desc">Feeling pressure or tension</string>
+
+    <string name="emotion_dissatisfied">Dissatisfied</string>
+    <string name="emotion_dissatisfied_desc">Feeling discontent or unhappy</string>
+
+    <string name="emotion_helpless">Helpless</string>
+    <string name="emotion_helpless_desc">Feeling powerless or unable to act</string>
+
+    <string name="emotion_embarrassed">Embarrassed</string>
+    <string name="emotion_embarrassed_desc">Feeling self-conscious or ashamed</string>
+
+    <string name="emotion_wronged">Wronged</string>
+    <string name="emotion_wronged_desc">Feeling unfairly treated</string>
+
+    <!-- Neutral Emotions -->
+    <string name="emotion_tired">Tired</string>
+    <string name="emotion_tired_desc">Feeling exhausted or worn out</string>
+
+    <string name="emotion_confused">Confused</string>
+    <string name="emotion_confused_desc">Feeling puzzled or uncertain</string>
+
+    <string name="emotion_thinking">Thinking</string>
+    <string name="emotion_thinking_desc">Deep in thought or reflection</string>
+
+    <string name="emotion_silent">Silent</string>
+    <string name="emotion_silent_desc">Preferring quiet contemplation</string>
+
+    <!-- Emotion Intensity -->
+    <string name="intensity_very_low">Very Low</string>
+    <string name="intensity_low">Low</string>
+    <string name="intensity_medium">Medium</string>
+    <string name="intensity_high">High</string>
+    <string name="intensity_very_high">Very High</string>
+
+    <!-- ==================== Labels ==================== -->
+    <string name="label_emotion">Emotion</string>
+    <string name="label_weather">Weather</string>
+    <string name="label_activity">Activity</string>
+    <string name="label_note">Note</string>
+
+    <!-- ==================== Weather ==================== -->
+    <string name="weather_label">Weather</string>
+    <string name="weather_sunny">Sunny</string>
+    <string name="weather_cloudy">Cloudy</string>
+    <string name="weather_rainy">Rainy</string>
+    <string name="weather_snowy">Snowy</string>
+
+    <!-- ==================== Activities ==================== -->
+    <string name="activities_label">Activities</string>
+    <string name="activity_work">Work</string>
+    <string name="activity_exercise">Exercise</string>
+    <string name="activity_entertainment">Entertainment</string>
+    <string name="activity_social">Social</string>
+    <string name="activity_reading">Reading</string>
+    <string name="activity_rest">Rest</string>
+    <string name="activity_shopping">Shopping</string>
+    <string name="activity_dining">Dining</string>
+    <string name="activity_study">Study</string>
+    <string name="activity_home">Home</string>
+    <string name="activity_friends">Friends</string>
+
+    <!-- ==================== Common Actions ==================== -->
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="confirm">Confirm</string>
     <string name="ok">OK</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
     <string name="done">Done</string>
+    <string name="close">Close</string>
     <string name="back">Back</string>
     <string name="next">Next</string>
-    <string name="close">Close</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="update">Update</string>
+    <string name="install">Install</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="app_update_available">Update available</string>
+    <string name="app_update_downloaded">Update downloaded</string>
 
-    <!-- Date and Time -->
-    <string name="today">Today</string>
-    <string name="yesterday">Yesterday</string>
-    <string name="this_month">This Month</string>
+    <!-- ==================== Date & Time ==================== -->
     <string name="select_date">Select Date</string>
     <string name="select_time">Select Time</string>
+    <string name="select_start_date">Select Start Date</string>
+    <string name="select_end_date">Select End Date</string>
+    <string name="date_format_full">MMMM d, yyyy</string>
+    <string name="date_format_full_cn">MMM d, yyyy</string>
+    <string name="date_format_short">MM/dd/yyyy</string>
+    <string name="time_format">HH:mm</string>
 
-    <!-- Date Range Errors -->
-    <string name="date_range_error_start_after_end">Start date cannot be later than end date</string>
+    <!-- ==================== Validation Messages ==================== -->
+    <string name="validation_select_emotion">Please select an emotion</string>
+    <string name="validation_intensity_range">Intensity must be between 1 and 5</string>
+    <string name="validation_note_too_long">Note is too long</string>
+    <string name="validation_date_range_invalid">Start date must be before end date</string>
+    <string name="validation_date_future">Date cannot be in the future</string>
+    <string name="date_range_error_start_after_end">Start date must be before end date</string>
     <string name="date_range_error_start_future">Start date cannot be in the future</string>
     <string name="date_range_error_end_future">End date cannot be in the future</string>
 
-    <!-- Error Messages -->
+    <!-- ==================== Error Messages ==================== -->
     <string name="error_generic">Something went wrong</string>
-    <string name="error_no_emotion_selected">Please select an emotion</string>
-    <string name="error_save_failed">Failed to save record</string>
-    <string name="error_delete_failed">Failed to delete record</string>
-    <string name="error_load_data_failed">Failed to load data</string>
-    <string name="error_network_failed">Network connection failed, please check your network and try again</string>
-    <string name="error_timeout">Request timeout, please try again</string>
-    <string name="error_data_save_failed">Failed to save data, please try again</string>
-    <string name="error_invalid_input">Invalid input data, please check and try again</string>
-    <string name="error_app_state">App state error, please restart the app and try again</string>
-    <string name="error_system">System error, please try again</string>
-    <string name="error_add_emotion_failed">Failed to add emotion: %1$s</string>
-    <string name="error_update_emotion_failed">Failed to update emotion: %1$s</string>
-    <string name="error_delete_emotion_failed">Failed to delete emotion: %1$s</string>
+    <string name="error_save_failed">Failed to save</string>
+    <string name="error_delete_failed">Failed to delete</string>
+    <string name="error_load_failed">Failed to load data</string>
+    <string name="error_network_failed">Network error</string>
+    <string name="error_timeout">Request timeout</string>
+    <string name="error_invalid_input">Invalid input</string>
+    <string name="error_system">System error</string>
+    <string name="error_data_save_failed">Failed to save data</string>
+    <string name="error_app_state">Application state error</string>
+    <string name="error_add_emotion_failed">Failed to add emotion</string>
+    <string name="error_update_emotion_failed">Failed to update emotion</string>
+    <string name="error_delete_emotion_failed">Failed to delete emotion</string>
 
-    <!-- Validation Messages -->
-    <string name="validation_select_emotion">Please select an emotion type</string>
-    <string name="validation_intensity_range">Emotion intensity must be between 1 and 5</string>
-    <string name="validation_note_too_long">Note cannot exceed %1$d characters</string>
+    <!-- ==================== Confirmation Messages ==================== -->
+    <string name="confirm_delete_record">Delete this mood record?</string>
+    <string name="confirm_delete_emotion">Delete this custom emotion?</string>
+    <string name="confirm_discard_changes">Discard unsaved changes?</string>
 
-    <!-- UI Labels -->
-    <string name="label_emotion">Emotion</string>
-    <string name="label_weather">Weather</string>
-    <string name="label_activity">Activity</string>
-    <string name="label_note">Note</string>
-    <string name="label_positive">Positive</string>
-    <string name="label_happy">Happy</string>
-    <string name="label_click_select_start_date">Click to select start date</string>
+    <!-- ==================== Notifications ==================== -->
+    <string name="notification_channel_name">Mood Reminders</string>
+    <string name="notification_channel_desc">Daily reminders to record your mood</string>
+    <string name="notification_title">How are you feeling?</string>
+    <string name="notification_message">Take a moment to record your mood</string>
+    <string name="notification_text">Take a moment to record your mood</string>
+    <string name="daily_reminder_description">Get reminded to record your mood daily</string>
 
-    <!-- Date Formats -->
-    <string name="date_format_full_cn">yyyy年M月d日</string>
-    <string name="date_format_full">MMMM d, yyyy</string>
-
-    <!-- Confirmation Messages -->
-    <string name="confirm_delete_record">Are you sure you want to delete this record?</string>
-
-    <!-- Notifications -->
-    <string name="notification_title">Mood Check-in</string>
-    <string name="notification_text">How are you feeling today?</string>
-
-    <!-- Permissions -->
-    <string name="notification_permission_title">Allow notifications</string>
-    <string name="notification_permission_message">To send daily reminders, please allow notifications for this app.</string>
-    <string name="exact_alarm_permission_title">Allow exact alarms</string>
-    <string name="exact_alarm_permission_message">To trigger reminders on time, please allow exact alarms in system settings.</string>
-    <string name="open_settings">Open settings</string>
-
-    <!-- Permission Dialogs -->
+    <!-- ==================== Permissions ==================== -->
+    <string name="permission_notification_title">Enable Notifications</string>
+    <string name="permission_notification_message">Allow notifications to receive mood reminders</string>
+    <string name="permission_exact_alarm_title">Enable Exact Alarms</string>
+    <string name="permission_exact_alarm_message">Allow exact alarms for precise reminder timing</string>
     <string name="permission_required">Permission Required</string>
+    <string name="permission_denied">Permission Denied</string>
     <string name="permission_go_to_settings">Go to Settings</string>
     <string name="permission_cancel">Cancel</string>
+    <string name="permission_notification_rationale">We need notification permission to send you daily reminders to record your mood. Please enable notifications in settings.</string>
+    <string name="permission_exact_alarm_rationale">We need exact alarm permission to schedule reminders at precise times. Please enable this permission in settings.</string>
+    <string name="permission_default_rationale">This permission is required for the app to function properly. Please grant the permission in settings.</string>
 
-    <!-- Permission Types -->
-    <string name="permission_notification_title">Notification Permission Required</string>
-    <string name="permission_notification_rationale">To send you daily reminders, we need permission to show notifications. Please enable notifications in settings.</string>
-    <string name="permission_exact_alarm_title">Exact Alarm Permission Required</string>
-    <string name="permission_exact_alarm_rationale">To schedule precise daily reminders, we need permission to set exact alarms. Please enable this permission in settings.</string>
-    <string name="permission_default_rationale">This app needs permission to function properly. Please grant the permission in settings.</string>
+    <!-- ==================== Accessibility ==================== -->
+    <string name="cd_emotion_icon">Emotion icon</string>
+    <string name="cd_intensity_slider">Intensity slider</string>
+    <string name="cd_calendar_day">Calendar day %s</string>
+    <string name="cd_delete_button">Delete button</string>
+    <string name="cd_back_button">Back button</string>
+    <string name="cd_settings_button">Settings button</string>
+    <string name="cd_add_button">Add button</string>
+    <string name="cd_chart">Statistics chart</string>
 
-    <!-- App Updates -->
-    <string name="app_update_available">A new update is available</string>
-    <string name="app_update_downloaded">Update downloaded and ready to install</string>
-    <string name="update">Update</string>
-    <string name="install">Install</string>
-
-    <!-- Accessibility -->
-    <string name="cd_emotion_button">Emotion selection button</string>
-    <string name="cd_intensity_slider">Emotion intensity slider</string>
-    <string name="cd_add_note">Add note button</string>
-    <string name="cd_save_record">Save record button</string>
-    <string name="cd_chart_emotion_counts">Bar chart of counts per emotion</string>
-    <string name="cd_chart_distribution">Pie chart of emotion distribution</string>
-
-    <!-- Statistics Page -->
-    <string name="days_tracked">Days Tracked</string>
-    <string name="emotion_trend">Emotion Trend</string>
-    <string name="daily_average">Daily Average</string>
-    <string name="records_per_day">records/day</string>
-    <string name="most_common_emotion">Most Common Emotion</string>
-    <string name="times_recorded">times recorded</string>
+    <!-- ==================== Quick Record ==================== -->
+    <string name="quick_record_title">Quick Record</string>
+    <string name="weather_and_activities">Weather &amp; Activities</string>
+    <string name="note_optional">Note (optional)</string>
+    <string name="label_click_select_date">Click to select date</string>
+    <string name="label_click_select_time">Click to select time</string>
+    <string name="label_click_select_end_date">Click to select end date</string>
 </resources>

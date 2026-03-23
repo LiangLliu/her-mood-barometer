@@ -3,7 +3,6 @@ package com.lianglliu.hermoodbarometer.core.ui.util
 import androidx.compose.runtime.Composable
 import com.lianglliu.hermoodbarometer.core.model.data.DateFormatType
 import com.lianglliu.hermoodbarometer.core.ui.LocalTimeZone
-import kotlinx.datetime.toJavaZoneId
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.time.format.DateTimeFormatter
@@ -12,6 +11,7 @@ import java.util.Currency
 import java.util.Locale
 import kotlin.time.Instant
 import kotlin.time.toJavaInstant
+import kotlinx.datetime.toJavaZoneId
 
 fun BigDecimal.formatAmount(
     currency: Currency,
@@ -27,14 +27,12 @@ fun BigDecimal.formatAmount(
     }
 }
 
-fun getDecimalFormat(
-    currency: Currency,
-    locale: Locale = Locale.getDefault(),
-) = DecimalFormat.getCurrencyInstance(locale).apply {
-    minimumFractionDigits = 0
-    maximumFractionDigits = 2
-    this.currency = currency
-} as DecimalFormat
+fun getDecimalFormat(currency: Currency, locale: Locale = Locale.getDefault()) =
+    DecimalFormat.getCurrencyInstance(locale).apply {
+        minimumFractionDigits = 0
+        maximumFractionDigits = 2
+        this.currency = currency
+    } as DecimalFormat
 
 @Composable
 fun Instant.formatDate(
@@ -42,10 +40,10 @@ fun Instant.formatDate(
     formatStyle: FormatStyle = FormatStyle.MEDIUM,
 ): String =
     when (dateFormatType) {
-        DateFormatType.DATE_TIME -> DateTimeFormatter.ofLocalizedDateTime(formatStyle)
-        DateFormatType.DATE -> DateTimeFormatter.ofLocalizedDate(formatStyle)
-        DateFormatType.TIME -> DateTimeFormatter.ofLocalizedTime(formatStyle)
-    }
+            DateFormatType.DATE_TIME -> DateTimeFormatter.ofLocalizedDateTime(formatStyle)
+            DateFormatType.DATE -> DateTimeFormatter.ofLocalizedDate(formatStyle)
+            DateFormatType.TIME -> DateTimeFormatter.ofLocalizedTime(formatStyle)
+        }
         .withLocale(Locale.getDefault())
         .withZone(LocalTimeZone.current.toJavaZoneId())
         .format(toJavaInstant())

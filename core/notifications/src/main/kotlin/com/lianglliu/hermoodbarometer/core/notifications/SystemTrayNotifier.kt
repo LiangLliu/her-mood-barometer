@@ -46,6 +46,7 @@ internal class SystemTrayNotifier @Inject constructor(
 
         // Send the notification
         val notificationManager = NotificationManagerCompat.from(this)
+        @Suppress("MissingPermission") // Permission check is done above
         notificationManager.notify(MOOD_REMINDER_NOTIFICATION_ID, notification)
     }
 }
