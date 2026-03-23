@@ -3,7 +3,7 @@ import com.lianglliu.hermoodbarometer.AppBuildType
 plugins {
     alias(libs.plugins.app.android.application)
     alias(libs.plugins.app.android.application.compose)
-//    alias(libs.plugins.app.android.application.firebase)
+    //    alias(libs.plugins.app.android.application.firebase)
     alias(libs.plugins.app.android.application.flavors)
     alias(libs.plugins.app.hilt)
     alias(libs.plugins.baselineprofile)
@@ -12,12 +12,9 @@ plugins {
 
 android {
     namespace = "com.lianglliu.hermoodbarometer"
-    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.lianglliu.hermoodbarometer"
-        minSdk = 26
-        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -45,19 +42,9 @@ android {
         }
     }
 
-    androidResources {
-        generateLocaleConfig = true
-    }
-    packaging {
-        resources {
-            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
-        }
-    }
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-        }
-    }
+    androidResources { generateLocaleConfig = true }
+    packaging { resources { excludes.add("/META-INF/{AL2.0,LGPL2.1}") } }
+    testOptions { unitTests { isIncludeAndroidResources = true } }
 }
 
 baselineProfile {
@@ -95,5 +82,5 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.testManifest)
 
-//    baselineProfile(projects.baselineprofile)
+    //    baselineProfile(projects.baselineprofile)
 }

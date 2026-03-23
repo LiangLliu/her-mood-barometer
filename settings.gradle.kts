@@ -12,6 +12,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -33,25 +34,43 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
 
 include(":core:analytics")
+
 include(":core:common")
+
 include(":core:database")
+
 include(":core:datastore")
+
 include(":core:datastore-proto")
+
 include(":core:data")
+
 include(":core:designsystem")
+
 include(":core:domain")
+
 include(":core:locales")
+
 include(":core:model")
+
 include(":core:network")
+
 include(":core:notifications")
+
 include(":core:permissions")
+
 include(":core:shortcuts")
+
 include(":core:ui")
 
 include(":feature:record")
+
 include(":feature:diary")
+
 include(":feature:calendar")
+
 include(":feature:statistics")
+
 include(":feature:settings")
 
 include(":work")

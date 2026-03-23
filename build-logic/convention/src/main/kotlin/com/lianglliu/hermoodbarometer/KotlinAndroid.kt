@@ -9,40 +9,35 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 
-/**
- * Configure base Kotlin with Android options
- */
-internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *, *>,
-) {
+/** Configure base Kotlin with Android options */
+internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension) {
     commonExtension.apply {
-        compileSdk = 36
-
-        defaultConfig {
-            minSdk = 26
-        }
+        compileSdk = libs.findVersion("androidCompileSdk").get().toString().toInt()
+        defaultConfig.minSdk = libs.findVersion("androidMinSdk").get().toString().toInt()
+        lint.disable += "NonObservableLocale"
     }
 
     configureKotlin<KotlinAndroidProjectExtension>()
 }
 
-/**
- * Configure base Kotlin options
- */
-internal inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() = configure<T> {
-    // Treat all Kotlin warnings as errors (disabled by default)
-    // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
-    val warningsAsErrors: String? by project
-    when (this) {
-        is KotlinAndroidProjectExtension -> compilerOptions
-        is KotlinJvmProjectExtension -> compilerOptions
-        else -> TODO("Unsupported project extension $this ${T::class}")
-    }.apply {
-        jvmToolchain(21)
-        allWarningsAsErrors = warningsAsErrors.toBoolean()
-        freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
-        freeCompilerArgs.add("-opt-in=kotlin.uuid.ExperimentalUuidApi")
-        freeCompilerArgs.add("-opt-in=kotlin.time.ExperimentalTime")
-        freeCompilerArgs.add("-Xannotation-default-target=param-property")
+/** Configure base Kotlin options */
+internal inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() =
+    configure<T> {
+        // Treat all Kotlin warnings as errors (disabled by default)
+        // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
+        val warningsAsErrors: String? by project
+        when (this) {
+            is KotlinAndroidProjectExtension -> compilerOptions
+            is KotlinJvmProjectExtension -> compilerOptions
+            else -> TODO("Unsupported project extension $this ${T::class}")
+        }.apply {
+            jvmToolchain(21)
+            allWarningsAsErrors = warningsAsErrors.toBoolean()
+            freeCompilerArgs.addAll(
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-opt-in=kotlin.uuid.ExperimentalUuidApi",
+                "-opt-in=kotlin.time.ExperimentalTime",
+                "-Xannotation-default-target=param-property",
+            )
+        }
     }
-}
