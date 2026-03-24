@@ -30,7 +30,7 @@ import com.lianglliu.hermoodbarometer.util.InAppUpdateManager
 import com.lianglliu.hermoodbarometer.util.TimeZoneMonitor
 import com.lianglliu.hermoodbarometer.utils.isSystemInDarkTheme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import jakarta.inject.Inject
 import kotlin.getValue
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -99,6 +99,27 @@ class MainActivity : AppCompatActivity() {
         }
 
         splashScreen.setKeepOnScreenCondition { viewModel.uiState.value.shouldKeepSplashScreen() }
+
+        splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
+            android.animation.ObjectAnimator.ofFloat(
+                    splashScreenViewProvider.view,
+                    android.view.View.ALPHA,
+                    1f,
+                    0f,
+                )
+                .apply {
+                    duration = 220L
+                    interpolator = android.view.animation.AccelerateDecelerateInterpolator()
+                    addListener(
+                        object : android.animation.AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: android.animation.Animator) {
+                                splashScreenViewProvider.remove()
+                            }
+                        }
+                    )
+                    start()
+                }
+        }
 
         setContent {
             val appState =

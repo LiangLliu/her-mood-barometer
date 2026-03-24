@@ -1,53 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Heart shape with gradient representing mood changes -->
+    <!-- Soft shadow under heart -->
     <path
-        android:pathData="M54,72 C54,72 38,55 38,44 C38,36 44,30 52,30 C52,30 54,32 54,35 C54,32 56,30 56,30 C64,30 70,36 70,44 C70,55 54,72 54,72Z"
-        android:strokeWidth="0">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:endX="54"
-                android:endY="72"
-                android:startX="54"
-                android:startY="30"
-                android:type="linear">
-                <item
-                    android:color="#FF9DD49E"
-                    android:offset="0.0" />
-                <item
-                    android:color="#FF36693D"
-                    android:offset="0.5" />
-                <item
-                    android:color="#FF1E5128"
-                    android:offset="1.0" />
-            </gradient>
-        </aapt:attr>
-    </path>
+        android:fillAlpha="0.12"
+        android:fillColor="#5C3A2E"
+        android:pathData="M54,76C54,76 28,58 28,44C28,34 36,29 46,29C51,29 54,34 54,37C54,34 57,29 62,29C72,29 80,34 80,44C80,58 54,76 54,76Z" />
 
-    <!-- Simple mood indicator lines inside the heart -->
+    <!-- Main heart shape - white -->
     <path
-        android:pathData="M46,44 L62,44"
-        android:strokeWidth="1.5"
-        android:strokeAlpha="0.8"
-        android:strokeColor="#FFFFFF"
-        android:strokeLineCap="round" />
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" />
 
+    <!-- Mood wave accent inside heart -->
     <path
-        android:pathData="M48,50 L60,50"
-        android:strokeWidth="1.5"
-        android:strokeAlpha="0.6"
-        android:strokeColor="#FFFFFF"
-        android:strokeLineCap="round" />
-
-    <path
-        android:pathData="M50,56 L58,56"
-        android:strokeWidth="1.5"
-        android:strokeAlpha="0.4"
-        android:strokeColor="#FFFFFF"
-        android:strokeLineCap="round" />
+        android:pathData="M39,47C43,41 49,53 54,47C59,41 65,53 69,47"
+        android:strokeAlpha="0.25"
+        android:strokeColor="#C4735B"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
 </vector>

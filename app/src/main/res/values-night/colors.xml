@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Splash Screen: dark warm background (dark mode) -->
+    <color name="splash_background">#FF1A1714</color>
+    <!-- Splash Screen: dusty rose circle behind the icon (same in both modes) -->
+    <color name="splash_icon_background">#FFC4735B</color>
+</resources>
