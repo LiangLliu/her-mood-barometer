@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Her Mood Barometer - Icon Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #1A1714;
+            --bg-card: #2A2520;
+            --bg-elevated: #332E28;
+            --text: #EDE6DD;
+            --text-secondary: #B5A899;
+            --text-muted: #7E7268;
+            --accent: #C4735B;
+            --accent-soft: #E8B4A2;
+            --accent-bg: #3A2820;
+            --border: #3A342E;
+            --radius: 16px;
+            --font-display: 'Noto Serif SC', 'Songti SC', Georgia, serif;
+            --font-body: 'Noto Sans SC', 'PingFang SC', -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- Noise texture overlay --- */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        @keyframes shimmer {
+            0% { opacity: 0.15; }
+            50% { opacity: 0.25; }
+            100% { opacity: 0.15; }
+        }
+
+        .animate-fade { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 24px 60px;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(196,115,91,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-icon {
+            width: 192px;
+            height: 192px;
+            border-radius: 42px;
+            overflow: hidden;
+            box-shadow:
+                0 8px 32px rgba(196,115,91,0.25),
+                0 2px 8px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+            animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            position: relative;
+        }
+        .hero-icon:hover {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .hero-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-top: 32px;
+            letter-spacing: 0.02em;
+            background: linear-gradient(135deg, var(--text), var(--accent-soft));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-top: 8px;
+            font-weight: 300;
+        }
+
+        /* --- Sections --- */
+        section {
+            padding: 48px 0;
+        }
+        section + section {
+            border-top: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 32px;
+            color: var(--accent-soft);
+            letter-spacing: 0.03em;
+        }
+
+        /* --- Shape Variants Grid --- */
+        .shapes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 32px;
+            justify-items: center;
+        }
+        .shape-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .shape-item .icon-wrap {
+            width: 96px;
+            height: 96px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3), 0 1px 4px rgba(0,0,0,0.2);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .shape-item .icon-wrap:hover {
+            transform: scale(1.08);
+        }
+        .shape-item svg { width: 100%; height: 100%; }
+        .shape-item .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .shape-circle { border-radius: 50%; }
+        .shape-squircle { border-radius: 24%; }
+        .shape-rounded { border-radius: 16%; }
+        .shape-teardrop {
+            border-radius: 50% 50% 50% 16%;
+        }
+        .shape-square { border-radius: 8%; }
+
+        /* --- Size Comparison --- */
+        .sizes-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+        .size-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .size-item .icon-wrap {
+            border-radius: 22%;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .size-item .icon-wrap:hover { transform: scale(1.1); }
+        .size-item svg { width: 100%; height: 100%; display: block; }
+        .size-item .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        /* --- Monochrome Section --- */
+        .mono-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 24px;
+            justify-items: center;
+        }
+        .mono-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 24px;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            width: 100%;
+        }
+        .mono-item .icon-wrap {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mono-item svg { width: 48px; height: 48px; }
+        .mono-item .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .mono-bg-blue { background: #D3E4FD; }
+        .mono-bg-green { background: #C8E6C9; }
+        .mono-bg-rose { background: #F3D5D5; }
+        .mono-bg-purple { background: #D7CDE8; }
+        .mono-bg-teal { background: #B2DFDB; }
+
+        /* --- Homescreen Mockup --- */
+        .homescreen {
+            background: var(--bg-card);
+            border-radius: 28px;
+            padding: 40px 24px 24px;
+            max-width: 340px;
+            margin: 0 auto;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .homescreen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(196,115,91,0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .homescreen-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px 16px;
+            justify-items: center;
+        }
+        .homescreen-app {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .homescreen-app .app-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .homescreen-app .app-icon svg { width: 100%; height: 100%; display: block; }
+        .homescreen-app .app-name {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 64px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .placeholder-icon {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+        }
+        .highlight-ring {
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2), 0 0 0 2px var(--accent), 0 0 16px rgba(196,115,91,0.3) !important;
+        }
+
+        /* --- Color Palette --- */
+        .palette {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        .palette-swatch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .palette-swatch .color {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .palette-swatch .hex {
+            font-family: monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+        footer span { color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="hero-icon animate-fade">
+            <svg viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="hero-bg" x1="0" y1="0" x2="108" y2="108" gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#F5D4C4"/>
+                        <stop offset="0.5" stop-color="#DB9A82"/>
+                        <stop offset="1" stop-color="#C4735B"/>
+                    </linearGradient>
+                </defs>
+                <rect width="108" height="108" fill="url(#hero-bg)"/>
+                <circle cx="54" cy="54" r="40" fill="white" fill-opacity="0.06"/>
+                <circle cx="54" cy="54" r="28" fill="white" fill-opacity="0.05"/>
+                <circle cx="54" cy="54" r="16" fill="white" fill-opacity="0.04"/>
+                <!-- Shadow -->
+                <path d="M54,76C54,76 28,58 28,44C28,34 36,29 46,29C51,29 54,34 54,37C54,34 57,29 62,29C72,29 80,34 80,44C80,58 54,76 54,76Z" fill="#5C3A2E" fill-opacity="0.12"/>
+                <!-- Heart -->
+                <path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="white"/>
+                <!-- Wave -->
+                <path d="M39,47C43,41 49,53 54,47C59,41 65,53 69,47" fill="none" stroke="#C4735B" stroke-width="2" stroke-linecap="round" stroke-opacity="0.25"/>
+            </svg>
+        </div>
+        <h1 class="animate-fade delay-1">Her Mood Barometer</h1>
+        <p class="animate-fade delay-2">App Icon Design Preview</p>
+    </section>
+
+    <div class="container">
+
+        <!-- ===== SHAPE VARIANTS ===== -->
+        <section>
+            <h2 class="section-title animate-fade delay-2">Launcher Shapes</h2>
+            <div class="shapes-grid">
+                <div class="shape-item animate-fade delay-2">
+                    <div class="icon-wrap shape-circle" id="tmpl-circle"></div>
+                    <span class="label">Circle</span>
+                </div>
+                <div class="shape-item animate-fade delay-3">
+                    <div class="icon-wrap shape-squircle" id="tmpl-squircle"></div>
+                    <span class="label">Squircle</span>
+                </div>
+                <div class="shape-item animate-fade delay-3">
+                    <div class="icon-wrap shape-rounded" id="tmpl-rounded"></div>
+                    <span class="label">Rounded Rect</span>
+                </div>
+                <div class="shape-item animate-fade delay-4">
+                    <div class="icon-wrap shape-teardrop" id="tmpl-teardrop"></div>
+                    <span class="label">Teardrop</span>
+                </div>
+                <div class="shape-item animate-fade delay-4">
+                    <div class="icon-wrap shape-square" id="tmpl-square"></div>
+                    <span class="label">Square</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SIZE COMPARISON ===== -->
+        <section>
+            <h2 class="section-title animate-fade">Size Comparison</h2>
+            <div class="sizes-row">
+                <div class="size-item animate-fade delay-1">
+                    <div class="icon-wrap" style="width:36px;height:36px;" id="sz-36"></div>
+                    <span class="label">36px</span>
+                </div>
+                <div class="size-item animate-fade delay-2">
+                    <div class="icon-wrap" style="width:48px;height:48px;" id="sz-48"></div>
+                    <span class="label">48px</span>
+                </div>
+                <div class="size-item animate-fade delay-2">
+                    <div class="icon-wrap" style="width:72px;height:72px;" id="sz-72"></div>
+                    <span class="label">72px</span>
+                </div>
+                <div class="size-item animate-fade delay-3">
+                    <div class="icon-wrap" style="width:96px;height:96px;" id="sz-96"></div>
+                    <span class="label">96px</span>
+                </div>
+                <div class="size-item animate-fade delay-4">
+                    <div class="icon-wrap" style="width:144px;height:144px;" id="sz-144"></div>
+                    <span class="label">144px</span>
+                </div>
+                <div class="size-item animate-fade delay-5">
+                    <div class="icon-wrap" style="width:192px;height:192px;" id="sz-192"></div>
+                    <span class="label">192px</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== MONOCHROME (Android 13+) ===== -->
+        <section>
+            <h2 class="section-title animate-fade">Monochrome (Android 13+ Themed)</h2>
+            <div class="mono-grid">
+                <div class="mono-item animate-fade delay-1">
+                    <div class="icon-wrap mono-bg-blue">
+                        <svg viewBox="0 0 108 108"><path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="#1565C0"/></svg>
+                    </div>
+                    <span class="label">Blue</span>
+                </div>
+                <div class="mono-item animate-fade delay-2">
+                    <div class="icon-wrap mono-bg-green">
+                        <svg viewBox="0 0 108 108"><path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="#2E7D32"/></svg>
+                    </div>
+                    <span class="label">Green</span>
+                </div>
+                <div class="mono-item animate-fade delay-3">
+                    <div class="icon-wrap mono-bg-rose">
+                        <svg viewBox="0 0 108 108"><path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="#AD1457"/></svg>
+                    </div>
+                    <span class="label">Rose</span>
+                </div>
+                <div class="mono-item animate-fade delay-3">
+                    <div class="icon-wrap mono-bg-purple">
+                        <svg viewBox="0 0 108 108"><path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="#5E35B1"/></svg>
+                    </div>
+                    <span class="label">Purple</span>
+                </div>
+                <div class="mono-item animate-fade delay-4">
+                    <div class="icon-wrap mono-bg-teal">
+                        <svg viewBox="0 0 108 108"><path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="#00695C"/></svg>
+                    </div>
+                    <span class="label">Teal</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== HOMESCREEN MOCKUP ===== -->
+        <section>
+            <h2 class="section-title animate-fade">On Homescreen</h2>
+            <div class="homescreen animate-fade delay-2">
+                <div class="homescreen-grid">
+                    <div class="homescreen-app">
+                        <div class="app-icon placeholder-icon"></div>
+                        <span class="app-name">Phone</span>
+                    </div>
+                    <div class="homescreen-app">
+                        <div class="app-icon placeholder-icon"></div>
+                        <span class="app-name">Messages</span>
+                    </div>
+                    <div class="homescreen-app">
+                        <div class="app-icon highlight-ring" id="hs-icon"></div>
+                        <span class="app-name" style="color:var(--accent-soft);font-weight:500;">Mood</span>
+                    </div>
+                    <div class="homescreen-app">
+                        <div class="app-icon placeholder-icon"></div>
+                        <span class="app-name">Camera</span>
+                    </div>
+                    <div class="homescreen-app">
+                        <div class="app-icon placeholder-icon"></div>
+                        <span class="app-name">Gallery</span>
+                    </div>
+                    <div class="homescreen-app">
+                        <div class="app-icon placeholder-icon"></div>
+                        <span class="app-name">Calendar</span>
+                    </div>
+                    <div class="homescreen-app">
+                        <div class="app-icon placeholder-icon"></div>
+                        <span class="app-name">Notes</span>
+                    </div>
+                    <div class="homescreen-app">
+                        <div class="app-icon placeholder-icon"></div>
+                        <span class="app-name">Settings</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== COLOR PALETTE ===== -->
+        <section>
+            <h2 class="section-title animate-fade">Color Palette</h2>
+            <p style="color:var(--text-secondary);margin-bottom:20px;font-size:0.9rem;">Icon colors derived from the WARM (default) color scheme</p>
+            <div class="palette animate-fade delay-1">
+                <div class="palette-swatch">
+                    <div class="color" style="background:#F5D4C4;"></div>
+                    <span class="hex">#F5D4C4</span>
+                </div>
+                <div class="palette-swatch">
+                    <div class="color" style="background:#DB9A82;"></div>
+                    <span class="hex">#DB9A82</span>
+                </div>
+                <div class="palette-swatch">
+                    <div class="color" style="background:#C4735B;"></div>
+                    <span class="hex">#C4735B</span>
+                </div>
+                <div class="palette-swatch">
+                    <div class="color" style="background:#FFFFFF;border:1px solid rgba(255,255,255,0.2);"></div>
+                    <span class="hex">#FFFFFF</span>
+                </div>
+                <div class="palette-swatch">
+                    <div class="color" style="background:#5C3A2E;"></div>
+                    <span class="hex">#5C3A2E</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <span>Her Mood Barometer</span> &mdash; Adaptive Icon Design
+    </footer>
+
+    <script>
+        // Icon SVG template
+        const iconSVG = `<svg viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="bg-grad" x1="0" y1="0" x2="108" y2="108" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stop-color="#F5D4C4"/>
+                    <stop offset="0.5" stop-color="#DB9A82"/>
+                    <stop offset="1" stop-color="#C4735B"/>
+                </linearGradient>
+            </defs>
+            <rect width="108" height="108" fill="url(#bg-grad)"/>
+            <circle cx="54" cy="54" r="40" fill="white" fill-opacity="0.06"/>
+            <circle cx="54" cy="54" r="28" fill="white" fill-opacity="0.05"/>
+            <circle cx="54" cy="54" r="16" fill="white" fill-opacity="0.04"/>
+            <path d="M54,76C54,76 28,58 28,44C28,34 36,29 46,29C51,29 54,34 54,37C54,34 57,29 62,29C72,29 80,34 80,44C80,58 54,76 54,76Z" fill="#5C3A2E" fill-opacity="0.12"/>
+            <path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="white"/>
+            <path d="M39,47C43,41 49,53 54,47C59,41 65,53 69,47" fill="none" stroke="#C4735B" stroke-width="2" stroke-linecap="round" stroke-opacity="0.25"/>
+        </svg>`;
+
+        // Fill all icon placeholders
+        const targets = [
+            'tmpl-circle', 'tmpl-squircle', 'tmpl-rounded', 'tmpl-teardrop', 'tmpl-square',
+            'sz-36', 'sz-48', 'sz-72', 'sz-96', 'sz-144', 'sz-192',
+            'hs-icon'
+        ];
+        targets.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = iconSVG;
+        });
+    </script>
+</body>
+</html>

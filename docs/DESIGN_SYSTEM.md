@@ -16,6 +16,8 @@ This app is an intimate emotional companion for women to track their moods. The 
 
 ## Typography
 
+### HTML Preview (docs/design/preview.html)
+
 | Role | Font | Weights | Usage |
 |------|------|---------|-------|
 | Display | `Noto Serif SC` | 400, 500, 600, 700 | Headings, mood names, calendar title |
@@ -23,7 +25,14 @@ This app is an intimate emotional companion for women to track their moods. The 
 | Fallback Display | `Songti SC`, Georgia, serif | — | macOS/iOS fallback |
 | Fallback Body | `PingFang SC`, system | — | System fallback |
 
-**Rationale**: Serif + Sans-Serif pairing creates visual hierarchy. Noto Serif SC gives a literary, journal-like quality to headings while Noto Sans SC keeps body text clean and readable.
+### Android App (Compose)
+
+| Role | Font | Usage |
+|------|------|-------|
+| Display/Headline/Title | `NotoSerifSCFamily` (Google Fonts downloadable) | Headings, mood names, calendar title |
+| Body/Label | `FontFamily.Default` (system font) | Content text, labels, buttons |
+
+**Rationale**: Serif + Sans-Serif pairing creates visual hierarchy. Noto Serif SC gives a literary, journal-like quality to headings while the system default font keeps body text clean and readable.
 
 ---
 
@@ -31,7 +40,7 @@ This app is an intimate emotional companion for women to track their moods. The 
 
 The app supports **3 color schemes**, each with light and dark variants. Users can switch schemes via a one-tap color picker in the theme controls.
 
-### Architecture
+### Architecture (HTML Preview Only)
 
 CSS custom properties are layered using data attributes on `<body>`:
 - `data-color="warm"` (default, attribute absent) | `"ocean"` | `"petal"`
@@ -218,11 +227,77 @@ All color schemes follow the same dark mode transformation:
 
 ---
 
+## App Icon
+
+The adaptive icon uses the WARM color scheme as the brand identity, regardless of the user's in-app color choice.
+
+### Layers
+
+| Layer | File | Description |
+|-------|------|-------------|
+| Background | `drawable/ic_launcher_background.xml` | Diagonal gradient #F5D4C4 → #DB9A82 → #C4735B with 3 organic white circles |
+| Foreground | `drawable/ic_launcher_foreground.xml` | White heart with subtle drop shadow + mood wave accent (#C4735B at 25% opacity) |
+| Monochrome | `drawable/ic_launcher_monochrome.xml` | Solid heart silhouette for Android 13+ themed icons |
+
+### Safe Zone
+
+Heart centered at (54, ~50) in 108dp viewport. Bounding box: x=28-80, y=27-74. All points within the 66dp safe zone circle.
+
+### Legacy Icons
+
+Not used. minSdk 26 guarantees adaptive icon support on all devices. No `mipmap-*dpi/*.webp` files needed.
+
+---
+
+## Splash Screen
+
+Branded splash using `Theme.SplashScreen.IconBackground` (AndroidX core-splashscreen 1.2.0).
+
+### Visual Design
+
+| Element | Light Mode | Dark Mode |
+|---------|-----------|-----------|
+| Background | `#FBF8F4` (warm cream) | `#1A1714` (warm charcoal) |
+| Icon circle | `#C4735B` (dusty rose) | `#C4735B` (same) |
+| Icon | White heart (foreground layer) | White heart (same) |
+
+### Implementation
+
+- Theme parent: `Theme.SplashScreen.IconBackground` (enables `windowSplashScreenIconBackgroundColor`)
+- Icon: `@drawable/ic_launcher_foreground` (not `@mipmap/ic_launcher` — avoids background layer overlap)
+- Dark mode: `values-night/colors.xml` provides dark `splash_background`, eliminating white flash
+- Exit animation: 220ms fade-out (`AccelerateDecelerateInterpolator`)
+- Keep condition: `shouldKeepSplashScreen()` holds splash until `UserData` loads from DataStore
+
+---
+
+## Notification Design
+
+### Icon
+
+Custom monochrome heart vector (`core/notifications/src/main/res/drawable/ic_notification.xml`). Uses `?attr/colorControlNormal` tint for system compatibility.
+
+### Content Strategy
+
+Daily reminders use randomized title/text from string-array resources:
+- `notification_titles`: 8 warm, encouraging titles per locale
+- `notification_texts`: 8 matching body texts per locale
+- Selection: day-based index (`daysSinceEpoch % 8`) for daily variety with intra-day consistency
+- Style: `BigTextStyle` for expandable content
+- Category: `CATEGORY_REMINDER`
+- Action button: "Record Now" deep links to `/quick-record`
+
+---
+
 ## File Reference
 
-- **Preview**: `preview.html` — Full interactive mockup with all 4 screens + 3 color schemes
+- **Preview**: `docs/design/preview.html` — Full interactive mockup with all 4 screens + 3 color schemes
+- **Icon Preview**: `docs/design/icon_preview.html` — Adaptive icon preview in different launcher shapes
 - **Theme**: `core/designsystem/` — Compose theme implementation
 - **Strings**: `core/locales/src/main/res/values*/strings.xml` — 5 locale variants
+- **Icon**: `app/src/main/res/drawable/ic_launcher_*.xml` — Adaptive icon layers
+- **Splash**: `app/src/main/res/values/themes.xml`, `values-night/colors.xml` — Splash screen theme
+- **Notification icon**: `core/notifications/src/main/res/drawable/ic_notification.xml`
 
 ---
 

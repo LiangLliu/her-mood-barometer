@@ -2,8 +2,10 @@
 .gradle
 .kotlin
 /.idea
-.DS_Store
-**/.DS_Stor
+**/.DS_Store
+
+# Claude Code local settings (personal, not shared)
+.claude/settings.local.json
 
 # generated files
 bin/
