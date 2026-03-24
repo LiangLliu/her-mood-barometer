@@ -1,6 +1,6 @@
 # Her Mood Barometer
 
-**她的晴雨表** — An intimate emotional companion for women to track their moods.
+**她的晴雨表** — A beautiful mood tracker with journal-like design, mood trends, and multi-language support.
 
 ## Features
 
@@ -72,4 +72,4 @@ See [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) for the full specification.
 
 ## License
 
-All rights reserved.
+[MIT License](LICENSE)

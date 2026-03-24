@@ -4,7 +4,7 @@
 
 **Aesthetic Direction**: Warm Journal / Organic Diary
 
-This app is an intimate emotional companion for women to track their moods. The design avoids cold, clinical UI patterns and instead embraces a warm, paper-like journal feel — as if writing in a beautiful diary by candlelight.
+This app is a beautiful mood tracker with a warm, journal-like design. It avoids cold, clinical UI patterns and instead embraces a paper-like journal feel — as if writing in a beautiful diary by candlelight.
 
 **Core Principles**:
 - **Warmth over Precision**: Soft edges, warm tones, organic textures
