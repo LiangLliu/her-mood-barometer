@@ -4,6 +4,17 @@ All notable changes to this project are documented here. Detailed history is in 
 
 ## [Unreleased]
 
+### 2026-03-25: Statistics Page Redesign
+
+- Added time range selector (pill-shaped chips: week/month/3mo/6mo/year)
+- Removed fake "Emotion Patterns" card (3/4 values were hardcoded)
+- Removed "Custom" time range (non-functional date picker)
+- Fixed misleading "Total Records" label → "Records" (scoped to selected range)
+- Deleted unused components: `TimeRangeSelector.kt`, `CustomDateRangeSelector.kt`
+- Removed `TimeRange.CUSTOM` enum value and all related code
+- Cleaned up orphaned i18n strings across 5 locales (248 → 243)
+- Updated `docs/design/preview.html` to match
+
 ### 2026-03-24: Code Quality + Visual Refresh
 
 **Code Quality (14 optimizations)**

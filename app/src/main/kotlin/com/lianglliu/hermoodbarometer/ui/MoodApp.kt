@@ -50,6 +50,7 @@ import com.lianglliu.hermoodbarometer.core.locales.R
 import com.lianglliu.hermoodbarometer.navigation.MoodNavHost
 import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.DIARY
 import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.SETTINGS
+import com.lianglliu.hermoodbarometer.ui.components.CustomBottomNavBar
 import com.lianglliu.hermoodbarometer.util.InAppUpdateResult
 import kotlin.reflect.KClass
 
@@ -123,76 +124,7 @@ fun MoodApp(
     val navigationSuiteType =
         NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(windowAdaptiveInfo)
 
-    NavigationSuiteScaffold(
-        primaryActionContent = {
-            if (currentTopLevelDestination != null) {
-                // 安全获取 fabTitle 和 fabIcon
-                val fabTitleRes =
-                    currentTopLevelDestination.fabTitle
-                        ?: previousDestination.fabTitle // 使用 elvis 操作符替代 !!
-                val fabIconVector =
-                    currentTopLevelDestination.fabIcon
-                        ?: previousDestination.fabIcon // 使用 elvis 操作符替代 !!
-
-                // 只有当 fabTitleRes 和 fabIconVector 都不为 null 时才显示 FAB
-                // 并且 currentTopLevelDestination 不是 SETTINGS
-                if (
-                    fabTitleRes != null &&
-                        fabIconVector != null &&
-                        currentTopLevelDestination != SETTINGS
-                ) {
-                    CsFloatingActionButton(
-                        contentDescriptionRes = fabTitleRes,
-                        icon = fabIconVector,
-                        onClick = { viewModel.showQuickRecordDialog() },
-                        modifier =
-                            Modifier.animateFloatingActionButton(
-                                // visible 条件现在移到了外层 if 判断中一部分
-                                visible = true, // 因为外层已经判断了 currentTopLevelDestination != SETTINGS
-                                alignment = Alignment.BottomEnd,
-                            ),
-                    )
-                }
-            }
-        },
-        navigationItems = {
-            appState.topLevelDestinations.forEach { destination ->
-                val selected = currentDestination.isRouteInHierarchy(destination.baseRoute)
-                NavigationSuiteItem(
-                    selected = selected,
-                    icon = {
-                        val navItemIcon =
-                            remember(selected) {
-                                if (selected) {
-                                    destination.selectedIcon
-                                } else {
-                                    destination.unselectedIcon
-                                }
-                            }
-                        Icon(imageVector = navItemIcon, contentDescription = null)
-                    },
-                    label = {
-                        val labelText = stringResource(destination.iconTextId)
-                        Text(text = labelText, maxLines = 1)
-                    },
-                    onClick =
-                        remember(currentTopLevelDestination, destination) {
-                            {
-                                if (
-                                    currentTopLevelDestination != null &&
-                                        currentTopLevelDestination != SETTINGS
-                                ) {
-                                    previousDestination = currentTopLevelDestination
-                                }
-                                appState.navigateToTopLevelDestination(destination)
-                            }
-                        },
-                )
-            }
-        },
-        navigationSuiteType = navigationSuiteType,
-        navigationItemVerticalArrangement = Arrangement.Center,
-    ) {
+    val content: @Composable () -> Unit = {
         Scaffold(
             snackbarHost = {
                 SnackbarHost(
@@ -211,6 +143,25 @@ fun MoodApp(
                                 }
                             ),
                 )
+            },
+            bottomBar = {
+                if (navigationSuiteType == NavigationSuiteType.NavigationBar) {
+                    CustomBottomNavBar(
+                        destinations = appState.topLevelDestinations,
+                        currentDestination = currentTopLevelDestination,
+                        onNavigateToDestination = { destination ->
+                            if (
+                                currentTopLevelDestination != null &&
+                                    currentTopLevelDestination != SETTINGS
+                            ) {
+                                previousDestination = currentTopLevelDestination
+                            }
+                            appState.navigateToTopLevelDestination(destination)
+                        },
+                        onFabClick = { viewModel.showQuickRecordDialog() },
+                        showFab = true,
+                    )
+                }
             },
             contentWindowInsets = WindowInsets(0, 0, 0, 0),
             modifier = Modifier.semantics { testTagsAsResourceId = true },
@@ -235,34 +186,82 @@ fun MoodApp(
         }
     }
 
+    if (navigationSuiteType == NavigationSuiteType.NavigationBar) {
+        // Use custom BottomBar instead of NavigationSuiteScaffold
+        content()
+    } else {
+        NavigationSuiteScaffold(
+            primaryActionContent = {
+                if (currentTopLevelDestination != null) {
+                    val fabTitleRes =
+                        currentTopLevelDestination.fabTitle ?: previousDestination.fabTitle
+                    val fabIconVector =
+                        currentTopLevelDestination.fabIcon ?: previousDestination.fabIcon
+                    if (
+                        fabTitleRes != null &&
+                            fabIconVector != null &&
+                            currentTopLevelDestination != SETTINGS
+                    ) {
+                        CsFloatingActionButton(
+                            contentDescriptionRes = fabTitleRes,
+                            icon = fabIconVector,
+                            onClick = { viewModel.showQuickRecordDialog() },
+                            modifier =
+                                Modifier.animateFloatingActionButton(
+                                    visible = true,
+                                    alignment = Alignment.BottomEnd,
+                                ),
+                        )
+                    }
+                }
+            },
+            navigationItems = {
+                appState.topLevelDestinations.forEach { destination ->
+                    val selected = currentDestination.isRouteInHierarchy(destination.baseRoute)
+                    NavigationSuiteItem(
+                        selected = selected,
+                        icon = {
+                            val navItemIcon =
+                                remember(selected) {
+                                    if (selected) destination.selectedIcon
+                                    else destination.unselectedIcon
+                                }
+                            Icon(imageVector = navItemIcon, contentDescription = null)
+                        },
+                        label = {
+                            val labelText = stringResource(destination.iconTextId)
+                            Text(text = labelText, maxLines = 1)
+                        },
+                        onClick =
+                            remember(currentTopLevelDestination, destination) {
+                                {
+                                    if (
+                                        currentTopLevelDestination != null &&
+                                            currentTopLevelDestination != SETTINGS
+                                    ) {
+                                        previousDestination = currentTopLevelDestination
+                                    }
+                                    appState.navigateToTopLevelDestination(destination)
+                                }
+                            },
+                    )
+                }
+            },
+            navigationSuiteType = navigationSuiteType,
+            navigationItemVerticalArrangement = Arrangement.Center,
+        ) {
+            content()
+        }
+    }
+
     // Quick Record Dialog
     if (showQuickRecordDialog) {
-        // Pre-resolve emotion names
-        val emotionHappy = stringResource(R.string.emotion_happy)
-        val emotionCalm = stringResource(R.string.emotion_calm)
-        val emotionTouched = stringResource(R.string.emotion_touched)
-        val emotionAnxious = stringResource(R.string.emotion_anxious)
-        val emotionWronged = stringResource(R.string.emotion_wronged)
-        val emotionTired = stringResource(R.string.emotion_tired)
-
         QuickRecordDialog(
             onDismiss = { viewModel.hideQuickRecordDialog() },
             onConfirm = { emotion, weather, activities, note, dateTime ->
-                // Map emotion enum to name
-                val emotionName =
-                    when (emotion) {
-                        Emotion.HAPPY -> emotionHappy
-                        Emotion.CALM -> emotionCalm
-                        Emotion.TOUCHED -> emotionTouched
-                        Emotion.ANXIOUS -> emotionAnxious
-                        Emotion.WRONGED -> emotionWronged
-                        Emotion.TIRED -> emotionTired
-                    }
-
-                // Map emotion enum to ID and save
                 viewModel.saveQuickRecord(
-                    emotionId = emotion.predefinedId,
-                    emotionName = emotionName,
+                    emotionId = emotion.id,
+                    emotionName = emotion.name,
                     emotionEmoji = emotion.emoji,
                     weather = weather.name,
                     activities = activities.map { it.name },

@@ -2,6 +2,7 @@ package com.lianglliu.hermoodbarometer.feature.calendar.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.lianglliu.hermoodbarometer.feature.calendar.CalendarScreen
@@ -21,4 +22,4 @@ fun NavGraphBuilder.calendarScreen() {
     }
 }
 
-fun NavController.navigateToCalendar() = navigate(CalendarRoute)
+fun NavController.navigateToCalendar(navOptions: NavOptions? = null) = navigate(route = CalendarBaseRoute, navOptions)

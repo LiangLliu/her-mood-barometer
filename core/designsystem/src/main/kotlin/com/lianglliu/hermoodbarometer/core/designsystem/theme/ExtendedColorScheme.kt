@@ -29,6 +29,7 @@ data class ExtendedColorScheme(
     val border: Color,
     val borderLight: Color,
     val cardBackground: Color,
+    val warmBackground: Color,
     val modalOverlay: Color,
 )
 
@@ -81,6 +82,7 @@ val WarmLightExtendedColors =
         border = Color(0xFFD8CFC7),
         borderLight = Color(0xFFEDE6DD),
         cardBackground = Color(0xFFFFFFFF),
+        warmBackground = Color(0xFFF5F0E8),
         modalOverlay = Color(0x662C2520),
     )
 
@@ -107,6 +109,7 @@ val WarmDarkExtendedColors =
         border = Color(0xFF3E3832),
         borderLight = Color(0xFF2E2824),
         cardBackground = Color(0xFF272320),
+        warmBackground = Color(0xFF211E1A),
         modalOverlay = Color(0x99000000),
     )
 
@@ -135,6 +138,7 @@ val OceanLightExtendedColors =
         border = Color(0xFFCED8DE),
         borderLight = Color(0xFFE2ECF0),
         cardBackground = Color(0xFFFFFFFF),
+        warmBackground = Color(0xFFE8F0F4),
         modalOverlay = Color(0x661C2830),
     )
 
@@ -161,6 +165,7 @@ val OceanDarkExtendedColors =
         border = Color(0xFF2E3840),
         borderLight = Color(0xFF1E2830),
         cardBackground = Color(0xFF1E262C),
+        warmBackground = Color(0xFF182228),
         modalOverlay = Color(0x99000000),
     )
 
@@ -189,6 +194,7 @@ val PetalLightExtendedColors =
         border = Color(0xFFD8CDD0),
         borderLight = Color(0xFFEDE4E8),
         cardBackground = Color(0xFFFFFFFF),
+        warmBackground = Color(0xFFF5ECF0),
         modalOverlay = Color(0x662C2028),
     )
 
@@ -215,5 +221,6 @@ val PetalDarkExtendedColors =
         border = Color(0xFF3E3438),
         borderLight = Color(0xFF2E2428),
         cardBackground = Color(0xFF282024),
+        warmBackground = Color(0xFF241C20),
         modalOverlay = Color(0x99000000),
     )

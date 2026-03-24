@@ -4,7 +4,6 @@ import com.lianglliu.hermoodbarometer.core.model.data.EmotionStatistics
 import com.lianglliu.hermoodbarometer.core.model.data.TimeRange
 import com.lianglliu.hermoodbarometer.repository.EmotionRepository
 import jakarta.inject.Inject
-import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
@@ -25,7 +24,7 @@ constructor(private val emotionRepository: EmotionRepository) {
      * @return Flow of emotion statistics
      */
     operator fun invoke(timeRange: TimeRange): Flow<EmotionStatistics> = flow {
-        val (startDate, endDate) = getTimeRangeBounds(timeRange)
+        val (startDate, endDate) = timeRange.toInstantBounds()
         val statistics = emotionRepository.getEmotionStatistics(startDate, endDate)
         emit(statistics)
     }
@@ -66,35 +65,5 @@ constructor(private val emotionRepository: EmotionRepository) {
                 startOfNextMonth.minus(1, ChronoUnit.MILLIS),
             )
         emit(statistics)
-    }
-
-    /** Convert TimeRange enum to Instant bounds */
-    private fun getTimeRangeBounds(timeRange: TimeRange): Pair<Instant, Instant> {
-        val now = Instant.now()
-        val zoneId = ZoneId.systemDefault()
-
-        val startTime =
-            when (timeRange) {
-                TimeRange.LAST_WEEK -> {
-                    now.minus(7, ChronoUnit.DAYS)
-                }
-                TimeRange.LAST_MONTH -> {
-                    now.minus(30, ChronoUnit.DAYS)
-                }
-                TimeRange.LAST_3_MONTHS -> {
-                    now.minus(90, ChronoUnit.DAYS)
-                }
-                TimeRange.LAST_SIX_MONTHS -> {
-                    now.minus(180, ChronoUnit.DAYS)
-                }
-                TimeRange.LAST_YEAR -> {
-                    now.minus(365, ChronoUnit.DAYS)
-                }
-                TimeRange.CUSTOM -> {
-                    now.minus(30, ChronoUnit.DAYS) // Default to last month for custom
-                }
-            }
-
-        return startTime to now
     }
 }

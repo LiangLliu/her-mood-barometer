@@ -2,6 +2,7 @@ package com.lianglliu.hermoodbarometer.feature.diary.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.lianglliu.hermoodbarometer.feature.diary.DiaryScreen
@@ -21,4 +22,4 @@ fun NavGraphBuilder.diaryScreen() {
     }
 }
 
-fun NavController.navigateToDiary() = navigate(DiaryRoute)
+fun NavController.navigateToDiary(navOptions: NavOptions? = null) = navigate(route = DiaryBaseRoute, navOptions)

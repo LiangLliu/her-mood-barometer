@@ -37,7 +37,7 @@ constructor(private val emotionRecordDao: EmotionRecordDao) : EmotionRepository 
     }
 
     override fun getRecordsByTimeRange(timeRange: TimeRange): Flow<List<EmotionRecord>> {
-        val (startTime, endTime) = getTimeRangeBounds(timeRange)
+        val (startTime, endTime) = timeRange.toInstantBounds()
         return emotionRecordDao.getRecordsByTimeRange(startTime, endTime).map { entities ->
             entities.toDomainModels()
         }
@@ -173,36 +173,6 @@ constructor(private val emotionRecordDao: EmotionRecordDao) : EmotionRepository 
 
     override suspend fun getMostRecentTimestamp(): Instant? {
         return emotionRecordDao.getMostRecentTimestamp()
-    }
-
-    /** Convert TimeRange enum to Instant bounds */
-    private fun getTimeRangeBounds(timeRange: TimeRange): Pair<Instant, Instant> {
-        val now = Instant.now()
-        val zoneId = ZoneId.systemDefault()
-
-        val startTime =
-            when (timeRange) {
-                TimeRange.LAST_WEEK -> {
-                    now.minus(7, ChronoUnit.DAYS)
-                }
-                TimeRange.LAST_MONTH -> {
-                    now.minus(30, ChronoUnit.DAYS)
-                }
-                TimeRange.LAST_3_MONTHS -> {
-                    now.minus(90, ChronoUnit.DAYS)
-                }
-                TimeRange.LAST_SIX_MONTHS -> {
-                    now.minus(180, ChronoUnit.DAYS)
-                }
-                TimeRange.LAST_YEAR -> {
-                    now.minus(365, ChronoUnit.DAYS)
-                }
-                TimeRange.CUSTOM -> {
-                    now.minus(30, ChronoUnit.DAYS) // Default to last month for custom
-                }
-            }
-
-        return startTime to now
     }
 
     /** Group records by date and calculate daily counts */

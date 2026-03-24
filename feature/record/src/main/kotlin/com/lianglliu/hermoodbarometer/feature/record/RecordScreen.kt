@@ -1,6 +1,5 @@
 package com.lianglliu.hermoodbarometer.feature.record
 
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -22,94 +21,90 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.core.locales.R
 import com.lianglliu.hermoodbarometer.core.ui.component.ErrorCard
 import com.lianglliu.hermoodbarometer.core.ui.component.ScreenContainer
+import com.lianglliu.hermoodbarometer.feature.record.components.DateTimeRow
 import com.lianglliu.hermoodbarometer.feature.record.components.EmotionIntensitySelector
 import com.lianglliu.hermoodbarometer.feature.record.components.EmotionSelector
 import com.lianglliu.hermoodbarometer.feature.record.components.NoteInput
 import com.lianglliu.hermoodbarometer.feature.record.components.SaveButton
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecordScreen(
-    viewModel: RecordViewModel = hiltViewModel()
-) {
+fun RecordScreen(viewModel: RecordViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val isSaveEnabled by remember {
-        derivedStateOf {
-            uiState.selectedEmotion != null && !uiState.isLoading // Also disable when loading
-        }
+        derivedStateOf { uiState.selectedEmotion != null && !uiState.isLoading }
     }
 
-    // Handle success messages with Snackbar
     val successMessage = stringResource(R.string.record_saved_successfully)
     LaunchedEffect(uiState.showSuccessMessage) {
         if (uiState.showSuccessMessage) {
-            keyboardController?.hide() // Hide keyboard on success
+            keyboardController?.hide()
             scope.launch {
                 snackbarHostState.showSnackbar(
                     message = successMessage,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
             }
-            viewModel.clearSuccessMessage() // Clear after initiating snackbar show
+            viewModel.clearSuccessMessage()
         }
     }
 
-    // Handle error messages with Snackbar
     val errorMessages = uiState.errorMessageResId?.let { stringResource(it) }
     LaunchedEffect(errorMessages) {
         errorMessages?.let { message ->
             scope.launch {
-                snackbarHostState.showSnackbar(
-                    message = message,
-                    duration = SnackbarDuration.Long // Errors might need longer visibility
-                )
+                snackbarHostState.showSnackbar(message = message, duration = SnackbarDuration.Long)
             }
         }
     }
 
     ScreenContainer(
         title = stringResource(R.string.record_title),
-        modifier = Modifier.imePadding() // Handles keyboard
+        subtitle = stringResource(R.string.record_subtitle),
+        modifier = Modifier.imePadding(),
     ) {
+        // DateTime pills
+        item { DateTimeRow(modifier = Modifier.padding(bottom = 8.dp)) }
+
+        // Emotion selector
         item {
             EmotionSelector(
                 selectedEmotion = uiState.selectedEmotion,
                 userEmotions = uiState.userEmotions,
-                onEmotionSelected = { viewModel.updateSelectedEmotion(it) }
+                onEmotionSelected = { viewModel.updateSelectedEmotion(it) },
             )
         }
 
+        // Intensity selector
         item {
             EmotionIntensitySelector(
                 intensityLevel = uiState.intensityLevel,
-                onIntensityChanged = { viewModel.updateIntensity(it) }
+                onIntensityChanged = { viewModel.updateIntensity(it) },
             )
         }
 
+        // Note input
         item {
-            NoteInput(
-                noteText = uiState.noteText,
-                onNoteChanged = { viewModel.updateNote(it) }
-            )
+            NoteInput(noteText = uiState.noteText, onNoteChanged = { viewModel.updateNote(it) })
         }
 
+        // Error card
         val errorResId = uiState.errorMessageResId
         if (errorResId != null) {
             item {
                 ErrorCard(
                     message = stringResource(errorResId),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                 )
             }
         }
 
+        // Save button
         item {
             SaveButton(
                 isEnabled = isSaveEnabled,
@@ -118,12 +113,8 @@ fun RecordScreen(
                     keyboardController?.hide()
                     viewModel.saveEmotionRecord()
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, bottom = 16.dp)
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp, bottom = 16.dp),
             )
         }
     }
 }
-
-

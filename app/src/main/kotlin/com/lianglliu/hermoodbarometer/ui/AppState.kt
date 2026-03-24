@@ -103,7 +103,7 @@ class AppState(
 
             when (topLevelDestination) {
                 DIARY -> {
-                    navController.navigateToDiary()
+                    navController.navigateToDiary(topLevelNavOptions)
                     Timber.d("→ DIARY (${System.currentTimeMillis() - startTime}ms)")
                 }
                 STATISTICS -> {
@@ -111,7 +111,7 @@ class AppState(
                     Timber.d("→ STATISTICS (${System.currentTimeMillis() - startTime}ms)")
                 }
                 CALENDAR -> {
-                    navController.navigateToCalendar()
+                    navController.navigateToCalendar(topLevelNavOptions)
                     Timber.d("→ CALENDAR (${System.currentTimeMillis() - startTime}ms)")
                 }
                 SETTINGS -> {

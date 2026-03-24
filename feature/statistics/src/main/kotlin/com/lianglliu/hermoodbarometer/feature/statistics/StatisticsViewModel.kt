@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -55,14 +54,26 @@ constructor(
             .flatMapLatest { (filter, timeRange) ->
                 val startTime = System.currentTimeMillis()
 
-                getEmotionStatisticsUseCase(filter.startDateTime, filter.endDateTime)
-                    .map { statistics ->
+                val durationDays =
+                    java.time.temporal.ChronoUnit.DAYS.between(
+                            filter.startDateTime,
+                            filter.endDateTime,
+                        )
+                        .coerceAtLeast(1)
+                val previousEnd = filter.startDateTime.minusSeconds(1)
+                val previousStart = previousEnd.minusDays(durationDays)
+
+                combine(
+                        getEmotionStatisticsUseCase(filter.startDateTime, filter.endDateTime),
+                        getEmotionStatisticsUseCase(previousStart, previousEnd),
+                    ) { currentStats, prevStats ->
                         Timber.d(
-                            "Statistics loaded: ${statistics.totalRecords} records (${System.currentTimeMillis() - startTime}ms)"
+                            "Statistics loaded: ${currentStats.totalRecords} records (${System.currentTimeMillis() - startTime}ms)"
                         )
                         StatisticsUiState.Success(
                             emotionRecordFilter = filter,
-                            statistics = statistics,
+                            statistics = currentStats,
+                            previousStatistics = prevStats,
                             timeRange = timeRange,
                             customStartDate = filter.startDateTime.toLocalDate(),
                             customEndDate = filter.endDateTime.toLocalDate(),
@@ -92,16 +103,6 @@ constructor(
             )
         }
     }
-
-    fun updateCustomDateRange(startDate: LocalDate, endDate: LocalDate) {
-        selectedTimeRangeEnumState.value = TimeRange.CUSTOM
-        emotionRecordFilterState.update {
-            it.copy(
-                startDateTime = startDate.atStartOfDay(),
-                endDateTime = endDate.plusDays(1).atStartOfDay(),
-            )
-        }
-    }
 }
 
 sealed interface StatisticsUiState {
@@ -111,6 +112,7 @@ sealed interface StatisticsUiState {
     data class Success(
         val emotionRecordFilter: EmotionRecordFilter,
         val statistics: EmotionStatistics,
+        val previousStatistics: EmotionStatistics? = null,
         val timeRange: TimeRange,
         val customStartDate: LocalDate,
         val customEndDate: LocalDate,

@@ -1,47 +1,51 @@
 package com.lianglliu.hermoodbarometer.feature.settings
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.lianglliu.hermoodbarometer.core.designsystem.component.AppSwitch
-import com.lianglliu.hermoodbarometer.core.designsystem.component.ListItem
-import com.lianglliu.hermoodbarometer.core.designsystem.component.ToggableListItem
-import com.lianglliu.hermoodbarometer.core.designsystem.icon.AppIcons
-import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.FormatPaint
-import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.HistoryEdu
-import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Info
-import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Language
-import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.MoreVert
-import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Notifications
-import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Palette
+import com.lianglliu.hermoodbarometer.core.designsystem.component.ScreenHeader
+import com.lianglliu.hermoodbarometer.core.designsystem.icon.Emojis
+import com.lianglliu.hermoodbarometer.core.designsystem.theme.ExtendedTheme
 import com.lianglliu.hermoodbarometer.core.locales.R
 import com.lianglliu.hermoodbarometer.core.model.data.ColorSchemeConfig
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig
@@ -52,12 +56,11 @@ import com.lianglliu.hermoodbarometer.core.ui.component.LoadingState
 import com.lianglliu.hermoodbarometer.feature.settings.SettingsUiState.Loading
 import com.lianglliu.hermoodbarometer.feature.settings.components.ColorSchemeBottomSheet
 import com.lianglliu.hermoodbarometer.feature.settings.components.LanguageDialog
-import com.lianglliu.hermoodbarometer.feature.settings.components.SectionTitle
 import com.lianglliu.hermoodbarometer.feature.settings.components.ThemeDialog
 import com.lianglliu.hermoodbarometer.feature.settings.components.TimePickerDialog
+import com.lianglliu.hermoodbarometer.feature.settings.components.displayName
 import timber.log.Timber
 
-/** 设置页面 应用的设置和配置页面 */
 @Composable
 fun SettingsScreen(
     onNavigateToAboutLicenses: () -> Unit = {},
@@ -66,21 +69,13 @@ fun SettingsScreen(
     val settingsState by viewModel.settingsUiState.collectAsStateWithLifecycle()
     val permissionState by viewModel.permissionState.collectAsStateWithLifecycle()
 
-    // 处理权限请求结果
     when (val state = permissionState) {
         is PermissionCheckResult.PermissionsRequired -> {
             PermissionHandler(
                 permissions = state.permissions,
-                onAllPermissionsGranted = {
-                    // 所有权限已授予，继续开启提醒
-                    viewModel.recheckPermissionsAndContinue()
-                },
-                onPermissionsDenied = {
-                    // 用户拒绝了权限，清除状态
-                    viewModel.clearPermissionState()
-                },
+                onAllPermissionsGranted = { viewModel.recheckPermissionsAndContinue() },
+                onPermissionsDenied = { viewModel.clearPermissionState() },
             ) {
-                // 正常显示设置界面
                 SettingsScreenContent(
                     settingsState = settingsState,
                     onLicensesClick = onNavigateToAboutLicenses,
@@ -94,7 +89,6 @@ fun SettingsScreen(
         }
 
         else -> {
-            // 正常显示设置界面
             SettingsScreenContent(
                 settingsState = settingsState,
                 onLicensesClick = onNavigateToAboutLicenses,
@@ -108,7 +102,6 @@ fun SettingsScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsScreenContent(
     settingsState: SettingsUiState,
@@ -120,8 +113,8 @@ private fun SettingsScreenContent(
     onReminderTimeChanged: (String) -> Unit,
 ) {
     val context = LocalContext.current
+    val colors = ExtendedTheme.colors
 
-    // Compute notification blocked state
     val isNotificationBlocked =
         if (settingsState is SettingsUiState.Success && settingsState.settings.isReminderEnabled) {
             !PermissionHelpers.notificationsEnabled(context)
@@ -131,12 +124,18 @@ private fun SettingsScreenContent(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = { Text(text = stringResource(R.string.settings)) })
-        }
+            ScreenHeader(
+                title = stringResource(R.string.settings),
+                subtitle = stringResource(R.string.settings_subtitle),
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.background,
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(paddingValues),
-            contentPadding = PaddingValues(vertical = 8.dp),
+            contentPadding =
+                PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 100.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
             when (settingsState) {
                 Loading -> {
@@ -144,223 +143,310 @@ private fun SettingsScreenContent(
                 }
 
                 is SettingsUiState.Success -> {
-                    appearance(
-                        settings = settingsState.settings,
-                        onColorSchemeConfigUpdate = onColorSchemeConfigUpdate,
-                        onDarkThemeConfigUpdate = onDarkThemeConfigUpdate,
-                        onLanguageUpdate = onLanguageUpdate,
-                    )
+                    // Appearance group
+                    item { SettingsGroupTitle(stringResource(R.string.appearance)) }
+                    item {
+                        AppearanceGroup(
+                            settings = settingsState.settings,
+                            onColorSchemeConfigUpdate = onColorSchemeConfigUpdate,
+                            onDarkThemeConfigUpdate = onDarkThemeConfigUpdate,
+                            onLanguageUpdate = onLanguageUpdate,
+                        )
+                    }
 
-                    notification(
-                        settings = settingsState.settings,
-                        isNotificationBlocked = isNotificationBlocked,
-                        onReminderEnabledChanged = onReminderEnabledChanged,
-                        onTimeSelected = { time ->
-                            Timber.d("Set notification time to $time")
-                            onReminderTimeChanged(time)
-                        },
-                    )
+                    // Notification group
+                    item { SettingsGroupTitle(stringResource(R.string.notifications)) }
+                    item {
+                        NotificationGroup(
+                            settings = settingsState.settings,
+                            isNotificationBlocked = isNotificationBlocked,
+                            onReminderEnabledChanged = onReminderEnabledChanged,
+                            onReminderTimeChanged = { time ->
+                                Timber.d("Set notification time to $time")
+                                onReminderTimeChanged(time)
+                            },
+                        )
+                    }
 
-                    about(onAboutLicensesClick = onLicensesClick)
+                    // About group
+                    item { SettingsGroupTitle(stringResource(R.string.about)) }
+                    item { AboutGroup(onLicensesClick = onLicensesClick) }
                 }
             }
         }
     }
 }
 
-private fun LazyListScope.appearance(
+@Composable
+private fun SettingsGroupTitle(text: String, modifier: Modifier = Modifier) {
+    val colors = ExtendedTheme.colors
+    Text(
+        text = text,
+        style =
+            MaterialTheme.typography.labelSmall.copy(
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Medium,
+            ),
+        color = colors.textHint,
+        letterSpacing = 1.sp,
+        modifier = modifier.padding(start = 4.dp, bottom = 8.dp),
+    )
+}
+
+@Composable
+private fun SettingsGroupCard(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+    val colors = ExtendedTheme.colors
+    Box(
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(20.dp))
+                .border(1.dp, colors.borderLight, RoundedCornerShape(20.dp))
+                .background(colors.cardBackground)
+                .padding(vertical = 6.dp, horizontal = 2.dp)
+    ) {
+        Column { content() }
+    }
+}
+
+@Composable
+private fun SettingItem(
+    emoji: String,
+    iconBgColor: Color,
+    title: String,
+    description: String,
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
+    trailing: @Composable (() -> Unit)? = null,
+) {
+    val colors = ExtendedTheme.colors
+    Row(
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(14.dp))
+                .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier)
+                .padding(horizontal = 16.dp, vertical = 14.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(14.dp),
+    ) {
+        // Emoji icon in tinted square
+        Box(
+            modifier = Modifier.size(36.dp).clip(RoundedCornerShape(10.dp)).background(iconBgColor),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(text = emoji, fontSize = 18.sp)
+        }
+
+        // Body
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+            Spacer(modifier = Modifier.height(1.dp))
+            Text(
+                text = description,
+                style = MaterialTheme.typography.labelSmall.copy(fontSize = 12.sp),
+                color = colors.textMuted,
+            )
+        }
+
+        // Trail
+        if (trailing != null) {
+            trailing()
+        } else if (onClick != null) {
+            Text(
+                text = Emojis.NAV_NEXT,
+                style = MaterialTheme.typography.titleMedium.copy(fontSize = 16.sp),
+                color = colors.textHint,
+            )
+        }
+    }
+}
+
+@Composable
+private fun AppearanceGroup(
     settings: UserEditableSettings,
     onColorSchemeConfigUpdate: (ColorSchemeConfig) -> Unit,
     onDarkThemeConfigUpdate: (DarkThemeConfig) -> Unit,
     onLanguageUpdate: (String) -> Unit,
 ) {
-    item { SectionTitle(stringResource(R.string.appearance)) }
-    item {
-        var showLanguageDialog by rememberSaveable { mutableStateOf(false) }
+    val colors = ExtendedTheme.colors
+    var showLanguageDialog by rememberSaveable { mutableStateOf(false) }
+    var showThemeDialog by rememberSaveable { mutableStateOf(false) }
+    var showColorSchemeSheet by rememberSaveable { mutableStateOf(false) }
 
-        ListItem(
-            headlineContent = { Text(stringResource(R.string.language)) },
-            leadingContent = {
-                Icon(imageVector = AppIcons.Outlined.Language, contentDescription = null)
-            },
-            supportingContent = { Text(settings.language.displayName) },
+    val themeOptions =
+        listOf(
+            stringResource(R.string.system_theme),
+            stringResource(R.string.light_theme),
+            stringResource(R.string.dark_theme),
+        )
+
+    SettingsGroupCard {
+        SettingItem(
+            emoji = Emojis.GLOBE,
+            iconBgColor = colors.accentBg,
+            title = stringResource(R.string.language),
+            description = settings.language.displayName(),
             onClick = { showLanguageDialog = true },
         )
-
-        if (showLanguageDialog) {
-            LanguageDialog(
-                language = settings.language.code,
-                availableLanguages = settings.availableLanguages,
-                onLanguageClick = onLanguageUpdate,
-                onDismiss = { showLanguageDialog = false },
-            )
-        }
-    }
-    item {
-        val themeOptions =
-            listOf(
-                stringResource(R.string.system_theme),
-                stringResource(R.string.light_theme),
-                stringResource(R.string.dark_theme),
-            )
-        var showThemeDialog by rememberSaveable { mutableStateOf(false) }
-
-        ListItem(
-            headlineContent = { Text(stringResource(R.string.theme)) },
-            leadingContent = {
-                Icon(imageVector = AppIcons.Outlined.Palette, contentDescription = null)
-            },
-            supportingContent = { Text(themeOptions.elementAt(settings.darkThemeConfig.ordinal)) },
+        SettingItem(
+            emoji = Emojis.PALETTE,
+            iconBgColor = colors.lavenderBg,
+            title = stringResource(R.string.theme),
+            description = themeOptions.elementAt(settings.darkThemeConfig.ordinal),
             onClick = { showThemeDialog = true },
         )
-
-        if (showThemeDialog) {
-            ThemeDialog(
-                themeConfig = settings.darkThemeConfig,
-                themeOptions = themeOptions,
-                onDarkThemeConfigUpdate = onDarkThemeConfigUpdate,
-                onDismiss = { showThemeDialog = false },
-            )
-        }
-    }
-    item {
-        var showColorSchemeSheet by rememberSaveable { mutableStateOf(false) }
-
-        ListItem(
-            headlineContent = { Text(stringResource(R.string.color_scheme_title)) },
-            leadingContent = {
-                Icon(imageVector = AppIcons.Outlined.FormatPaint, contentDescription = null)
-            },
-            supportingContent = {
-                Text(
-                    when (settings.colorSchemeConfig) {
-                        ColorSchemeConfig.WARM -> stringResource(R.string.color_scheme_warm)
-                        ColorSchemeConfig.OCEAN -> stringResource(R.string.color_scheme_ocean)
-                        ColorSchemeConfig.PETAL -> stringResource(R.string.color_scheme_petal)
-                        ColorSchemeConfig.DYNAMIC -> stringResource(R.string.color_scheme_dynamic)
-                    }
-                )
-            },
+        SettingItem(
+            emoji = Emojis.MASKS,
+            iconBgColor = colors.roseBg,
+            title = stringResource(R.string.color_scheme_title),
+            description =
+                when (settings.colorSchemeConfig) {
+                    ColorSchemeConfig.WARM -> stringResource(R.string.color_scheme_warm)
+                    ColorSchemeConfig.OCEAN -> stringResource(R.string.color_scheme_ocean)
+                    ColorSchemeConfig.PETAL -> stringResource(R.string.color_scheme_petal)
+                    ColorSchemeConfig.DYNAMIC -> stringResource(R.string.color_scheme_dynamic)
+                },
             onClick = { showColorSchemeSheet = true },
         )
+    }
 
-        if (showColorSchemeSheet) {
-            ColorSchemeBottomSheet(
-                currentConfig = settings.colorSchemeConfig,
-                onConfigSelected = onColorSchemeConfigUpdate,
-                onDismiss = { showColorSchemeSheet = false },
-            )
-        }
+    if (showLanguageDialog) {
+        LanguageDialog(
+            language = settings.language.code,
+            availableLanguages = settings.availableLanguages,
+            onLanguageClick = onLanguageUpdate,
+            onDismiss = { showLanguageDialog = false },
+        )
+    }
+    if (showThemeDialog) {
+        ThemeDialog(
+            themeConfig = settings.darkThemeConfig,
+            themeOptions = themeOptions,
+            onDarkThemeConfigUpdate = onDarkThemeConfigUpdate,
+            onDismiss = { showThemeDialog = false },
+        )
+    }
+    if (showColorSchemeSheet) {
+        ColorSchemeBottomSheet(
+            currentConfig = settings.colorSchemeConfig,
+            onConfigSelected = onColorSchemeConfigUpdate,
+            onDismiss = { showColorSchemeSheet = false },
+        )
     }
 }
 
-private fun LazyListScope.notification(
+@Composable
+private fun NotificationGroup(
     settings: UserEditableSettings,
     isNotificationBlocked: Boolean,
     onReminderEnabledChanged: (Boolean) -> Unit,
-    onTimeSelected: (String) -> Unit,
+    onReminderTimeChanged: (String) -> Unit,
 ) {
-    item { SectionTitle(stringResource(R.string.notifications)) }
+    val colors = ExtendedTheme.colors
+    var showTimePickerDialog by rememberSaveable { mutableStateOf(false) }
 
-    item {
-        ToggableListItem(
-            headlineContent = { Text(stringResource(R.string.daily_reminder)) },
-            supportingContent = { Text(stringResource(R.string.daily_reminder_description)) },
-            leadingContent = {
-                Icon(imageVector = AppIcons.Outlined.Notifications, contentDescription = null)
+    SettingsGroupCard {
+        SettingItem(
+            emoji = Emojis.BELL,
+            iconBgColor = colors.amberBg,
+            title = stringResource(R.string.daily_reminder),
+            description = stringResource(R.string.daily_reminder_description),
+            trailing = {
+                Switch(
+                    checked = settings.isReminderEnabled,
+                    onCheckedChange = onReminderEnabledChanged,
+                    colors =
+                        SwitchDefaults.colors(
+                            checkedThumbColor = Color.White,
+                            checkedTrackColor = colors.accent,
+                            uncheckedThumbColor = Color.White,
+                            uncheckedTrackColor = colors.border,
+                        ),
+                )
             },
-            trailingContent = {
-                AppSwitch(checked = settings.isReminderEnabled, onCheckedChange = null)
-            },
-            checked = settings.isReminderEnabled,
-            onCheckedChange = onReminderEnabledChanged,
         )
+
+        if (settings.isReminderEnabled) {
+            SettingItem(
+                emoji = Emojis.ALARM,
+                iconBgColor = colors.roseBg,
+                title = stringResource(R.string.reminder_time),
+                description = settings.reminderTime,
+                onClick = { showTimePickerDialog = true },
+            )
+        }
     }
 
     // Notification permission blocked warning
     if (settings.isReminderEnabled && isNotificationBlocked) {
-        item {
-            Card(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
-                colors =
-                    CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.errorContainer
-                    ),
-                shape = RoundedCornerShape(12.dp),
+        Spacer(modifier = Modifier.height(4.dp))
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors =
+                CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
+            shape = RoundedCornerShape(12.dp),
+        ) {
+            Row(
+                modifier = Modifier.padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Row(
-                    modifier = Modifier.padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Warning,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.error,
-                    )
-                    Text(
-                        text = stringResource(R.string.notification_permission_blocked_warning),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onErrorContainer,
-                    )
-                }
-            }
-        }
-    }
-
-    item {
-        if (settings.isReminderEnabled) {
-            var showTimePickerDialog by rememberSaveable { mutableStateOf(false) }
-            ListItem(
-                headlineContent = { Text(stringResource(R.string.reminder_time)) },
-                leadingContent = {
-                    Icon(imageVector = AppIcons.Outlined.MoreVert, contentDescription = null)
-                },
-                supportingContent = { Text(settings.reminderTime) },
-                onClick = { showTimePickerDialog = !showTimePickerDialog },
-            )
-
-            //  提醒时间选择对话框
-            if (showTimePickerDialog) {
-                TimePickerDialog(
-                    currentTime = settings.reminderTime,
-                    onTimeSelected = onTimeSelected,
-                    onDismiss = { showTimePickerDialog = false },
+                Icon(
+                    imageVector = Icons.Default.Warning,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error,
+                )
+                Text(
+                    text = stringResource(R.string.notification_permission_blocked_warning),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onErrorContainer,
                 )
             }
         }
     }
+
+    if (showTimePickerDialog) {
+        TimePickerDialog(
+            currentTime = settings.reminderTime,
+            onTimeSelected = onReminderTimeChanged,
+            onDismiss = { showTimePickerDialog = false },
+        )
+    }
 }
 
-private fun LazyListScope.about(onAboutLicensesClick: () -> Unit) {
-    item { SectionTitle(stringResource(R.string.about)) }
-    item {
-        ListItem(
-            headlineContent = { Text(stringResource(R.string.about_app)) },
-            leadingContent = {
-                Icon(imageVector = AppIcons.Outlined.Info, contentDescription = null)
-            },
-            supportingContent = { Text(stringResource(R.string.about_app_description)) },
-        )
+@Composable
+private fun AboutGroup(onLicensesClick: () -> Unit) {
+    val colors = ExtendedTheme.colors
+    val context = LocalContext.current
+    val versionName = remember {
+        context.packageManager.getPackageInfo(context.packageName, 0).versionName.orEmpty()
     }
 
-    item {
-        ListItem(
-            headlineContent = { Text(stringResource(R.string.licenses)) },
-            leadingContent = {
-                Icon(imageVector = AppIcons.Outlined.HistoryEdu, contentDescription = null)
-            },
-            supportingContent = { stringResource(R.string.licenses_description) },
-            onClick = { onAboutLicensesClick },
+    SettingsGroupCard {
+        SettingItem(
+            emoji = Emojis.INFO,
+            iconBgColor = colors.accentBg,
+            title = stringResource(R.string.about_app),
+            description = stringResource(R.string.about_app_description),
         )
-    }
-    item {
-        ListItem(
-            headlineContent = { Text(stringResource(R.string.app_name)) },
-            leadingContent = {
-                Icon(imageVector = AppIcons.Outlined.Info, contentDescription = null)
-            },
-            supportingContent = { Text("${stringResource(R.string.version)}: 1.0.0") },
+        SettingItem(
+            emoji = Emojis.PAGE,
+            iconBgColor = colors.lavenderBg,
+            title = stringResource(R.string.licenses),
+            description = stringResource(R.string.licenses_description),
+            onClick = onLicensesClick,
+        )
+        SettingItem(
+            emoji = Emojis.NUMBERS,
+            iconBgColor = colors.sageBg,
+            title = stringResource(R.string.app_name),
+            description = "${stringResource(R.string.version)} $versionName",
         )
     }
 }
