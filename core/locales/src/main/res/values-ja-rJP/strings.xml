@@ -84,6 +84,8 @@
     <!-- ==================== Calendar Module ==================== -->
     <string name="calendar_title">カレンダー</string>
     <string name="calendar_month_format">yyyy年M月</string>
+    <string name="previous_month">前月</string>
+    <string name="next_month">翌月</string>
 
     <!-- ==================== Settings Module ==================== -->
     <string name="settings">設定</string>
@@ -303,19 +305,40 @@
     <string name="notification_message">気分を記録する時間をとってください</string>
     <string name="notification_text">気分を記録する時間をとってください</string>
     <string name="daily_reminder_description">毎日気分を記録するようリマインド</string>
+    <string name="quick_record_action">今すぐ記録</string>
+
+    <string-array name="notification_titles">
+        <item>気分はどうですか？</item>
+        <item>自分だけの時間を</item>
+        <item>あなたの気持ちは大切です</item>
+        <item>ちょっと立ち止まって</item>
+        <item>今日はどんな一日でしたか？</item>
+        <item>心の声に耳を傾けて</item>
+        <item>今日のひととき</item>
+        <item>何か共有したいことは？</item>
+    </string-array>
+
+    <string-array name="notification_texts">
+        <item>気分を記録する時間をとってください</item>
+        <item>あなたの気持ちは聞いてもらう価値があります</item>
+        <item>ほんの一言が違いを生みます</item>
+        <item>今日はいかがお過ごしですか？</item>
+        <item>日記にあなたの気持ちを伝えましょう</item>
+        <item>すべての感情には物語があります</item>
+        <item>この瞬間を日記に残しましょう</item>
+        <item>あなたの気分日記が待っています</item>
+    </string-array>
 
     <!-- ==================== Permissions ==================== -->
     <string name="permission_notification_title">通知を有効にする</string>
     <string name="permission_notification_message">気分リマインダーを受け取るために通知を許可する</string>
-    <string name="permission_exact_alarm_title">正確なアラームを有効にする</string>
-    <string name="permission_exact_alarm_message">正確なリマインダータイミングのために正確なアラームを許可する</string>
     <string name="permission_required">権限が必要です</string>
     <string name="permission_denied">権限が拒否されました</string>
     <string name="permission_go_to_settings">設定に移動</string>
     <string name="permission_cancel">キャンセル</string>
     <string name="permission_notification_rationale">気分を記録する毎日のリマインダーを送信するために通知権限が必要です。設定で通知を有効にしてください。</string>
-    <string name="permission_exact_alarm_rationale">正確な時刻にリマインダーをスケジュールするために正確なアラーム権限が必要です。設定でこの権限を有効にしてください。</string>
     <string name="permission_default_rationale">アプリが正常に機能するためにこの権限が必要です。設定で権限を付与してください。</string>
+    <string name="notification_permission_blocked_warning">通知がブロックされています。リマインダーが機能しない場合があります。トグルを再度オンにして許可してください。</string>
 
     <!-- ==================== Accessibility ==================== -->
     <string name="cd_emotion_icon">感情アイコン</string>
@@ -326,6 +349,8 @@
     <string name="cd_settings_button">設定ボタン</string>
     <string name="cd_add_button">追加ボタン</string>
     <string name="cd_chart">統計チャート</string>
+    <string name="cd_page_title">ページタイトル：%s</string>
+    <string name="cd_navigate_back">前のページに戻る</string>
 
     <!-- ==================== Quick Record ==================== -->
     <string name="quick_record_title">クイック記録</string>

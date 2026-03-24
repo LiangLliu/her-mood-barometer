@@ -11,6 +11,9 @@ import com.lianglliu.hermoodbarometer.core.common.concurrency.AppDispatchers
 import com.lianglliu.hermoodbarometer.core.common.concurrency.Dispatcher
 import com.lianglliu.hermoodbarometer.core.common.concurrency.di.ApplicationScope
 import dagger.hilt.android.qualifiers.ApplicationContext
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+import java.time.ZoneId
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
@@ -23,16 +26,15 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toKotlinTimeZone
-import java.time.ZoneId
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
- * Utility for reporting current timezone the device has set.
- * It always emits at least once with default setting and then for each TZ change.
+ * Utility for reporting current timezone the device has set. It always emits at least once with
+ * default setting and then for each TZ change.
  */
 @Singleton
-internal class TimeZoneBroadcastMonitor @Inject constructor(
+internal class TimeZoneBroadcastMonitor
+@Inject
+constructor(
     @ApplicationContext private val context: Context,
     @ApplicationScope appScope: CoroutineScope,
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
@@ -40,48 +42,49 @@ internal class TimeZoneBroadcastMonitor @Inject constructor(
 
     override val currentTimeZone: SharedFlow<TimeZone> =
         callbackFlow {
-            trySend(TimeZone.currentSystemDefault())
+                trySend(TimeZone.currentSystemDefault())
 
-            // Registers BroadcastReceiver for the TimeZone changes
-            val receiver = object : BroadcastReceiver() {
-                override fun onReceive(context: Context, intent: Intent) {
-                    if (intent.action != Intent.ACTION_TIMEZONE_CHANGED) return
+                // Registers BroadcastReceiver for the TimeZone changes
+                val receiver =
+                    object : BroadcastReceiver() {
+                        override fun onReceive(context: Context, intent: Intent) {
+                            if (intent.action != Intent.ACTION_TIMEZONE_CHANGED) return
 
-                    val zoneIdFromIntent = if (VERSION.SDK_INT < VERSION_CODES.R) {
-                        null
-                    } else {
-                        // Starting Android R we also get the new TimeZone.
-                        intent.getStringExtra(Intent.EXTRA_TIMEZONE)?.let { timeZoneId ->
-                            val zoneId = ZoneId.of(timeZoneId, ZoneId.SHORT_IDS)
-                            zoneId.toKotlinTimeZone()
+                            val zoneIdFromIntent =
+                                if (VERSION.SDK_INT < VERSION_CODES.R) {
+                                    null
+                                } else {
+                                    // Starting Android R we also get the new TimeZone.
+                                    intent.getStringExtra(Intent.EXTRA_TIMEZONE)?.let { timeZoneId
+                                        ->
+                                        val zoneId = ZoneId.of(timeZoneId, ZoneId.SHORT_IDS)
+                                        zoneId.toKotlinTimeZone()
+                                    }
+                                }
+
+                            // If there isn't a zoneId in the intent, fallback to the systemDefault,
+                            // which should also reflect the change
+                            trySend(zoneIdFromIntent ?: TimeZone.currentSystemDefault())
                         }
                     }
 
-                    // If there isn't a zoneId in the intent, fallback to the systemDefault, which should also reflect the change
-                    trySend(zoneIdFromIntent ?: TimeZone.currentSystemDefault())
+                trace("TimeZoneBroadcastReceiver.register") {
+                    context.registerReceiver(receiver, IntentFilter(Intent.ACTION_TIMEZONE_CHANGED))
                 }
-            }
 
-            trace("TimeZoneBroadcastReceiver.register") {
-                context.registerReceiver(receiver, IntentFilter(Intent.ACTION_TIMEZONE_CHANGED))
-            }
+                // Send here again, because registering the Broadcast Receiver can take up to
+                // several milliseconds.
+                // This way, we can reduce the likelihood that a TZ change wouldn't be caught with
+                // the Broadcast Receiver.
+                trySend(TimeZone.currentSystemDefault())
 
-            // Send here again, because registering the Broadcast Receiver can take up to several milliseconds.
-            // This way, we can reduce the likelihood that a TZ change wouldn't be caught with the Broadcast Receiver.
-            trySend(TimeZone.currentSystemDefault())
-
-            awaitClose {
-                context.unregisterReceiver(receiver)
+                awaitClose { context.unregisterReceiver(receiver) }
             }
-        }
-            // We use to prevent multiple emissions of the same type, because we use trySend multiple times.
+            // We use to prevent multiple emissions of the same type, because we use trySend
+            // multiple times.
             .distinctUntilChanged()
             .conflate()
             .flowOn(ioDispatcher)
             // Sharing the callback to prevent multiple BroadcastReceivers being registered
-            .shareIn(
-                scope = appScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                replay = 1,
-            )
+            .shareIn(scope = appScope, started = SharingStarted.WhileSubscribed(5_000), replay = 1)
 }

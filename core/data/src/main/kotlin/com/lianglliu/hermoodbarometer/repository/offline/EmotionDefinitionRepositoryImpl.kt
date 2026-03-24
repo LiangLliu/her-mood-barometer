@@ -7,8 +7,8 @@ import com.lianglliu.hermoodbarometer.repository.EmotionDefinitionRepository
 import com.lianglliu.hermoodbarometer.repository.mapper.toDomainModel
 import com.lianglliu.hermoodbarometer.repository.mapper.toDomainModels
 import com.lianglliu.hermoodbarometer.repository.mapper.toEntity
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map

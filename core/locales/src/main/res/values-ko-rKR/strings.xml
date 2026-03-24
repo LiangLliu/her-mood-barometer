@@ -84,6 +84,8 @@
     <!-- ==================== Calendar Module ==================== -->
     <string name="calendar_title">달력</string>
     <string name="calendar_month_format">yyyy년 M월</string>
+    <string name="previous_month">이전 달</string>
+    <string name="next_month">다음 달</string>
 
     <!-- ==================== Settings Module ==================== -->
     <string name="settings">설정</string>
@@ -303,19 +305,40 @@
     <string name="notification_message">잠시 시간을 내어 기분을 기록하세요</string>
     <string name="notification_text">잠시 시간을 내어 기분을 기록하세요</string>
     <string name="daily_reminder_description">매일 기분을 기록하도록 알림</string>
+    <string name="quick_record_action">지금 기록</string>
+
+    <string-array name="notification_titles">
+        <item>기분이 어떠신가요?</item>
+        <item>나만의 시간을 가져요</item>
+        <item>당신의 기분은 소중해요</item>
+        <item>잠시 멈추고 느껴보세요</item>
+        <item>오늘 하루 어떠셨나요?</item>
+        <item>마음의 소리에 귀 기울여요</item>
+        <item>오늘의 특별한 순간</item>
+        <item>무언가 나누고 싶으신가요?</item>
+    </string-array>
+
+    <string-array name="notification_texts">
+        <item>잠시 시간을 내어 기분을 기록하세요</item>
+        <item>당신의 감정은 들어줄 가치가 있어요</item>
+        <item>짧은 한마디가 큰 변화를 가져와요</item>
+        <item>오늘 하루는 괜찮으셨나요?</item>
+        <item>일기에 오늘의 감정을 전해주세요</item>
+        <item>모든 감정에는 이야기가 있어요</item>
+        <item>이 순간을 일기에 담아보세요</item>
+        <item>기분 일기가 기다리고 있어요</item>
+    </string-array>
 
     <!-- ==================== Permissions ==================== -->
     <string name="permission_notification_title">알림 활성화</string>
     <string name="permission_notification_message">기분 알림을 받으려면 알림을 허용하세요</string>
-    <string name="permission_exact_alarm_title">정확한 알람 활성화</string>
-    <string name="permission_exact_alarm_message">정확한 알림 시간을 위해 정확한 알람을 허용하세요</string>
     <string name="permission_required">권한 필요</string>
     <string name="permission_denied">권한 거부됨</string>
     <string name="permission_go_to_settings">설정으로 이동</string>
     <string name="permission_cancel">취소</string>
     <string name="permission_notification_rationale">기분을 기록하는 매일 알림을 보내기 위해 알림 권한이 필요합니다. 설정에서 알림을 활성화해 주세요.</string>
-    <string name="permission_exact_alarm_rationale">정확한 시간에 알림을 예약하기 위해 정확한 알람 권한이 필요합니다. 설정에서 이 권한을 활성화해 주세요.</string>
     <string name="permission_default_rationale">앱이 정상적으로 작동하려면 이 권한이 필요합니다. 설정에서 권한을 부여해 주세요.</string>
+    <string name="notification_permission_blocked_warning">알림이 차단되어 있습니다. 알림이 작동하지 않을 수 있습니다. 토글을 다시 켜서 권한을 허용해 주세요.</string>
 
     <!-- ==================== Accessibility ==================== -->
     <string name="cd_emotion_icon">감정 아이콘</string>
@@ -326,6 +349,8 @@
     <string name="cd_settings_button">설정 버튼</string>
     <string name="cd_add_button">추가 버튼</string>
     <string name="cd_chart">통계 차트</string>
+    <string name="cd_page_title">페이지 제목: %s</string>
+    <string name="cd_navigate_back">이전 페이지로 이동</string>
 
     <!-- ==================== Quick Record ==================== -->
     <string name="quick_record_title">빠른 기록</string>

@@ -4,20 +4,19 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
-import com.lianglliu.hermoodbarometer.core.datastore.UserPreferences
-import com.lianglliu.hermoodbarometer.core.datastore.UserPreferencesSerializer
 import com.lianglliu.hermoodbarometer.core.common.concurrency.AppDispatchers
 import com.lianglliu.hermoodbarometer.core.common.concurrency.Dispatcher
 import com.lianglliu.hermoodbarometer.core.common.concurrency.di.ApplicationScope
+import com.lianglliu.hermoodbarometer.core.datastore.UserPreferences
+import com.lianglliu.hermoodbarometer.core.datastore.UserPreferencesSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import jakarta.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -34,5 +33,7 @@ object DataStoreModule {
         DataStoreFactory.create(
             serializer = userPreferencesSerializer,
             scope = CoroutineScope(scope.coroutineContext + ioDispatcher),
-        ) { context.dataStoreFile("user_preferences.pb") }
+        ) {
+            context.dataStoreFile("user_preferences.pb")
+        }
 }

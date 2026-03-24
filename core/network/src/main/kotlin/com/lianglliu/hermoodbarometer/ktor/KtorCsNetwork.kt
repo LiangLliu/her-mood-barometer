@@ -6,14 +6,13 @@ import com.lianglliu.hermoodbarometer.resource.CurrencyRateResource
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.resources.get
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import kotlinx.serialization.Serializable
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
-internal class KtorCsNetwork @Inject constructor(
-    private val httpClient: HttpClient,
-) : AppNetworkDataSource {
+internal class KtorCsNetwork @Inject constructor(private val httpClient: HttpClient) :
+    AppNetworkDataSource {
 
     override suspend fun getCurrencyExchangeRate(
         baseCurrencyCode: String,
@@ -26,7 +25,4 @@ internal class KtorCsNetwork @Inject constructor(
     }
 }
 
-@Serializable
-private data class NetworkResponse<T>(
-    val data: T,
-)
+@Serializable private data class NetworkResponse<T>(val data: T)

@@ -4,12 +4,11 @@ plugins {
     alias(libs.plugins.aboutlibraries)
 }
 
-android {
-    namespace = "com.lianglliu.hermoodbarometer.feature.settings"
-}
+android { namespace = "com.lianglliu.hermoodbarometer.feature.settings" }
 
 dependencies {
     implementation(projects.core.data)
+    implementation(projects.core.domain)
     implementation(projects.core.locales)
     implementation(projects.core.permissions)
 

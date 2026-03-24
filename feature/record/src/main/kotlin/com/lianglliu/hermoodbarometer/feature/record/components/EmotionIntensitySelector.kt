@@ -1,6 +1,5 @@
 package com.lianglliu.hermoodbarometer.feature.record.components
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,13 +19,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.lianglliu.hermoodbarometer.core.locales.R
+import timber.log.Timber
 
 private const val NUMBER_OF_INTENSITY_LEVELS = 5
-private const val TAG = "EmotionIntensity" // 用于日志
 
-/**
- * 获取情绪强度的本地化显示名称
- */
+/** 获取情绪强度的本地化显示名称 */
 @Composable
 private fun getIntensityDisplayName(level: Int): String {
     return when (level) {
@@ -37,58 +34,54 @@ private fun getIntensityDisplayName(level: Int): String {
         5 -> stringResource(R.string.intensity_very_high)
         else -> {
             // 对于非预期值，记录警告并返回一个安全的默认值
-            Log.w(TAG, "Unexpected intensity level: $level, defaulting to medium.")
+            Timber.w("Unexpected intensity level: $level, defaulting to medium.")
             stringResource(R.string.intensity_medium)
         }
     }
 }
 
-/**
- * 情绪强度选择器组件
- */
+/** 情绪强度选择器组件 */
 @Composable
 fun EmotionIntensitySelector(
     intensityLevel: Float,
     onIntensityChanged: (Float) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    // 定义你的渐变颜色
-    val gradientColors = listOf(
-        Color(0xFFE64A19),
-        Color(0xFFFFEB3B),
-        Color(0xFF0288D1),
-        Color(0xFF388E3C),
-        Color(0xFF673AB7)
-    )
+    // 使用主题色的渐变，通过不同透明度表示强度级别
+    val primaryColor = MaterialTheme.colorScheme.primary
+    val gradientColors =
+        listOf(
+            primaryColor.copy(alpha = 0.3f), // Level 1 (最低)
+            primaryColor.copy(alpha = 0.5f), // Level 2
+            primaryColor.copy(alpha = 0.7f), // Level 3
+            primaryColor.copy(alpha = 0.85f), // Level 4
+            primaryColor, // Level 5 (最高)
+        )
 
-    Card(
-        modifier = modifier.fillMaxWidth()
-            .padding(top = 8.dp, bottom = 8.dp)
-    ) {
+    Card(modifier = modifier.fillMaxWidth().padding(top = 8.dp, bottom = 8.dp)) {
         Column(
             modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
-                text = stringResource(
-                    R.string.emotion_intensity,
-                    getIntensityDisplayName(intensityLevel.toInt())
-                ),
-                style = MaterialTheme.typography.titleMedium
+                text =
+                    stringResource(
+                        R.string.emotion_intensity,
+                        getIntensityDisplayName(intensityLevel.toInt()),
+                    ),
+                style = MaterialTheme.typography.titleMedium,
             )
 
             Box( // 包裹 Slider 和渐变背景
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(24.dp) // 调整高度以匹配 Slider 视觉效果
+                modifier = Modifier.fillMaxWidth().height(24.dp) // 调整高度以匹配 Slider 视觉效果
             ) {
                 // 渐变背景
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(8.dp) // 轨迹的高度
-                        .align(androidx.compose.ui.Alignment.Center) // 使轨迹居中
-                        .background(Brush.horizontalGradient(colors = gradientColors))
+                    modifier =
+                        Modifier.fillMaxWidth()
+                            .height(8.dp) // 轨迹的高度
+                            .align(androidx.compose.ui.Alignment.Center) // 使轨迹居中
+                            .background(Brush.horizontalGradient(colors = gradientColors))
                 )
                 // Slider 在渐变背景之上
                 Slider(
@@ -97,11 +90,12 @@ fun EmotionIntensitySelector(
                     valueRange = 1f..NUMBER_OF_INTENSITY_LEVELS.toFloat(),
                     steps = NUMBER_OF_INTENSITY_LEVELS - 2,
                     modifier = Modifier.fillMaxWidth(),
-                    colors = SliderDefaults.colors(
-                        thumbColor = MaterialTheme.colorScheme.primary, // 你选择的滑块颜色
-                        activeTrackColor = Color.Transparent,           // 活动轨迹透明
-                        inactiveTrackColor = Color.Transparent          // 非活动轨迹透明
-                    )
+                    colors =
+                        SliderDefaults.colors(
+                            thumbColor = MaterialTheme.colorScheme.primary, // 你选择的滑块颜色
+                            activeTrackColor = Color.Transparent, // 活动轨迹透明
+                            inactiveTrackColor = Color.Transparent, // 非活动轨迹透明
+                        ),
                 )
             }
         }

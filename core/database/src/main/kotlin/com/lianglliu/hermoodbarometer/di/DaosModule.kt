@@ -7,23 +7,22 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import jakarta.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DaosModule {
 
-    /**
-     * 提供情绪记录DAO
-     */
+    /** 提供情绪记录DAO */
     @Provides
+    @Singleton
     fun provideEmotionRecordDao(database: MoodDatabase): EmotionRecordDao {
         return database.emotionRecordDao()
     }
 
-    /**
-     * 提供统一情绪DAO
-     */
+    /** 提供统一情绪DAO */
     @Provides
+    @Singleton
     fun provideEmotionDao(database: MoodDatabase): EmotionDao {
         return database.emotionDao()
     }

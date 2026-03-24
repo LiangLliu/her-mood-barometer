@@ -32,6 +32,7 @@ firebasePerfPlugin = "2.0.2"
 gmsPlugin = "4.4.4"
 haze = "1.7.2"
 hilt = "2.59.2"
+leakcanary = "2.14"
 hiltExt = "1.3.0"
 kotlin = "2.3.20"
 kotlinxCoroutines = "1.10.2"
@@ -40,11 +41,14 @@ kotlinxSerializationJson = "1.10.0"
 ksp = "2.3.6"
 ktor = "3.4.1"
 lottie = "6.7.1"
+mockk = "1.13.16"
 playAppUpdate = "2.1.0"
 playReview = "2.0.2"
 protobuf = "4.34.1"
 protobufPlugin = "0.9.6"
 room = "2.8.4"
+timber = "5.0.1"
+turbine = "1.2.0"
 vico = "2.4.3"
 zip4j = "2.11.6"
 coreVersion = "1.18.0"
@@ -98,7 +102,7 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.r
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
 hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
 hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltExt" }
-javax-inject = { group = "javax.inject", name = "javax.inject", version = "1" }
+jakarta-inject = { group = "jakarta.inject", name = "jakarta.inject-api", version = "2.0.1" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
@@ -110,7 +114,9 @@ ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp" }
 ktor-client-resources = { group = "io.ktor", name = "ktor-client-resources" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json" }
+leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 play-app-update = { group = "com.google.android.play", name = "app-update", version.ref = "playAppUpdate" }
 play-app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "playAppUpdate" }
 play-review = { group = "com.google.android.play", name = "review", version.ref = "playReview" }
@@ -120,6 +126,8 @@ protobuf-javalite = { group = "com.google.protobuf", name = "protobuf-javalite",
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = "vico" }

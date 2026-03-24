@@ -5,7 +5,7 @@ import com.lianglliu.hermoodbarometer.core.model.data.ColorSchemeConfig
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig
 import com.lianglliu.hermoodbarometer.core.model.data.UserData
 import com.lianglliu.hermoodbarometer.repository.UserDataRepository
-import javax.inject.Inject
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
 internal class OfflineUserDataRepository

@@ -3,29 +3,28 @@ package com.lianglliu.hermoodbarometer.core.domain
 import com.lianglliu.hermoodbarometer.core.model.data.Emotion
 import com.lianglliu.hermoodbarometer.repository.EmotionDefinitionRepository
 import com.lianglliu.hermoodbarometer.repository.EmotionRepository
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 /**
- * Use case for managing user-created emotions
- * Handles creation, update, and deletion of custom emotions
+ * Use case for managing user-created emotions Handles creation, update, and deletion of custom
+ * emotions
  */
-class ManageUserEmotionUseCase @Inject constructor(
+class ManageUserEmotionUseCase
+@Inject
+constructor(
     private val emotionDefinitionRepository: EmotionDefinitionRepository,
-    private val emotionRepository: EmotionRepository
+    private val emotionRepository: EmotionRepository,
 ) {
 
     /**
      * Create a new user emotion
+     *
      * @param name Emotion name
      * @param emoji Emoji representation
      * @param description Optional description
      * @return Result containing the new emotion ID
      */
-    suspend fun createEmotion(
-        name: String,
-        emoji: String,
-        description: String = ""
-    ): Result<Long> {
+    suspend fun createEmotion(name: String, emoji: String, description: String = ""): Result<Long> {
         return try {
             // Validate input
             if (!isValidEmotionData(name, emoji)) {
@@ -38,13 +37,14 @@ class ManageUserEmotionUseCase @Inject constructor(
             }
 
             // Create new emotion
-            val emotion = Emotion(
-                name = name.trim(),
-                emoji = emoji.trim(),
-                description = description.trim(),
-                isUserCreated = true,
-                isActive = true
-            )
+            val emotion =
+                Emotion(
+                    name = name.trim(),
+                    emoji = emoji.trim(),
+                    description = description.trim(),
+                    isUserCreated = true,
+                    isActive = true,
+                )
 
             val emotionId = emotionDefinitionRepository.insertEmotion(emotion)
             Result.success(emotionId)
@@ -55,6 +55,7 @@ class ManageUserEmotionUseCase @Inject constructor(
 
     /**
      * Update an existing user emotion
+     *
      * @param emotion The emotion to update
      * @return Result indicating success or failure
      */
@@ -84,6 +85,7 @@ class ManageUserEmotionUseCase @Inject constructor(
 
     /**
      * Delete a user emotion
+     *
      * @param emotionId The ID of the emotion to delete
      * @param forceDelete If true, deletes even if there are associated records
      * @return Result indicating success or failure
@@ -91,8 +93,9 @@ class ManageUserEmotionUseCase @Inject constructor(
     suspend fun deleteEmotion(emotionId: Long, forceDelete: Boolean = false): Result<Unit> {
         return try {
             // Get the emotion to validate it exists and is user-created
-            val emotion = emotionDefinitionRepository.getEmotionById(emotionId)
-                ?: return Result.failure(IllegalArgumentException("Emotion not found"))
+            val emotion =
+                emotionDefinitionRepository.getEmotionById(emotionId)
+                    ?: return Result.failure(IllegalArgumentException("Emotion not found"))
 
             if (!emotion.isUserCreated) {
                 return Result.failure(IllegalArgumentException("Cannot delete predefined emotions"))
@@ -100,7 +103,9 @@ class ManageUserEmotionUseCase @Inject constructor(
 
             // Check if there are associated records
             if (!forceDelete && emotionRepository.hasRecordsForEmotion(emotionId)) {
-                return Result.failure(IllegalStateException("Cannot delete emotion with existing records"))
+                return Result.failure(
+                    IllegalStateException("Cannot delete emotion with existing records")
+                )
             }
 
             // Soft delete the emotion
@@ -113,13 +118,15 @@ class ManageUserEmotionUseCase @Inject constructor(
 
     /**
      * Reactivate a previously deleted user emotion
+     *
      * @param emotionId The ID of the emotion to reactivate
      * @return Result indicating success or failure
      */
     suspend fun reactivateEmotion(emotionId: Long): Result<Unit> {
         return try {
-            val emotion = emotionDefinitionRepository.getEmotionById(emotionId)
-                ?: return Result.failure(IllegalArgumentException("Emotion not found"))
+            val emotion =
+                emotionDefinitionRepository.getEmotionById(emotionId)
+                    ?: return Result.failure(IllegalArgumentException("Emotion not found"))
 
             if (!emotion.isUserCreated) {
                 return Result.failure(IllegalArgumentException("Cannot modify predefined emotions"))
@@ -132,13 +139,11 @@ class ManageUserEmotionUseCase @Inject constructor(
         }
     }
 
-    /**
-     * Validate emotion data
-     */
+    /** Validate emotion data */
     private fun isValidEmotionData(name: String, emoji: String): Boolean {
         return name.trim().isNotBlank() &&
-               name.trim().length <= 50 && // Reasonable name length limit
-               emoji.trim().isNotBlank() &&
-               emoji.trim().length <= 10 // Account for complex emoji
+            name.trim().length <= 50 && // Reasonable name length limit
+            emoji.trim().isNotBlank() &&
+            emoji.trim().length <= 10 // Account for complex emoji
     }
 }

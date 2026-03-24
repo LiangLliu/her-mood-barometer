@@ -7,28 +7,30 @@ import androidx.room.PrimaryKey
 import java.time.Instant
 
 /**
- * Emotion record database entity
- * Stores individual emotion recordings with references to emotions table
+ * Emotion record database entity Stores individual emotion recordings with references to emotions
+ * table
  */
 @Entity(
     tableName = "emotion_records",
-    foreignKeys = [
-        ForeignKey(
-            entity = EmotionEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["emotionId"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ],
-    indices = [
-        Index(value = ["timestamp"]), // For time-based queries
-        Index(value = ["emotionId"]), // For emotion-based statistics
-        Index(value = ["emotionId", "timestamp"]) // For combined queries
-    ]
+    foreignKeys =
+        [
+            ForeignKey(
+                entity = EmotionEntity::class,
+                parentColumns = ["id"],
+                childColumns = ["emotionId"],
+                onDelete = ForeignKey.CASCADE,
+            )
+        ],
+    indices =
+        [
+            Index(value = ["timestamp"]), // For time-based queries
+            Index(value = ["emotionId"]), // For emotion-based statistics
+            Index(value = ["emotionId", "timestamp"]), // For combined queries
+            Index(value = ["intensity"]), // For intensity-based statistics
+        ],
 )
 data class EmotionRecordEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
 
     // Foreign key to emotions table
     val emotionId: Long,
@@ -49,5 +51,5 @@ data class EmotionRecordEntity(
     val weather: String? = null,
 
     // Activities stored as comma-separated string
-    val activities: String = ""
+    val activities: String = "",
 )

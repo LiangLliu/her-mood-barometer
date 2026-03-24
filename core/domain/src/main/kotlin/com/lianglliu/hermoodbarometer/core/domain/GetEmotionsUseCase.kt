@@ -2,19 +2,20 @@ package com.lianglliu.hermoodbarometer.core.domain
 
 import com.lianglliu.hermoodbarometer.core.model.data.Emotion
 import com.lianglliu.hermoodbarometer.repository.EmotionDefinitionRepository
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
 
 /**
- * Use case for retrieving emotion definitions
- * Handles various scenarios for fetching available emotions
+ * Use case for retrieving emotion definitions Handles various scenarios for fetching available
+ * emotions
  */
-class GetEmotionsUseCase @Inject constructor(
-    private val emotionDefinitionRepository: EmotionDefinitionRepository
-) {
+class GetEmotionsUseCase
+@Inject
+constructor(private val emotionDefinitionRepository: EmotionDefinitionRepository) {
 
     /**
      * Get all active emotions (predefined + user-created)
+     *
      * @return Flow of all active emotions
      */
     operator fun invoke(): Flow<List<Emotion>> {
@@ -23,6 +24,7 @@ class GetEmotionsUseCase @Inject constructor(
 
     /**
      * Get only predefined emotions
+     *
      * @return Flow of predefined emotions
      */
     fun getPredefined(): Flow<List<Emotion>> {
@@ -31,6 +33,7 @@ class GetEmotionsUseCase @Inject constructor(
 
     /**
      * Get only user-created emotions
+     *
      * @return Flow of user-created emotions
      */
     fun getUserCreated(): Flow<List<Emotion>> {
@@ -39,6 +42,7 @@ class GetEmotionsUseCase @Inject constructor(
 
     /**
      * Get emotion by ID
+     *
      * @param emotionId The emotion ID
      * @return The emotion if found, null otherwise
      */
@@ -48,6 +52,7 @@ class GetEmotionsUseCase @Inject constructor(
 
     /**
      * Get multiple emotions by IDs
+     *
      * @param emotionIds List of emotion IDs
      * @return List of emotions found
      */

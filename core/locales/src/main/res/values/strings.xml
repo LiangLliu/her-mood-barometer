@@ -84,6 +84,8 @@
     <!-- ==================== Calendar Module ==================== -->
     <string name="calendar_title">Calendar</string>
     <string name="calendar_month_format">MMMM yyyy</string>
+    <string name="previous_month">Previous month</string>
+    <string name="next_month">Next month</string>
 
     <!-- ==================== Settings Module ==================== -->
     <string name="settings">Settings</string>
@@ -303,19 +305,40 @@
     <string name="notification_message">Take a moment to record your mood</string>
     <string name="notification_text">Take a moment to record your mood</string>
     <string name="daily_reminder_description">Get reminded to record your mood daily</string>
+    <string name="quick_record_action">Record Now</string>
+
+    <string-array name="notification_titles">
+        <item>How are you feeling?</item>
+        <item>A moment for yourself</item>
+        <item>Your mood matters</item>
+        <item>Time to check in</item>
+        <item>How was your day?</item>
+        <item>Pause and reflect</item>
+        <item>Your daily moment</item>
+        <item>Ready to share?</item>
+    </string-array>
+
+    <string-array name="notification_texts">
+        <item>Take a moment to record your mood</item>
+        <item>Your feelings deserve to be heard</item>
+        <item>A few words can make a difference</item>
+        <item>How are things going today?</item>
+        <item>Let your journal know how you feel</item>
+        <item>Every emotion tells a story</item>
+        <item>Capture this moment in your diary</item>
+        <item>Your mood journal is waiting for you</item>
+    </string-array>
 
     <!-- ==================== Permissions ==================== -->
     <string name="permission_notification_title">Enable Notifications</string>
     <string name="permission_notification_message">Allow notifications to receive mood reminders</string>
-    <string name="permission_exact_alarm_title">Enable Exact Alarms</string>
-    <string name="permission_exact_alarm_message">Allow exact alarms for precise reminder timing</string>
     <string name="permission_required">Permission Required</string>
     <string name="permission_denied">Permission Denied</string>
     <string name="permission_go_to_settings">Go to Settings</string>
     <string name="permission_cancel">Cancel</string>
     <string name="permission_notification_rationale">We need notification permission to send you daily reminders to record your mood. Please enable notifications in settings.</string>
-    <string name="permission_exact_alarm_rationale">We need exact alarm permission to schedule reminders at precise times. Please enable this permission in settings.</string>
     <string name="permission_default_rationale">This permission is required for the app to function properly. Please grant the permission in settings.</string>
+    <string name="notification_permission_blocked_warning">Notifications are blocked. Reminders may not work. Tap the toggle to re-enable.</string>
 
     <!-- ==================== Accessibility ==================== -->
     <string name="cd_emotion_icon">Emotion icon</string>
@@ -326,6 +349,8 @@
     <string name="cd_settings_button">Settings button</string>
     <string name="cd_add_button">Add button</string>
     <string name="cd_chart">Statistics chart</string>
+    <string name="cd_page_title">Page title: %s</string>
+    <string name="cd_navigate_back">Navigate back</string>
 
     <!-- ==================== Quick Record ==================== -->
     <string name="quick_record_title">Quick Record</string>

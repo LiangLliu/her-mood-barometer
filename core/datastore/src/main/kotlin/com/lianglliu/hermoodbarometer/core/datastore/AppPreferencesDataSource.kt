@@ -1,6 +1,5 @@
 package com.lianglliu.hermoodbarometer.core.datastore
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
 import com.lianglliu.hermoodbarometer.core.model.data.ColorSchemeConfig
@@ -9,9 +8,10 @@ import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig.DARK
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig.FOLLOW_SYSTEM
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig.LIGHT
 import com.lianglliu.hermoodbarometer.core.model.data.UserData
-import javax.inject.Inject
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 class AppPreferencesDataSource
 @Inject
@@ -19,7 +19,7 @@ constructor(private val userPreferences: DataStore<UserPreferences>) {
     val userData =
         userPreferences.data
             .catch {
-                Log.e(TAG, "Failed to read user preferences.", it)
+                Timber.e(it, "Failed to read user preferences.")
                 emit(getCustomInstance())
             }
             .map {
@@ -71,7 +71,7 @@ constructor(private val userPreferences: DataStore<UserPreferences>) {
                 }
             }
         } catch (e: IOException) {
-            Log.e(TAG, "Failed to update color scheme config.", e)
+            Timber.e(e, "Failed to update color scheme config.")
         }
     }
 
@@ -88,7 +88,7 @@ constructor(private val userPreferences: DataStore<UserPreferences>) {
                 }
             }
         } catch (e: IOException) {
-            Log.e(TAG, "Failed to update theme config.", e)
+            Timber.e(e, "Failed to update theme config.")
         }
     }
 
@@ -96,7 +96,7 @@ constructor(private val userPreferences: DataStore<UserPreferences>) {
         try {
             userPreferences.updateData { it.copy { this.reminderStatus = reminderStatus } }
         } catch (e: IOException) {
-            Log.e(TAG, "Failed to update dynamic color.", e)
+            Timber.e(e, "Failed to update dynamic color.")
         }
     }
 
@@ -104,9 +104,7 @@ constructor(private val userPreferences: DataStore<UserPreferences>) {
         try {
             userPreferences.updateData { it.copy { this.reminderTime = reminderTime } }
         } catch (e: IOException) {
-            Log.e(TAG, "Failed to update reminder time.", e)
+            Timber.e(e, "Failed to update reminder time.")
         }
     }
 }
-
-private const val TAG = "HerMoodBarometerPreferencesDataSource"

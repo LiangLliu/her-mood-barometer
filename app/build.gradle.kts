@@ -79,8 +79,10 @@ dependencies {
     implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.tracing)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.timber)
 
     debugImplementation(libs.androidx.compose.ui.testManifest)
+    debugImplementation(libs.leakcanary)
 
     //    baselineProfile(projects.baselineprofile)
 }

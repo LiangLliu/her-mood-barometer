@@ -3,9 +3,9 @@ package com.lianglliu.hermoodbarometer.core.datastore
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
 import com.google.protobuf.InvalidProtocolBufferException
+import jakarta.inject.Inject
 import java.io.InputStream
 import java.io.OutputStream
-import javax.inject.Inject
 
 /** An [Serializer] for the [UserPreferences] proto. */
 class UserPreferencesSerializer @Inject constructor() : Serializer<UserPreferences> {

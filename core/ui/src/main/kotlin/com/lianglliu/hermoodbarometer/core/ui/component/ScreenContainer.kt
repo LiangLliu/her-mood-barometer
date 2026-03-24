@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,8 +28,7 @@ import com.lianglliu.hermoodbarometer.core.designsystem.theme.HerMoodBarometerTh
 import com.lianglliu.hermoodbarometer.core.locales.R
 
 /**
- * 统一的屏幕容器组件
- * 提供固定标题栏和可滚动内容区域，确保性能最优和用户体验一致性
+ * 统一的屏幕容器组件 提供固定标题栏和可滚动内容区域，确保性能最优和用户体验一致性
  *
  * 性能优化:
  * - 固定标题避免重组开销
@@ -45,8 +44,9 @@ fun ScreenContainer(
     actions: @Composable (RowScope.() -> Unit)? = null,
     floatingActionButton: @Composable (() -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(16.dp),
-    content: LazyListScope.() -> Unit
+    content: LazyListScope.() -> Unit,
 ) {
+    val pageTitleDescription = stringResource(R.string.cd_page_title, title)
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
@@ -55,39 +55,32 @@ fun ScreenContainer(
                     Text(
                         text = title,
                         style = MaterialTheme.typography.headlineSmall,
-                        modifier = Modifier.semantics {
-                            contentDescription = "页面标题: $title"
-                        }
+                        modifier = Modifier.semantics { contentDescription = pageTitleDescription },
                     )
                 },
-                navigationIcon = navigationIcon ?: { },
-                actions = actions ?: { },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    titleContentColor = MaterialTheme.colorScheme.onSurface,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
-                    actionIconContentColor = MaterialTheme.colorScheme.onSurface
-                )
+                navigationIcon = navigationIcon ?: {},
+                actions = actions ?: {},
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        titleContentColor = MaterialTheme.colorScheme.onSurface,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
+                        actionIconContentColor = MaterialTheme.colorScheme.onSurface,
+                    ),
             )
         },
-        floatingActionButton = floatingActionButton ?: { },
+        floatingActionButton = floatingActionButton ?: {},
         containerColor = MaterialTheme.colorScheme.background,
-        contentColor = MaterialTheme.colorScheme.onBackground
+        contentColor = MaterialTheme.colorScheme.onBackground,
     ) { innerPadding ->
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(contentPadding),
-            content = content
+            modifier = Modifier.fillMaxSize().padding(innerPadding).padding(contentPadding),
+            content = content,
         )
     }
 }
 
-/**
- * 带返回按钮的屏幕容器
- * 用于需要返回导航的页面
- */
+/** 带返回按钮的屏幕容器 用于需要返回导航的页面 */
 @Composable
 fun ScreenContainerWithBack(
     title: String,
@@ -96,35 +89,31 @@ fun ScreenContainerWithBack(
     actions: @Composable (RowScope.() -> Unit)? = null,
     floatingActionButton: @Composable (() -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(16.dp),
-    content: LazyListScope.() -> Unit
+    content: LazyListScope.() -> Unit,
 ) {
+    val navigateBackDescription = stringResource(R.string.cd_navigate_back)
     ScreenContainer(
         title = title,
         modifier = modifier,
         navigationIcon = {
             IconButton(
                 onClick = onNavigateBack,
-                modifier = Modifier.semantics {
-                    contentDescription = "返回上一页"
-                }
+                modifier = Modifier.semantics { contentDescription = navigateBackDescription },
             ) {
                 Icon(
                     imageVector = AppIcons.Outlined.ArrowBack,
-                    contentDescription = stringResource(R.string.back)
+                    contentDescription = stringResource(R.string.back),
                 )
             }
         },
         actions = actions,
         floatingActionButton = floatingActionButton,
         contentPadding = contentPadding,
-        content = content
+        content = content,
     )
 }
 
-/**
- * 简单页面容器（无滚动）
- * 用于不需要滚动的简单页面
- */
+/** 简单页面容器（无滚动） 用于不需要滚动的简单页面 */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleScreenContainer(
@@ -133,8 +122,10 @@ fun SimpleScreenContainer(
     onNavigateBack: () -> Unit,
     actions: @Composable (RowScope.() -> Unit)? = null,
     floatingActionButton: @Composable (() -> Unit)? = null,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
+    val pageTitleDescription = stringResource(R.string.cd_page_title, title)
+    val navigateBackDescription = stringResource(R.string.cd_navigate_back)
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
@@ -143,51 +134,41 @@ fun SimpleScreenContainer(
                     Text(
                         text = title,
                         style = MaterialTheme.typography.headlineSmall,
-                        modifier = Modifier.semantics {
-                            contentDescription = "页面标题: $title"
-                        }
+                        modifier = Modifier.semantics { contentDescription = pageTitleDescription },
                     )
                 },
                 navigationIcon = {
                     IconButton(
                         onClick = onNavigateBack,
-                        modifier = Modifier.semantics {
-                            contentDescription = "返回上一页"
-                        }
+                        modifier =
+                            Modifier.semantics { contentDescription = navigateBackDescription },
                     ) {
                         Icon(
                             imageVector = AppIcons.Outlined.ArrowBack,
-                            contentDescription = stringResource(R.string.back)
+                            contentDescription = stringResource(R.string.back),
                         )
                     }
                 },
-                actions = actions ?: { },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    titleContentColor = MaterialTheme.colorScheme.onSurface,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
-                    actionIconContentColor = MaterialTheme.colorScheme.onSurface
-                )
+                actions = actions ?: {},
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        titleContentColor = MaterialTheme.colorScheme.onSurface,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
+                        actionIconContentColor = MaterialTheme.colorScheme.onSurface,
+                    ),
             )
         },
-        floatingActionButton = floatingActionButton ?: { },
+        floatingActionButton = floatingActionButton ?: {},
         containerColor = MaterialTheme.colorScheme.background,
-        contentColor = MaterialTheme.colorScheme.onBackground
+        contentColor = MaterialTheme.colorScheme.onBackground,
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp)
-        ) {
-            content()
-        }
+        Column(modifier = Modifier.fillMaxSize().padding(innerPadding).padding(16.dp)) { content() }
     }
 }
 
 /**
- * 全屏页面容器（独立 Scaffold，不显示底部导航栏）
- * 用于需要全屏显示的页面，如详情页、编辑页等
+ * 全屏页面容器（独立 Scaffold，不显示底部导航栏） 用于需要全屏显示的页面，如详情页、编辑页等
  *
  * 性能优化:
  * - 独立的 Scaffold，避免与主应用 Scaffold 嵌套
@@ -203,8 +184,10 @@ fun FullScreenLazyColumnContainer(
     actions: @Composable (RowScope.() -> Unit)? = null,
     floatingActionButton: @Composable (() -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(16.dp),
-    content: LazyListScope.() -> Unit
+    content: LazyListScope.() -> Unit,
 ) {
+    val pageTitleDescription = stringResource(R.string.cd_page_title, title)
+    val navigateBackDescription = stringResource(R.string.cd_navigate_back)
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
@@ -213,43 +196,38 @@ fun FullScreenLazyColumnContainer(
                     Text(
                         text = title,
                         style = MaterialTheme.typography.headlineSmall,
-                        modifier = Modifier.semantics {
-                            contentDescription = "页面标题: $title"
-                        }
+                        modifier = Modifier.semantics { contentDescription = pageTitleDescription },
                     )
                 },
                 navigationIcon = {
                     IconButton(
                         onClick = onNavigateBack,
-                        modifier = Modifier.semantics {
-                            contentDescription = "返回上一页"
-                        }
+                        modifier =
+                            Modifier.semantics { contentDescription = navigateBackDescription },
                     ) {
                         Icon(
                             imageVector = AppIcons.Outlined.ArrowBack,
-                            contentDescription = stringResource(R.string.back)
+                            contentDescription = stringResource(R.string.back),
                         )
                     }
                 },
-                actions = actions ?: { },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    titleContentColor = MaterialTheme.colorScheme.onSurface,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
-                    actionIconContentColor = MaterialTheme.colorScheme.onSurface
-                )
+                actions = actions ?: {},
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        titleContentColor = MaterialTheme.colorScheme.onSurface,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
+                        actionIconContentColor = MaterialTheme.colorScheme.onSurface,
+                    ),
             )
         },
-        floatingActionButton = floatingActionButton ?: { },
+        floatingActionButton = floatingActionButton ?: {},
         containerColor = MaterialTheme.colorScheme.background,
-        contentColor = MaterialTheme.colorScheme.onBackground
+        contentColor = MaterialTheme.colorScheme.onBackground,
     ) { innerPadding ->
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(contentPadding),
-            content = content
+            modifier = Modifier.fillMaxSize().padding(innerPadding).padding(contentPadding),
+            content = content,
         )
     }
 }
@@ -260,28 +238,26 @@ fun FullScreenLazyColumnContainer(
 @Composable
 private fun ScreenContainerPreview() {
     HerMoodBarometerTheme {
-        ScreenContainer(
-            title = "示例页面"
-        ) {
+        ScreenContainer(title = "示例页面") {
             item {
                 Text(
                     text = "这是一个示例内容项目 1",
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 8.dp),
                 )
             }
             item {
                 Text(
                     text = "这是一个示例内容项目 2",
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 8.dp),
                 )
             }
             item {
                 Text(
                     text = "这是一个示例内容项目 3",
                     style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 8.dp),
                 )
             }
         }
@@ -292,22 +268,19 @@ private fun ScreenContainerPreview() {
 @Composable
 private fun FullScreenContainerPreview() {
     HerMoodBarometerTheme {
-        FullScreenLazyColumnContainer(
-            title = "全屏页面",
-            onNavigateBack = { /* 预览中无操作 */ }
-        ) {
+        FullScreenLazyColumnContainer(title = "全屏页面", onNavigateBack = { /* 预览中无操作 */ }) {
             item {
                 Text(
                     text = "这是一个全屏页面的内容",
                     style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(vertical = 16.dp)
+                    modifier = Modifier.padding(vertical = 16.dp),
                 )
             }
             item {
                 Text(
                     text = "左上角有返回按钮，没有底部导航栏",
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 8.dp),
                 )
             }
         }

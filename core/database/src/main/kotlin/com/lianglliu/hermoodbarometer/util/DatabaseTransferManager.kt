@@ -3,17 +3,19 @@ package com.lianglliu.hermoodbarometer.util
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import dagger.hilt.android.qualifiers.ApplicationContext
-import net.lingala.zip4j.ZipFile
+import jakarta.inject.Inject
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
-import javax.inject.Inject
 import kotlin.system.exitProcess
+import net.lingala.zip4j.ZipFile
+import timber.log.Timber
 
-class DatabaseTransferManager @Inject constructor(
+class DatabaseTransferManager
+@Inject
+constructor(
     @ApplicationContext private val context: Context,
     private val databaseOpenHelper: SupportSQLiteOpenHelper,
 ) {
@@ -23,18 +25,13 @@ class DatabaseTransferManager @Inject constructor(
             val dbFiles = dbFiles()
             checkpoint()
 
-            ZipFile(dbFiles.backupZipFile).addFiles(
-                listOf(
-                    dbFiles.dbFile,
-                    dbFiles.walFile,
-                    dbFiles.shmFile,
-                )
-            )
+            ZipFile(dbFiles.backupZipFile)
+                .addFiles(listOf(dbFiles.dbFile, dbFiles.walFile, dbFiles.shmFile))
 
             val outputStream = context.contentResolver.openOutputStream(backupFileUri)!!
             Files.copy(dbFiles.backupZipFile?.toPath(), outputStream)
         } catch (e: IOException) {
-            Log.e(TAG, "Failed to export the database.", e)
+            Timber.e(e, "Failed to export the database.")
         }
     }
 
@@ -54,7 +51,7 @@ class DatabaseTransferManager @Inject constructor(
             ZipFile(dbFiles.backupZipFile).extractAll(dbFiles.dbFile.parent)
             checkpoint()
         } catch (e: IOException) {
-            Log.e(TAG, "Failed to import the database.", e)
+            Timber.e(e, "Failed to import the database.")
         }
 
         if (restart) {
@@ -79,8 +76,6 @@ class DatabaseTransferManager @Inject constructor(
             backupZipFile = File(databaseOpenHelper.readableDatabase.path + ".zip"),
         )
 }
-
-private const val TAG = "DatabaseTransferManager"
 
 data class DbFiles(
     val dbFile: File,

@@ -29,20 +29,17 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lianglliu.hermoodbarometer.core.locales.R
 import com.lianglliu.hermoodbarometer.core.model.data.EmotionRecord
-import kotlinx.datetime.format
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
+import kotlinx.datetime.format
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalendarScreen(
-    modifier: Modifier = Modifier,
-    viewModel: CalendarViewModel = hiltViewModel()
-) {
+fun CalendarScreen(modifier: Modifier = Modifier, viewModel: CalendarViewModel = hiltViewModel()) {
     val currentYearMonth by viewModel.currentYearMonth.collectAsStateWithLifecycle()
     val selectedDate by viewModel.selectedDate.collectAsStateWithLifecycle()
     val monthlyRecords by viewModel.monthlyRecords.collectAsStateWithLifecycle()
@@ -57,24 +54,20 @@ fun CalendarScreen(
                     IconButton(onClick = { viewModel.navigateToToday() }) {
                         Icon(
                             imageVector = Icons.Default.Today,
-                            contentDescription = stringResource(R.string.today)
+                            contentDescription = stringResource(R.string.today),
                         )
                     }
-                }
+                },
             )
         },
-        modifier = modifier
+        modifier = modifier,
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
+        Column(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
             // Month Navigation
             MonthNavigation(
                 yearMonth = currentYearMonth,
                 onPreviousMonth = { viewModel.navigateToPreviousMonth() },
-                onNextMonth = { viewModel.navigateToNextMonth() }
+                onNextMonth = { viewModel.navigateToNextMonth() },
             )
 
             // Calendar Grid
@@ -83,19 +76,19 @@ fun CalendarScreen(
                 selectedDate = selectedDate,
                 monthlyRecords = monthlyRecords,
                 onDateSelected = { viewModel.selectDate(it) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             // Selected Date Details
             AnimatedVisibility(
                 visible = selectedDate != null && selectedDateRecords.isNotEmpty(),
                 enter = expandVertically() + fadeIn(),
-                exit = shrinkVertically() + fadeOut()
+                exit = shrinkVertically() + fadeOut(),
             ) {
                 SelectedDateDetails(
                     date = selectedDate,
                     records = selectedDateRecords,
-                    onDeleteRecord = { viewModel.deleteRecord(it) }
+                    onDeleteRecord = { viewModel.deleteRecord(it) },
                 )
             }
         }
@@ -107,32 +100,30 @@ private fun MonthNavigation(
     yearMonth: YearMonth,
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(onClick = onPreviousMonth) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Previous month"
+                contentDescription = stringResource(R.string.previous_month),
             )
         }
 
         Text(
             text = yearMonth.format(DateTimeFormatter.ofPattern("yyyy年M月")),
             style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
         )
 
         IconButton(onClick = onNextMonth) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = "Next month"
+                contentDescription = stringResource(R.string.next_month),
             )
         }
     }
@@ -144,29 +135,28 @@ private fun CalendarGrid(
     selectedDate: LocalDate?,
     monthlyRecords: Map<LocalDate, List<EmotionRecord>>,
     onDateSelected: (LocalDate) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
+        Column(modifier = Modifier.padding(16.dp)) {
             // Weekday headers
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                val daysOfWeek = listOf(
-                    DayOfWeek.SUNDAY,
-                    DayOfWeek.MONDAY,
-                    DayOfWeek.TUESDAY,
-                    DayOfWeek.WEDNESDAY,
-                    DayOfWeek.THURSDAY,
-                    DayOfWeek.FRIDAY,
-                    DayOfWeek.SATURDAY
-                )
+                val daysOfWeek =
+                    listOf(
+                        DayOfWeek.SUNDAY,
+                        DayOfWeek.MONDAY,
+                        DayOfWeek.TUESDAY,
+                        DayOfWeek.WEDNESDAY,
+                        DayOfWeek.THURSDAY,
+                        DayOfWeek.FRIDAY,
+                        DayOfWeek.SATURDAY,
+                    )
 
                 daysOfWeek.forEach { dayOfWeek ->
                     Text(
@@ -174,7 +164,7 @@ private fun CalendarGrid(
                         modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }
@@ -191,12 +181,10 @@ private fun CalendarGrid(
                 columns = GridCells.Fixed(7),
                 modifier = Modifier.height(((totalCells + 6) / 7 * 48).dp),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 // Empty cells before first day
-                items(firstDayOfWeek) {
-                    Box(modifier = Modifier.size(40.dp))
-                }
+                items(firstDayOfWeek) { Box(modifier = Modifier.size(40.dp)) }
 
                 // Days of month
                 items(daysInMonth) { dayIndex ->
@@ -210,7 +198,7 @@ private fun CalendarGrid(
                         isToday = date == LocalDate.now(),
                         hasRecords = records.isNotEmpty(),
                         emotionEmoji = records.firstOrNull()?.emotionEmoji,
-                        onClick = { onDateSelected(date) }
+                        onClick = { onDateSelected(date) },
                     )
                 }
             }
@@ -225,48 +213,47 @@ private fun CalendarDay(
     isToday: Boolean,
     hasRecords: Boolean,
     emotionEmoji: String?,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .size(40.dp)
-            .clip(CircleShape)
-            .clickable { onClick() }
-            .then(
-                when {
-                    isSelected -> Modifier.background(
-                        MaterialTheme.colorScheme.primaryContainer,
-                        CircleShape
-                    )
-                    isToday -> Modifier.border(
-                        2.dp,
-                        MaterialTheme.colorScheme.primary,
-                        CircleShape
-                    )
-                    else -> Modifier
-                }
-            ),
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier.size(40.dp)
+                .clip(CircleShape)
+                .clickable { onClick() }
+                .then(
+                    when {
+                        isSelected ->
+                            Modifier.background(
+                                MaterialTheme.colorScheme.primaryContainer,
+                                CircleShape,
+                            )
+                        isToday ->
+                            Modifier.border(2.dp, MaterialTheme.colorScheme.primary, CircleShape)
+                        else -> Modifier
+                    }
+                ),
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Text(
                 text = date.dayOfMonth.toString(),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = if (isToday || isSelected) FontWeight.Bold else FontWeight.Normal,
-                color = when {
-                    isSelected -> MaterialTheme.colorScheme.onPrimaryContainer
-                    else -> MaterialTheme.colorScheme.onSurface
-                }
+                color =
+                    when {
+                        isSelected -> MaterialTheme.colorScheme.onPrimaryContainer
+                        else -> MaterialTheme.colorScheme.onSurface
+                    },
             )
 
             if (hasRecords && emotionEmoji != null) {
                 Text(
                     text = emotionEmoji,
                     style = MaterialTheme.typography.labelSmall,
-                    modifier = Modifier.offset(y = (-2).dp)
+                    modifier = Modifier.offset(y = (-2).dp),
                 )
             }
         }
@@ -278,35 +265,30 @@ private fun CalendarDay(
 private fun SelectedDateDetails(
     date: LocalDate?,
     records: List<EmotionRecord>,
-    onDeleteRecord: (Long) -> Unit
+    onDeleteRecord: (Long) -> Unit,
 ) {
     date?.let {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            shape = RoundedCornerShape(16.dp)
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
+        Card(modifier = Modifier.fillMaxWidth().padding(16.dp), shape = RoundedCornerShape(16.dp)) {
+            Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = date.format(DateTimeFormatter.ofPattern(stringResource(R.string.date_format_full_cn))),
+                    text =
+                        date.format(
+                            DateTimeFormatter.ofPattern(
+                                stringResource(R.string.date_format_full_cn)
+                            )
+                        ),
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.heightIn(max = 300.dp)
+                    modifier = Modifier.heightIn(max = 300.dp),
                 ) {
-                    items(records) { record ->
-                        RecordCard(
-                            record = record,
-                            onDelete = { onDeleteRecord(record.id) }
-                        )
+                    items(records, key = { it.id }) { record ->
+                        RecordCard(record = record, onDelete = { onDeleteRecord(record.id) })
                     }
                 }
             }
@@ -315,48 +297,39 @@ private fun SelectedDateDetails(
 }
 
 @Composable
-private fun RecordCard(
-    record: EmotionRecord,
-    onDelete: () -> Unit
-) {
+private fun RecordCard(record: EmotionRecord, onDelete: () -> Unit) {
     var showDeleteDialog by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
-        shape = RoundedCornerShape(12.dp)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+        shape = RoundedCornerShape(12.dp),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
+            modifier = Modifier.fillMaxWidth().padding(12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) {
-                Text(
-                    text = record.emotionEmoji,
-                    style = MaterialTheme.typography.headlineMedium
-                )
+                Text(text = record.emotionEmoji, style = MaterialTheme.typography.headlineMedium)
 
                 Column {
                     // Remove emotion name since it's not available
                     Text(
-                        text = record.getLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm")),
+                        text =
+                            record.getLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm")),
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     if (record.note.isNotBlank()) {
                         Text(
                             text = record.note,
                             style = MaterialTheme.typography.bodySmall,
-                            modifier = Modifier.padding(top = 4.dp)
+                            modifier = Modifier.padding(top = 4.dp),
                         )
                     }
                 }
@@ -366,7 +339,7 @@ private fun RecordCard(
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = stringResource(R.string.delete),
-                    tint = MaterialTheme.colorScheme.error
+                    tint = MaterialTheme.colorScheme.error,
                 )
             }
         }
@@ -378,10 +351,12 @@ private fun RecordCard(
             title = { Text(stringResource(R.string.delete)) },
             text = { Text(stringResource(R.string.confirm_delete_record)) },
             confirmButton = {
-                TextButton(onClick = {
-                    onDelete()
-                    showDeleteDialog = false
-                }) {
+                TextButton(
+                    onClick = {
+                        onDelete()
+                        showDeleteDialog = false
+                    }
+                ) {
                     Text(stringResource(R.string.delete))
                 }
             },
@@ -389,7 +364,7 @@ private fun RecordCard(
                 TextButton(onClick = { showDeleteDialog = false }) {
                     Text(stringResource(R.string.cancel))
                 }
-            }
+            },
         )
     }
 }

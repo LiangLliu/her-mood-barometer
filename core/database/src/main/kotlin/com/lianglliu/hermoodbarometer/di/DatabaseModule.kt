@@ -12,29 +12,20 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import jakarta.inject.Singleton
 
-/**
- * 数据库依赖注入模块
- * 提供数据库相关的依赖
- */
+/** 数据库依赖注入模块 提供数据库相关的依赖 */
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
     @Provides
     @Singleton
-    fun provideMoodDatabase(
-        @ApplicationContext context: Context,
-    ): MoodDatabase = Room.databaseBuilder(
-        context,
-        MoodDatabase::class.java,
-        DATABASE_NAME,
-    ).build()
+    fun provideMoodDatabase(@ApplicationContext context: Context): MoodDatabase =
+        Room.databaseBuilder(context, MoodDatabase::class.java, DATABASE_NAME)
+            .fallbackToDestructiveMigration(dropAllTables = true)
+            .build()
 
     @Provides
     fun providesDatabaseTransferManager(
         @ApplicationContext context: Context,
         database: MoodDatabase,
-    ) = DatabaseTransferManager(
-        context = context,
-        databaseOpenHelper = database.openHelper,
-    )
+    ) = DatabaseTransferManager(context = context, databaseOpenHelper = database.openHelper)
 }

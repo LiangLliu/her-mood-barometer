@@ -1,18 +1,16 @@
 package com.lianglliu.hermoodbarometer.core.domain
 
 import com.lianglliu.hermoodbarometer.repository.EmotionRepository
-import javax.inject.Inject
+import jakarta.inject.Inject
 
-/**
- * Use case for deleting emotion records
- * Handles single and batch deletion of emotion records
- */
-class DeleteEmotionRecordUseCase @Inject constructor(
-    private val emotionRepository: EmotionRepository
-) {
+/** Use case for deleting emotion records Handles single and batch deletion of emotion records */
+class DeleteEmotionRecordUseCase
+@Inject
+constructor(private val emotionRepository: EmotionRepository) {
 
     /**
      * Delete a single emotion record by ID
+     *
      * @param recordId The ID of the record to delete
      * @return Result indicating success or failure
      */
@@ -31,6 +29,7 @@ class DeleteEmotionRecordUseCase @Inject constructor(
 
     /**
      * Delete multiple emotion records
+     *
      * @param recordIds List of record IDs to delete
      * @return Result indicating success or failure
      */
@@ -46,9 +45,7 @@ class DeleteEmotionRecordUseCase @Inject constructor(
 
             // Delete records one by one
             // Could be optimized with batch delete in the future
-            recordIds.forEach { recordId ->
-                emotionRepository.deleteRecord(recordId)
-            }
+            recordIds.forEach { recordId -> emotionRepository.deleteRecord(recordId) }
 
             Result.success(Unit)
         } catch (e: Exception) {
@@ -57,8 +54,8 @@ class DeleteEmotionRecordUseCase @Inject constructor(
     }
 
     /**
-     * Delete all emotion records
-     * Use with extreme caution - this operation cannot be undone
+     * Delete all emotion records Use with extreme caution - this operation cannot be undone
+     *
      * @return Result indicating success or failure
      */
     suspend fun deleteAll(): Result<Unit> {

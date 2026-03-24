@@ -84,6 +84,8 @@
     <!-- ==================== Calendar Module ==================== -->
     <string name="calendar_title">日曆</string>
     <string name="calendar_month_format">yyyy年M月</string>
+    <string name="previous_month">上個月</string>
+    <string name="next_month">下個月</string>
 
     <!-- ==================== Settings Module ==================== -->
     <string name="settings">設定</string>
@@ -301,19 +303,40 @@
     <string name="notification_message">花點時間記錄你的心情</string>
     <string name="notification_text">花點時間記錄你的心情</string>
     <string name="daily_reminder_description">每天提醒你記錄心情</string>
+    <string name="quick_record_action">立即記錄</string>
+
+    <string-array name="notification_titles">
+        <item>你感覺怎麼樣？</item>
+        <item>給自己一刻時光</item>
+        <item>你的心情很重要</item>
+        <item>是時候關心一下自己了</item>
+        <item>今天過得怎麼樣？</item>
+        <item>停下來，感受一下</item>
+        <item>你今天的專屬時刻</item>
+        <item>想分享些什麼嗎？</item>
+    </string-array>
+
+    <string-array name="notification_texts">
+        <item>花點時間記錄你的心情</item>
+        <item>你的感受值得被傾聽</item>
+        <item>幾句話就能帶來不同</item>
+        <item>今天一切還好嗎？</item>
+        <item>讓日記知道你的感受</item>
+        <item>每一種情緒都有它的故事</item>
+        <item>把這一刻記錄在日記裡</item>
+        <item>你的心情日記在等你</item>
+    </string-array>
 
     <!-- ==================== Permissions ==================== -->
     <string name="permission_notification_title">啟用通知</string>
     <string name="permission_notification_message">允許通知以接收心情提醒</string>
-    <string name="permission_exact_alarm_title">啟用精確鬧鐘</string>
-    <string name="permission_exact_alarm_message">允許精確鬧鐘以準時提醒</string>
     <string name="permission_required">需要權限</string>
     <string name="permission_denied">權限被拒絕</string>
     <string name="permission_go_to_settings">前往設定</string>
     <string name="permission_cancel">取消</string>
     <string name="permission_notification_rationale">我們需要通知權限來向您發送每日記錄心情的提醒。請在設定中啟用通知。</string>
-    <string name="permission_exact_alarm_rationale">我們需要精確鬧鐘權限來在準確的時間安排提醒。請在設定中啟用此權限。</string>
     <string name="permission_default_rationale">此權限是應用程式正常運作所必需的。請在設定中授予權限。</string>
+    <string name="notification_permission_blocked_warning">通知權限已被停用，提醒可能無法正常運作。請重新開啟提醒以授權。</string>
 
     <!-- ==================== Accessibility ==================== -->
     <string name="cd_emotion_icon">情緒圖示</string>
@@ -324,6 +347,8 @@
     <string name="cd_settings_button">設定按鈕</string>
     <string name="cd_add_button">添加按鈕</string>
     <string name="cd_chart">統計圖表</string>
+    <string name="cd_page_title">頁面標題：%s</string>
+    <string name="cd_navigate_back">返回上一頁</string>
 
     <!-- ==================== Quick Record ==================== -->
     <string name="quick_record_title">快速記錄</string>

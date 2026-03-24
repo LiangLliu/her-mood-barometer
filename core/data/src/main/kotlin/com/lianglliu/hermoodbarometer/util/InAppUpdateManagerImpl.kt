@@ -7,22 +7,23 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.ktx.AppUpdateResult
 import com.google.android.play.core.ktx.requestUpdateFlow
 import dagger.hilt.android.qualifiers.ApplicationContext
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
-internal class InAppUpdateManagerImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
-) : InAppUpdateManager {
+internal class InAppUpdateManagerImpl
+@Inject
+constructor(@ApplicationContext private val context: Context) : InAppUpdateManager {
 
     private val appUpdateManager: AppUpdateManager = AppUpdateManagerFactory.create(context)
 
-    override val inAppUpdateResult: Flow<InAppUpdateResult> = appUpdateManager.requestUpdateFlow()
-        .map(AppUpdateResult::toInAppUpdateResult)
-        .catch { InAppUpdateResult.NotAvailable }
+    override val inAppUpdateResult: Flow<InAppUpdateResult> =
+        appUpdateManager.requestUpdateFlow().map(AppUpdateResult::toInAppUpdateResult).catch {
+            InAppUpdateResult.NotAvailable
+        }
 }
 
 sealed class InAppUpdateResult {
@@ -38,8 +39,9 @@ sealed class InAppUpdateResult {
     data object NotAvailable : InAppUpdateResult()
 }
 
-private fun AppUpdateResult.toInAppUpdateResult(): InAppUpdateResult = when (this) {
-    is AppUpdateResult.Available -> InAppUpdateResult.Available(this)
-    is AppUpdateResult.Downloaded -> InAppUpdateResult.Downloaded(this)
-    else -> InAppUpdateResult.NotAvailable
-}
+private fun AppUpdateResult.toInAppUpdateResult(): InAppUpdateResult =
+    when (this) {
+        is AppUpdateResult.Available -> InAppUpdateResult.Available(this)
+        is AppUpdateResult.Downloaded -> InAppUpdateResult.Downloaded(this)
+        else -> InAppUpdateResult.NotAvailable
+    }

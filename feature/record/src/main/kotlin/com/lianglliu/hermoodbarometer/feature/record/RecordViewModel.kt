@@ -1,23 +1,26 @@
 package com.lianglliu.hermoodbarometer.feature.record
 
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lianglliu.hermoodbarometer.core.common.concurrency.AppDispatchers
+import com.lianglliu.hermoodbarometer.core.common.concurrency.Dispatcher
 import com.lianglliu.hermoodbarometer.core.domain.AddEmotionRecordUseCase
+import com.lianglliu.hermoodbarometer.core.locales.R as LocalesR
 import com.lianglliu.hermoodbarometer.core.model.data.Emotion
 import com.lianglliu.hermoodbarometer.core.model.data.EmotionIntensity
 import com.lianglliu.hermoodbarometer.core.model.data.EmotionRecord
 import com.lianglliu.hermoodbarometer.repository.EmotionDefinitionRepository
-import com.lianglliu.hermoodbarometer.core.locales.R as LocalesR
 import dagger.hilt.android.lifecycle.HiltViewModel
+import jakarta.inject.Inject
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import timber.log.Timber
 
 /**
  * 记录页面的ViewModel
@@ -30,11 +33,15 @@ import javax.inject.Inject
  *
  * @param addEmotionRecordUseCase 添加情绪记录的用例
  * @param emotionDefinitionRepository 情绪定义的仓库
+ * @param ioDispatcher IO调度器
  */
 @HiltViewModel
-class RecordViewModel @Inject constructor(
+class RecordViewModel
+@Inject
+constructor(
     private val addEmotionRecordUseCase: AddEmotionRecordUseCase,
-    private val emotionDefinitionRepository: EmotionDefinitionRepository
+    private val emotionDefinitionRepository: EmotionDefinitionRepository,
+    @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     companion object {
@@ -56,7 +63,7 @@ class RecordViewModel @Inject constructor(
     val uiState: StateFlow<RecordUiState> = _uiState.asStateFlow()
 
     init {
-        Log.d("RecordVM", "Init RecordViewModel")
+        Timber.d("Init RecordViewModel")
 
         // 延迟加载用户情绪，避免初始化时的性能压力
         viewModelScope.launch {
@@ -66,58 +73,43 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    /**
-     * 加载用户创建的情绪
-     */
+    /** 加载用户创建的情绪 */
     private fun loadUserEmotions() {
         val startTime = System.currentTimeMillis()
 
         viewModelScope.launch {
             // Assuming this flow is designed to emit updates if user emotions change elsewhere
-            emotionDefinitionRepository.getUserCreatedEmotions()
-                .flowOn(kotlinx.coroutines.Dispatchers.IO)
-                .collect { emotions ->
-                    Log.d("RecordVM", "Emotions loaded: ${emotions.size} items (${System.currentTimeMillis() - startTime}ms)")
-                    _uiState.update { state ->
-                        state.copy(userEmotions = emotions)
-                    }
-                }
+            emotionDefinitionRepository.getUserCreatedEmotions().flowOn(ioDispatcher).collect {
+                emotions ->
+                Timber.d(
+                    "Emotions loaded: ${emotions.size} items (${System.currentTimeMillis() - startTime}ms)"
+                )
+                _uiState.update { state -> state.copy(userEmotions = emotions) }
+            }
         }
     }
 
-    /**
-     * 更新选中的情绪
-     */
+    /** 更新选中的情绪 */
     fun updateSelectedEmotion(emotion: Emotion?) {
         _uiState.update { currentState ->
             currentState.copy(
                 selectedEmotion = emotion,
-                errorMessageResId = null // Clear previous error when selection changes
+                errorMessageResId = null, // Clear previous error when selection changes
             )
         }
     }
 
-    /**
-     * 更新情绪强度
-     */
+    /** 更新情绪强度 */
     fun updateIntensity(intensity: Float) {
-        _uiState.update { currentState ->
-            currentState.copy(intensityLevel = intensity)
-        }
+        _uiState.update { currentState -> currentState.copy(intensityLevel = intensity) }
     }
 
-    /**
-     * 更新备注文本
-     */
+    /** 更新备注文本 */
     fun updateNote(note: String) {
-        _uiState.update { currentState ->
-            currentState.copy(noteText = note)
-        }
+        _uiState.update { currentState -> currentState.copy(noteText = note) }
     }
 
-    /**
-     * 保存情绪记录
-     */
+    /** 保存情绪记录 */
     fun saveEmotionRecord() {
         val startTime = System.currentTimeMillis()
 
@@ -125,29 +117,26 @@ class RecordViewModel @Inject constructor(
 
         val validationErrorResId = validateEmotionRecord(currentState)
         if (validationErrorResId != null) {
-            _uiState.update { state ->
-                state.copy(errorMessageResId = validationErrorResId)
-            }
+            _uiState.update { state -> state.copy(errorMessageResId = validationErrorResId) }
             return
         }
 
         // selectedEmotion is guaranteed to be non-null here due to validation
         val emotion = currentState.selectedEmotion!!
-        val emotionRecord = EmotionRecord(
-            emotionId = emotion.id,
-            emotionEmoji = emotion.emoji,
-            intensity = EmotionIntensity.fromLevel(currentState.intensityLevel.toInt()),
-            note = currentState.noteText
-        )
+        val emotionRecord =
+            EmotionRecord(
+                emotionId = emotion.id,
+                emotionEmoji = emotion.emoji,
+                intensity = EmotionIntensity.fromLevel(currentState.intensityLevel.toInt()),
+                note = currentState.noteText,
+            )
 
-        _uiState.update { state ->
-            state.copy(isLoading = true, errorMessageResId = null)
-        }
+        _uiState.update { state -> state.copy(isLoading = true, errorMessageResId = null) }
 
         viewModelScope.launch {
             addEmotionRecordUseCase(emotionRecord)
                 .onSuccess {
-                    Log.d("RecordVM", "Record saved (${System.currentTimeMillis() - startTime}ms)")
+                    Timber.d("Record saved (${System.currentTimeMillis() - startTime}ms)")
                     _uiState.update { state ->
                         state.copy(
                             selectedEmotion = null,
@@ -155,27 +144,21 @@ class RecordViewModel @Inject constructor(
                             noteText = "",
                             isLoading = false,
                             errorMessageResId = null,
-                            showSuccessMessage = true
+                            showSuccessMessage = true,
                         )
                     }
                 }
                 .onFailure { exception ->
                     val errorResId = mapExceptionToErrorResourceId(exception)
-                    Log.e("RecordVM", "Save failed: error resource $errorResId")
+                    Timber.e("Save failed: error resource $errorResId")
                     _uiState.update { state ->
-                        state.copy(
-                            isLoading = false,
-                            errorMessageResId = errorResId
-                        )
+                        state.copy(isLoading = false, errorMessageResId = errorResId)
                     }
                 }
         }
     }
 
-    /**
-     * 将异常映射为用户友好的错误消息资源ID。
-     * 假设 UseCase 会将特定的业务异常（如网络、数据库问题）封装并传递。
-     */
+    /** 将异常映射为用户友好的错误消息资源ID。 假设 UseCase 会将特定的业务异常（如网络、数据库问题）封装并传递。 */
     @StringRes
     private fun mapExceptionToErrorResourceId(exception: Throwable): Int {
         val message = exception.message?.lowercase() ?: ""
@@ -189,40 +172,31 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-
-    /**
-     * 清除成功消息
-     */
+    /** 清除成功消息 */
     fun clearSuccessMessage() {
-        _uiState.update { state ->
-            state.copy(showSuccessMessage = false)
-        }
+        _uiState.update { state -> state.copy(showSuccessMessage = false) }
     }
 
-    /**
-     * 清除错误消息
-     */
+    /** 清除错误消息 */
     fun clearErrorMessage() {
-        _uiState.update { state ->
-            state.copy(errorMessageResId = null)
-        }
+        _uiState.update { state -> state.copy(errorMessageResId = null) }
     }
 
     /**
      * 验证情绪记录数据
+     *
      * @return 错误消息的资源ID，如果验证通过则返回null
      */
     @StringRes
     private fun validateEmotionRecord(state: RecordUiState): Int? {
         return when {
-            state.selectedEmotion == null ->
-                LocalesR.string.validation_select_emotion
+            state.selectedEmotion == null -> LocalesR.string.validation_select_emotion
 
-            state.intensityLevel < MIN_INTENSITY_LEVEL || state.intensityLevel > MAX_INTENSITY_LEVEL ->
+            state.intensityLevel < MIN_INTENSITY_LEVEL ||
+                state.intensityLevel > MAX_INTENSITY_LEVEL ->
                 LocalesR.string.validation_intensity_range
 
-            state.noteText.length > MAX_NOTE_LENGTH ->
-                LocalesR.string.validation_note_too_long
+            state.noteText.length > MAX_NOTE_LENGTH -> LocalesR.string.validation_note_too_long
 
             else -> null
         }
@@ -247,5 +221,5 @@ data class RecordUiState(
     val noteText: String = "",
     val isLoading: Boolean = false,
     @StringRes val errorMessageResId: Int? = null,
-    val showSuccessMessage: Boolean = false
+    val showSuccessMessage: Boolean = false,
 )

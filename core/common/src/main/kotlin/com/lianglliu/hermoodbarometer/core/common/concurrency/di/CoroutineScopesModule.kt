@@ -6,16 +6,14 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import jakarta.inject.Qualifier
+import jakarta.inject.Singleton
+import kotlin.annotation.AnnotationRetention.RUNTIME
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import javax.inject.Qualifier
-import javax.inject.Singleton
-import kotlin.annotation.AnnotationRetention.RUNTIME
 
-@Retention(RUNTIME)
-@Qualifier
-annotation class ApplicationScope
+@Retention(RUNTIME) @Qualifier annotation class ApplicationScope
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -25,6 +23,6 @@ internal object CoroutineScopesModule {
     @Singleton
     @ApplicationScope
     fun providesCoroutineScope(
-        @Dispatcher(AppDispatchers.Default) dispatcher: CoroutineDispatcher,
+        @Dispatcher(AppDispatchers.Default) dispatcher: CoroutineDispatcher
     ): CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 }

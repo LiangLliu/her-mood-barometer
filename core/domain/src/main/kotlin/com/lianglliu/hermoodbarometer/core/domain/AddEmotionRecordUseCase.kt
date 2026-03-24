@@ -2,18 +2,18 @@ package com.lianglliu.hermoodbarometer.core.domain
 
 import com.lianglliu.hermoodbarometer.core.model.data.EmotionRecord
 import com.lianglliu.hermoodbarometer.repository.EmotionRepository
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 /**
- * Use case for adding emotion records
- * Validates data and delegates to repository for persistence
+ * Use case for adding emotion records Validates data and delegates to repository for persistence
  */
-class AddEmotionRecordUseCase @Inject constructor(
-    private val emotionRepository: EmotionRepository
-) {
+class AddEmotionRecordUseCase
+@Inject
+constructor(private val emotionRepository: EmotionRepository) {
 
     /**
      * Execute the add emotion record operation
+     *
      * @param emotionRecord The emotion record to add
      * @return Result containing the record ID on success
      */
@@ -32,12 +32,10 @@ class AddEmotionRecordUseCase @Inject constructor(
         }
     }
 
-    /**
-     * Validate emotion record data
-     */
+    /** Validate emotion record data */
     private fun isValidRecord(record: EmotionRecord): Boolean {
         return record.emotionId > 0 &&
-               record.emotionEmoji.isNotBlank() &&
-               record.intensity.level in 1..5
+            record.emotionEmoji.isNotBlank() &&
+            record.intensity.level in 1..5
     }
-} 
+}

@@ -1,8 +1,7 @@
 package com.lianglliu.hermoodbarometer.feature.settings
 
-import android.app.Application
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
+import android.content.Context
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lianglliu.hermoodbarometer.core.model.data.ColorSchemeConfig
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig
@@ -14,24 +13,26 @@ import com.lianglliu.hermoodbarometer.repository.UserDataRepository
 import com.lianglliu.hermoodbarometer.util.AppLocaleManager
 import com.lianglliu.hermoodbarometer.util.ReminderScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /** 设置页面的ViewModel 负责处理应用设置和自定义情绪管理 */
 @HiltViewModel
 class SettingsViewModel
 @Inject
 constructor(
-    application: Application,
+    @ApplicationContext private val context: Context,
     private val userDataRepository: UserDataRepository,
     private val appLocaleManager: AppLocaleManager,
     private val reminderScheduler: ReminderScheduler,
-) : AndroidViewModel(application) {
+) : ViewModel() {
     private val availableLanguages = Language.entries
 
     // 权限状态流
@@ -40,7 +41,7 @@ constructor(
     val permissionState: StateFlow<PermissionCheckResult> = _permissionState
 
     init {
-        Log.d("SettingsVM", "Init SettingsViewModel")
+        Timber.d("Init SettingsViewModel")
     }
 
     val settingsUiState: StateFlow<SettingsUiState> =
@@ -69,11 +70,23 @@ constructor(
             )
 
     fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
-        viewModelScope.launch { userDataRepository.setDarkThemeConfig(darkThemeConfig) }
+        viewModelScope.launch {
+            try {
+                userDataRepository.setDarkThemeConfig(darkThemeConfig)
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to update dark theme config")
+            }
+        }
     }
 
     fun updateColorSchemeConfig(colorSchemeConfig: ColorSchemeConfig) {
-        viewModelScope.launch { userDataRepository.setColorSchemeConfig(colorSchemeConfig) }
+        viewModelScope.launch {
+            try {
+                userDataRepository.setColorSchemeConfig(colorSchemeConfig)
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to update color scheme config")
+            }
+        }
     }
 
     fun updateLanguage(language: String) {
@@ -95,22 +108,25 @@ constructor(
 
         // 权限已授予或关闭提醒，继续处理
         viewModelScope.launch {
-            userDataRepository.setReminderStatus(reminderStatus)
-            if (reminderStatus) {
-                val currentSettings = settingsUiState.value
-                if (currentSettings is SettingsUiState.Success) {
-                    scheduleDailyReminder(currentSettings.settings.reminderTime)
+            try {
+                userDataRepository.setReminderStatus(reminderStatus)
+                if (reminderStatus) {
+                    val currentSettings = settingsUiState.value
+                    if (currentSettings is SettingsUiState.Success) {
+                        scheduleDailyReminder(currentSettings.settings.reminderTime)
+                    }
+                } else {
+                    reminderScheduler.cancelDailyReminder()
                 }
-            } else {
-                reminderScheduler.cancelDailyReminder()
+                _permissionState.value = PermissionCheckResult.Success
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to update reminder status")
             }
-            _permissionState.value = PermissionCheckResult.Success
         }
     }
 
     /** 检查所需权限 */
     private fun checkRequiredPermissions(): List<String> {
-        val context = getApplication<Application>()
         val missingPermissions = mutableListOf<String>()
 
         // 检查通知权限
@@ -119,14 +135,6 @@ constructor(
                 PermissionState.Granted
         ) {
             missingPermissions.add("notification")
-        }
-
-        // 检查精确闹钟权限
-        if (
-            PermissionHelpers.checkPermissionState(context, "exact_alarm") !=
-                PermissionState.Granted
-        ) {
-            missingPermissions.add("exact_alarm")
         }
 
         return missingPermissions
@@ -147,14 +155,18 @@ constructor(
 
     fun updateReminderTime(reminderTime: String) {
         viewModelScope.launch {
-            userDataRepository.setReminderTime(reminderTime)
-            // If reminder is enabled, reschedule with new time
-            val currentSettings = settingsUiState.value
-            if (
-                currentSettings is SettingsUiState.Success &&
-                    currentSettings.settings.isReminderEnabled
-            ) {
-                scheduleDailyReminder(reminderTime)
+            try {
+                userDataRepository.setReminderTime(reminderTime)
+                // If reminder is enabled, reschedule with new time
+                val currentSettings = settingsUiState.value
+                if (
+                    currentSettings is SettingsUiState.Success &&
+                        currentSettings.settings.isReminderEnabled
+                ) {
+                    scheduleDailyReminder(reminderTime)
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to update reminder time")
             }
         }
     }

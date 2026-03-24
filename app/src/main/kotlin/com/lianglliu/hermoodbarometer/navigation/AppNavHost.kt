@@ -1,6 +1,5 @@
 package com.lianglliu.hermoodbarometer.navigation
 
-import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -17,6 +16,7 @@ import com.lianglliu.hermoodbarometer.feature.settings.navigation.navigateToLice
 import com.lianglliu.hermoodbarometer.feature.settings.navigation.settingsScreen
 import com.lianglliu.hermoodbarometer.feature.statistics.navigation.statisticsScreen
 import com.lianglliu.hermoodbarometer.ui.AppState
+import timber.log.Timber
 
 @Composable
 fun MoodNavHost(
@@ -29,14 +29,14 @@ fun MoodNavHost(
     // 监控导航变化
     DisposableEffect(navController) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-            Log.d("NavTransition", "Arrived at: ${destination.route?.substringAfterLast('.')?.substringBefore("Route") ?: destination.route}")
+            Timber.d(
+                "Arrived at: ${destination.route?.substringAfterLast('.')?.substringBefore("Route") ?: destination.route}"
+            )
         }
 
         navController.addOnDestinationChangedListener(listener)
 
-        onDispose {
-            navController.removeOnDestinationChangedListener(listener)
-        }
+        onDispose { navController.removeOnDestinationChangedListener(listener) }
     }
 
     NavHost(

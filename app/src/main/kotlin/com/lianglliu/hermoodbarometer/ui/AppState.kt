@@ -1,6 +1,5 @@
 package com.lianglliu.hermoodbarometer.ui
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -13,17 +12,17 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import androidx.tracing.trace
-import com.lianglliu.hermoodbarometer.feature.diary.navigation.DiaryRoute
-import com.lianglliu.hermoodbarometer.feature.diary.navigation.navigateToDiary
 import com.lianglliu.hermoodbarometer.feature.calendar.navigation.CalendarRoute
 import com.lianglliu.hermoodbarometer.feature.calendar.navigation.navigateToCalendar
+import com.lianglliu.hermoodbarometer.feature.diary.navigation.DiaryRoute
+import com.lianglliu.hermoodbarometer.feature.diary.navigation.navigateToDiary
 import com.lianglliu.hermoodbarometer.feature.settings.navigation.SettingsRoute
 import com.lianglliu.hermoodbarometer.feature.settings.navigation.navigateToSettings
 import com.lianglliu.hermoodbarometer.feature.statistics.navigation.StatisticsRoute
 import com.lianglliu.hermoodbarometer.feature.statistics.navigation.navigateToStatistics
 import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination
-import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.DIARY
 import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.CALENDAR
+import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.DIARY
 import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.SETTINGS
 import com.lianglliu.hermoodbarometer.navigation.TopLevelDestination.STATISTICS
 import com.lianglliu.hermoodbarometer.util.InAppUpdateManager
@@ -33,6 +32,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.TimeZone
+import timber.log.Timber
 
 @Composable
 fun rememberAppState(
@@ -42,11 +42,7 @@ fun rememberAppState(
     navController: NavHostController = rememberNavController(),
 ): AppState {
 
-    return remember(
-        timeZoneMonitor,
-        coroutineScope,
-        navController,
-    ) {
+    return remember(timeZoneMonitor, coroutineScope, navController) {
         AppState(
             timeZoneMonitor = timeZoneMonitor,
             inAppUpdateManager = inAppUpdateManager,
@@ -67,14 +63,12 @@ class AppState(
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
 
     val currentTopLevelDestination: TopLevelDestination?
-        @Composable get() {
+        @Composable
+        get() {
             with(currentDestination) {
-                if (this?.hasRoute<DiaryRoute>() == true
-                ) return DIARY
-                if (this?.hasRoute<StatisticsRoute>() == true
-                ) return STATISTICS
-                if (this?.hasRoute<CalendarRoute>() == true
-                ) return CALENDAR
+                if (this?.hasRoute<DiaryRoute>() == true) return DIARY
+                if (this?.hasRoute<StatisticsRoute>() == true) return STATISTICS
+                if (this?.hasRoute<CalendarRoute>() == true) return CALENDAR
                 if (this?.hasRoute<SettingsRoute>() == true) return SETTINGS
             }
             return null
@@ -82,15 +76,15 @@ class AppState(
 
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
 
-    val currentTimeZone = timeZoneMonitor.currentTimeZone
-        .stateIn(
+    val currentTimeZone =
+        timeZoneMonitor.currentTimeZone.stateIn(
             scope = coroutineScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = TimeZone.currentSystemDefault(),
         )
 
-    val inAppUpdateResult = inAppUpdateManager.inAppUpdateResult
-        .stateIn(
+    val inAppUpdateResult =
+        inAppUpdateManager.inAppUpdateResult.stateIn(
             scope = coroutineScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = InAppUpdateResult.NotAvailable,
@@ -98,13 +92,11 @@ class AppState(
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
         val startTime = System.currentTimeMillis()
-        Log.d("Navigation", "Navigate to ${topLevelDestination.name}")
+        Timber.d("Navigate to ${topLevelDestination.name}")
 
         trace("Navigation: ${topLevelDestination.name}") {
             val topLevelNavOptions = navOptions {
-                popUpTo(navController.graph.findStartDestination().id) {
-                    saveState = true
-                }
+                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
                 launchSingleTop = true
                 restoreState = true
             }
@@ -112,19 +104,19 @@ class AppState(
             when (topLevelDestination) {
                 DIARY -> {
                     navController.navigateToDiary()
-                    Log.d("Navigation", "→ DIARY (${System.currentTimeMillis() - startTime}ms)")
+                    Timber.d("→ DIARY (${System.currentTimeMillis() - startTime}ms)")
                 }
                 STATISTICS -> {
                     navController.navigateToStatistics(topLevelNavOptions)
-                    Log.d("Navigation", "→ STATISTICS (${System.currentTimeMillis() - startTime}ms)")
+                    Timber.d("→ STATISTICS (${System.currentTimeMillis() - startTime}ms)")
                 }
                 CALENDAR -> {
                     navController.navigateToCalendar()
-                    Log.d("Navigation", "→ CALENDAR (${System.currentTimeMillis() - startTime}ms)")
+                    Timber.d("→ CALENDAR (${System.currentTimeMillis() - startTime}ms)")
                 }
                 SETTINGS -> {
                     navController.navigateToSettings(topLevelNavOptions)
-                    Log.d("Navigation", "→ SETTINGS (${System.currentTimeMillis() - startTime}ms)")
+                    Timber.d("→ SETTINGS (${System.currentTimeMillis() - startTime}ms)")
                 }
             }
         }

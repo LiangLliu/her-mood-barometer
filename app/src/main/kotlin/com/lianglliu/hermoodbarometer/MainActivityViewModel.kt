@@ -15,9 +15,9 @@ import com.lianglliu.hermoodbarometer.core.model.data.UserData
 import com.lianglliu.hermoodbarometer.core.model.data.Weather
 import com.lianglliu.hermoodbarometer.repository.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import jakarta.inject.Inject
 import java.time.LocalDateTime
 import java.time.ZoneId
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @HiltViewModel
 class MainActivityViewModel
@@ -39,8 +40,8 @@ constructor(
     init {
         viewModelScope.launch {
             initializeEmotionsUseCase()
-                .onSuccess { android.util.Log.d(TAG, "Predefined emotions initialized") }
-                .onFailure { android.util.Log.e(TAG, "Failed to initialize emotions", it) }
+                .onSuccess { Timber.d("Predefined emotions initialized") }
+                .onFailure { Timber.e(it, "Failed to initialize emotions") }
         }
     }
 
@@ -100,18 +101,17 @@ constructor(
                         },
                 )
 
-            android.util.Log.d(
-                TAG,
-                "Saving record: emotionId=$emotionId, emoji=$emotionEmoji, weather=$weather, activities=$activities",
+            Timber.d(
+                "Saving record: emotionId=$emotionId, emoji=$emotionEmoji, weather=$weather, activities=$activities"
             )
             addEmotionRecordUseCase(record)
                 .onSuccess {
-                    android.util.Log.d(TAG, "Record saved successfully")
+                    Timber.d("Record saved successfully")
                     _quickRecordSaveState.value = QuickRecordSaveState.Success
                     hideQuickRecordDialog()
                 }
                 .onFailure { exception ->
-                    android.util.Log.e(TAG, "Failed to save record", exception)
+                    Timber.e(exception, "Failed to save record")
                     _showQuickRecordDialog.value = false
                     _quickRecordSaveState.value =
                         QuickRecordSaveState.Error(exception.message ?: "Unknown error")
@@ -129,8 +129,6 @@ sealed interface QuickRecordSaveState {
 
     data class Error(val message: String) : QuickRecordSaveState
 }
-
-private const val TAG = "MainActivityViewModel"
 
 sealed interface MainActivityUiState {
 

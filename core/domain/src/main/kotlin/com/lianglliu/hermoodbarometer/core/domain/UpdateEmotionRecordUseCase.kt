@@ -2,18 +2,16 @@ package com.lianglliu.hermoodbarometer.core.domain
 
 import com.lianglliu.hermoodbarometer.core.model.data.EmotionRecord
 import com.lianglliu.hermoodbarometer.repository.EmotionRepository
-import javax.inject.Inject
+import jakarta.inject.Inject
 
-/**
- * Use case for updating emotion records
- * Validates and updates existing emotion records
- */
-class UpdateEmotionRecordUseCase @Inject constructor(
-    private val emotionRepository: EmotionRepository
-) {
+/** Use case for updating emotion records Validates and updates existing emotion records */
+class UpdateEmotionRecordUseCase
+@Inject
+constructor(private val emotionRepository: EmotionRepository) {
 
     /**
      * Execute the update emotion record operation
+     *
      * @param emotionRecord The emotion record to update
      * @return Result indicating success or failure
      */
@@ -37,12 +35,10 @@ class UpdateEmotionRecordUseCase @Inject constructor(
         }
     }
 
-    /**
-     * Validate emotion record data
-     */
+    /** Validate emotion record data */
     private fun isValidRecord(record: EmotionRecord): Boolean {
         return record.emotionId > 0 &&
-               record.emotionEmoji.isNotBlank() &&
-               record.intensity.level in 1..5
+            record.emotionEmoji.isNotBlank() &&
+            record.intensity.level in 1..5
     }
 }

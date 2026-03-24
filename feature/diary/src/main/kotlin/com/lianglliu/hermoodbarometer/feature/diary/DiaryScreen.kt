@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -52,48 +51,41 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun DiaryScreen(
-    modifier: Modifier = Modifier,
-    viewModel: DiaryViewModel = hiltViewModel()
-) {
+fun DiaryScreen(modifier: Modifier = Modifier, viewModel: DiaryViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Scaffold(
-        topBar = {
-            CsTopAppBar(
-                titleRes = R.string.nav_diary
-            )
-        },
-        modifier = modifier
-    ) { paddingValues ->
-        when {
-            uiState.isLoading -> {
+    Scaffold(topBar = { CsTopAppBar(titleRes = R.string.nav_diary) }, modifier = modifier) {
+        paddingValues ->
+        when (uiState) {
+            is DiaryUiState.Loading -> {
+                com.lianglliu.hermoodbarometer.core.ui.component.LoadingState(
+                    modifier = Modifier.fillMaxSize().padding(paddingValues)
+                )
+            }
+
+            is DiaryUiState.Error -> {
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    contentAlignment = Alignment.Center
+                    modifier = Modifier.fillMaxSize().padding(paddingValues),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    CircularProgressIndicator()
+                    com.lianglliu.hermoodbarometer.core.ui.component.ErrorCard(
+                        message = (uiState as DiaryUiState.Error).message,
+                        modifier = Modifier.padding(16.dp),
+                    )
                 }
             }
 
-            uiState.recordsByDate.isEmpty() -> {
-                EmptyDiaryState(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                )
-            }
-
-            else -> {
-                DiaryContent(
-                    recordsByDate = uiState.recordsByDate,
-                    onDeleteRecord = viewModel::deleteRecord,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                )
+            is DiaryUiState.Success -> {
+                val successState = uiState as DiaryUiState.Success
+                if (successState.groupedRecords.isEmpty()) {
+                    EmptyDiaryState(modifier = Modifier.fillMaxSize().padding(paddingValues))
+                } else {
+                    DiaryContent(
+                        recordsByDate = successState.groupedRecords,
+                        onDeleteRecord = viewModel::deleteRecord,
+                        modifier = Modifier.fillMaxSize().padding(paddingValues),
+                    )
+                }
             }
         }
     }
@@ -104,26 +96,21 @@ fun DiaryScreen(
 private fun DiaryContent(
     recordsByDate: Map<LocalDate, List<EmotionRecord>>,
     onDeleteRecord: (Long) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         recordsByDate.forEach { (date, records) ->
-            stickyHeader {
-                DateHeader(date = date)
-            }
+            stickyHeader { DateHeader(date = date) }
 
-            items(
-                items = records,
-                key = { it.id }
-            ) { record ->
+            items(items = records, key = { it.id }) { record ->
                 EmotionRecordCard(
                     record = record,
                     onDelete = { onDeleteRecord(record.id) },
-                    modifier = Modifier.animateItem()
+                    modifier = Modifier.animateItem(),
                 )
             }
         }
@@ -131,30 +118,35 @@ private fun DiaryContent(
 }
 
 @Composable
-private fun DateHeader(
-    date: LocalDate,
-    modifier: Modifier = Modifier
-) {
+private fun DateHeader(date: LocalDate, modifier: Modifier = Modifier) {
     val isToday = date == LocalDate.now()
     val isYesterday = date == LocalDate.now().minusDays(1)
 
-    val dateText = when {
-        isToday -> stringResource(R.string.today)
-        isYesterday -> stringResource(R.string.yesterday)
-        else -> date.format(DateTimeFormatter.ofPattern(stringResource(R.string.date_format_full_cn), Locale.getDefault()))
-    }
+    val dateText =
+        when {
+            isToday -> stringResource(R.string.today)
+            isYesterday -> stringResource(R.string.yesterday)
+            else ->
+                date.format(
+                    DateTimeFormatter.ofPattern(
+                        stringResource(R.string.date_format_full_cn),
+                        Locale.getDefault(),
+                    )
+                )
+        }
 
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(vertical = 8.dp)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(vertical = 8.dp)
     ) {
         Text(
             text = dateText,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }
@@ -164,30 +156,21 @@ private fun DateHeader(
 private fun EmotionRecordCard(
     record: EmotionRecord,
     onDelete: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
 
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp)),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        )
+        modifier = modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.Top
-        ) {
+        Row(modifier = Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.Top) {
             // Time
             Text(
                 text = record.getLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm")),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.width(50.dp)
+                modifier = Modifier.width(50.dp),
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -195,17 +178,14 @@ private fun EmotionRecordCard(
             // Content
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 // Emotion
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Text(
-                        text = record.emotionEmoji,
-                        style = MaterialTheme.typography.headlineSmall
-                    )
+                    Text(text = record.emotionEmoji, style = MaterialTheme.typography.headlineSmall)
                     // We can show just the emoji since we don't have emotion name
 
                     // Intensity indicator
@@ -219,7 +199,7 @@ private fun EmotionRecordCard(
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 3,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
                     )
                 }
             }
@@ -228,7 +208,7 @@ private fun EmotionRecordCard(
             CsIconButton(
                 icon = AppIcons.Outlined.Delete,
                 onClick = { showDeleteDialog = true },
-                contentDescription = stringResource(R.string.delete)
+                contentDescription = stringResource(R.string.delete),
             )
         }
     }
@@ -251,61 +231,50 @@ private fun EmotionRecordCard(
                 TextButton(onClick = { showDeleteDialog = false }) {
                     Text(stringResource(R.string.cancel))
                 }
-            }
+            },
         )
     }
 }
 
 @Composable
-private fun IntensityIndicator(
-    intensity: Int,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(2.dp)
-    ) {
+private fun IntensityIndicator(intensity: Int, modifier: Modifier = Modifier) {
+    Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(2.dp)) {
         repeat(5) { index ->
             Box(
-                modifier = Modifier
-                    .size(4.dp, 12.dp)
-                    .clip(RoundedCornerShape(2.dp))
-                    .background(
-                        if (index < intensity) {
-                            MaterialTheme.colorScheme.primary
-                        } else {
-                            MaterialTheme.colorScheme.surfaceVariant
-                        }
-                    )
+                modifier =
+                    Modifier.size(4.dp, 12.dp)
+                        .clip(RoundedCornerShape(2.dp))
+                        .background(
+                            if (index < intensity) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.surfaceVariant
+                            }
+                        )
             )
         }
     }
 }
 
 @Composable
-private fun EmptyDiaryState(
-    modifier: Modifier = Modifier
-) {
+private fun EmptyDiaryState(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
-        Text(
-            text = "📔",
-            style = MaterialTheme.typography.displayLarge
-        )
+        Text(text = "📔", style = MaterialTheme.typography.displayLarge)
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(R.string.diary_empty),
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = stringResource(R.string.diary_empty_hint),
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }
