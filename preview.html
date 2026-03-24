@@ -3,1354 +3,753 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>她的晴雨表 - 高保真预览</title>
+    <title>她的晴雨表</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables for Color System */
+        /* ============================================
+           Color Scheme: 暖阳 (Warm Sun) — Default
+           ============================================ */
         :root {
-            /* Light Theme Colors - Material Design 3 */
-            --color-primary: #6750A4;
-            --color-on-primary: #FFFFFF;
-            --color-primary-container: #EADDFF;
-            --color-on-primary-container: #21005D;
-            --color-secondary: #625B71;
-            --color-on-secondary: #FFFFFF;
-            --color-secondary-container: #E8DEF8;
-            --color-on-secondary-container: #1D192B;
-            --color-tertiary: #7D5260;
-            --color-on-tertiary: #FFFFFF;
-            --color-tertiary-container: #FFD8E4;
-            --color-on-tertiary-container: #31111D;
-            --color-error: #BA1A1A;
-            --color-on-error: #FFFFFF;
-            --color-error-container: #FFDAD6;
-            --color-on-error-container: #410002;
-            --color-background: #FFFBFE;
-            --color-on-background: #1C1B1F;
-            --color-surface: #FFFBFE;
-            --color-on-surface: #1C1B1F;
-            --color-surface-variant: #E7E0EC;
-            --color-on-surface-variant: #49454F;
-            --color-outline: #79747E;
-            --color-outline-variant: #CAC4D0;
-            
-            /* Material Design 3 Extended Colors */
-            --color-surface-dim: #DED8E1;
-            --color-surface-bright: #FFFBFE;
-            --color-surface-container-lowest: #FFFFFF;
-            --color-surface-container-low: #F7F2FA;
-            --color-surface-container: #F3EDF7;
-            --color-surface-container-high: #ECE6F0;
-            --color-surface-container-highest: #E6E0E9;
-            
-            /* State Colors - Material Design 3 */
-            --color-primary-fixed: #21005D;
-            --color-primary-fixed-dim: #381E72;
-            --color-on-primary-fixed: #FFFFFF;
-            --color-on-primary-fixed-variant: #4F378B;
-            
-            /* Semantic Colors - Material Design 3 */
-            --color-success: #146C2E;
-            --color-on-success: #FFFFFF;
-            --color-success-container: #D4E8D4;
-            --color-on-success-container: #052F11;
-            
-            --color-warning: #7C5700;
-            --color-on-warning: #FFFFFF;
-            --color-warning-container: #FFDECC;
-            --color-on-warning-container: #2A1700;
-            
-            --color-info: #00668A;
-            --color-on-info: #FFFFFF;
-            --color-info-container: #C0E8FF;
-            --color-on-info-container: #001F2A;
-            
-            /* Additional Material Design 3 Colors */
-            --color-surface-tint: #6750A4;
-            --color-inverse-primary: #BEADFF;
-            --color-inverse-surface: #313033;
-            --color-inverse-on-surface: #F4EFF4;
-            --color-shadow: #000000;
-            
-            /* State Layer Colors - Material Design 3 */
-            --color-primary-state-layer: rgba(103, 80, 164, 0.08);
-            --color-secondary-state-layer: rgba(98, 91, 113, 0.08);
-            --color-tertiary-state-layer: rgba(125, 82, 96, 0.08);
-            --color-error-state-layer: rgba(186, 26, 26, 0.08);
-            --color-surface-state-layer: rgba(28, 27, 31, 0.08);
-            
-            /* Positive/Negative Colors for Charts */
-            --color-positive: #146C2E;
-            --color-negative: #BA1A1A;
-            --color-neutral: #49454F;
-            
-            /* Material Design 3 Shape System */
-            --shape-corner-none: 0px;
-            --shape-corner-extra-small: 4px;
-            --shape-corner-small: 8px;
-            --shape-corner-medium: 12px;
-            --shape-corner-large: 16px;
-            --shape-corner-extra-large: 20px;
-            --shape-corner-full: 28px;
-            
-            /* Material Design 3 Elevation System */
-            --elevation-level0: none;
-            --elevation-level1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
-            --elevation-level2: 0 1px 5px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.08);
-            --elevation-level3: 0 1px 8px rgba(0, 0, 0, 0.12), 0 3px 4px rgba(0, 0, 0, 0.08);
-            --elevation-level4: 0 2px 4px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
-            --elevation-level5: 0 4px 8px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.08);
+            --bg: #FBF8F4;
+            --bg-warm: #F5F0E8;
+            --bg-card: #FFFFFF;
+            --text-primary: #2C2520;
+            --text-secondary: #6B5E54;
+            --text-muted: #9B8E82;
+            --text-hint: #BEB3A7;
+            --accent: #C4735B;
+            --accent-soft: #E8B4A2;
+            --accent-bg: #FFF0EB;
+            --sage: #7A9E7E;
+            --sage-soft: #C5DBC7;
+            --sage-bg: #EFF5F0;
+            --amber: #C9A84C;
+            --amber-soft: #E8D9A0;
+            --amber-bg: #FDF8EC;
+            --rose: #B8687B;
+            --rose-soft: #E0B4BF;
+            --rose-bg: #FBF0F3;
+            --lavender: #8B7BB5;
+            --lavender-soft: #C5BBD9;
+            --lavender-bg: #F3F0F8;
+            --border: #E8E0D6;
+            --border-light: #F0EBE4;
+            --shadow-sm: 0 1px 3px rgba(44,37,32,0.04), 0 1px 2px rgba(44,37,32,0.06);
+            --shadow-md: 0 4px 12px rgba(44,37,32,0.06), 0 2px 4px rgba(44,37,32,0.04);
+            --shadow-lg: 0 12px 32px rgba(44,37,32,0.08), 0 4px 8px rgba(44,37,32,0.04);
+            --shadow-glow: 0 0 24px rgba(196,115,91,0.12);
+            --fab-glow: rgba(196,115,91,0.35);
+            --fab-glow-strong: rgba(196,115,91,0.5);
+            --save-glow: rgba(196,115,91,0.3);
+            --save-glow-hover: rgba(196,115,91,0.4);
+            --insight-border: rgba(196,115,91,0.15);
+            --modal-overlay: rgba(44,37,32,0.4);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --font-display: 'Noto Serif SC', 'Songti SC', Georgia, serif;
+            --font-body: 'Noto Sans SC', 'PingFang SC', -apple-system, sans-serif;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* Dark Theme Colors */
+        /* --- 暖阳 Dark --- */
         [data-theme="dark"] {
-            --color-primary: #D0BCFF;
-            --color-on-primary: #381E72;
-            --color-primary-container: #4F378B;
-            --color-on-primary-container: #EADDFF;
-            --color-secondary: #CCC2DC;
-            --color-on-secondary: #332D41;
-            --color-secondary-container: #4A4458;
-            --color-on-secondary-container: #E8DEF8;
-            --color-tertiary: #EFB8C8;
-            --color-on-tertiary: #492532;
-            --color-tertiary-container: #633B48;
-            --color-on-tertiary-container: #FFD8E4;
-            --color-error: #FFB4AB;
-            --color-on-error: #690005;
-            --color-error-container: #93000A;
-            --color-on-error-container: #FFDAD6;
-            --color-background: #1C1B1F;
-            --color-on-background: #E6E1E5;
-            --color-surface: #1C1B1F;
-            --color-on-surface: #E6E1E5;
-            --color-surface-variant: #49454F;
-            --color-on-surface-variant: #CAC4D0;
-            --color-outline: #938F99;
-            --color-outline-variant: #49454F;
-            
-            /* Material Design 3 Extended Colors - Dark */
-            --color-surface-dim: #1C1B1F;
-            --color-surface-bright: #444746;
-            --color-surface-container-lowest: #111114;
-            --color-surface-container-low: #1C1B1F;
-            --color-surface-container: #201F24;
-            --color-surface-container-high: #2B2930;
-            --color-surface-container-highest: #36343B;
-            
-            /* State Colors - Material Design 3 - Dark */
-            --color-primary-fixed: #EADDFF;
-            --color-primary-fixed-dim: #D0BCFF;
-            --color-on-primary-fixed: #21005D;
-            --color-on-primary-fixed-variant: #4F378B;
-            
-            /* Additional Material Design 3 Colors - Dark */
-            --color-surface-tint: #D0BCFF;
-            --color-inverse-primary: #6750A4;
-            --color-inverse-surface: #E6E1E5;
-            --color-inverse-on-surface: #313033;
-            --color-shadow: #000000;
-            
-            /* State Layer Colors - Material Design 3 - Dark */
-            --color-primary-state-layer: rgba(208, 188, 255, 0.08);
-            --color-secondary-state-layer: rgba(204, 194, 220, 0.08);
-            --color-tertiary-state-layer: rgba(239, 184, 200, 0.08);
-            --color-error-state-layer: rgba(255, 180, 171, 0.08);
-            --color-surface-state-layer: rgba(230, 225, 229, 0.08);
-            
-            /* Positive/Negative Colors for Charts - Dark */
-            --color-positive: #4CAF50;
-            --color-negative: #CF6679;
-            --color-neutral: #CAC4D0;
+            --bg: #1A1714;
+            --bg-warm: #211E1A;
+            --bg-card: #2A2520;
+            --text-primary: #EDE6DD;
+            --text-secondary: #B5A899;
+            --text-muted: #7E7268;
+            --text-hint: #5A504A;
+            --accent: #D8896F;
+            --accent-soft: #8B5A48;
+            --accent-bg: #3A2820;
+            --sage: #8FB893;
+            --sage-soft: #3A5340;
+            --sage-bg: #1F2E22;
+            --amber: #D4B65A;
+            --amber-soft: #5C4F28;
+            --amber-bg: #2E2818;
+            --rose: #D08A9C;
+            --rose-soft: #6B3E4E;
+            --rose-bg: #30202A;
+            --lavender: #A896C8;
+            --lavender-soft: #4A3F68;
+            --lavender-bg: #26203A;
+            --border: #3A342E;
+            --border-light: #2E2924;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.25);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.3);
+            --shadow-glow: 0 0 24px rgba(216,137,111,0.15);
+            --fab-glow: rgba(216,137,111,0.35);
+            --fab-glow-strong: rgba(216,137,111,0.5);
+            --save-glow: rgba(216,137,111,0.3);
+            --save-glow-hover: rgba(216,137,111,0.4);
+            --insight-border: rgba(216,137,111,0.15);
+            --modal-overlay: rgba(20,18,16,0.5);
         }
 
-        /* Global Styles */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        /* ============================================
+           Color Scheme: 碧海 (Azure Sea)
+           ============================================ */
+        [data-color="ocean"] {
+            --bg: #F4F8FA;
+            --bg-warm: #E8F0F4;
+            --bg-card: #FFFFFF;
+            --text-primary: #1C2830;
+            --text-secondary: #4A5E6B;
+            --text-muted: #7A8E9B;
+            --text-hint: #A4B5BF;
+            --accent: #3D8FA0;
+            --accent-soft: #8DC4D0;
+            --accent-bg: #E8F4F7;
+            --sage: #5BA88E;
+            --sage-soft: #A8D6C4;
+            --sage-bg: #EBF5F0;
+            --amber: #D4946B;
+            --amber-soft: #E8C4A8;
+            --amber-bg: #FDF2EB;
+            --rose: #B07080;
+            --rose-soft: #D8B0B8;
+            --rose-bg: #F8EEF0;
+            --lavender: #7B85A8;
+            --lavender-soft: #B4BAD0;
+            --lavender-bg: #EDEEF5;
+            --border: #D4DEE4;
+            --border-light: #E4ECF0;
+            --shadow-sm: 0 1px 3px rgba(28,40,48,0.04), 0 1px 2px rgba(28,40,48,0.06);
+            --shadow-md: 0 4px 12px rgba(28,40,48,0.06), 0 2px 4px rgba(28,40,48,0.04);
+            --shadow-lg: 0 12px 32px rgba(28,40,48,0.08), 0 4px 8px rgba(28,40,48,0.04);
+            --shadow-glow: 0 0 24px rgba(61,143,160,0.12);
+            --fab-glow: rgba(61,143,160,0.35);
+            --fab-glow-strong: rgba(61,143,160,0.5);
+            --save-glow: rgba(61,143,160,0.3);
+            --save-glow-hover: rgba(61,143,160,0.4);
+            --insight-border: rgba(61,143,160,0.15);
+            --modal-overlay: rgba(20,30,36,0.4);
         }
+
+        /* --- 碧海 Dark --- */
+        [data-color="ocean"][data-theme="dark"] {
+            --bg: #121A1E;
+            --bg-warm: #182228;
+            --bg-card: #1E2A30;
+            --text-primary: #DDE8EE;
+            --text-secondary: #96AAB8;
+            --text-muted: #5E7482;
+            --text-hint: #3E5260;
+            --accent: #52A8BA;
+            --accent-soft: #2A5E6A;
+            --accent-bg: #1A3038;
+            --sage: #6EBEA0;
+            --sage-soft: #2A5848;
+            --sage-bg: #162E24;
+            --amber: #E0A47A;
+            --amber-soft: #6A4A30;
+            --amber-bg: #302218;
+            --rose: #C88898;
+            --rose-soft: #5E3842;
+            --rose-bg: #2C1C22;
+            --lavender: #9298B8;
+            --lavender-soft: #3A3E58;
+            --lavender-bg: #1E2034;
+            --border: #2A3840;
+            --border-light: #223038;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.25);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.3);
+            --shadow-glow: 0 0 24px rgba(82,168,186,0.15);
+            --fab-glow: rgba(82,168,186,0.35);
+            --fab-glow-strong: rgba(82,168,186,0.5);
+            --save-glow: rgba(82,168,186,0.3);
+            --save-glow-hover: rgba(82,168,186,0.4);
+            --insight-border: rgba(82,168,186,0.15);
+            --modal-overlay: rgba(12,18,22,0.5);
+        }
+
+        /* ============================================
+           Color Scheme: 花语 (Flower Whisper)
+           ============================================ */
+        [data-color="petal"] {
+            --bg: #FBF6F8;
+            --bg-warm: #F5ECF0;
+            --bg-card: #FFFFFF;
+            --text-primary: #2C2028;
+            --text-secondary: #6B5460;
+            --text-muted: #9B8490;
+            --text-hint: #BEA8B4;
+            --accent: #C2789A;
+            --accent-soft: #E0B0C4;
+            --accent-bg: #FBEEF4;
+            --sage: #6EB5A0;
+            --sage-soft: #B0D8C8;
+            --sage-bg: #ECF6F2;
+            --amber: #D4977B;
+            --amber-soft: #E8C8B0;
+            --amber-bg: #FDF2EC;
+            --rose: #A07AB8;
+            --rose-soft: #CCB0D8;
+            --rose-bg: #F4EEF8;
+            --lavender: #8895B0;
+            --lavender-soft: #B8C0D4;
+            --lavender-bg: #EFF1F6;
+            --border: #E4D8DE;
+            --border-light: #F0E8EC;
+            --shadow-sm: 0 1px 3px rgba(44,32,40,0.04), 0 1px 2px rgba(44,32,40,0.06);
+            --shadow-md: 0 4px 12px rgba(44,32,40,0.06), 0 2px 4px rgba(44,32,40,0.04);
+            --shadow-lg: 0 12px 32px rgba(44,32,40,0.08), 0 4px 8px rgba(44,32,40,0.04);
+            --shadow-glow: 0 0 24px rgba(194,120,154,0.12);
+            --fab-glow: rgba(194,120,154,0.35);
+            --fab-glow-strong: rgba(194,120,154,0.5);
+            --save-glow: rgba(194,120,154,0.3);
+            --save-glow-hover: rgba(194,120,154,0.4);
+            --insight-border: rgba(194,120,154,0.15);
+            --modal-overlay: rgba(36,24,32,0.4);
+        }
+
+        /* --- 花语 Dark --- */
+        [data-color="petal"][data-theme="dark"] {
+            --bg: #1C1418;
+            --bg-warm: #241C20;
+            --bg-card: #2C2228;
+            --text-primary: #EEDDE6;
+            --text-secondary: #B898A8;
+            --text-muted: #7E6470;
+            --text-hint: #5A4450;
+            --accent: #D88AAE;
+            --accent-soft: #7A4860;
+            --accent-bg: #3A2030;
+            --sage: #80C8AE;
+            --sage-soft: #2E5A48;
+            --sage-bg: #1A302A;
+            --amber: #E0A88E;
+            --amber-soft: #6A4838;
+            --amber-bg: #302018;
+            --rose: #B890CA;
+            --rose-soft: #4E3868;
+            --rose-bg: #28183A;
+            --lavender: #98A4C0;
+            --lavender-soft: #3A4060;
+            --lavender-bg: #1E2238;
+            --border: #3A2E34;
+            --border-light: #302830;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.25);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.3);
+            --shadow-glow: 0 0 24px rgba(216,138,174,0.15);
+            --fab-glow: rgba(216,138,174,0.35);
+            --fab-glow-strong: rgba(216,138,174,0.5);
+            --save-glow: rgba(216,138,174,0.3);
+            --save-glow-hover: rgba(216,138,174,0.4);
+            --insight-border: rgba(216,138,174,0.15);
+            --modal-overlay: rgba(18,12,16,0.5);
+        }
+
+        /* ============================================
+           Global Styles
+           ============================================ */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            background-color: var(--color-background);
-            color: var(--color-on-background);
-            line-height: 1.5;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.5s var(--ease-out), color 0.5s var(--ease-out);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        /* === Texture Overlay === */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
         }
 
-        /* Typography - Material Design 3 */
-        /* Display Large */
-        .display-large {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 57px;
-            font-weight: 400;
-            letter-spacing: -0.25px;
-            line-height: 64px;
-            color: var(--color-on-surface);
+        /* === Theme Controls === */
+        .theme-controls {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 7px 14px;
+            border-radius: 100px;
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(12px);
+            transition: background 0.3s, border-color 0.3s;
         }
 
-        /* Display Medium */
-        .display-medium {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 45px;
-            font-weight: 400;
-            letter-spacing: 0px;
-            line-height: 52px;
-            color: var(--color-on-surface);
+        .color-schemes {
+            display: flex;
+            gap: 6px;
+            padding-right: 10px;
+            border-right: 1px solid var(--border-light);
         }
 
-        /* Display Small */
-        .display-small {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 36px;
-            font-weight: 400;
-            letter-spacing: 0px;
-            line-height: 44px;
-            color: var(--color-on-surface);
+        .color-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2.5px solid transparent;
+            cursor: pointer;
+            transition: all 0.25s var(--ease-spring);
+            flex-shrink: 0;
         }
 
-        /* Headline Large */
-        .headline-large {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 32px;
-            font-weight: 400;
-            letter-spacing: 0px;
-            line-height: 40px;
-            color: var(--color-on-surface);
+        .color-dot:hover { transform: scale(1.15); }
+
+        .color-dot.active {
+            border-color: var(--text-primary);
+            transform: scale(1.2);
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
         }
 
-        /* Headline Medium */
-        .headline-medium {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 28px;
-            font-weight: 400;
-            letter-spacing: 0px;
-            line-height: 36px;
-            color: var(--color-on-surface);
+        .color-dot.warm { background: #C4735B; }
+        .color-dot.ocean { background: #3D8FA0; }
+        .color-dot.petal { background: #C2789A; }
+
+        .mode-btns {
+            display: flex;
+            gap: 2px;
         }
 
-        /* Headline Small */
-        .headline-small {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 24px;
-            font-weight: 400;
-            letter-spacing: 0px;
-            line-height: 32px;
-            color: var(--color-on-surface);
-        }
-
-        /* Title Large */
-        .title-large {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 22px;
-            font-weight: 400;
-            letter-spacing: 0px;
-            line-height: 28px;
-            color: var(--color-on-surface);
-        }
-
-        /* Title Medium */
-        .title-medium {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 16px;
-            font-weight: 500;
-            letter-spacing: 0.15px;
-            line-height: 24px;
-            color: var(--color-on-surface);
-        }
-
-        /* Title Small */
-        .title-small {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        .mode-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
             font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.1px;
-            line-height: 20px;
-            color: var(--color-on-surface);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            line-height: 1;
         }
 
-        /* Body Large */
-        .body-large {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 16px;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            line-height: 24px;
-            color: var(--color-on-surface);
+        .mode-btn:hover { background: var(--bg-warm); }
+        .mode-btn.active { background: var(--accent-bg); }
+
+        /* === App Shell === */
+        .app-frame {
+            max-width: 400px;
+            margin: 40px auto;
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            position: relative;
+            min-height: 780px;
+            border: 1px solid var(--border-light);
+            transition: transform 0.4s var(--ease-out);
         }
 
-        /* Body Medium */
-        .body-medium {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            letter-spacing: 0.25px;
-            line-height: 20px;
-            color: var(--color-on-surface);
-        }
+        .app-frame:hover { transform: translateY(-2px); }
 
-        /* Body Small */
-        .body-small {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 12px;
-            font-weight: 400;
-            letter-spacing: 0.4px;
-            line-height: 16px;
-            color: var(--color-on-surface);
-        }
-
-        /* Label Large */
-        .label-large {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.1px;
-            line-height: 20px;
-            color: var(--color-on-surface);
-        }
-
-        /* Label Medium */
-        .label-medium {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        /* === Status Bar === */
+        .status-bar {
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
             font-size: 12px;
             font-weight: 500;
-            letter-spacing: 0.5px;
-            line-height: 16px;
-            color: var(--color-on-surface);
+            color: var(--text-secondary);
         }
 
-        /* Label Small */
-        .label-small {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            line-height: 16px;
-            color: var(--color-on-surface);
+        /* === Screen Header === */
+        .screen-header {
+            padding: 0 20px 16px;
         }
 
-        /* Legacy Typography Styles */
-        h1 {
-            font-size: 28px;
-            font-weight: 400;
-            margin-bottom: 24px;
-            text-align: center;
-            color: var(--color-on-surface);
-            letter-spacing: 0px;
-            line-height: 36px;
+        .screen-header h1 {
+            font-family: var(--font-display);
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+            line-height: 1.3;
         }
 
-        h2 {
-            font-size: 22px;
-            font-weight: 500;
-            margin-bottom: 16px;
-            color: var(--color-on-surface);
-            letter-spacing: 0px;
-            line-height: 28px;
+        .screen-header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
         }
 
-        h3 {
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 12px;
-            color: var(--color-on-surface);
-            letter-spacing: 0.15px;
-            line-height: 24px;
+        /* === Content Area === */
+        .screen-content {
+            padding: 0 16px 100px;
+            min-height: 600px;
         }
 
-        p {
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: var(--color-on-surface);
-            letter-spacing: 0.25px;
-            line-height: 20px;
-        }
-
-        .caption {
-            font-size: 12px;
-            color: var(--color-on-surface-variant);
-            letter-spacing: 0.4px;
-            line-height: 16px;
-        }
-
-        /* Component Styles - Material Design 3 */
+        /* === Cards === */
         .card {
-            background-color: var(--color-surface);
-            border-radius: var(--shape-corner-large);
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: var(--elevation-level1);
-            transition: box-shadow 0.3s, transform 0.2s;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            margin-bottom: 14px;
+            transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
         }
 
         .card:hover {
-            box-shadow: var(--elevation-level3);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
-        .card-title {
-            font-size: 16px;
+        .card-label {
+            font-size: 11px;
             font-weight: 500;
-            margin-bottom: 16px;
-            color: var(--color-primary);
-            display: flex;
-            align-items: center;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.15px;
-            line-height: 24px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 12px;
         }
 
-        .card-title-icon {
-            margin-right: 8px;
-            font-size: 20px;
-        }
-
-        /* Button Styles - Material Design 3 */
-        .button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            height: 40px;
-            padding: 0 24px;
-            border-radius: var(--shape-corner-full);
-            font-size: 14px;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            outline: none;
-            position: relative;
-            overflow: hidden;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.1px;
-            line-height: 20px;
-        }
-
-        /* State Layer - Material Design 3 */
-        .button::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--color-primary-state-layer);
-            opacity: 0;
-            transition: opacity 0.3s;
-            border-radius: inherit;
-        }
-
-        .button:hover::after {
-            opacity: 1;
-        }
-
-        .button:focus::after {
-            opacity: 1;
-        }
-
-        .button:active::after {
-            opacity: 1;
-        }
-
-        /* Ripple Effect - Material Design 3 */
-        .button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .button:active::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        /* Filled Button - Material Design 3 */
-        .button-filled {
-            background-color: var(--color-primary);
-            color: var(--color-on-primary);
-            box-shadow: var(--elevation-level2);
-        }
-
-        .button-filled:hover {
-            box-shadow: var(--elevation-level3);
-        }
-
-        .button-filled:focus {
-            box-shadow: var(--elevation-level3);
-        }
-
-        .button-filled:active {
-            transform: scale(0.98);
-            box-shadow: var(--elevation-level1);
-        }
-
-        /* Outlined Button - Material Design 3 */
-        .button-outlined {
-            background-color: transparent;
-            color: var(--color-primary);
-            border: 1px solid var(--color-outline);
-        }
-
-        .button-outlined::after {
-            background-color: var(--color-primary-state-layer);
-        }
-
-        .button-outlined:hover {
-            border-color: var(--color-primary);
-        }
-
-        .button-outlined:focus {
-            border-color: var(--color-primary);
-        }
-
-        /* Text Button - Material Design 3 */
-        .button-text {
-            background-color: transparent;
-            color: var(--color-primary);
-            padding: 0 16px;
-        }
-
-        .button-text::after {
-            background-color: var(--color-primary-state-layer);
-        }
-
-        /* Button Modifiers */
-        .button-full-width {
-            width: 100%;
-        }
-
-        .button:disabled {
-            opacity: 0.38;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        .button-filled:disabled {
-            background-color: var(--color-on-surface);
-            color: var(--color-surface);
-            box-shadow: var(--elevation-level0);
-        }
-
-        .button-outlined:disabled {
-            border-color: var(--color-on-surface);
-            color: var(--color-on-surface);
-        }
-
-        .button-text:disabled {
-            color: var(--color-on-surface);
-        }
-
-        /* Input Styles - Material Design 3 */
-        .input {
-            width: 100%;
-            height: 56px;
-            padding: 8px 16px;
-            border-radius: var(--shape-corner-medium);
-            font-size: 16px;
-            border: 1px solid var(--color-outline);
-            background-color: transparent;
-            color: var(--color-on-surface);
-            transition: border-color 0.3s, box-shadow 0.3s;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.5px;
-            line-height: 24px;
-        }
-        
-        .input:focus {
-            outline: none;
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 1px var(--color-primary);
-        }
-
-        .input:hover {
-            border-color: var(--color-on-surface);
-        }
-
-        .input:disabled {
-            opacity: 0.38;
-            cursor: not-allowed;
-            pointer-events: none;
-            border-color: var(--color-on-surface);
-            color: var(--color-on-surface);
-        }
-
-        .input-label {
-            font-size: 12px;
-            font-weight: 500;
-            margin-bottom: 4px;
-            color: var(--color-on-surface-variant);
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.5px;
-            line-height: 16px;
-        }
-
-        .input-container {
-            margin-bottom: 16px;
-        }
-
-        /* Emotion Selector */
-        .emotion-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 12px;
-            margin-bottom: 16px;
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 4px 0;
-        }
-
-        /* Custom scrollbar for emotion selector */
-        .emotion-selector::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .emotion-selector::-webkit-scrollbar-track {
-            background: transparent;
-            border-radius: 3px;
-        }
-
-        .emotion-selector::-webkit-scrollbar-thumb {
-            background: var(--color-outline);
-            border-radius: 3px;
-        }
-
-        .emotion-selector::-webkit-scrollbar-thumb:hover {
-            background: var(--color-outline-variant);
-        }
-
-        /* Scroll Progress Indicator */
-        .scroll-progress-container {
-            height: 4px;
-            background-color: var(--color-outline-variant);
-            border-radius: 2px;
-            margin-bottom: 8px;
-            overflow: hidden;
-        }
-
-        .scroll-progress-bar {
-            height: 100%;
-            background-color: var(--color-primary);
-            border-radius: 2px;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .emotion-card {
-            aspect-ratio: 1;
-            border-radius: var(--shape-corner-medium);
-            background-color: var(--color-surface-variant);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.2s;
-            position: relative;
-        }
-
-        .emotion-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--color-primary-state-layer);
-            opacity: 0;
-            transition: opacity 0.3s;
-            border-radius: inherit;
-        }
-
-        .emotion-card:hover::after {
-            opacity: 1;
-        }
-
-        .emotion-card:hover {
-            background-color: var(--color-outline-variant);
-            transform: translateY(-2px);
-        }
-
-        .emotion-card.selected {
-            background-color: var(--color-primary-container);
-            border: 2px solid var(--color-primary);
-        }
-
-        .emotion-card.selected::after {
-            background-color: var(--color-primary-state-layer);
-            opacity: 0.12;
-        }
-
-        .emotion-emoji {
-            font-size: 32px;
-            margin-bottom: 8px;
-        }
-
-        .emotion-name {
-            font-size: 12px;
-            font-weight: 500;
-            text-align: center;
-            color: var(--color-on-surface);
-        }
-
-        /* Intensity Slider */
-        .intensity-container {
+        /* === Date Group === */
+        .date-group {
             margin-bottom: 20px;
         }
 
-        .slider {
-            width: 100%;
-            height: 6px;
-            border-radius: 3px;
-            background: linear-gradient(to right, 
-                var(--color-error) 0%, 
-                var(--color-warning) 25%, 
-                var(--color-info) 50%, 
-                var(--color-positive) 75%, 
-                var(--color-primary) 100%);
-            outline: none;
-            -webkit-appearance: none;
-            margin: 16px 0;
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--color-primary);
-            cursor: pointer;
-        }
-
-        .intensity-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-        }
-
-        .intensity-label {
-            font-size: 12px;
-            color: var(--color-on-surface-variant);
-            text-align: center;
-        }
-
-        .intensity-value {
-            text-align: center;
-            font-size: 16px;
+        .date-group-title {
+            font-family: var(--font-display);
+            font-size: 14px;
             font-weight: 500;
-            color: var(--color-primary);
-            margin-top: 8px;
-        }
-
-        /* Note Input - Material Design 3 */
-        .note-input {
-            width: 100%;
-            min-height: 120px;
-            padding: 16px;
-            border-radius: var(--shape-corner-medium);
-            font-size: 16px;
-            border: 1px solid var(--color-outline);
-            background-color: transparent;
-            color: var(--color-on-surface);
-            resize: none;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.5px;
-            line-height: 24px;
-        }
-
-        .note-input:focus {
-            outline: none;
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 1px var(--color-primary);
-        }
-
-        .note-input:hover {
-            border-color: var(--color-on-surface);
-        }
-
-        .note-input:disabled {
-            opacity: 0.38;
-            cursor: not-allowed;
-            pointer-events: none;
-            border-color: var(--color-on-surface);
-            color: var(--color-on-surface);
-        }
-
-        .note-input::placeholder {
-            color: var(--color-on-surface-variant);
-            opacity: 0.6;
-        }
-
-        /* Statistics - Material Design 3 */
-        .stat-item {
+            color: var(--text-muted);
+            padding: 0 4px 8px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--color-outline-variant);
-            transition: background-color 0.3s;
-            position: relative;
+            gap: 8px;
         }
 
-        .stat-item::after {
+        .date-group-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-light);
+        }
+
+        /* === Diary Entry === */
+        .diary-entry {
+            display: flex;
+            gap: 14px;
+            padding: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diary-entry::before {
             content: '';
             position: absolute;
-            top: 0;
             left: 0;
-            right: 0;
+            top: 0;
             bottom: 0;
-            background-color: var(--color-surface-state-layer);
-            opacity: 0;
+            width: 3px;
+            border-radius: 0 3px 3px 0;
             transition: opacity 0.3s;
-            border-radius: inherit;
         }
 
-        .stat-item:hover::after {
-            opacity: 1;
+        .diary-entry.mood-happy::before { background: var(--amber); }
+        .diary-entry.mood-calm::before { background: var(--sage); }
+        .diary-entry.mood-tired::before { background: var(--lavender); }
+        .diary-entry.mood-sad::before { background: var(--rose); }
+        .diary-entry.mood-anxious::before { background: var(--accent); }
+
+        .diary-entry:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-sm);
+            border-color: var(--border);
         }
 
-        .stat-item:hover {
-            background-color: var(--color-surface-variant);
-            margin: 0 -16px;
-            padding-left: 16px;
-            padding-right: 16px;
-            border-radius: var(--shape-corner-small);
-        }
-
-        .stat-item:last-child {
-            border-bottom: none;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: var(--color-on-surface);
+        .diary-emoji {
+            font-size: 36px;
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.25px;
-            line-height: 20px;
+            justify-content: center;
+            background: var(--bg-warm);
+            border-radius: var(--radius-md);
         }
 
-        .stat-icon {
-            margin-right: 8px;
-            font-size: 18px;
+        .diary-body { flex: 1; min-width: 0; }
+
+        .diary-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 6px;
         }
 
-        .stat-value {
+        .diary-mood-name {
+            font-family: var(--font-display);
             font-size: 16px;
             font-weight: 600;
-            color: var(--color-primary);
-            padding: 4px 12px;
-            border-radius: var(--shape-corner-medium);
-            background-color: var(--color-primary-container);
-            color: var(--color-on-primary-container);
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.15px;
-            line-height: 24px;
+            color: var(--text-primary);
         }
 
-        /* Chart Container - Material Design 3 */
-        .chart-container {
-            min-height: 280px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--color-surface);
-            border-radius: var(--shape-corner-large);
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: var(--elevation-level2);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .chart-container:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--elevation-level3);
-        }
-
-        .chart-placeholder {
-            text-align: center;
-        }
-
-        .chart-icon {
-            font-size: 48px;
-            margin-bottom: 8px;
-            color: var(--color-on-surface-variant);
-        }
-
-        .chart-title {
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--color-on-surface);
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.15px;
-            line-height: 24px;
-        }
-
-        .chart-subtitle {
-            font-size: 14px;
-            color: var(--color-on-surface-variant);
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.25px;
-            line-height: 20px;
-        }
-
-        /* Settings Item - Material Design 3 */
-        .settings-item {
-            display: flex;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--color-outline-variant);
-            cursor: pointer;
-            transition: background-color 0.3s;
-            border-radius: var(--shape-corner-small);
-            margin: 0 -16px;
-            padding-left: 16px;
-            padding-right: 16px;
-            position: relative;
-        }
-
-        .settings-item::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--color-surface-state-layer);
-            opacity: 0;
-            transition: opacity 0.3s;
-            border-radius: inherit;
-        }
-
-        .settings-item:hover::after {
-            opacity: 1;
-        }
-
-        .settings-item:hover {
-            background-color: var(--color-surface-variant);
-        }
-
-        .settings-item:last-child {
-            border-bottom: none;
-        }
-
-        .settings-icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 16px;
-            color: var(--color-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .settings-content {
-            flex: 1;
-        }
-
-        .settings-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--color-on-surface);
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.15px;
-            line-height: 24px;
-        }
-
-        .settings-subtitle {
-            font-size: 14px;
-            color: var(--color-on-surface-variant);
-            margin-top: 2px;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.25px;
-            line-height: 20px;
-        }
-
-        .settings-action {
-            margin-left: 16px;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Switch - Material Design 3 */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 52px;
-            height: 32px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .switch-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--color-outline-variant);
-            transition: .4s;
-            border-radius: var(--shape-corner-full);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .switch-slider:before {
-            position: absolute;
-            content: "";
-            height: 24px;
-            width: 24px;
-            left: 4px;
-            bottom: 4px;
-            background-color: var(--color-surface);
-            transition: .4s;
-            border-radius: 50%;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        input:checked + .switch-slider {
-            background-color: var(--color-primary);
-            box-shadow: 0 2px 8px rgba(103, 80, 164, 0.3);
-        }
-
-        input:checked + .switch-slider:before {
-            transform: translateX(20px);
-        }
-
-        .switch:disabled .switch-slider {
-            opacity: 0.38;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        .switch:disabled .switch-slider:before {
-            background-color: var(--color-on-surface);
-        }
-
-        /* Navigation Tabs - Material Design 3 */
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 24px;
-            border-bottom: 1px solid var(--color-outline-variant);
-            position: relative;
-        }
-
-        .nav-tab {
-            padding: 12px 24px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--color-on-surface-variant);
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s;
-            position: relative;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.1px;
-            line-height: 20px;
-        }
-
-        .nav-tab.active {
-            color: var(--color-primary);
-            border-bottom: 2px solid var(--color-primary);
-        }
-
-        .nav-tab:hover {
-            color: var(--color-primary);
-        }
-
-        .nav-tab::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background-color: var(--color-primary);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .nav-tab.active::after {
-            transform: scaleX(1);
-        }
-
-        /* Theme Toggle */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            background-color: var(--color-surface);
-            padding: 8px 16px;
-            border-radius: var(--shape-corner-full);
-            box-shadow: var(--elevation-level3);
-        }
-
-        .theme-toggle-label {
-            margin-right: 8px;
-            font-size: 14px;
-            color: var(--color-on-surface);
-        }
-
-        /* Screen Container - Material Design 3 */
-        .screen-container {
-            max-width: 375px;
-            margin: 0 auto;
-            background-color: var(--color-surface);
-            border-radius: var(--shape-corner-extra-large);
-            overflow: hidden;
-            box-shadow: var(--elevation-level4);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .screen-container:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--elevation-level5);
-        }
-
-        .screen-header {
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--color-surface);
-            border-bottom: 1px solid var(--color-outline-variant);
-        }
-
-        .screen-title {
-            font-size: 18px;
-            font-weight: 500;
-            color: var(--color-on-surface);
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0px;
-            line-height: 28px;
-        }
-
-        .screen-content {
-            padding: 16px;
-            min-height: calc(100vh - 56px - 80px);
-            padding-bottom: 80px; /* Space for FAB and bottom nav */
-        }
-
-        /* Remove screen-footer styles as we're using bottom-nav now */
-
-        .nav-item::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--color-primary-state-layer);
-            opacity: 0;
-            transition: opacity 0.3s;
-            border-radius: inherit;
-        }
-
-        .nav-item:hover::after {
-            opacity: 1;
-        }
-
-        .nav-item.active::after {
-            opacity: 1;
-        }
-
-        .nav-icon {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 4px;
-            color: var(--color-on-surface-variant);
-            transition: all 0.3s;
-        }
-
-        .nav-item.active .nav-icon {
-            color: var(--color-primary);
-            transform: scale(1.1);
-        }
-
-        .nav-label {
+        .diary-time {
             font-size: 12px;
-            font-weight: 500;
-            color: var(--color-on-surface-variant);
-            transition: color 0.3s;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.5px;
-            line-height: 16px;
+            color: var(--text-hint);
         }
 
-        .nav-item.active .nav-label {
-            color: var(--color-primary);
+        .diary-note {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        /* Bottom Navigation Bar with Floating Action Button */
+        .diary-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 100px;
+            background: var(--bg-warm);
+            color: var(--text-muted);
+            border: 1px solid var(--border-light);
+            transition: all 0.2s;
+        }
+
+        .tag:hover { background: var(--border-light); }
+
+        /* === Bottom Nav === */
         .bottom-nav {
-            position: fixed;
+            position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 64px;
-            background-color: var(--color-surface);
-            border-top: 1px solid var(--color-outline-variant);
+            height: 72px;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-light);
             display: flex;
-            justify-content: space-around;
             align-items: center;
-            padding: 0 16px;
-            z-index: 1000;
-            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+            justify-content: space-around;
+            padding: 0 8px;
+            backdrop-filter: blur(20px);
         }
 
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            cursor: pointer;
-            transition: all 0.3s;
+            gap: 3px;
             padding: 8px 16px;
-            border-radius: var(--shape-corner-medium);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.25s var(--ease-out);
             position: relative;
-            flex: 1;
+            color: var(--text-hint);
         }
 
-        .nav-item.center-space {
-            flex: 0.5;
-            pointer-events: none;
+        .nav-item:hover { color: var(--text-secondary); }
+
+        .nav-item.active {
+            color: var(--accent);
         }
 
-        /* Floating Action Button (FAB) */
-        .fab {
-            position: fixed;
-            bottom: 20px;
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            top: 2px;
             left: 50%;
             transform: translateX(-50%);
-            width: 56px;
-            height: 56px;
-            background-color: var(--color-primary);
+            width: 20px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        .nav-icon { font-size: 22px; line-height: 1; }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-item.fab-space { width: 56px; pointer-events: none; }
+
+        /* === FAB === */
+        .fab {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-soft));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: 26px;
+            font-weight: 300;
             cursor: pointer;
-            transition: all 0.3s;
-            z-index: 1001;
+            box-shadow: 0 4px 16px var(--fab-glow);
+            transition: all 0.3s var(--ease-spring);
+            z-index: 10;
         }
 
         .fab:hover {
             transform: translateX(-50%) scale(1.1);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 24px var(--fab-glow-strong);
         }
 
-        .fab:active {
-            transform: translateX(-50%) scale(0.95);
-        }
+        .fab:active { transform: translateX(-50%) scale(0.95); }
 
-        .fab-icon {
-            font-size: 28px;
-            color: var(--color-on-primary);
-            font-weight: 300;
+        @keyframes fabBreathe {
+            0%, 100% { box-shadow: 0 4px 16px var(--fab-glow); }
+            50% { box-shadow: 0 4px 24px var(--fab-glow-strong); }
         }
+        .fab { animation: fabBreathe 3s ease-in-out infinite; }
+        .fab:hover { animation: none; }
 
-        /* Diary List Styles */
-        .diary-list {
-            padding-bottom: 80px;
-        }
-
-        .diary-item {
-            background-color: var(--color-surface);
-            border-radius: var(--shape-corner-large);
-            padding: 16px;
-            margin-bottom: 12px;
-            box-shadow: var(--elevation-level1);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .diary-item:hover {
-            box-shadow: var(--elevation-level3);
-            transform: translateY(-2px);
-        }
-
-        .diary-header {
+        /* === Statistics === */
+        .stat-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-light);
         }
 
-        .diary-emotion {
+        .stat-row:last-child { border-bottom: none; }
+
+        .stat-label {
+            font-size: 13.5px;
+            color: var(--text-secondary);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .diary-emoji {
-            font-size: 32px;
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .diary-mood {
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--color-on-surface);
-        }
+        /* === Bar Chart === */
+        .bar-chart { display: flex; flex-direction: column; gap: 12px; }
 
-        .diary-time {
-            font-size: 12px;
-            color: var(--color-on-surface-variant);
-        }
+        .bar-item { display: flex; align-items: center; gap: 10px; }
 
-        .diary-note {
-            font-size: 14px;
-            color: var(--color-on-surface);
-            line-height: 1.5;
-            margin-bottom: 8px;
-        }
-
-        .diary-activities {
+        .bar-label {
+            width: 70px;
+            font-size: 13px;
+            color: var(--text-secondary);
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
         }
 
-        .activity-chip {
-            padding: 4px 12px;
-            background-color: var(--color-surface-variant);
-            border-radius: var(--shape-corner-full);
+        .bar-track {
+            flex: 1;
+            height: 20px;
+            background: var(--bg-warm);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1.2s var(--ease-out);
+            position: relative;
+        }
+
+        .bar-fill.c1 { background: linear-gradient(90deg, var(--amber), var(--amber-soft)); }
+        .bar-fill.c2 { background: linear-gradient(90deg, var(--sage), var(--sage-soft)); }
+        .bar-fill.c3 { background: linear-gradient(90deg, var(--accent), var(--accent-soft)); }
+        .bar-fill.c4 { background: linear-gradient(90deg, var(--lavender), var(--lavender-soft)); }
+        .bar-fill.c5 { background: linear-gradient(90deg, var(--rose), var(--rose-soft)); }
+
+        .bar-pct {
             font-size: 12px;
-            color: var(--color-on-surface-variant);
+            font-weight: 600;
+            color: var(--text-muted);
+            width: 38px;
+            text-align: right;
+            flex-shrink: 0;
         }
 
-        /* Calendar Styles */
-        .calendar-container {
-            background-color: var(--color-surface);
-            border-radius: var(--shape-corner-large);
+        /* === Pattern Cards === */
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .pattern-card {
             padding: 16px;
-            margin-bottom: 16px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            transition: all 0.3s var(--ease-out);
+            border: 1px solid var(--border-light);
         }
 
+        .pattern-card:nth-child(1) { background: var(--amber-bg); }
+        .pattern-card:nth-child(2) { background: var(--lavender-bg); }
+        .pattern-card:nth-child(3) { background: var(--accent-bg); }
+        .pattern-card:nth-child(4) { background: var(--sage-bg); }
+
+        .pattern-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+        .pattern-icon { font-size: 28px; margin-bottom: 8px; }
+        .pattern-title { font-size: 11px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 4px; }
+        .pattern-value { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--text-primary); }
+
+        /* === Insight Box === */
+        .insight-box {
+            display: flex;
+            gap: 10px;
+            padding: 14px;
+            background: var(--accent-bg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--insight-border);
+            margin-top: 12px;
+        }
+
+        .insight-box .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+        .insight-box .text { font-size: 12.5px; color: var(--text-secondary); line-height: 1.6; }
+
+        /* === Calendar === */
         .calendar-header {
             display: flex;
             justify-content: space-between;
@@ -1359,2307 +758,1104 @@
         }
 
         .calendar-title {
+            font-family: var(--font-display);
             font-size: 18px;
-            font-weight: 500;
-            color: var(--color-on-surface);
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .calendar-nav {
+        .cal-nav {
             display: flex;
-            gap: 8px;
+            gap: 6px;
         }
 
-        .calendar-nav-btn {
-            width: 32px;
-            height: 32px;
+        .cal-nav button {
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            background-color: var(--color-surface-variant);
-            border: none;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
-        .calendar-nav-btn:hover {
-            background-color: var(--color-outline-variant);
-        }
+        .cal-nav button:hover { background: var(--bg-warm); border-color: var(--accent-soft); color: var(--accent); }
 
-        .calendar-weekdays {
+        .cal-weekdays {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        .weekday {
+        .cal-weekday {
             text-align: center;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 500;
-            color: var(--color-on-surface-variant);
-            padding: 8px 0;
+            color: var(--text-hint);
+            padding: 6px 0;
+            letter-spacing: 0.5px;
         }
 
-        .calendar-days {
+        .cal-days {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
+            gap: 2px;
         }
 
-        .calendar-day {
+        .cal-day {
             aspect-ratio: 1;
-            border-radius: var(--shape-corner-medium);
+            border-radius: var(--radius-sm);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            gap: 1px;
             position: relative;
         }
 
-        .calendar-day:hover {
-            background-color: var(--color-surface-variant);
+        .cal-day:hover { background: var(--bg-warm); }
+
+        .cal-day-num { font-size: 12px; color: var(--text-secondary); line-height: 1; }
+        .cal-day-emoji { font-size: 14px; line-height: 1; }
+        .cal-day.other { opacity: 0.25; }
+
+        .cal-day.today {
+            background: var(--accent-bg);
+            border: 1.5px solid var(--accent);
         }
 
-        .calendar-day-number {
-            font-size: 12px;
-            color: var(--color-on-surface);
-            margin-bottom: 2px;
+        .cal-day.today .cal-day-num { color: var(--accent); font-weight: 600; }
+
+        /* === Settings === */
+        .settings-group { margin-bottom: 14px; }
+
+        .settings-group-title {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-hint);
+            padding: 0 4px 8px;
         }
 
-        .calendar-day-emoji {
-            font-size: 16px;
-        }
-
-        .calendar-day.other-month {
-            opacity: 0.3;
-        }
-
-        .calendar-day.today {
-            border: 2px solid var(--color-primary);
-        }
-
-        /* Modal Styles for Quick Record */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+        .setting-item {
             display: flex;
             align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .setting-item:hover { background: var(--bg-warm); border-color: var(--border-light); }
+
+        .setting-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .setting-icon.i-accent { background: var(--accent-bg); }
+        .setting-icon.i-sage { background: var(--sage-bg); }
+        .setting-icon.i-amber { background: var(--amber-bg); }
+        .setting-icon.i-lavender { background: var(--lavender-bg); }
+        .setting-icon.i-rose { background: var(--rose-bg); }
+
+        .setting-body { flex: 1; }
+        .setting-title { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+        .setting-desc { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+        .setting-arrow { color: var(--text-hint); font-size: 16px; }
+
+        /* === Toggle Switch === */
+        .toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle input { opacity: 0; width: 0; height: 0; }
+
+        .toggle-track {
+            position: absolute;
+            inset: 0;
+            background: var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-track::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s var(--ease-spring);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+
+        .toggle input:checked + .toggle-track { background: var(--accent); }
+        .toggle input:checked + .toggle-track::before { transform: translateX(20px); }
+
+        /* === Modal === */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--modal-overlay);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: flex-end;
             justify-content: center;
             z-index: 2000;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s;
+            transition: all 0.35s var(--ease-out);
         }
 
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
 
-        .quick-record-modal {
-            background-color: var(--color-surface);
-            border-radius: var(--shape-corner-extra-large);
-            max-width: 400px;
-            width: 90%;
-            max-height: 90vh;
+        .modal-sheet {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            max-width: 420px;
+            width: 100%;
+            max-height: 88vh;
             overflow-y: auto;
             transform: translateY(100%);
-            transition: transform 0.3s ease-out;
+            transition: transform 0.45s var(--ease-out);
         }
 
-        .modal-overlay.active .quick-record-modal {
-            transform: translateY(0);
+        .modal-overlay.active .modal-sheet { transform: translateY(0); }
+
+        .modal-handle {
+            display: flex;
+            justify-content: center;
+            padding: 12px 0 4px;
         }
 
-        .quick-record-header {
-            padding: 16px;
-            border-bottom: 1px solid var(--color-outline-variant);
+        .modal-handle::before {
+            content: '';
+            width: 36px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 8px 20px 16px;
         }
 
-        .quick-record-title {
-            font-size: 18px;
-            font-weight: 500;
-            color: var(--color-on-surface);
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .close-btn {
+        .modal-close {
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background-color: transparent;
             border: none;
+            background: var(--bg-warm);
+            color: var(--text-muted);
+            font-size: 18px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 20px;
-            color: var(--color-on-surface-variant);
-        }
-
-        .close-btn:hover {
-            background-color: var(--color-surface-variant);
-        }
-
-        .quick-record-content {
-            padding: 16px;
-        }
-
-        /* Simplified Emotion Selector */
-        .emotion-selector-simple {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .emotion-card-simple {
-            aspect-ratio: 1;
-            border-radius: var(--shape-corner-medium);
-            background-color: var(--color-surface-variant);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            padding: 12px;
-        }
-
-        .emotion-card-simple:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--elevation-level2);
-        }
-
-        .emotion-card-simple.selected {
-            background-color: var(--color-primary-container);
-            box-shadow: var(--elevation-level3);
-        }
-
-        .emotion-emoji-simple {
-            font-size: 36px;
-            margin-bottom: 4px;
-        }
-
-        .emotion-name-simple {
-            font-size: 11px;
-            font-weight: 500;
-            text-align: center;
-            color: var(--color-on-surface);
-        }
-
-        /* DateTime Selector */
-        .datetime-selector {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin: 16px 0 24px 0;
-            font-size: 14px;
-            color: var(--color-on-surface-variant);
-        }
-
-        .datetime-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 12px;
-            background-color: var(--color-surface-variant);
-            border-radius: var(--shape-corner-full);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .datetime-item:hover {
-            background-color: var(--color-outline-variant);
-            transform: translateY(-1px);
-        }
-
-        .datetime-icon {
-            font-size: 16px;
-        }
-
-        .datetime-value {
-            font-weight: 500;
-            color: var(--color-on-surface);
-        }
-
-        .datetime-separator {
-            color: var(--color-outline);
-        }
-
-        /* Date/Time Picker Modal */
-        .picker-modal {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: var(--color-surface);
-            border-radius: var(--shape-corner-large);
-            padding: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            z-index: 10;
-            display: none;
-        }
-
-        .picker-modal.active {
-            display: block;
-        }
-
-        .picker-header {
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 16px;
-            text-align: center;
-            color: var(--color-on-surface);
-        }
-
-        .picker-content {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-
-        .picker-column {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            max-height: 200px;
-            overflow-y: auto;
-            padding: 4px;
-        }
-
-        .picker-item {
-            padding: 8px 16px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: var(--shape-corner-small);
             transition: all 0.2s;
         }
 
-        .picker-item:hover {
-            background-color: var(--color-surface-variant);
-        }
+        .modal-close:hover { background: var(--border); color: var(--text-primary); }
 
-        .picker-item.selected {
-            background-color: var(--color-primary-container);
-            color: var(--color-on-primary-container);
+        .modal-body { padding: 0 20px 28px; }
+
+        .modal-section { margin-bottom: 22px; }
+
+        .modal-section-title {
+            font-size: 12px;
             font-weight: 500;
-        }
-
-        .picker-actions {
-            display: flex;
-            gap: 8px;
-            justify-content: flex-end;
-        }
-
-        /* Activity Tags */
-        .activity-section {
-            margin-bottom: 24px;
-        }
-
-        .activity-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .activity-tag {
-            padding: 8px 16px;
-            background-color: var(--color-surface-variant);
-            border-radius: var(--shape-corner-full);
-            font-size: 14px;
-            color: var(--color-on-surface);
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-
-        .activity-tag:hover {
-            background-color: var(--color-outline-variant);
-        }
-
-        .activity-tag.selected {
-            background-color: var(--color-primary-container);
-            color: var(--color-on-primary-container);
-            border-color: var(--color-primary);
-        }
-
-        /* Responsive - Material Design 3 */
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .screen-container {
-                border-radius: 0;
-                box-shadow: none;
-            }
-            
-            .emotion-selector {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            }
-            
-            /* Typography adjustments for mobile */
-            h1 {
-                font-size: 24px;
-                line-height: 32px;
-            }
-            
-            h2 {
-                font-size: 20px;
-                line-height: 28px;
-            }
-            
-            h3 {
-                font-size: 16px;
-                line-height: 24px;
-            }
-            
-            .card-title {
-                font-size: 16px;
-                line-height: 24px;
-            }
-            
-            .chart-title {
-                font-size: 16px;
-                line-height: 24px;
-            }
-            
-            .settings-title {
-                font-size: 16px;
-                line-height: 24px;
-            }
-            
-            .settings-subtitle {
-                font-size: 14px;
-                line-height: 20px;
-            }
-            
-            .nav-tab {
-                padding: 12px 16px;
-                font-size: 14px;
-            }
-            
-            .button {
-                height: 40px;
-                padding: 0 16px;
-                font-size: 14px;
-            }
-            
-            .input, .note-input, .time-range-select, .date-input {
-                height: 56px;
-                font-size: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .emotion-selector {
-                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-                gap: 8px;
-            }
-
-            .emotion-card {
-                padding: 8px;
-            }
-
-            .emotion-emoji {
-                font-size: 24px;
-            }
-
-            .emotion-name {
-                font-size: 11px;
-            }
-
-            .patterns-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .bar-label {
-                width: 100px;
-                font-size: 12px;
-            }
-
-            .comparison-header,
-            .comparison-row {
-                grid-template-columns: 1.5fr 1fr 1fr 1fr;
-                gap: 4px;
-            }
-
-            .comparison-cell {
-                font-size: 12px;
-            }
-
-            /* Mobile optimizations for new UI */
-            .emotion-selector-simple {
-                gap: 8px;
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .emotion-card-simple {
-                padding: 8px;
-            }
-
-            .emotion-emoji-simple {
-                font-size: 28px;
-            }
-
-            .emotion-name-simple {
-                font-size: 10px;
-            }
-
-            .activity-tag {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
-
-            .calendar-day {
-                gap: 2px;
-            }
-
-            .calendar-day-emoji {
-                font-size: 14px;
-            }
-
-            .fab {
-                width: 48px;
-                height: 48px;
-                bottom: 16px;
-            }
-
-            .fab-icon {
-                font-size: 24px;
-            }
-
-            .bottom-nav {
-                height: 56px;
-            }
-
-            .nav-icon {
-                font-size: 20px;
-            }
-
-            .nav-label {
-                font-size: 10px;
-            }
-
-            /* Mobile datetime selector */
-            .datetime-selector {
-                font-size: 12px;
-                gap: 8px;
-            }
-
-            .datetime-item {
-                padding: 6px 10px;
-            }
-
-            .datetime-icon {
-                font-size: 14px;
-            }
-
-            .datetime-value {
-                font-size: 12px;
-            }
-        }
-
-        /* Animations - Material Design 3 */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s cubic-bezier(0.2, 0, 0, 1);
-        }
-
-        /* Material Design 3 Easing Curves */
-        .ease-emphasized {
-            animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
-        }
-
-        .ease-emphasized-decelerate {
-            animation-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1);
-        }
-
-        .ease-emphasized-accelerate {
-            animation-timing-function: cubic-bezier(0.3, 0, 0.8, 0.15);
-        }
-
-        .ease-standard {
-            animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
-        }
-
-        .ease-standard-decelerate {
-            animation-timing-function: cubic-bezier(0, 0, 0, 1);
-        }
-
-        .ease-standard-accelerate {
-            animation-timing-function: cubic-bezier(0.3, 0, 1, 1);
-        }
-
-        .ease-linear {
-            animation-timing-function: linear;
-        }
-
-        /* Time Range Selector */
-        .time-range-selector {
-            margin-bottom: 24px;
-        }
-
-        .time-range-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--color-on-surface-variant);
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .time-range-select {
-            width: 100%;
-            height: 56px;
-            padding: 8px 16px;
-            border-radius: var(--shape-corner-medium);
-            font-size: 16px;
-            border: 1px solid var(--color-outline);
-            background-color: transparent;
-            color: var(--color-on-surface);
-            transition: border-color 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236750A4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-            background-size: 24px;
-            padding-right: 48px;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: var(--text-muted);
             letter-spacing: 0.5px;
-            line-height: 24px;
+            margin-bottom: 10px;
         }
 
-        .time-range-select:focus {
-            outline: none;
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 1px var(--color-primary);
-        }
-
-        .time-range-select:hover {
-            border-color: var(--color-on-surface);
-        }
-
-        .time-range-select:disabled {
-            opacity: 0.38;
-            cursor: not-allowed;
-            pointer-events: none;
-            border-color: var(--color-on-surface);
-            color: var(--color-on-surface);
-        }
-
-        /* Custom Range Container */
-        .custom-range-container {
-            display: none;
-            margin-top: 16px;
-        }
-
-        .custom-range-container.active {
-            display: block;
-        }
-
-        .date-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .date-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .date-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--color-on-surface-variant);
-            min-width: 80px;
-        }
-
-        .date-input {
-            flex: 1;
-            height: 56px;
-            padding: 8px 16px;
-            border-radius: var(--shape-corner-medium);
-            font-size: 16px;
-            border: 1px solid var(--color-outline);
-            background-color: transparent;
-            color: var(--color-on-surface);
-            transition: border-color 0.3s, box-shadow 0.3s;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.5px;
-            line-height: 24px;
-        }
-
-        .date-input:focus {
-            outline: none;
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 1px var(--color-primary);
-        }
-
-        .date-input:hover {
-            border-color: var(--color-on-surface);
-        }
-
-        .date-input:disabled {
-            opacity: 0.38;
-            cursor: not-allowed;
-            pointer-events: none;
-            border-color: var(--color-on-surface);
-            color: var(--color-on-surface);
-        }
-
-        /* Chart Type Selector */
-        .chart-type-selector {
+        /* === Emotion Grid === */
+        .emotion-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
         }
 
-        .chart-type-chip {
+        .emotion-option {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 16px 12px;
-            border-radius: var(--shape-corner-large);
-            background-color: var(--color-surface-variant);
-            color: var(--color-on-surface-variant);
-            cursor: pointer;
-            transition: all 0.3s;
+            gap: 4px;
+            padding: 14px 8px;
+            border-radius: var(--radius-md);
+            background: var(--bg-warm);
             border: 2px solid transparent;
-            position: relative;
+            cursor: pointer;
+            transition: all 0.25s var(--ease-out);
         }
 
-        .chart-type-chip::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--color-primary-state-layer);
-            opacity: 0;
-            transition: opacity 0.3s;
-            border-radius: inherit;
+        .emotion-option:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+
+        .emotion-option.selected {
+            border-color: var(--accent);
+            background: var(--accent-bg);
+            box-shadow: var(--shadow-glow);
         }
 
-        .chart-type-chip:hover::after {
-            opacity: 1;
+        .emotion-option .emoji { font-size: 30px; }
+        .emotion-option .name { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+
+        /* === Tag Chips === */
+        .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+
+        .chip {
+            padding: 7px 14px;
+            border-radius: 100px;
+            font-size: 13px;
+            background: var(--bg-warm);
+            border: 1.5px solid var(--border-light);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .chart-type-chip:hover {
-            background-color: var(--color-outline-variant);
-            transform: translateY(-2px);
+        .chip:hover { border-color: var(--border); background: var(--border-light); }
+
+        .chip.selected {
+            background: var(--accent-bg);
+            border-color: var(--accent-soft);
+            color: var(--accent);
         }
 
-        .chart-type-chip.active {
-            background-color: var(--color-primary-container);
-            color: var(--color-on-primary-container);
-            border-color: var(--color-primary);
-            box-shadow: var(--elevation-level3);
-        }
-
-        .chart-type-chip.active::after {
-            background-color: var(--color-primary-state-layer);
-            opacity: 0.12;
-        }
-
-        .chart-type-icon {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        .chart-type-name {
+        /* === Note Input === */
+        .note-area {
+            width: 100%;
+            min-height: 80px;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            border: 1.5px solid var(--border);
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-body);
             font-size: 14px;
-            font-weight: 500;
-            text-align: center;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.1px;
-            line-height: 20px;
+            line-height: 1.6;
+            resize: none;
+            transition: border-color 0.2s;
+            outline: none;
         }
 
-        /* Chart Container Styles - Material Design 3 */
-        .chart-header {
+        .note-area::placeholder { color: var(--text-hint); }
+        .note-area:focus { border-color: var(--accent); }
+
+        /* === DateTime === */
+        .datetime-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
             margin-bottom: 16px;
         }
 
-        .chart-title {
-            font-size: 18px;
-            font-weight: 500;
-            color: var(--color-on-surface);
-            margin-bottom: 4px;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0px;
-            line-height: 28px;
-        }
-
-        .chart-subtitle {
-            font-size: 14px;
-            color: var(--color-on-surface-variant);
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.25px;
-            line-height: 20px;
-        }
-
-        .chart-explanation {
-            margin-top: 12px;
-            padding: 12px;
-            background-color: var(--color-surface-variant);
-            border-radius: var(--shape-corner-medium);
+        .datetime-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: var(--bg-warm);
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all 0.2s;
             font-size: 13px;
-            color: var(--color-on-surface-variant);
-            line-height: 1.5;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.25px;
+            color: var(--text-secondary);
         }
 
-        .chart-explanation-title {
-            font-weight: 600;
-            color: var(--color-on-surface);
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.15px;
-            line-height: 24px;
-        }
+        .datetime-pill:hover { background: var(--border-light); }
 
-        .chart-explanation-icon {
-            margin-right: 6px;
-            font-size: 16px;
-        }
-
-        .chart-explanation-content {
-            color: var(--color-on-surface-variant);
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.25px;
-            line-height: 20px;
-        }
-
-        .chart-insight {
-            margin-top: 8px;
-            padding: 8px 12px;
-            background-color: var(--color-primary-container);
-            border-radius: var(--shape-corner-small);
-            font-size: 12px;
-            color: var(--color-on-primary-container);
-            display: flex;
-            align-items: flex-start;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.4px;
-            line-height: 16px;
-        }
-
-        .chart-insight-icon {
-            margin-right: 6px;
-            font-size: 14px;
-            margin-top: 2px;
-        }
-
-        .chart-content {
-            min-height: 240px;
-        }
-        
-        /* Bar Chart Styles - Material Design 3 */
-        .bar-chart {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .bar-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .bar-label {
-            width: 120px;
-            font-size: 14px;
-            color: var(--color-on-surface);
-            display: flex;
-            align-items: center;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.25px;
-            line-height: 20px;
-        }
-
-        .bar-emoji {
-            margin-right: 8px;
-            font-size: 18px;
-        }
-
-        .bar-container {
-            flex: 1;
-            height: 24px;
-            background-color: var(--color-surface-variant);
-            border-radius: var(--shape-corner-medium);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .bar-fill {
-            height: 100%;
-            border-radius: var(--shape-corner-medium);
-            transition: width 1s ease-in-out;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .bar-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
-        }
-
-        .bar-value {
-            width: 50px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--color-on-surface);
-            text-align: right;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.25px;
-            line-height: 20px;
-        }
-
-        /* Patterns Grid Styles - Material Design 3 */
-        .patterns-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-
-        .pattern-card {
-            background: linear-gradient(135deg, var(--color-surface-variant), var(--color-surface));
-            border-radius: var(--shape-corner-large);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: all 0.3s;
-            box-shadow: var(--elevation-level2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pattern-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-tertiary));
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .pattern-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .pattern-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--elevation-level4);
-        }
-
-        .pattern-icon {
-            font-size: 36px;
-            margin-bottom: 12px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-        }
-
-        .pattern-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--color-on-surface);
-            margin-bottom: 8px;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.25px;
-            line-height: 20px;
-        }
-
-        .pattern-value {
-            font-size: 20px;
-            margin-bottom: 8px;
-            font-weight: 500;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.15px;
-            line-height: 28px;
-        }
-
-        .pattern-desc {
-            font-size: 12px;
-            color: var(--color-on-surface-variant);
-            line-height: 1.4;
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.4px;
-            line-height: 16px;
-        }
-
-        /* Comparison Table Styles - Material Design 3 */
-        .comparison-table {
+        /* === Save Button === */
+        .btn-save {
             width: 100%;
-            border-collapse: collapse;
+            height: 48px;
+            border-radius: var(--radius-md);
+            background: var(--accent);
+            color: white;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+            box-shadow: 0 4px 12px var(--save-glow);
         }
 
-        .comparison-header {
+        .btn-save:hover { transform: translateY(-1px); box-shadow: 0 6px 20px var(--save-glow-hover); }
+        .btn-save:active { transform: translateY(0); }
+
+        /* === Comparison Table === */
+        .cmp-table { width: 100%; }
+
+        .cmp-row {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 8px;
-            padding: 12px 0;
-            border-bottom: 2px solid var(--color-outline-variant);
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 4px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 13px;
+            color: var(--text-secondary);
         }
 
-        .comparison-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 8px;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--color-outline-variant);
-            transition: background-color 0.3s;
+        .cmp-row.head {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-hint);
+            letter-spacing: 0.5px;
+            border-bottom: 1.5px solid var(--border);
         }
 
-        .comparison-row:hover {
-            background-color: var(--color-surface-variant);
-            margin: 0 -16px;
-            padding-left: 16px;
-            padding-right: 16px;
-            border-radius: var(--shape-corner-small);
+        .cmp-row:last-child { border-bottom: none; }
+
+        .positive { color: var(--sage); }
+        .negative { color: var(--rose); }
+
+        /* === Top Tab Navigation === */
+        .tab-bar {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            padding: 0 16px 12px;
         }
 
-        .comparison-row:last-child {
-            border-bottom: none;
+        .tab-item {
+            padding: 7px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.25s;
         }
 
-        .comparison-cell {
-            font-size: 14px;
-            color: var(--color-on-surface);
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            letter-spacing: 0.25px;
-            line-height: 20px;
+        .tab-item:hover { color: var(--text-secondary); background: var(--bg-warm); }
+        .tab-item.active { color: var(--accent); background: var(--accent-bg); }
+
+        /* === Scrollbar === */
+        .screen-content::-webkit-scrollbar { width: 4px; }
+        .screen-content::-webkit-scrollbar-track { background: transparent; }
+        .screen-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+        /* === Animations === */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .comparison-emoji {
-            margin-right: 8px;
+        .fade-up {
+            animation: fadeUp 0.5s var(--ease-out) both;
         }
 
-        .positive {
-            color: var(--color-positive);
+        .fade-up:nth-child(2) { animation-delay: 0.05s; }
+        .fade-up:nth-child(3) { animation-delay: 0.1s; }
+        .fade-up:nth-child(4) { animation-delay: 0.15s; }
+        .fade-up:nth-child(5) { animation-delay: 0.2s; }
+
+        /* === Color scheme transition === */
+        @keyframes schemeFlash {
+            0% { opacity: 1; }
+            50% { opacity: 0.92; }
+            100% { opacity: 1; }
+        }
+        .scheme-transition {
+            animation: schemeFlash 0.4s ease;
         }
 
-        .negative {
-            color: var(--color-negative);
+        /* === Responsive === */
+        @media (max-width: 440px) {
+            .app-frame { margin: 0; border-radius: 0; border: none; min-height: 100vh; }
         }
+
+        /* === Screen visibility === */
+        .screen { display: none; }
+        .screen.active { display: block; }
     </style>
 </head>
 <body>
-    <div class="theme-toggle">
-        <span class="theme-toggle-label">主题：</span>
-        <select id="theme-select" style="background: transparent; border: 1px solid var(--color-outline); border-radius: 4px; padding: 4px 8px; color: var(--color-on-surface);">
-            <option value="system">跟随系统</option>
-            <option value="light">浅色</option>
-            <option value="dark">深色</option>
-        </select>
+    <div class="theme-controls">
+        <div class="color-schemes">
+            <button class="color-dot warm active" data-scheme="warm" title="暖阳"></button>
+            <button class="color-dot ocean" data-scheme="ocean" title="碧海"></button>
+            <button class="color-dot petal" data-scheme="petal" title="花语"></button>
+        </div>
+        <div class="mode-btns">
+            <button class="mode-btn" data-mode="light" title="浅色">☀️</button>
+            <button class="mode-btn active" data-mode="system" title="跟随系统">🔄</button>
+            <button class="mode-btn" data-mode="dark" title="深色">🌙</button>
+        </div>
     </div>
 
-    <div class="container">
-        <h1>她的晴雨表 - 高保真预览</h1>
-        
-        <div class="nav-tabs">
-            <div class="nav-tab active" data-tab="diary">日记</div>
-            <div class="nav-tab" data-tab="statistics">统计</div>
-            <div class="nav-tab" data-tab="calendar">日历</div>
-            <div class="nav-tab" data-tab="settings">设置</div>
+    <div class="app-frame">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>●●● WiFi 🔋</span>
         </div>
 
-        <!-- Diary Screen -->
-        <div id="diary-screen" class="screen-container fade-in">
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+            <div class="tab-item active" data-tab="diary">日记</div>
+            <div class="tab-item" data-tab="statistics">统计</div>
+            <div class="tab-item" data-tab="calendar">日历</div>
+            <div class="tab-item" data-tab="settings">设置</div>
+        </div>
+
+        <!-- ====== DIARY SCREEN ====== -->
+        <div id="diary" class="screen active">
             <div class="screen-header">
-                <div class="screen-title">她的心情日记</div>
+                <h1>她的心情日记</h1>
+                <p>记录生活中的每一份心情</p>
             </div>
             <div class="screen-content">
-                <div class="diary-list">
-                    <!-- 今天 -->
-                    <div class="card">
-                        <h3 class="title-small" style="margin-bottom: 16px; color: var(--color-primary);">今天</h3>
-
-                        <div class="diary-item">
-                            <div class="diary-header">
-                                <div class="diary-emotion">
-                                    <div class="diary-emoji">😊</div>
-                                    <div>
-                                        <div class="diary-mood">开心</div>
-                                        <div class="diary-time">下午 3:30</div>
-                                    </div>
-                                </div>
+                <div class="date-group fade-up">
+                    <div class="date-group-title">今天</div>
+                    <div class="diary-entry mood-happy">
+                        <div class="diary-emoji">😊</div>
+                        <div class="diary-body">
+                            <div class="diary-meta">
+                                <span class="diary-mood-name">开心</span>
+                                <span class="diary-time">下午 3:30</span>
                             </div>
                             <div class="diary-note">今天她心情很好，和朋友一起去逛街了，买了好看的衣服。</div>
-                            <div class="diary-activities">
-                                <div class="activity-chip">☀️ 晴天</div>
-                                <div class="activity-chip">🛍️ 购物</div>
-                                <div class="activity-chip">👭 朋友</div>
+                            <div class="diary-tags">
+                                <span class="tag">☀️ 晴天</span>
+                                <span class="tag">🛍️ 购物</span>
+                                <span class="tag">👭 朋友</span>
                             </div>
                         </div>
-
-                        <div class="diary-item">
-                            <div class="diary-header">
-                                <div class="diary-emotion">
-                                    <div class="diary-emoji">😌</div>
-                                    <div>
-                                        <div class="diary-mood">平静</div>
-                                        <div class="diary-time">上午 10:15</div>
-                                    </div>
-                                </div>
+                    </div>
+                    <div class="diary-entry mood-calm">
+                        <div class="diary-emoji">😌</div>
+                        <div class="diary-body">
+                            <div class="diary-meta">
+                                <span class="diary-mood-name">平静</span>
+                                <span class="diary-time">上午 10:15</span>
                             </div>
                             <div class="diary-note">早上在家看书，喝了一杯咖啡，很惬意。</div>
-                            <div class="diary-activities">
-                                <div class="activity-chip">☁️ 多云</div>
-                                <div class="activity-chip">📚 阅读</div>
-                                <div class="activity-chip">☕ 咖啡</div>
+                            <div class="diary-tags">
+                                <span class="tag">☁️ 多云</span>
+                                <span class="tag">📚 阅读</span>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- 昨天 -->
-                    <div class="card">
-                        <h3 class="title-small" style="margin-bottom: 16px; color: var(--color-on-surface-variant);">昨天</h3>
-
-                        <div class="diary-item">
-                            <div class="diary-header">
-                                <div class="diary-emotion">
-                                    <div class="diary-emoji">😔</div>
-                                    <div>
-                                        <div class="diary-mood">疲惫</div>
-                                        <div class="diary-time">晚上 8:45</div>
-                                    </div>
-                                </div>
+                <div class="date-group fade-up">
+                    <div class="date-group-title">昨天</div>
+                    <div class="diary-entry mood-tired">
+                        <div class="diary-emoji">😔</div>
+                        <div class="diary-body">
+                            <div class="diary-meta">
+                                <span class="diary-mood-name">疲惫</span>
+                                <span class="diary-time">晚上 8:45</span>
                             </div>
                             <div class="diary-note">工作有点累，需要早点休息。</div>
-                            <div class="diary-activities">
-                                <div class="activity-chip">🌧️ 小雨</div>
-                                <div class="activity-chip">💼 工作</div>
+                            <div class="diary-tags">
+                                <span class="tag">🌧️ 小雨</span>
+                                <span class="tag">💼 工作</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 新的底部导航栏 -->
-            <div class="bottom-nav">
-                <div class="nav-item active">
-                    <div class="nav-icon">📔</div>
-                    <div class="nav-label">日记</div>
+                <div class="date-group fade-up">
+                    <div class="date-group-title">前天</div>
+                    <div class="diary-entry mood-anxious">
+                        <div class="diary-emoji">😰</div>
+                        <div class="diary-body">
+                            <div class="diary-meta">
+                                <span class="diary-mood-name">焦虑</span>
+                                <span class="diary-time">下午 2:20</span>
+                            </div>
+                            <div class="diary-note">明天有一个重要的会议，希望一切顺利。</div>
+                            <div class="diary-tags">
+                                <span class="tag">☁️ 多云</span>
+                                <span class="tag">💼 工作</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="nav-item">
-                    <div class="nav-icon">📊</div>
-                    <div class="nav-label">统计</div>
-                </div>
-                <div class="nav-item center-space"></div>
-                <div class="nav-item">
-                    <div class="nav-icon">📅</div>
-                    <div class="nav-label">日历</div>
-                </div>
-                <div class="nav-item">
-                    <div class="nav-icon">⚙️</div>
-                    <div class="nav-label">设置</div>
-                </div>
-            </div>
-
-            <!-- Floating Action Button -->
-            <div class="fab" id="fab-record">
-                <div class="fab-icon">+</div>
             </div>
         </div>
 
-        <!-- Statistics Screen -->
-        <div id="statistics-screen" class="screen-container fade-in" style="display: none;">
+        <!-- ====== STATISTICS SCREEN ====== -->
+        <div id="statistics" class="screen">
             <div class="screen-header">
-                <div class="screen-title">统计</div>
+                <h1>情绪统计</h1>
+                <p>了解你的情绪变化</p>
             </div>
             <div class="screen-content">
-                <!-- Time Range Selector -->
-                <div class="card">
-                    <div class="card-title">
-                        <span class="card-title-icon">📅</span>
-                        时间范围
+                <div class="card fade-up">
+                    <div class="card-label">概览</div>
+                    <div class="stat-row">
+                        <span class="stat-label">📈 总记录数</span>
+                        <span class="stat-value">42</span>
                     </div>
-                    <div class="time-range-selector">
-                        <label class="time-range-label">选择统计时间范围</label>
-                        <select class="time-range-select" id="time-range-select">
-                            <option value="week">最近一周</option>
-                            <option value="month">最近一个月</option>
-                            <option value="three-months">最近三个月</option>
-                            <option value="six-months">最近半年内</option>
-                            <option value="year">最近一年</option>
-                            <option value="custom">指定范围</option>
-                        </select>
-                        <div class="custom-range-container" id="custom-range-container">
-                            <div class="date-row">
-                                <label class="date-label">开始日期</label>
-                                <input type="date" class="date-input" id="start-date" placeholder="选择开始日期">
-                            </div>
-                            <div class="date-row">
-                                <label class="date-label">结束日期</label>
-                                <input type="date" class="date-input" id="end-date" placeholder="选择结束日期">
-                            </div>
-                        </div>
+                    <div class="stat-row">
+                        <span class="stat-label">😊 平均情绪</span>
+                        <span class="stat-value">积极</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">🏆 最常出现</span>
+                        <span class="stat-value">开心</span>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-title">
-                        <span class="card-title-icon">📊</span>
-                        情绪概览
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">
-                            <span class="stat-icon">📈</span>
-                            总记录数
+                <div class="card fade-up">
+                    <div class="card-label">情绪分布</div>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <div class="bar-label">😊 开心</div>
+                            <div class="bar-track"><div class="bar-fill c1" style="width:40%"></div></div>
+                            <div class="bar-pct">40%</div>
                         </div>
-                        <div class="stat-value">42</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">
-                            <span class="stat-icon">😊</span>
-                            平均情绪
+                        <div class="bar-item">
+                            <div class="bar-label">😌 平静</div>
+                            <div class="bar-track"><div class="bar-fill c2" style="width:25%"></div></div>
+                            <div class="bar-pct">25%</div>
                         </div>
-                        <div class="stat-value">积极</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">
-                            <span class="stat-icon">🏆</span>
-                            最常出现的情绪
+                        <div class="bar-item">
+                            <div class="bar-label">🤩 兴奋</div>
+                            <div class="bar-track"><div class="bar-fill c3" style="width:15%"></div></div>
+                            <div class="bar-pct">15%</div>
                         </div>
-                        <div class="stat-value">😊 开心</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-title">
-                        <span class="card-title-icon">📊</span>
-                        情绪分布
-                    </div>
-                    <div class="chart-content">
-                        <div class="bar-chart">
-                            <div class="bar-item">
-                                <div class="bar-label">
-                                    <span class="bar-emoji">😊</span>
-                                    开心
-                                </div>
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 40%;"></div>
-                                </div>
-                                <div class="bar-value">40%</div>
-                            </div>
-                            <div class="bar-item">
-                                <div class="bar-label">
-                                    <span class="bar-emoji">😌</span>
-                                    平静
-                                </div>
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 25%;"></div>
-                                </div>
-                                <div class="bar-value">25%</div>
-                            </div>
-                            <div class="bar-item">
-                                <div class="bar-label">
-                                    <span class="bar-emoji">🤩</span>
-                                    兴奋
-                                </div>
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 15%;"></div>
-                                </div>
-                                <div class="bar-value">15%</div>
-                            </div>
-                            <div class="bar-item">
-                                <div class="bar-label">
-                                    <span class="bar-emoji">😰</span>
-                                    焦虑
-                                </div>
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 12%;"></div>
-                                </div>
-                                <div class="bar-value">12%</div>
-                            </div>
-                            <div class="bar-item">
-                                <div class="bar-label">
-                                    <span class="bar-emoji">😢</span>
-                                    悲伤
-                                </div>
-                                <div class="bar-container">
-                                    <div class="bar-fill" style="width: 8%;"></div>
-                                </div>
-                                <div class="bar-value">8%</div>
-                            </div>
+                        <div class="bar-item">
+                            <div class="bar-label">😰 焦虑</div>
+                            <div class="bar-track"><div class="bar-fill c4" style="width:12%"></div></div>
+                            <div class="bar-pct">12%</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-label">😢 悲伤</div>
+                            <div class="bar-track"><div class="bar-fill c5" style="width:8%"></div></div>
+                            <div class="bar-pct">8%</div>
                         </div>
                     </div>
-                    
-                    <!-- Chart Explanation -->
-                    <div class="chart-explanation">
-                        <div class="chart-explanation-title">
-                            <span class="chart-explanation-icon">📊</span>
-                            什么是情绪分布？
-                        </div>
-                        <div class="chart-explanation-content">
-                            情绪分布显示了在选定时间范围内，各种情绪在您的记录中所占的比例。这帮助您了解自己的情绪模式，哪些情绪是您的主要情绪，哪些情绪较少出现。
-                        </div>
-                        <div class="chart-insight">
-                            <span class="chart-insight-icon">💡</span>
-                            <div>根据您的数据，开心情绪占比最高（40%），这表明您整体上是一个积极乐观的人。</div>
-                        </div>
+                    <div class="insight-box">
+                        <span class="icon">💡</span>
+                        <span class="text">开心情绪占比最高（40%），这表明你整体上是一个积极乐观的人。</span>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-title">
-                        <span class="card-title-icon">📈</span>
-                        情绪趋势变化
-                    </div>
-                    <div class="chart-content">
-                        <div class="chart-placeholder">
-                            <div class="chart-icon">📈</div>
-                            <div class="chart-title">情绪趋势图</div>
-                            <div class="chart-subtitle">您的情绪如何随时间变化</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Chart Explanation -->
-                    <div class="chart-explanation">
-                        <div class="chart-explanation-title">
-                            <span class="chart-explanation-icon">📈</span>
-                            什么是情绪趋势？
-                        </div>
-                        <div class="chart-explanation-content">
-                            情绪趋势显示了您的情绪强度如何随时间变化。通过观察趋势线，您可以了解自己情绪的波动情况，识别出情绪的高峰和低谷，以及可能影响您情绪的因素。
-                        </div>
-                        <div class="chart-insight">
-                            <span class="chart-insight-icon">💡</span>
-                            <div>您的情绪趋势显示，周三情绪达到峰值，而周二情绪较低。这可能与您的工作日程或社交活动有关。</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-title">
-                        <span class="card-title-icon">🔍</span>
-                        情绪模式
-                    </div>
+                <div class="card fade-up">
+                    <div class="card-label">情绪模式</div>
                     <div class="patterns-grid">
                         <div class="pattern-card">
                             <div class="pattern-icon">🌅</div>
                             <div class="pattern-title">早晨模式</div>
                             <div class="pattern-value">😊 开心</div>
-                            <div class="pattern-desc">早晨最开心</div>
                         </div>
                         <div class="pattern-card">
                             <div class="pattern-icon">🌙</div>
                             <div class="pattern-title">夜晚模式</div>
                             <div class="pattern-value">😌 平静</div>
-                            <div class="pattern-desc">夜晚最平静</div>
                         </div>
                         <div class="pattern-card">
                             <div class="pattern-icon">📅</div>
-                            <div class="pattern-title">工作日模式</div>
+                            <div class="pattern-title">工作日</div>
                             <div class="pattern-value">🤩 兴奋</div>
-                            <div class="pattern-desc">工作日最兴奋</div>
                         </div>
                         <div class="pattern-card">
                             <div class="pattern-icon">🌈</div>
                             <div class="pattern-title">天气影响</div>
-                            <div class="pattern-value">😊 开心</div>
-                            <div class="pattern-desc">晴天更开心</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Chart Explanation -->
-                    <div class="chart-explanation">
-                        <div class="chart-explanation-title">
-                            <span class="chart-explanation-icon">🔍</span>
-                            什么是情绪模式？
-                        </div>
-                        <div class="chart-explanation-content">
-                            情绪模式是通过分析您的情绪数据发现的规律和趋势。这些模式可能与时间、天气、工作日等因素相关，帮助您更好地了解自己的情绪变化规律。
-                        </div>
-                        <div class="chart-insight">
-                            <span class="chart-insight-icon">💡</span>
-                            <div>您的数据显示，早晨情绪通常较为积极，而晚上则更加平静。这表明您的情绪变化有一定的日常规律。</div>
+                            <div class="pattern-value">☀️ 晴天</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-title">
-                        <span class="card-title-icon">📊</span>
-                        情绪对比
-                    </div>
-                    <div class="chart-content">
-                        <div class="comparison-table">
-                            <div class="comparison-header">
-                                <div class="comparison-cell">情绪</div>
-                                <div class="comparison-cell">本周</div>
-                                <div class="comparison-cell">上周</div>
-                                <div class="comparison-cell">变化</div>
-                            </div>
-                            <div class="comparison-row">
-                                <div class="comparison-cell">
-                                    <span class="comparison-emoji">😊</span>
-                                    开心
-                                </div>
-                                <div class="comparison-cell">40%</div>
-                                <div class="comparison-cell">30%</div>
-                                <div class="comparison-cell positive">+10%</div>
-                            </div>
-                            <div class="comparison-row">
-                                <div class="comparison-cell">
-                                    <span class="comparison-emoji">😌</span>
-                                    平静
-                                </div>
-                                <div class="comparison-cell">25%</div>
-                                <div class="comparison-cell">35%</div>
-                                <div class="comparison-cell negative">-10%</div>
-                            </div>
-                            <div class="comparison-row">
-                                <div class="comparison-cell">
-                                    <span class="comparison-emoji">🤩</span>
-                                    兴奋
-                                </div>
-                                <div class="comparison-cell">15%</div>
-                                <div class="comparison-cell">10%</div>
-                                <div class="comparison-cell positive">+5%</div>
-                            </div>
-                            <div class="comparison-row">
-                                <div class="comparison-cell">
-                                    <span class="comparison-emoji">😰</span>
-                                    焦虑
-                                </div>
-                                <div class="comparison-cell">12%</div>
-                                <div class="comparison-cell">15%</div>
-                                <div class="comparison-cell positive">-3%</div>
-                            </div>
-                            <div class="comparison-row">
-                                <div class="comparison-cell">
-                                    <span class="comparison-emoji">😢</span>
-                                    悲伤
-                                </div>
-                                <div class="comparison-cell">8%</div>
-                                <div class="comparison-cell">10%</div>
-                                <div class="comparison-cell positive">-2%</div>
-                            </div>
+                <div class="card fade-up">
+                    <div class="card-label">情绪对比 · 本周 vs 上周</div>
+                    <div class="cmp-table">
+                        <div class="cmp-row head">
+                            <span>情绪</span><span>本周</span><span>上周</span><span>变化</span>
                         </div>
-                    </div>
-                    
-                    <!-- Chart Explanation -->
-                    <div class="chart-explanation">
-                        <div class="chart-explanation-title">
-                            <span class="chart-explanation-icon">📊</span>
-                            什么是情绪对比？
+                        <div class="cmp-row">
+                            <span>😊 开心</span><span>40%</span><span>30%</span><span class="positive">+10%</span>
                         </div>
-                        <div class="chart-explanation-content">
-                            情绪对比显示了不同时期（如本周与上周）各种情绪的比例变化。通过对比分析，您可以了解自己情绪的变化趋势，识别出情绪改善或恶化的情况。
+                        <div class="cmp-row">
+                            <span>😌 平静</span><span>25%</span><span>35%</span><span class="negative">-10%</span>
                         </div>
-                        <div class="chart-insight">
-                            <span class="chart-insight-icon">💡</span>
-                            <div>与上周相比，您本周的开心情绪增加了10%，而平静情绪减少了10%。这可能表明您本周经历了更多令人兴奋的事情。</div>
+                        <div class="cmp-row">
+                            <span>🤩 兴奋</span><span>15%</span><span>10%</span><span class="positive">+5%</span>
+                        </div>
+                        <div class="cmp-row">
+                            <span>😰 焦虑</span><span>12%</span><span>15%</span><span class="positive">-3%</span>
+                        </div>
+                        <div class="cmp-row">
+                            <span>😢 悲伤</span><span>8%</span><span>10%</span><span class="positive">-2%</span>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- 新的底部导航栏 -->
-            <div class="bottom-nav">
-                <div class="nav-item">
-                    <div class="nav-icon">📔</div>
-                    <div class="nav-label">日记</div>
-                </div>
-                <div class="nav-item active">
-                    <div class="nav-icon">📊</div>
-                    <div class="nav-label">统计</div>
-                </div>
-                <div class="nav-item center-space"></div>
-                <div class="nav-item">
-                    <div class="nav-icon">📅</div>
-                    <div class="nav-label">日历</div>
-                </div>
-                <div class="nav-item">
-                    <div class="nav-icon">⚙️</div>
-                    <div class="nav-label">设置</div>
-                </div>
-            </div>
-
-            <!-- Floating Action Button -->
-            <div class="fab" id="fab-record-2">
-                <div class="fab-icon">+</div>
             </div>
         </div>
 
-        <!-- Calendar Screen -->
-        <div id="calendar-screen" class="screen-container fade-in" style="display: none;">
+        <!-- ====== CALENDAR SCREEN ====== -->
+        <div id="calendar" class="screen">
             <div class="screen-header">
-                <div class="screen-title">情绪日历</div>
+                <h1>情绪日历</h1>
+                <p>回顾每一天的心情</p>
             </div>
             <div class="screen-content">
-                <div class="calendar-container">
+                <div class="card fade-up">
                     <div class="calendar-header">
-                        <div class="calendar-nav">
-                            <button class="calendar-nav-btn" id="prev-month">‹</button>
-                        </div>
+                        <div class="cal-nav"><button id="prev-month">‹</button></div>
                         <div class="calendar-title" id="calendar-title">2024年1月</div>
-                        <div class="calendar-nav">
-                            <button class="calendar-nav-btn" id="next-month">›</button>
-                        </div>
+                        <div class="cal-nav"><button id="next-month">›</button></div>
                     </div>
-
-                    <div class="calendar-weekdays">
-                        <div class="weekday">日</div>
-                        <div class="weekday">一</div>
-                        <div class="weekday">二</div>
-                        <div class="weekday">三</div>
-                        <div class="weekday">四</div>
-                        <div class="weekday">五</div>
-                        <div class="weekday">六</div>
+                    <div class="cal-weekdays">
+                        <div class="cal-weekday">日</div>
+                        <div class="cal-weekday">一</div>
+                        <div class="cal-weekday">二</div>
+                        <div class="cal-weekday">三</div>
+                        <div class="cal-weekday">四</div>
+                        <div class="cal-weekday">五</div>
+                        <div class="cal-weekday">六</div>
                     </div>
+                    <div class="cal-days" id="calendar-days"></div>
+                </div>
 
-                    <div class="calendar-days" id="calendar-days">
-                        <!-- 日历日期将通过JavaScript动态生成 -->
-                        <div class="calendar-day other-month">
-                            <div class="calendar-day-number">30</div>
-                        </div>
-                        <div class="calendar-day other-month">
-                            <div class="calendar-day-number">31</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="calendar-day-number">1</div>
-                            <div class="calendar-day-emoji">😊</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="calendar-day-number">2</div>
-                            <div class="calendar-day-emoji">😌</div>
-                        </div>
-                        <div class="calendar-day today">
-                            <div class="calendar-day-number">3</div>
-                            <div class="calendar-day-emoji">🥺</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="calendar-day-number">4</div>
-                        </div>
-                        <!-- 更多日期... -->
+                <div class="card fade-up">
+                    <div class="card-label">本月统计</div>
+                    <div class="stat-row">
+                        <span class="stat-label">📅 记录天数</span>
+                        <span class="stat-value">15天</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">😊 最多情绪</span>
+                        <span class="stat-value">开心 (8次)</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">📈 心情指数</span>
+                        <span class="stat-value">良好</span>
                     </div>
                 </div>
 
-                <!-- 情绪统计汇总 -->
-                <div class="card">
-                    <div class="card-title">
-                        <span class="card-title-icon">📊</span>
-                        本月情绪统计
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">
-                            <span class="stat-icon">📅</span>
-                            记录天数
-                        </div>
-                        <div class="stat-value">15天</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">
-                            <span class="stat-icon">😊</span>
-                            最多情绪
-                        </div>
-                        <div class="stat-value">开心 (8次)</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">
-                            <span class="stat-icon">📈</span>
-                            平均心情指数
-                        </div>
-                        <div class="stat-value">良好</div>
+                <div class="card fade-up">
+                    <div class="card-label">情绪图例</div>
+                    <div class="chip-grid" style="padding: 4px 0;">
+                        <span class="chip">😊 开心</span>
+                        <span class="chip">😌 平静</span>
+                        <span class="chip">🥺 感动</span>
+                        <span class="chip">😰 焦虑</span>
+                        <span class="chip">😢 委屈</span>
+                        <span class="chip">😔 疲惫</span>
                     </div>
                 </div>
-
-                <!-- 情绪标记说明 -->
-                <div class="card">
-                    <div class="card-title">
-                        <span class="card-title-icon">🏷️</span>
-                        情绪标记
-                    </div>
-                    <div class="emotion-legend">
-                        <div class="diary-activities" style="gap: 12px; display: grid; grid-template-columns: repeat(3, 1fr);">
-                            <div class="activity-chip">😊 开心</div>
-                            <div class="activity-chip">😌 平静</div>
-                            <div class="activity-chip">🥺 感动</div>
-                            <div class="activity-chip">😰 焦虑</div>
-                            <div class="activity-chip">😢 委屈</div>
-                            <div class="activity-chip">😔 疲惫</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 新的底部导航栏 -->
-            <div class="bottom-nav">
-                <div class="nav-item">
-                    <div class="nav-icon">📔</div>
-                    <div class="nav-label">日记</div>
-                </div>
-                <div class="nav-item">
-                    <div class="nav-icon">📊</div>
-                    <div class="nav-label">统计</div>
-                </div>
-                <div class="nav-item center-space"></div>
-                <div class="nav-item active">
-                    <div class="nav-icon">📅</div>
-                    <div class="nav-label">日历</div>
-                </div>
-                <div class="nav-item">
-                    <div class="nav-icon">⚙️</div>
-                    <div class="nav-label">设置</div>
-                </div>
-            </div>
-
-            <!-- Floating Action Button -->
-            <div class="fab" id="fab-record-3">
-                <div class="fab-icon">+</div>
             </div>
         </div>
 
-        <!-- Settings Screen -->
-        <div id="settings-screen" class="screen-container fade-in" style="display: none;">
+        <!-- ====== SETTINGS SCREEN ====== -->
+        <div id="settings" class="screen">
             <div class="screen-header">
-                <div class="screen-title">设置</div>
+                <h1>设置</h1>
+                <p>个性化你的体验</p>
             </div>
             <div class="screen-content">
-                <div class="card">
-                    <div class="card-title">
-                        <span class="card-title-icon">🎨</span>
-                        外观
-                    </div>
-                    <div class="settings-item">
-                        <div class="settings-icon">🌐</div>
-                        <div class="settings-content">
-                            <div class="settings-title">语言</div>
-                            <div class="settings-subtitle">简体中文</div>
+                <div class="settings-group fade-up">
+                    <div class="settings-group-title">外观</div>
+                    <div class="card" style="padding: 6px 2px;">
+                        <div class="setting-item">
+                            <div class="setting-icon i-accent">🌐</div>
+                            <div class="setting-body">
+                                <div class="setting-title">语言</div>
+                                <div class="setting-desc">简体中文</div>
+                            </div>
+                            <div class="setting-arrow">›</div>
                         </div>
-                        <div class="settings-action">
-                            <span>›</span>
+                        <div class="setting-item">
+                            <div class="setting-icon i-lavender">🎨</div>
+                            <div class="setting-body">
+                                <div class="setting-title">主题</div>
+                                <div class="setting-desc" id="setting-theme-desc">跟随系统</div>
+                            </div>
+                            <div class="setting-arrow">›</div>
                         </div>
-                    </div>
-                    <div class="settings-item">
-                        <div class="settings-icon">🎨</div>
-                        <div class="settings-content">
-                            <div class="settings-title">主题</div>
-                            <div class="settings-subtitle">跟随系统</div>
+                        <div class="setting-item">
+                            <div class="setting-icon i-rose">🎭</div>
+                            <div class="setting-body">
+                                <div class="setting-title">配色方案</div>
+                                <div class="setting-desc" id="setting-color-desc">暖阳</div>
+                            </div>
+                            <div class="setting-arrow">›</div>
                         </div>
-                        <div class="settings-action">
-                            <span>›</span>
-                        </div>
-                    </div>
-                    <div class="settings-item">
-                        <div class="settings-icon">🌈</div>
-                        <div class="settings-content">
-                            <div class="settings-title">动态颜色</div>
-                            <div class="settings-subtitle">使用Material You动态颜色</div>
-                        </div>
-                        <div class="settings-action">
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="switch-slider"></span>
-                            </label>
+                        <div class="setting-item">
+                            <div class="setting-icon i-sage">🌈</div>
+                            <div class="setting-body">
+                                <div class="setting-title">动态颜色</div>
+                                <div class="setting-desc">使用 Material You</div>
+                            </div>
+                            <label class="toggle"><input type="checkbox"><span class="toggle-track"></span></label>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-title">
-                        <span class="card-title-icon">🔔</span>
-                        通知
-                    </div>
-                    <div class="settings-item">
-                        <div class="settings-icon">🔔</div>
-                        <div class="settings-content">
-                            <div class="settings-title">每日提醒</div>
-                            <div class="settings-subtitle">每日情绪记录提醒</div>
+                <div class="settings-group fade-up">
+                    <div class="settings-group-title">通知</div>
+                    <div class="card" style="padding: 6px 2px;">
+                        <div class="setting-item">
+                            <div class="setting-icon i-amber">🔔</div>
+                            <div class="setting-body">
+                                <div class="setting-title">每日提醒</div>
+                                <div class="setting-desc">每日情绪记录提醒</div>
+                            </div>
+                            <label class="toggle"><input type="checkbox" checked id="reminder-toggle"><span class="toggle-track"></span></label>
                         </div>
-                        <div class="settings-action">
-                            <label class="switch">
-                                <input type="checkbox" id="reminder-toggle" checked>
-                                <span class="switch-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="settings-item" id="reminder-time-item">
-                        <div class="settings-icon">⏰</div>
-                        <div class="settings-content">
-                            <div class="settings-title">提醒时间</div>
-                            <div class="settings-subtitle">上午 9:00</div>
-                        </div>
-                        <div class="settings-action">
-                            <span></span>
+                        <div class="setting-item" id="reminder-time-item">
+                            <div class="setting-icon i-rose">⏰</div>
+                            <div class="setting-body">
+                                <div class="setting-title">提醒时间</div>
+                                <div class="setting-desc">上午 9:00</div>
+                            </div>
+                            <div class="setting-arrow">›</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-title">
-                        <span class="card-title-icon">ℹ️</span>
-                        关于
-                    </div>
-                    <div class="settings-item">
-                        <div class="settings-icon">ℹ️</div>
-                        <div class="settings-content">
-                            <div class="settings-title">关于应用</div>
-                            <div class="settings-subtitle">她的晴雨表 - 记录生活中的每一份心情</div>
+                <div class="settings-group fade-up">
+                    <div class="settings-group-title">关于</div>
+                    <div class="card" style="padding: 6px 2px;">
+                        <div class="setting-item">
+                            <div class="setting-icon i-accent">ℹ️</div>
+                            <div class="setting-body">
+                                <div class="setting-title">关于应用</div>
+                                <div class="setting-desc">记录生活中的每一份心情</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="settings-item">
-                        <div class="settings-icon">📄</div>
-                        <div class="settings-content">
-                            <div class="settings-title">许可</div>
-                            <div class="settings-subtitle">开源许可证</div>
+                        <div class="setting-item">
+                            <div class="setting-icon i-lavender">📄</div>
+                            <div class="setting-body">
+                                <div class="setting-title">开源许可</div>
+                                <div class="setting-desc">查看第三方库许可证</div>
+                            </div>
+                            <div class="setting-arrow">›</div>
                         </div>
-                        <div class="settings-action">
-                            <span>›</span>
-                        </div>
-                    </div>
-                    <div class="settings-item">
-                        <div class="settings-icon">🔢</div>
-                        <div class="settings-content">
-                            <div class="settings-title">她的晴雨表</div>
-                            <div class="settings-subtitle">版本 1.0.0</div>
+                        <div class="setting-item">
+                            <div class="setting-icon i-sage">🔢</div>
+                            <div class="setting-body">
+                                <div class="setting-title">她的晴雨表</div>
+                                <div class="setting-desc">版本 1.0.0</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- 新的底部导航栏 -->
-            <div class="bottom-nav">
-                <div class="nav-item">
-                    <div class="nav-icon">📔</div>
-                    <div class="nav-label">日记</div>
-                </div>
-                <div class="nav-item">
-                    <div class="nav-icon">📊</div>
-                    <div class="nav-label">统计</div>
-                </div>
-                <div class="nav-item center-space"></div>
-                <div class="nav-item">
-                    <div class="nav-icon">📅</div>
-                    <div class="nav-label">日历</div>
-                </div>
-                <div class="nav-item active">
-                    <div class="nav-icon">⚙️</div>
-                    <div class="nav-label">设置</div>
-                </div>
-            </div>
-
-            <!-- Floating Action Button -->
-            <div class="fab" id="fab-record-4">
-                <div class="fab-icon">+</div>
             </div>
         </div>
 
-        <!-- Quick Record Modal -->
-        <div class="modal-overlay" id="quick-record-modal">
-            <div class="quick-record-modal">
-                <div class="quick-record-header">
-                    <div class="quick-record-title">记录她的心情</div>
-                    <button class="close-btn" id="close-modal">×</button>
+        <!-- Bottom Nav -->
+        <div class="bottom-nav">
+            <div class="nav-item active" data-nav="diary">
+                <span class="nav-icon">📔</span>
+                <span class="nav-label">日记</span>
+            </div>
+            <div class="nav-item" data-nav="statistics">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">统计</span>
+            </div>
+            <div class="nav-item fab-space"></div>
+            <div class="nav-item" data-nav="calendar">
+                <span class="nav-icon">📅</span>
+                <span class="nav-label">日历</span>
+            </div>
+            <div class="nav-item" data-nav="settings">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-label">设置</span>
+            </div>
+        </div>
+
+        <!-- FAB -->
+        <div class="fab" id="fab-btn">+</div>
+    </div>
+
+    <!-- Quick Record Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-sheet">
+            <div class="modal-handle"></div>
+            <div class="modal-header">
+                <span class="modal-title">记录心情</span>
+                <button class="modal-close" id="modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="datetime-row">
+                    <span class="datetime-pill" id="date-picker">📅 <span id="display-date"></span></span>
+                    <span style="color: var(--text-hint);">·</span>
+                    <span class="datetime-pill" id="time-picker">⏰ <span id="display-time"></span></span>
                 </div>
-                <div class="quick-record-content">
-                    <!-- 简化的情绪选择器 -->
-                    <div class="card">
-                        <div class="card-title">
-                            <span class="card-title-icon">😊</span>
-                            此刻感觉怎么样？
-                        </div>
-                        <div class="datetime-selector">
-                            <span class="datetime-item" id="date-selector">
-                                <span class="datetime-icon">📅</span>
-                                <span class="datetime-value" id="current-date">2024年1月3日</span>
-                            </span>
-                            <span class="datetime-separator">·</span>
-                            <span class="datetime-item" id="time-selector">
-                                <span class="datetime-icon">⏰</span>
-                                <span class="datetime-value" id="current-time">下午 3:30</span>
-                            </span>
-                        </div>
-                        <div class="emotion-selector-simple">
-                            <div class="emotion-card-simple selected">
-                                <div class="emotion-emoji-simple">😊</div>
-                                <div class="emotion-name-simple">开心</div>
-                            </div>
-                            <div class="emotion-card-simple">
-                                <div class="emotion-emoji-simple">😌</div>
-                                <div class="emotion-name-simple">平静</div>
-                            </div>
-                            <div class="emotion-card-simple">
-                                <div class="emotion-emoji-simple">🥺</div>
-                                <div class="emotion-name-simple">感动</div>
-                            </div>
-                            <div class="emotion-card-simple">
-                                <div class="emotion-emoji-simple">😰</div>
-                                <div class="emotion-name-simple">焦虑</div>
-                            </div>
-                            <div class="emotion-card-simple">
-                                <div class="emotion-emoji-simple">😢</div>
-                                <div class="emotion-name-simple">委屈</div>
-                            </div>
-                            <div class="emotion-card-simple">
-                                <div class="emotion-emoji-simple">😔</div>
-                                <div class="emotion-name-simple">疲惫</div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- 天气和活动标签 -->
-                    <div class="card">
-                        <div class="card-title">
-                            <span class="card-title-icon">🌤️</span>
-                            今天的天气和活动
-                        </div>
-                        <div class="activity-section">
-                            <div class="label-small" style="margin-bottom: 8px;">天气</div>
-                            <div class="activity-grid">
-                                <div class="activity-tag selected">☀️ 晴天</div>
-                                <div class="activity-tag">☁️ 多云</div>
-                                <div class="activity-tag">🌧️ 下雨</div>
-                                <div class="activity-tag">❄️ 下雪</div>
-                            </div>
-                        </div>
-                        <div class="activity-section">
-                            <div class="label-small" style="margin-bottom: 8px;">活动</div>
-                            <div class="activity-grid">
-                                <div class="activity-tag">💼 工作</div>
-                                <div class="activity-tag">🏠 在家</div>
-                                <div class="activity-tag">👭 朋友</div>
-                                <div class="activity-tag">🛍️ 购物</div>
-                                <div class="activity-tag">🎬 娱乐</div>
-                                <div class="activity-tag">🍽️ 用餐</div>
-                                <div class="activity-tag">🏃 运动</div>
-                                <div class="activity-tag">📚 学习</div>
-                            </div>
-                        </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">此刻的感觉</div>
+                    <div class="emotion-grid">
+                        <div class="emotion-option selected"><span class="emoji">😊</span><span class="name">开心</span></div>
+                        <div class="emotion-option"><span class="emoji">😌</span><span class="name">平静</span></div>
+                        <div class="emotion-option"><span class="emoji">🥺</span><span class="name">感动</span></div>
+                        <div class="emotion-option"><span class="emoji">😰</span><span class="name">焦虑</span></div>
+                        <div class="emotion-option"><span class="emoji">😢</span><span class="name">委屈</span></div>
+                        <div class="emotion-option"><span class="emoji">😔</span><span class="name">疲惫</span></div>
                     </div>
-
-                    <!-- 快速备注 -->
-                    <div class="card">
-                        <div class="card-title">
-                            <span class="card-title-icon">📝</span>
-                            备注（可选）
-                        </div>
-                        <textarea class="note-input" placeholder="记录一些特别的事..." style="min-height: 80px;"></textarea>
-                    </div>
-
-                    <button class="button button-filled button-full-width">保存记录</button>
                 </div>
+
+                <div class="modal-section">
+                    <div class="modal-section-title">天气</div>
+                    <div class="chip-grid">
+                        <span class="chip selected">☀️ 晴天</span>
+                        <span class="chip">☁️ 多云</span>
+                        <span class="chip">🌧️ 下雨</span>
+                        <span class="chip">❄️ 下雪</span>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <div class="modal-section-title">活动</div>
+                    <div class="chip-grid" id="activity-chips">
+                        <span class="chip">💼 工作</span>
+                        <span class="chip">🏃 运动</span>
+                        <span class="chip">📚 阅读</span>
+                        <span class="chip">👥 社交</span>
+                        <span class="chip">🎮 娱乐</span>
+                        <span class="chip">😴 休息</span>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <div class="modal-section-title">备注（可选）</div>
+                    <textarea class="note-area" placeholder="记录一些特别的事..."></textarea>
+                </div>
+
+                <button class="btn-save" id="save-btn">保存记录</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Theme Selector
-        const themeSelect = document.getElementById('theme-select');
-        const body = document.body;
+        // === Color Scheme & Theme Mode ===
+        const SCHEME_NAMES = { warm: '暖阳', ocean: '碧海', petal: '花语' };
+        const MODE_NAMES = { light: '浅色', dark: '深色', system: '跟随系统' };
 
-        // Check for saved theme preference or default to system
-        const currentTheme = localStorage.getItem('theme') || 'system';
-        themeSelect.value = currentTheme;
+        let currentScheme = localStorage.getItem('colorScheme') || 'warm';
+        let currentMode = localStorage.getItem('themeMode') || 'system';
 
-        // Apply theme
-        function applyTheme(theme) {
-            if (theme === 'dark') {
-                body.setAttribute('data-theme', 'dark');
-            } else if (theme === 'light') {
-                body.removeAttribute('data-theme');
-            } else if (theme === 'system') {
-                // Check system preference
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    body.setAttribute('data-theme', 'dark');
-                } else {
-                    body.removeAttribute('data-theme');
-                }
+        function applyColorScheme(scheme) {
+            currentScheme = scheme;
+            localStorage.setItem('colorScheme', scheme);
+            if (scheme === 'warm') {
+                document.body.removeAttribute('data-color');
+            } else {
+                document.body.setAttribute('data-color', scheme);
             }
+            // Update dots
+            document.querySelectorAll('.color-dot').forEach(d => d.classList.toggle('active', d.dataset.scheme === scheme));
+            // Update settings desc
+            const desc = document.getElementById('setting-color-desc');
+            if (desc) desc.textContent = SCHEME_NAMES[scheme] || scheme;
+            // Flash transition
+            document.body.classList.remove('scheme-transition');
+            void document.body.offsetWidth;
+            document.body.classList.add('scheme-transition');
         }
 
-        // Apply initial theme
-        applyTheme(currentTheme);
+        function applyThemeMode(mode) {
+            currentMode = mode;
+            localStorage.setItem('themeMode', mode);
+            if (mode === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+            } else if (mode === 'light') {
+                document.body.removeAttribute('data-theme');
+            } else {
+                if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
+                    document.body.setAttribute('data-theme', 'dark');
+                } else {
+                    document.body.removeAttribute('data-theme');
+                }
+            }
+            // Update buttons
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+            // Update settings desc
+            const desc = document.getElementById('setting-theme-desc');
+            if (desc) desc.textContent = MODE_NAMES[mode] || mode;
+        }
 
-        // Listen for theme changes
-        themeSelect.addEventListener('change', function() {
-            const selectedTheme = this.value;
-            localStorage.setItem('theme', selectedTheme);
-            applyTheme(selectedTheme);
+        // Initialize
+        applyColorScheme(currentScheme);
+        applyThemeMode(currentMode);
+
+        // Color dot clicks
+        document.querySelectorAll('.color-dot').forEach(dot => {
+            dot.addEventListener('click', () => applyColorScheme(dot.dataset.scheme));
         });
 
-        // Listen for system theme changes
-        if (window.matchMedia) {
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-                if (themeSelect.value === 'system') {
-                    applyTheme('system');
-                }
+        // Mode button clicks
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', () => applyThemeMode(btn.dataset.mode));
+        });
+
+        // System theme change listener
+        window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if (currentMode === 'system') applyThemeMode('system');
+        });
+
+        // === Tab Navigation ===
+        function switchTab(name) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(name)?.classList.add('active');
+            document.querySelector(`.tab-item[data-tab="${name}"]`)?.classList.add('active');
+            document.querySelector(`.nav-item[data-nav="${name}"]`)?.classList.add('active');
+        }
+
+        document.querySelectorAll('.tab-item').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
+        document.querySelectorAll('.nav-item[data-nav]').forEach(n => n.addEventListener('click', () => switchTab(n.dataset.nav)));
+
+        // Re-trigger bar chart animation on statistics tab switch
+        function replayBars() {
+            document.querySelectorAll('.bar-fill').forEach(bar => {
+                const w = bar.style.width;
+                bar.style.width = '0';
+                requestAnimationFrame(() => requestAnimationFrame(() => bar.style.width = w));
             });
         }
-        
-        // Tab Navigation
-        const tabs = document.querySelectorAll('.nav-tab');
-        const diaryScreen = document.getElementById('diary-screen');
-        const statisticsScreen = document.getElementById('statistics-screen');
-        const calendarScreen = document.getElementById('calendar-screen');
-        const settingsScreen = document.getElementById('settings-screen');
+        const origSwitch = switchTab;
+        switchTab = function(name) { origSwitch(name); if (name === 'statistics') replayBars(); };
 
-        // All screens array
-        const screens = [diaryScreen, statisticsScreen, calendarScreen, settingsScreen];
+        // === Modal ===
+        const modal = document.getElementById('modal');
+        document.getElementById('fab-btn').addEventListener('click', () => modal.classList.add('active'));
+        document.getElementById('modal-close').addEventListener('click', () => modal.classList.remove('active'));
+        modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active'); });
 
-        function switchScreen(screenName) {
-            // Hide all screens
-            screens.forEach(screen => screen.style.display = 'none');
+        // === Emotion Selection ===
+        document.querySelectorAll('.emotion-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('.emotion-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+            });
+        });
 
-            // Remove active class from all tabs and nav items
-            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-
-            // Show selected screen and update active states
-            switch(screenName) {
-                case 'diary':
-                    diaryScreen.style.display = 'block';
-                    break;
-                case 'statistics':
-                    statisticsScreen.style.display = 'block';
-                    break;
-                case 'calendar':
-                    calendarScreen.style.display = 'block';
-                    break;
-                case 'settings':
-                    settingsScreen.style.display = 'block';
-                    break;
-            }
-
-            // Update top tab active state
-            const activeTab = document.querySelector(`.nav-tab[data-tab="${screenName}"]`);
-            if (activeTab) {
-                activeTab.classList.add('active');
-            }
-
-            // Update bottom nav active state for all screens
-            screens.forEach(screen => {
-                const navItems = screen.querySelectorAll('.nav-item');
-                navItems.forEach(item => {
-                    const label = item.querySelector('.nav-label');
-                    if (label) {
-                        const labelText = label.textContent;
-                        if ((screenName === 'diary' && labelText === '日记') ||
-                            (screenName === 'statistics' && labelText === '统计') ||
-                            (screenName === 'calendar' && labelText === '日历') ||
-                            (screenName === 'settings' && labelText === '设置')) {
-                            item.classList.add('active');
-                        }
+        // === Chip Selection ===
+        document.querySelectorAll('.modal-section').forEach(section => {
+            const title = section.querySelector('.modal-section-title')?.textContent;
+            section.querySelectorAll('.chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    if (title === '天气') {
+                        section.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+                        chip.classList.add('selected');
+                    } else if (title === '活动') {
+                        chip.classList.toggle('selected');
                     }
                 });
             });
-        }
-
-        // Top tabs click handler
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                const tabName = this.getAttribute('data-tab');
-                switchScreen(tabName);
-            });
         });
 
-        // Bottom Navigation
-        document.addEventListener('click', function(e) {
-            const navItem = e.target.closest('.nav-item');
-            if (navItem && !navItem.classList.contains('center-space')) {
-                const label = navItem.querySelector('.nav-label');
-                if (label) {
-                    const labelText = label.textContent;
-                    switch(labelText) {
-                        case '日记':
-                            switchScreen('diary');
-                            break;
-                        case '统计':
-                            switchScreen('statistics');
-                            break;
-                        case '日历':
-                            switchScreen('calendar');
-                            break;
-                        case '设置':
-                            switchScreen('settings');
-                            break;
-                    }
-                }
-            }
-        });
-
-        // Quick Record Modal
-        const modal = document.getElementById('quick-record-modal');
-        const closeModal = document.getElementById('close-modal');
-        const fabButtons = document.querySelectorAll('.fab');
-
-        // FAB click handlers
-        fabButtons.forEach(fab => {
-            fab.addEventListener('click', function() {
-                modal.classList.add('active');
-            });
-        });
-
-        // Close modal handlers
-        closeModal.addEventListener('click', function() {
-            modal.classList.remove('active');
-        });
-
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-            }
-        });
-
-        // Quick Record Emotion Selection
-        const quickEmotionCards = document.querySelectorAll('.emotion-card-simple');
-
-        quickEmotionCards.forEach(card => {
-            card.addEventListener('click', function() {
-                quickEmotionCards.forEach(c => c.classList.remove('selected'));
-                this.classList.add('selected');
-            });
-        });
-
-        // Activity Tags Selection
-        const activityTags = document.querySelectorAll('.activity-tag');
-
-        activityTags.forEach(tag => {
-            tag.addEventListener('click', function() {
-                // Toggle selected state for activities (multiple selection allowed)
-                if (this.parentElement.parentElement.querySelector('.label-small').textContent === '活动') {
-                    this.classList.toggle('selected');
-                } else {
-                    // For weather, only one selection allowed
-                    const weatherTags = this.parentElement.querySelectorAll('.activity-tag');
-                    weatherTags.forEach(t => t.classList.remove('selected'));
-                    this.classList.add('selected');
-                }
-            });
-        });
-        
-        // Save Record Button will be initialized later after DateTime selector
-
-        // Time Range Selector
-        const timeRangeSelect = document.getElementById('time-range-select');
-        const customRangeContainer = document.getElementById('custom-range-container');
-        const startDateInput = document.getElementById('start-date');
-        const endDateInput = document.getElementById('end-date');
-
-        // Handle time range selection
-        timeRangeSelect.addEventListener('change', function() {
-            if (this.value === 'custom') {
-                customRangeContainer.classList.add('active');
-                // Set default dates (last 30 days)
-                const endDate = new Date();
-                const startDate = new Date();
-                startDate.setDate(startDate.getDate() - 30);
-
-                endDateInput.value = endDate.toISOString().split('T')[0];
-                startDateInput.value = startDate.toISOString().split('T')[0];
-            } else {
-                customRangeContainer.classList.remove('active');
-            }
-        });
-
-        // Reminder Toggle
-        const reminderToggle = document.getElementById('reminder-toggle');
-        const reminderTimeItem = document.getElementById('reminder-time-item');
-
-        // Handle reminder toggle
-        reminderToggle.addEventListener('change', function() {
-            if (this.checked) {
-                reminderTimeItem.style.display = 'flex';
-            } else {
-                reminderTimeItem.style.display = 'none';
-            }
-        });
-
-        // Initialize reminder time visibility
-        if (!reminderToggle.checked) {
-            reminderTimeItem.style.display = 'none';
-        }
-
-        // Calendar Navigation
-        const prevMonthBtn = document.getElementById('prev-month');
-        const nextMonthBtn = document.getElementById('next-month');
-        const calendarTitle = document.getElementById('calendar-title');
-        const calendarDays = document.getElementById('calendar-days');
-
-        let currentDate = new Date();
-        let currentMonth = currentDate.getMonth();
-        let currentYear = currentDate.getFullYear();
-
-        const monthNames = [
-            '1月', '2月', '3月', '4月', '5月', '6月',
-            '7月', '8月', '9月', '10月', '11月', '12月'
-        ];
-
-        // Sample emotion data for calendar
-        const emotionData = {
-            '2024-1-1': '😊',
-            '2024-1-2': '😌',
-            '2024-1-3': '🥺',
-            '2024-1-5': '😰',
-            '2024-1-7': '😊',
-            '2024-1-10': '😔',
-            '2024-1-12': '😌',
-            '2024-1-15': '😊',
-            '2024-1-18': '🥺',
-            '2024-1-20': '😢',
-            '2024-1-22': '😌',
-            '2024-1-25': '😊',
-            '2024-1-28': '😔',
-            '2024-1-30': '😊'
-        };
-
-        function updateCalendar() {
-            // Update title
-            calendarTitle.textContent = `${currentYear}年${monthNames[currentMonth]}`;
-
-            // Clear calendar days
-            calendarDays.innerHTML = '';
-
-            // Get first day of month
-            const firstDay = new Date(currentYear, currentMonth, 1);
-            const lastDay = new Date(currentYear, currentMonth + 1, 0);
-            const prevLastDay = new Date(currentYear, currentMonth, 0);
-
-            const firstDayOfWeek = firstDay.getDay();
-            const daysInMonth = lastDay.getDate();
-            const daysInPrevMonth = prevLastDay.getDate();
-
-            // Add previous month's trailing days
-            for (let i = firstDayOfWeek - 1; i >= 0; i--) {
-                const dayDiv = document.createElement('div');
-                dayDiv.className = 'calendar-day other-month';
-                dayDiv.innerHTML = `
-                    <div class="calendar-day-number">${daysInPrevMonth - i}</div>
-                `;
-                calendarDays.appendChild(dayDiv);
-            }
-
-            // Add current month's days
-            const today = new Date();
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dayDiv = document.createElement('div');
-                dayDiv.className = 'calendar-day';
-
-                // Check if this is today
-                if (currentYear === today.getFullYear() &&
-                    currentMonth === today.getMonth() &&
-                    day === today.getDate()) {
-                    dayDiv.classList.add('today');
-                }
-
-                // Check if there's emotion data for this day
-                const dateKey = `${currentYear}-${currentMonth + 1}-${day}`;
-                const emotion = emotionData[dateKey];
-
-                dayDiv.innerHTML = `
-                    <div class="calendar-day-number">${day}</div>
-                    ${emotion ? `<div class="calendar-day-emoji">${emotion}</div>` : ''}
-                `;
-
-                calendarDays.appendChild(dayDiv);
-            }
-
-            // Add next month's leading days
-            const totalCells = calendarDays.children.length;
-            const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
-            for (let day = 1; day <= remainingCells; day++) {
-                const dayDiv = document.createElement('div');
-                dayDiv.className = 'calendar-day other-month';
-                dayDiv.innerHTML = `
-                    <div class="calendar-day-number">${day}</div>
-                `;
-                calendarDays.appendChild(dayDiv);
-            }
-        }
-
-        // Calendar navigation event handlers
-        prevMonthBtn.addEventListener('click', function() {
-            currentMonth--;
-            if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
-            updateCalendar();
-        });
-
-        nextMonthBtn.addEventListener('click', function() {
-            currentMonth++;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
-            updateCalendar();
-        });
-
-        // Initialize calendar
-        updateCalendar();
-
-        // DateTime Selector
-        const dateSelector = document.getElementById('date-selector');
-        const timeSelector = document.getElementById('time-selector');
-        const currentDateElement = document.getElementById('current-date');
-        const currentTimeElement = document.getElementById('current-time');
-
+        // === DateTime ===
         let selectedDate = new Date();
+        const dateEl = document.getElementById('display-date');
+        const timeEl = document.getElementById('display-time');
 
-        // Update date and time display
-        function updateDateTime() {
-            if (!currentDateElement || !currentTimeElement) return;
-
-            const now = selectedDate;
-
-            // Format date
-            const year = now.getFullYear();
-            const month = now.getMonth() + 1;
-            const day = now.getDate();
-            currentDateElement.textContent = `${year}年${month}月${day}日`;
-
-            // Format time
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const period = hours >= 12 ? '下午' : '上午';
-            const displayHours = hours === 0 ? 12 : (hours > 12 ? hours - 12 : hours);
-            const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
-            currentTimeElement.textContent = `${period} ${displayHours}:${displayMinutes}`;
+        function updateDisplay() {
+            const d = selectedDate;
+            dateEl.textContent = `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+            const h = d.getHours(), m = d.getMinutes();
+            timeEl.textContent = `${h >= 12 ? '下午' : '上午'} ${h === 0 ? 12 : h > 12 ? h - 12 : h}:${m < 10 ? '0' + m : m}`;
         }
+        updateDisplay();
 
-        // Initialize with current date/time
-        updateDateTime();
-
-        // Update every minute
-        setInterval(updateDateTime, 60000);
-
-        // Date picker (using native HTML5 date input)
-        if (dateSelector) {
-            dateSelector.addEventListener('click', function() {
-            const dateInput = document.createElement('input');
-            dateInput.type = 'date';
-            dateInput.value = selectedDate.toISOString().split('T')[0];
-            dateInput.style.position = 'absolute';
-            dateInput.style.opacity = '0';
-            document.body.appendChild(dateInput);
-
-            dateInput.addEventListener('change', function() {
-                const newDate = new Date(this.value + 'T' + selectedDate.toTimeString().split(' ')[0]);
-                selectedDate = newDate;
-                updateDateTime();
-                document.body.removeChild(dateInput);
-            });
-
-            dateInput.click();
-
-            // Cleanup if cancelled
-            dateInput.addEventListener('blur', function() {
-                setTimeout(() => {
-                    if (document.body.contains(dateInput)) {
-                        document.body.removeChild(dateInput);
-                    }
-                }, 100);
-            });
+        document.getElementById('date-picker').addEventListener('click', () => {
+            const inp = Object.assign(document.createElement('input'), { type: 'date', value: selectedDate.toISOString().split('T')[0], style: 'position:absolute;opacity:0' });
+            document.body.appendChild(inp);
+            inp.addEventListener('change', () => { selectedDate = new Date(inp.value + 'T' + selectedDate.toTimeString().split(' ')[0]); updateDisplay(); inp.remove(); });
+            inp.addEventListener('blur', () => setTimeout(() => inp.parentNode && inp.remove(), 100));
+            inp.click();
         });
-        }
 
-        // Time picker (using native HTML5 time input)
-        if (timeSelector) {
-            timeSelector.addEventListener('click', function() {
-            const timeInput = document.createElement('input');
-            timeInput.type = 'time';
-            const hours = selectedDate.getHours();
-            const minutes = selectedDate.getMinutes();
-            timeInput.value = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
-            timeInput.style.position = 'absolute';
-            timeInput.style.opacity = '0';
-            document.body.appendChild(timeInput);
-
-            timeInput.addEventListener('change', function() {
-                const [hours, minutes] = this.value.split(':').map(Number);
-                selectedDate.setHours(hours);
-                selectedDate.setMinutes(minutes);
-                updateDateTime();
-                document.body.removeChild(timeInput);
-            });
-
-            timeInput.click();
-
-            // Cleanup if cancelled
-            timeInput.addEventListener('blur', function() {
-                setTimeout(() => {
-                    if (document.body.contains(timeInput)) {
-                        document.body.removeChild(timeInput);
-                    }
-                }, 100);
-            });
+        document.getElementById('time-picker').addEventListener('click', () => {
+            const h = selectedDate.getHours(), m = selectedDate.getMinutes();
+            const inp = Object.assign(document.createElement('input'), { type: 'time', value: `${h<10?'0'+h:h}:${m<10?'0'+m:m}`, style: 'position:absolute;opacity:0' });
+            document.body.appendChild(inp);
+            inp.addEventListener('change', () => { const [hh,mm] = inp.value.split(':').map(Number); selectedDate.setHours(hh); selectedDate.setMinutes(mm); updateDisplay(); inp.remove(); });
+            inp.addEventListener('blur', () => setTimeout(() => inp.parentNode && inp.remove(), 100));
+            inp.click();
         });
-        }
 
-        // Save button click handler
-        const saveButton = modal.querySelector('.button-filled');
-        if (saveButton) {
-            saveButton.addEventListener('click', function() {
-            // Get selected emotion
-            const selectedEmotion = modal.querySelector('.emotion-card-simple.selected');
-            const selectedWeather = modal.querySelector('.activity-section .activity-tag.selected');
-            const selectedActivities = modal.querySelectorAll('.activity-section:last-child .activity-tag.selected');
-            const noteText = modal.querySelector('.note-input').value;
-
-            // Here you would normally save to database
-            console.log('Saving record:', {
-                emotion: selectedEmotion?.querySelector('.emotion-name-simple')?.textContent,
-                weather: selectedWeather?.textContent,
-                activities: Array.from(selectedActivities).map(a => a.textContent),
-                note: noteText,
-                date: selectedDate.toLocaleDateString(),
-                time: selectedDate.toLocaleTimeString()
-            });
-
-            // Show success feedback
-            saveButton.textContent = '✓ 已保存';
-            saveButton.style.backgroundColor = 'var(--color-success)';
-
-            // Close modal after delay
-            setTimeout(() => {
-                modal.classList.remove('active');
-                // Reset button
-                saveButton.textContent = '保存记录';
-                saveButton.style.backgroundColor = '';
-                // Clear note
-                modal.querySelector('.note-input').value = '';
-                // Reset date to current
-                selectedDate = new Date();
-                updateDateTime();
-            }, 1500);
+        // === Save ===
+        document.getElementById('save-btn').addEventListener('click', function() {
+            this.textContent = '✓ 已保存';
+            this.style.background = 'var(--sage)';
+            setTimeout(() => { modal.classList.remove('active'); this.textContent = '保存记录'; this.style.background = ''; modal.querySelector('.note-area').value = ''; selectedDate = new Date(); updateDisplay(); }, 1200);
         });
+
+        // === Reminder Toggle ===
+        const remToggle = document.getElementById('reminder-toggle');
+        const remTime = document.getElementById('reminder-time-item');
+        remToggle.addEventListener('change', () => { remTime.style.display = remToggle.checked ? 'flex' : 'none'; });
+
+        // === Calendar ===
+        let calMonth = new Date().getMonth(), calYear = new Date().getFullYear();
+        const calTitle = document.getElementById('calendar-title');
+        const calDays = document.getElementById('calendar-days');
+        // Generate mood data for current month dynamically
+        const emoData = (() => {
+            const now = new Date(), y = now.getFullYear(), m = now.getMonth() + 1;
+            const emojis = ['😊','😌','🥺','😰','😢','😔'];
+            const data = {};
+            [1,2,3,5,7,10,12,15,18,20,22,25,28].forEach((d, i) => {
+                if (d <= new Date(y, m, 0).getDate()) data[`${y}-${m}-${d}`] = emojis[i % emojis.length];
+            });
+            return data;
+        })();
+
+        function renderCal() {
+            const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+            calTitle.textContent = `${calYear}年${months[calMonth]}`;
+            calDays.innerHTML = '';
+            const first = new Date(calYear, calMonth, 1), last = new Date(calYear, calMonth + 1, 0), prevLast = new Date(calYear, calMonth, 0);
+            const dow = first.getDay(), dim = last.getDate(), pld = prevLast.getDate();
+            const today = new Date();
+            for (let i = dow - 1; i >= 0; i--) calDays.innerHTML += `<div class="cal-day other"><span class="cal-day-num">${pld - i}</span></div>`;
+            for (let d = 1; d <= dim; d++) {
+                const isToday = calYear === today.getFullYear() && calMonth === today.getMonth() && d === today.getDate();
+                const emo = emoData[`${calYear}-${calMonth+1}-${d}`];
+                calDays.innerHTML += `<div class="cal-day${isToday ? ' today' : ''}"><span class="cal-day-num">${d}</span>${emo ? `<span class="cal-day-emoji">${emo}</span>` : ''}</div>`;
+            }
+            const total = calDays.children.length, rem = total % 7 === 0 ? 0 : 7 - (total % 7);
+            for (let d = 1; d <= rem; d++) calDays.innerHTML += `<div class="cal-day other"><span class="cal-day-num">${d}</span></div>`;
         }
+
+        document.getElementById('prev-month').addEventListener('click', () => { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCal(); });
+        document.getElementById('next-month').addEventListener('click', () => { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCal(); });
+        renderCal();
     </script>
 </body>
 </html>
