@@ -1,5 +1,7 @@
 # Her Mood Barometer
 
+[![CI](https://github.com/LiangLliu/her-mood-barometer/actions/workflows/ci.yml/badge.svg)](https://github.com/LiangLliu/her-mood-barometer/actions/workflows/ci.yml)
+
 **她的晴雨表** — A beautiful mood tracker with journal-like design, mood trends, and multi-language support.
 
 ## Features
