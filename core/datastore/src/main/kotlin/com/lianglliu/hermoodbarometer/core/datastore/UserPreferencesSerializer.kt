@@ -7,9 +7,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
 
-/**
- * An [Serializer] for the [UserPreferences] proto.
- */
+/** An [Serializer] for the [UserPreferences] proto. */
 class UserPreferencesSerializer @Inject constructor() : Serializer<UserPreferences> {
 
     override val defaultValue: UserPreferences = getCustomInstance()
@@ -27,5 +25,5 @@ class UserPreferencesSerializer @Inject constructor() : Serializer<UserPreferenc
 }
 
 internal fun getCustomInstance() = userPreferences {
-    useDynamicColor = true
+    colorSchemeConfig = ColorSchemeConfigProto.COLOR_SCHEME_CONFIG_WARM
 }

@@ -22,6 +22,7 @@ import com.lianglliu.hermoodbarometer.MainActivityUiState.Loading
 import com.lianglliu.hermoodbarometer.core.analytics.AnalyticsHelper
 import com.lianglliu.hermoodbarometer.core.analytics.LocalAnalyticsHelper
 import com.lianglliu.hermoodbarometer.core.designsystem.theme.HerMoodBarometerTheme
+import com.lianglliu.hermoodbarometer.core.model.data.ColorSchemeConfig
 import com.lianglliu.hermoodbarometer.core.ui.LocalTimeZone
 import com.lianglliu.hermoodbarometer.ui.MoodApp
 import com.lianglliu.hermoodbarometer.ui.rememberAppState
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             mutableStateOf(
                 ThemeSettings(
                     darkTheme = resources.configuration.isSystemInDarkTheme,
-                    dynamicTheme = Loading.shouldUseDynamicTheming,
+                    colorSchemeConfig = Loading.colorSchemeConfig,
                 )
             )
 
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 combine(isSystemInDarkTheme(), viewModel.uiState) { systemDark, uiState ->
                         ThemeSettings(
                             darkTheme = uiState.shouldUseDarkTheme(systemDark),
-                            dynamicTheme = uiState.shouldUseDynamicTheming,
+                            colorSchemeConfig = uiState.colorSchemeConfig,
                         )
                     }
                     .onEach { themeSettings = it }
@@ -114,7 +115,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 HerMoodBarometerTheme(
                     darkTheme = themeSettings.darkTheme,
-                    dynamicTheme = themeSettings.dynamicTheme,
+                    colorSchemeConfig = themeSettings.colorSchemeConfig,
                 ) {
                     MoodApp(appState)
                 }
@@ -123,4 +124,4 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-data class ThemeSettings(val darkTheme: Boolean, val dynamicTheme: Boolean)
+data class ThemeSettings(val darkTheme: Boolean, val colorSchemeConfig: ColorSchemeConfig)

@@ -1,4 +1,4 @@
-# 她的晴雨表（Her Mood Barometer）开发蓝图（v4.2 | Checklist）
+# 她的晴雨表（Her Mood Barometer）开发蓝图（v4.3 | Checklist）
 
 采用最新 Android 最佳实践：Compose、Material 3、Navigation Compose、Room、DataStore、Hilt、WorkManager、App Startup、SplashScreen、per‑app locales、Clean Architecture + MVVM。
 
@@ -7,7 +7,7 @@
 ## 1) 总览（模块清单）
 - [x] 架构与分层（Clean Architecture + MVVM + Hilt）
 - [x] 导航（单 Activity，Navigation Compose + BottomNav）
-- [x] 主题（系统/浅/深；首帧前设置 NightMode，防闪烁）
+- [x] 主题（3套配色方案暖阳/碧海/花语 + Dynamic；浅/深模式；ColorSchemeConfig + ExtendedColorScheme）
 - [x] 国际化引擎（per‑app locales；默认“跟随系统”；BCP‑47：`zh‑TW`）
 - [x] 冷启动语言一致性（AndroidX Startup + MainActivity 首帧前同步应用）
 - [x] 记录页（预定义/自定义情绪、强度、备注、保存）
@@ -200,6 +200,34 @@
     - [x] 一致性验证：文档与代码状态完全一致
   - **关联 PR/Issue**：[待创建] PR #XXX - Update project documentation
 
+- [x] **[2026-03-24] DesignSystem 模块重构（配色方案 + 扩展色彩 + 字体）**：
+  - **变更类型**：架构重构 + 设计系统升级
+  - **负责人**：AI Assistant
+  - **变更摘要**：全面重构 designsystem 模块，实现 3 套配色方案（暖阳/碧海/花语）+ Dynamic 色彩、22 色扩展语义色彩系统、Noto Serif SC 字体、BottomSheet 配色选择器
+  - **关键实现点**：
+    - [x] 新增 `ColorSchemeConfig` 枚举（WARM/OCEAN/PETAL/DYNAMIC），替换 `useDynamicColor: Boolean`
+    - [x] 新增 Proto DataStore `ColorSchemeConfigProto`，完成数据层全链路替换
+    - [x] 重写 `Color.kt`：6 套 Material 3 ColorScheme（3 方案 × 浅/深）
+    - [x] 新增 `ExtendedColorScheme`：22 个语义颜色 + `MoodColorMapping` 情绪色映射
+    - [x] 重写 `Theme.kt`：接受 `ColorSchemeConfig`，通过 `staticCompositionLocalOf` 提供扩展色
+    - [x] 重写 `Type.kt`：Noto Serif SC（Google Fonts downloadable）用于标题，系统默认字体用于正文
+    - [x] 删除 4 个旧 TTF 字体文件（~570KB APK 瘦身）
+    - [x] 新增 `ColorSchemeBottomSheet`：设置页配色方案选择器（accent 色点 + 5 色预览条）
+    - [x] 更新 5 种语言的 9 个新增字符串资源
+    - [x] 修复 3 个 Kotlin build warning（SystemTrayNotifier、StatisticsScreen、MoodApp）
+  - **并发/生命周期风险**：无（静态配色定义，`remember` 缓存避免重复计算）
+  - **向后兼容性**：❌ 破坏性变更（开发期，Proto DataStore field 直接替换）
+  - **性能优化**：`@Immutable` + `staticCompositionLocalOf` + `remember(config, darkTheme)` + 顶级 val 实例
+  - **回滚方案**：`git revert` + 重新安装应用
+  - **QA 验证步骤**：
+    - [x] 构建成功：`./gradlew assembleDemoDebug`
+    - [x] 单元测试通过：`./gradlew test`
+    - [x] 代码审查通过（两轮 simplify + code review）
+    - [x] i18n 验证通过（5 种语言一致）
+    - [x] Build warning 修复验证通过
+    - [ ] 设备验证：3 套配色 × 浅/深模式切换正常
+    - [ ] 字体验证：标题使用 Noto Serif SC，正文使用系统字体
+
 ---
 
 ## 4) 待办（TODO by Priority）
@@ -253,8 +281,8 @@
 ---
 
 ## 8) 版本信息
-- 目标 SDK：36；min SDK：26；Kotlin：2.2.0；Gradle：8.14
-- 文档版本：v4.2（2025‑08）
+- 目标 SDK：36；min SDK：26；Kotlin：2.3.20；AGP：9.0.1；Gradle：9.1.0
+- 文档版本：v4.3（2026‑03）
 
 ---
 

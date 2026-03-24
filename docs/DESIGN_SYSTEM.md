@@ -241,13 +241,17 @@ document.body.setAttribute('data-theme', 'dark');  // or remove for light
 
 Both are persisted to `localStorage` with keys `colorScheme` and `themeMode`.
 
-### Android App (Planned)
+### Android App (Implemented)
 
-The app should implement color scheme switching via:
-1. `UserData.colorScheme` field in DataStore preferences
-2. `ColorSchemeConfig` enum: `WARM`, `OCEAN`, `PETAL`
-3. Compose theme maps the scheme to the correct `ColorScheme` in `HerMoodBarometerTheme`
-4. Settings screen provides a visual color picker (3 colored circles)
+The app implements color scheme switching via:
+1. `ColorSchemeConfig` enum: `WARM`, `OCEAN`, `PETAL`, `DYNAMIC`
+2. `UserData.colorSchemeConfig` field persisted via Proto DataStore
+3. `HerMoodBarometerTheme` composable resolves the correct `ColorScheme` + `ExtendedColorScheme`
+4. `ExtendedColorScheme` provides 22 semantic colors (5 mood tiers × 3 levels + 7 utility colors)
+5. `ExtendedTheme.colors` accessor via `staticCompositionLocalOf`
+6. Settings screen provides a `ColorSchemeBottomSheet` with visual color picker (accent dot + 5-color preview strip)
+7. Typography: Noto Serif SC (Google Fonts) for display/headline/title; system default for body/label
+8. `DYNAMIC` option (Android 12+ wallpaper-based) gated by `supportsDynamicTheming()`
 
 ---
 

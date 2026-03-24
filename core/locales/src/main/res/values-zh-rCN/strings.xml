@@ -97,7 +97,15 @@
     <string name="system_theme">跟随系统</string>
     <string name="light_theme">浅色</string>
     <string name="dark_theme">深色</string>
-    <string name="dynamic_color">动态颜色</string>
+    <string name="color_scheme_title">配色方案</string>
+    <string name="color_scheme_warm">暖阳</string>
+    <string name="color_scheme_warm_desc">温暖大地色，如烛光下的日记</string>
+    <string name="color_scheme_ocean">碧海</string>
+    <string name="color_scheme_ocean_desc">清凉海洋色，如黎明海岸</string>
+    <string name="color_scheme_petal">花语</string>
+    <string name="color_scheme_petal_desc">柔和粉色调，如樱花低语</string>
+    <string name="color_scheme_dynamic">系统壁纸</string>
+    <string name="color_scheme_dynamic_desc">根据壁纸自动生成配色</string>
 
     <!-- Notifications -->
     <string name="notifications">通知</string>

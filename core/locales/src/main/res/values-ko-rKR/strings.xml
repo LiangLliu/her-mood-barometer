@@ -97,7 +97,15 @@
     <string name="system_theme">시스템</string>
     <string name="light_theme">라이트</string>
     <string name="dark_theme">다크</string>
-    <string name="dynamic_color">다이나믹 색상</string>
+    <string name="color_scheme_title">색상 구성</string>
+    <string name="color_scheme_warm">따뜻한 햇살</string>
+    <string name="color_scheme_warm_desc">따뜻한 대지색, 촛불 아래 일기처럼</string>
+    <string name="color_scheme_ocean">푸른 바다</string>
+    <string name="color_scheme_ocean_desc">시원한 바다색, 새벽의 해변처럼</string>
+    <string name="color_scheme_petal">꽃말</string>
+    <string name="color_scheme_petal_desc">부드러운 핑크톤, 벚꽃의 속삭임처럼</string>
+    <string name="color_scheme_dynamic">시스템 배경화면</string>
+    <string name="color_scheme_dynamic_desc">배경화면에서 자동으로 색상 생성</string>
 
     <!-- Notifications -->
     <string name="notifications">알림</string>

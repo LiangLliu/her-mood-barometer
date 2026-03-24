@@ -264,7 +264,7 @@ fun MoodApp(
                     emotionId = emotion.predefinedId,
                     emotionName = emotionName,
                     emotionEmoji = emotion.emoji,
-                    weather = weather?.name,
+                    weather = weather.name,
                     activities = activities.map { it.name },
                     note = note,
                     timestamp = dateTime,

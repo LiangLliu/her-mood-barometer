@@ -97,7 +97,15 @@
     <string name="system_theme">システム</string>
     <string name="light_theme">ライト</string>
     <string name="dark_theme">ダーク</string>
-    <string name="dynamic_color">ダイナミックカラー</string>
+    <string name="color_scheme_title">カラースキーム</string>
+    <string name="color_scheme_warm">暖陽</string>
+    <string name="color_scheme_warm_desc">暖かな大地の色、キャンドルの灯りのような日記</string>
+    <string name="color_scheme_ocean">碧海</string>
+    <string name="color_scheme_ocean_desc">涼やかな海の色、夜明けの海辺のように</string>
+    <string name="color_scheme_petal">花語</string>
+    <string name="color_scheme_petal_desc">柔らかなピンク、桜のささやきのように</string>
+    <string name="color_scheme_dynamic">システム壁紙</string>
+    <string name="color_scheme_dynamic_desc">壁紙から自動的に配色を生成</string>
 
     <!-- Notifications -->
     <string name="notifications">通知</string>

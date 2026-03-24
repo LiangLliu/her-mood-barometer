@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.lianglliu.hermoodbarometer.MainActivityUiState.Loading
 import com.lianglliu.hermoodbarometer.core.domain.AddEmotionRecordUseCase
 import com.lianglliu.hermoodbarometer.core.model.data.Activity
+import com.lianglliu.hermoodbarometer.core.model.data.ColorSchemeConfig
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig.DARK
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig.FOLLOW_SYSTEM
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig.LIGHT
@@ -136,7 +137,7 @@ sealed interface MainActivityUiState {
     data object Loading : MainActivityUiState
 
     data class Success(val userData: UserData) : MainActivityUiState {
-        override val shouldUseDynamicTheming = userData.useDynamicColor
+        override val colorSchemeConfig: ColorSchemeConfig = userData.colorSchemeConfig
 
         override fun shouldUseDarkTheme(isSystemDarkTheme: Boolean) =
             when (userData.darkThemeConfig) {
@@ -148,8 +149,8 @@ sealed interface MainActivityUiState {
 
     fun shouldKeepSplashScreen() = this is Loading
 
-    val shouldUseDynamicTheming: Boolean
-        get() = false
+    val colorSchemeConfig: ColorSchemeConfig
+        get() = ColorSchemeConfig.WARM
 
     fun shouldUseDarkTheme(isSystemDarkTheme: Boolean) = isSystemDarkTheme
 }

@@ -97,7 +97,15 @@
     <string name="system_theme">System</string>
     <string name="light_theme">Light</string>
     <string name="dark_theme">Dark</string>
-    <string name="dynamic_color">Dynamic Color</string>
+    <string name="color_scheme_title">Color Scheme</string>
+    <string name="color_scheme_warm">Warm Sun</string>
+    <string name="color_scheme_warm_desc">Warm earth tones, like a candlelit journal</string>
+    <string name="color_scheme_ocean">Azure Sea</string>
+    <string name="color_scheme_ocean_desc">Cool ocean tones, like a seaside terrace at dawn</string>
+    <string name="color_scheme_petal">Flower Whisper</string>
+    <string name="color_scheme_petal_desc">Soft pink tones, like cherry blossoms</string>
+    <string name="color_scheme_dynamic">System Wallpaper</string>
+    <string name="color_scheme_dynamic_desc">Auto-generate colors from wallpaper</string>
 
     <!-- Notifications -->
     <string name="notifications">Notifications</string>

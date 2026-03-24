@@ -1,7 +1,6 @@
 package com.lianglliu.hermoodbarometer.feature.settings
 
 import android.util.Log
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -33,26 +32,24 @@ import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Language
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.MoreVert
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Notifications
 import com.lianglliu.hermoodbarometer.core.designsystem.icon.outlined.Palette
-import com.lianglliu.hermoodbarometer.core.designsystem.theme.supportsDynamicTheming
 import com.lianglliu.hermoodbarometer.core.locales.R
+import com.lianglliu.hermoodbarometer.core.model.data.ColorSchemeConfig
 import com.lianglliu.hermoodbarometer.core.model.data.DarkThemeConfig
 import com.lianglliu.hermoodbarometer.core.permissions.PermissionCheckResult
+import com.lianglliu.hermoodbarometer.core.permissions.PermissionHandler
 import com.lianglliu.hermoodbarometer.core.ui.component.LoadingState
-import com.lianglliu.hermoodbarometer.core.ui.component.ScreenContainer
 import com.lianglliu.hermoodbarometer.feature.settings.SettingsUiState.Loading
+import com.lianglliu.hermoodbarometer.feature.settings.components.ColorSchemeBottomSheet
 import com.lianglliu.hermoodbarometer.feature.settings.components.LanguageDialog
 import com.lianglliu.hermoodbarometer.feature.settings.components.SectionTitle
 import com.lianglliu.hermoodbarometer.feature.settings.components.ThemeDialog
 import com.lianglliu.hermoodbarometer.feature.settings.components.TimePickerDialog
-import com.lianglliu.hermoodbarometer.core.permissions.PermissionHandler
 
-/**
- * 设置页面
- * 应用的设置和配置页面
- */
+/** 设置页面 应用的设置和配置页面 */
 @Composable
 fun SettingsScreen(
-    onNavigateToAboutLicenses: () -> Unit = {}, viewModel: SettingsViewModel = hiltViewModel()
+    onNavigateToAboutLicenses: () -> Unit = {},
+    viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val settingsState by viewModel.settingsUiState.collectAsStateWithLifecycle()
     val permissionState by viewModel.permissionState.collectAsStateWithLifecycle()
@@ -69,13 +66,13 @@ fun SettingsScreen(
                 onPermissionsDenied = {
                     // 用户拒绝了权限，清除状态
                     viewModel.clearPermissionState()
-                }
+                },
             ) {
                 // 正常显示设置界面
                 SettingsScreenContent(
                     settingsState = settingsState,
                     onLicensesClick = onNavigateToAboutLicenses,
-                    onDynamicColorPreferenceUpdate = viewModel::updateDynamicColorPreference,
+                    onColorSchemeConfigUpdate = viewModel::updateColorSchemeConfig,
                     onDarkThemeConfigUpdate = viewModel::updateDarkThemeConfig,
                     onLanguageUpdate = viewModel::updateLanguage,
                     onReminderEnabledChanged = viewModel::updateReminderEnabled,
@@ -89,7 +86,7 @@ fun SettingsScreen(
             SettingsScreenContent(
                 settingsState = settingsState,
                 onLicensesClick = onNavigateToAboutLicenses,
-                onDynamicColorPreferenceUpdate = viewModel::updateDynamicColorPreference,
+                onColorSchemeConfigUpdate = viewModel::updateColorSchemeConfig,
                 onDarkThemeConfigUpdate = viewModel::updateDarkThemeConfig,
                 onLanguageUpdate = viewModel::updateLanguage,
                 onReminderEnabledChanged = viewModel::updateReminderEnabled,
@@ -104,7 +101,7 @@ fun SettingsScreen(
 private fun SettingsScreenContent(
     settingsState: SettingsUiState,
     onLicensesClick: () -> Unit,
-    onDynamicColorPreferenceUpdate: (Boolean) -> Unit,
+    onColorSchemeConfigUpdate: (ColorSchemeConfig) -> Unit,
     onDarkThemeConfigUpdate: (DarkThemeConfig) -> Unit,
     onLanguageUpdate: (String) -> Unit,
     onReminderEnabledChanged: (Boolean) -> Unit,
@@ -112,30 +109,22 @@ private fun SettingsScreenContent(
 ) {
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(text = stringResource(R.string.settings)) }
-            )
+            CenterAlignedTopAppBar(title = { Text(text = stringResource(R.string.settings)) })
         }
     ) { paddingValues ->
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentPadding = PaddingValues(vertical = 8.dp)
+            modifier = Modifier.fillMaxSize().padding(paddingValues),
+            contentPadding = PaddingValues(vertical = 8.dp),
         ) {
             when (settingsState) {
                 Loading -> {
-                    item {
-                        LoadingState(
-                            modifier = Modifier.fillMaxSize(),
-                        )
-                    }
+                    item { LoadingState(modifier = Modifier.fillMaxSize()) }
                 }
 
                 is SettingsUiState.Success -> {
                     appearance(
                         settings = settingsState.settings,
-                        onDynamicColorPreferenceUpdate = onDynamicColorPreferenceUpdate,
+                        onColorSchemeConfigUpdate = onColorSchemeConfigUpdate,
                         onDarkThemeConfigUpdate = onDarkThemeConfigUpdate,
                         onLanguageUpdate = onLanguageUpdate,
                     )
@@ -149,20 +138,16 @@ private fun SettingsScreenContent(
                         },
                     )
 
-                    about(
-                        onAboutLicensesClick = onLicensesClick
-                    )
+                    about(onAboutLicensesClick = onLicensesClick)
                 }
             }
         }
     }
 }
 
-
 private fun LazyListScope.appearance(
     settings: UserEditableSettings,
-    supportDynamicColor: Boolean = supportsDynamicTheming(),
-    onDynamicColorPreferenceUpdate: (Boolean) -> Unit,
+    onColorSchemeConfigUpdate: (ColorSchemeConfig) -> Unit,
     onDarkThemeConfigUpdate: (DarkThemeConfig) -> Unit,
     onLanguageUpdate: (String) -> Unit,
 ) {
@@ -173,10 +158,7 @@ private fun LazyListScope.appearance(
         ListItem(
             headlineContent = { Text(stringResource(R.string.language)) },
             leadingContent = {
-                Icon(
-                    imageVector = AppIcons.Outlined.Language,
-                    contentDescription = null,
-                )
+                Icon(imageVector = AppIcons.Outlined.Language, contentDescription = null)
             },
             supportingContent = { Text(settings.language.displayName) },
             onClick = { showLanguageDialog = true },
@@ -192,20 +174,18 @@ private fun LazyListScope.appearance(
         }
     }
     item {
-        val themeOptions = listOf(
-            stringResource(R.string.system_theme),
-            stringResource(R.string.light_theme),
-            stringResource(R.string.dark_theme),
-        )
+        val themeOptions =
+            listOf(
+                stringResource(R.string.system_theme),
+                stringResource(R.string.light_theme),
+                stringResource(R.string.dark_theme),
+            )
         var showThemeDialog by rememberSaveable { mutableStateOf(false) }
 
         ListItem(
             headlineContent = { Text(stringResource(R.string.theme)) },
             leadingContent = {
-                Icon(
-                    imageVector = AppIcons.Outlined.Palette,
-                    contentDescription = null,
-                )
+                Icon(imageVector = AppIcons.Outlined.Palette, contentDescription = null)
             },
             supportingContent = { Text(themeOptions.elementAt(settings.darkThemeConfig.ordinal)) },
             onClick = { showThemeDialog = true },
@@ -221,23 +201,31 @@ private fun LazyListScope.appearance(
         }
     }
     item {
-        AnimatedVisibility(supportDynamicColor) {
-            ToggableListItem(
-                headlineContent = { Text(stringResource(R.string.dynamic_color)) },
-                leadingContent = {
-                    Icon(
-                        imageVector = AppIcons.Outlined.FormatPaint,
-                        contentDescription = null,
-                    )
-                },
-                trailingContent = {
-                    AppSwitch(
-                        checked = settings.useDynamicColor,
-                        onCheckedChange = null,
-                    )
-                },
-                checked = settings.useDynamicColor,
-                onCheckedChange = onDynamicColorPreferenceUpdate,
+        var showColorSchemeSheet by rememberSaveable { mutableStateOf(false) }
+
+        ListItem(
+            headlineContent = { Text(stringResource(R.string.color_scheme_title)) },
+            leadingContent = {
+                Icon(imageVector = AppIcons.Outlined.FormatPaint, contentDescription = null)
+            },
+            supportingContent = {
+                Text(
+                    when (settings.colorSchemeConfig) {
+                        ColorSchemeConfig.WARM -> stringResource(R.string.color_scheme_warm)
+                        ColorSchemeConfig.OCEAN -> stringResource(R.string.color_scheme_ocean)
+                        ColorSchemeConfig.PETAL -> stringResource(R.string.color_scheme_petal)
+                        ColorSchemeConfig.DYNAMIC -> stringResource(R.string.color_scheme_dynamic)
+                    }
+                )
+            },
+            onClick = { showColorSchemeSheet = true },
+        )
+
+        if (showColorSchemeSheet) {
+            ColorSchemeBottomSheet(
+                currentConfig = settings.colorSchemeConfig,
+                onConfigSelected = onColorSchemeConfigUpdate,
+                onDismiss = { showColorSchemeSheet = false },
             )
         }
     }
@@ -255,16 +243,10 @@ private fun LazyListScope.notification(
             headlineContent = { Text(stringResource(R.string.daily_reminder)) },
             supportingContent = { Text(stringResource(R.string.daily_reminder_description)) },
             leadingContent = {
-                Icon(
-                    imageVector = AppIcons.Outlined.Notifications,
-                    contentDescription = null,
-                )
+                Icon(imageVector = AppIcons.Outlined.Notifications, contentDescription = null)
             },
             trailingContent = {
-                AppSwitch(
-                    checked = settings.isReminderEnabled,
-                    onCheckedChange = null,
-                )
+                AppSwitch(checked = settings.isReminderEnabled, onCheckedChange = null)
             },
             checked = settings.isReminderEnabled,
             onCheckedChange = onReminderEnabledChanged,
@@ -277,53 +259,41 @@ private fun LazyListScope.notification(
             ListItem(
                 headlineContent = { Text(stringResource(R.string.reminder_time)) },
                 leadingContent = {
-                    Icon(
-                        imageVector = AppIcons.Outlined.MoreVert,
-                        contentDescription = null,
-                    )
+                    Icon(imageVector = AppIcons.Outlined.MoreVert, contentDescription = null)
                 },
                 supportingContent = { Text(settings.reminderTime) },
                 onClick = { showTimePickerDialog = !showTimePickerDialog },
             )
-
 
             //  提醒时间选择对话框
             if (showTimePickerDialog) {
                 TimePickerDialog(
                     currentTime = settings.reminderTime,
                     onTimeSelected = onTimeSelected,
-                    onDismiss = { showTimePickerDialog = false })
+                    onDismiss = { showTimePickerDialog = false },
+                )
             }
         }
     }
 }
 
-private fun LazyListScope.about(
-    onAboutLicensesClick: () -> Unit,
-) {
+private fun LazyListScope.about(onAboutLicensesClick: () -> Unit) {
     item { SectionTitle(stringResource(R.string.about)) }
     item {
         ListItem(
             headlineContent = { Text(stringResource(R.string.about_app)) },
             leadingContent = {
-                Icon(
-                    imageVector = AppIcons.Outlined.Info,
-                    contentDescription = null,
-                )
+                Icon(imageVector = AppIcons.Outlined.Info, contentDescription = null)
             },
             supportingContent = { Text(stringResource(R.string.about_app_description)) },
         )
     }
 
-
     item {
         ListItem(
             headlineContent = { Text(stringResource(R.string.licenses)) },
             leadingContent = {
-                Icon(
-                    imageVector = AppIcons.Outlined.HistoryEdu,
-                    contentDescription = null,
-                )
+                Icon(imageVector = AppIcons.Outlined.HistoryEdu, contentDescription = null)
             },
             supportingContent = { stringResource(R.string.licenses_description) },
             onClick = { onAboutLicensesClick },
@@ -333,14 +303,9 @@ private fun LazyListScope.about(
         ListItem(
             headlineContent = { Text(stringResource(R.string.app_name)) },
             leadingContent = {
-                Icon(
-                    imageVector = AppIcons.Outlined.Info,
-                    contentDescription = null,
-                )
+                Icon(imageVector = AppIcons.Outlined.Info, contentDescription = null)
             },
             supportingContent = { Text("${stringResource(R.string.version)}: 1.0.0") },
         )
     }
 }
-
-

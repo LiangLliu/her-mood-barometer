@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_package = "com.lianglliu.hermoodbarometer.core.datastore";
+option java_multiple_files = true;
+
+enum ColorSchemeConfigProto {
+  COLOR_SCHEME_CONFIG_UNSPECIFIED = 0;
+  COLOR_SCHEME_CONFIG_WARM = 1;
+  COLOR_SCHEME_CONFIG_OCEAN = 2;
+  COLOR_SCHEME_CONFIG_PETAL = 3;
+  COLOR_SCHEME_CONFIG_DYNAMIC = 4;
+}

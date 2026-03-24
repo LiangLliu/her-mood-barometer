@@ -13,83 +13,73 @@ import androidx.core.app.ActivityCompat.checkSelfPermission
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
-import dagger.hilt.android.qualifiers.ApplicationContext
 import com.lianglliu.hermoodbarometer.core.common.util.Constants.DEEP_LINK_SCHEME_AND_HOST
 import com.lianglliu.hermoodbarometer.core.common.util.Constants.TARGET_ACTIVITY_NAME
+import com.lianglliu.hermoodbarometer.core.locales.R as localesR
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
-import com.lianglliu.hermoodbarometer.core.locales.R as localesR
 
 private const val MOOD_REMINDER_NOTIFICATION_REQUEST_CODE = 0
 private const val MOOD_REMINDER_NOTIFICATION_ID = 1
 private const val MOOD_REMINDER_NOTIFICATION_CHANNEL_ID = "mood_reminder_channel"
 
-/**
- * Implementation of [Notifier] that displays notifications in the system tray.
- */
+/** Implementation of [Notifier] that displays notifications in the system tray. */
 @Singleton
-internal class SystemTrayNotifier @Inject constructor(
-    @ApplicationContext private val context: Context,
-) : Notifier {
+internal class SystemTrayNotifier
+@Inject
+constructor(@ApplicationContext private val context: Context) : Notifier {
 
-    override fun postDailyReminderNotification() = with(context) {
-        if (checkSelfPermission(this, permission.POST_NOTIFICATIONS) != PERMISSION_GRANTED) return
+    override fun postDailyReminderNotification(): Unit =
+        with(context) {
+            if (checkSelfPermission(this, permission.POST_NOTIFICATIONS) != PERMISSION_GRANTED)
+                return
 
-        val notification = createMoodReminderNotification {
-            setSmallIcon(android.R.drawable.ic_menu_my_calendar)
-                .setContentTitle(getString(localesR.string.notification_title))
-                .setContentText(getString(localesR.string.notification_text))
-                .setContentIntent(moodRecordPendingIntent())
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(true)
+            val notification = createMoodReminderNotification {
+                setSmallIcon(android.R.drawable.ic_menu_my_calendar)
+                    .setContentTitle(getString(localesR.string.notification_title))
+                    .setContentText(getString(localesR.string.notification_text))
+                    .setContentIntent(moodRecordPendingIntent())
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setAutoCancel(true)
+            }
+
+            val notificationManager = NotificationManagerCompat.from(this)
+            @Suppress("MissingPermission") // Permission check is done above
+            notificationManager.notify(MOOD_REMINDER_NOTIFICATION_ID, notification)
         }
-
-        // Send the notification
-        val notificationManager = NotificationManagerCompat.from(this)
-        @Suppress("MissingPermission") // Permission check is done above
-        notificationManager.notify(MOOD_REMINDER_NOTIFICATION_ID, notification)
-    }
 }
 
-/**
- * Creates a notification for mood reminder
- */
+/** Creates a notification for mood reminder */
 private fun Context.createMoodReminderNotification(
-    block: NotificationCompat.Builder.() -> Unit,
+    block: NotificationCompat.Builder.() -> Unit
 ): Notification {
     ensureNotificationChannelExists()
-    return NotificationCompat.Builder(
-        this,
-        MOOD_REMINDER_NOTIFICATION_CHANNEL_ID,
-    )
+    return NotificationCompat.Builder(this, MOOD_REMINDER_NOTIFICATION_CHANNEL_ID)
         .apply(block)
         .build()
 }
 
-/**
- * Ensures that a notification channel is present if applicable
- */
+/** Ensures that a notification channel is present if applicable */
 private fun Context.ensureNotificationChannelExists() {
-    val channel = NotificationChannel(
-        MOOD_REMINDER_NOTIFICATION_CHANNEL_ID,
-        getString(localesR.string.daily_reminder),
-        NotificationManager.IMPORTANCE_DEFAULT,
-    ).apply {
-        description = getString(localesR.string.daily_reminder_description)
-    }
+    val channel =
+        NotificationChannel(
+                MOOD_REMINDER_NOTIFICATION_CHANNEL_ID,
+                getString(localesR.string.daily_reminder),
+                NotificationManager.IMPORTANCE_DEFAULT,
+            )
+            .apply { description = getString(localesR.string.daily_reminder_description) }
     NotificationManagerCompat.from(this).createNotificationChannel(channel)
 }
 
-private fun Context.moodRecordPendingIntent(): PendingIntent? = PendingIntent.getActivity(
-    this,
-    MOOD_REMINDER_NOTIFICATION_REQUEST_CODE,
-    Intent().apply {
-        action = Intent.ACTION_VIEW
-        data = "$DEEP_LINK_SCHEME_AND_HOST/record".toUri()
-        component = ComponentName(
-            packageName,
-            TARGET_ACTIVITY_NAME,
-        )
-    },
-    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-)
+private fun Context.moodRecordPendingIntent(): PendingIntent? =
+    PendingIntent.getActivity(
+        this,
+        MOOD_REMINDER_NOTIFICATION_REQUEST_CODE,
+        Intent().apply {
+            action = Intent.ACTION_VIEW
+            data = "$DEEP_LINK_SCHEME_AND_HOST/record".toUri()
+            component = ComponentName(packageName, TARGET_ACTIVITY_NAME)
+        },
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+    )
