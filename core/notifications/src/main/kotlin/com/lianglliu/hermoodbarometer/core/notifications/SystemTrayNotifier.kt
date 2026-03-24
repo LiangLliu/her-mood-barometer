@@ -17,8 +17,8 @@ import com.lianglliu.hermoodbarometer.core.common.util.Constants.DEEP_LINK_SCHEM
 import com.lianglliu.hermoodbarometer.core.common.util.Constants.TARGET_ACTIVITY_NAME
 import com.lianglliu.hermoodbarometer.core.locales.R as localesR
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 
 private const val MOOD_REMINDER_NOTIFICATION_REQUEST_CODE = 0
 private const val MOOD_REMINDER_NOTIFICATION_ID = 1
@@ -35,17 +35,44 @@ constructor(@ApplicationContext private val context: Context) : Notifier {
             if (checkSelfPermission(this, permission.POST_NOTIFICATIONS) != PERMISSION_GRANTED)
                 return
 
+            // Pick random title and text
+            val titles = resources.getStringArray(localesR.array.notification_titles)
+            val texts = resources.getStringArray(localesR.array.notification_texts)
+            val index = (System.currentTimeMillis() / (24 * 60 * 60 * 1000)).toInt() % titles.size
+
+            // Quick record action
+            val quickRecordIntent =
+                Intent().apply {
+                    action = Intent.ACTION_VIEW
+                    data = "$DEEP_LINK_SCHEME_AND_HOST/quick-record".toUri()
+                    component = ComponentName(packageName, TARGET_ACTIVITY_NAME)
+                }
+            val quickRecordPendingIntent =
+                PendingIntent.getActivity(
+                    this,
+                    MOOD_REMINDER_NOTIFICATION_REQUEST_CODE + 1,
+                    quickRecordIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                )
+
             val notification = createMoodReminderNotification {
-                setSmallIcon(android.R.drawable.ic_menu_my_calendar)
-                    .setContentTitle(getString(localesR.string.notification_title))
-                    .setContentText(getString(localesR.string.notification_text))
-                    .setContentIntent(moodRecordPendingIntent())
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setAutoCancel(true)
+                setSmallIcon(R.drawable.ic_notification)
+                setContentTitle(titles[index])
+                setContentText(texts[index])
+                setContentIntent(moodRecordPendingIntent())
+                setStyle(NotificationCompat.BigTextStyle().bigText(texts[index]))
+                setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                setAutoCancel(true)
+                setCategory(NotificationCompat.CATEGORY_REMINDER)
+                addAction(
+                    0,
+                    getString(localesR.string.quick_record_action),
+                    quickRecordPendingIntent,
+                )
             }
 
             val notificationManager = NotificationManagerCompat.from(this)
-            @Suppress("MissingPermission") // Permission check is done above
+            @Suppress("MissingPermission")
             notificationManager.notify(MOOD_REMINDER_NOTIFICATION_ID, notification)
         }
 }
