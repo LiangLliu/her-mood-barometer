@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
+import timber.log.Timber
 
 @AndroidEntryPoint
 internal class ReminderBroadcastReceiver : BroadcastReceiver() {
@@ -25,22 +26,36 @@ internal class ReminderBroadcastReceiver : BroadcastReceiver() {
     @Inject @ApplicationScope lateinit var appScope: CoroutineScope
 
     override fun onReceive(context: Context, intent: Intent) {
+        // goAsync() tells the system this receiver is still doing work after onReceive() returns.
+        // Without it, the system may kill the process before the coroutine completes.
+        val pendingResult = goAsync()
+
         when (intent.action) {
             ACTION_MOOD_REMINDER -> {
-                // Post daily reminder notification
+                Timber.d("Mood reminder alarm fired")
                 appScope.launch {
-                    withTimeoutOrNull(4500L) {
-                        notifier.postDailyReminderNotification()
-                        // Reschedule for next day since we're using setExact instead of
-                        // setRepeating
-                        rescheduleDailyReminders()
+                    try {
+                        withTimeoutOrNull(9000L) {
+                            notifier.postDailyReminderNotification()
+                            Timber.d("Notification posted, rescheduling for next day")
+                            rescheduleDailyReminders()
+                        }
+                    } finally {
+                        pendingResult.finish()
                     }
                 }
             }
             Intent.ACTION_BOOT_COMPLETED -> {
-                // Reschedule reminders after device boot
-                appScope.launch { withTimeoutOrNull(4500L) { rescheduleDailyReminders() } }
+                Timber.d("Boot completed, rescheduling reminders")
+                appScope.launch {
+                    try {
+                        withTimeoutOrNull(9000L) { rescheduleDailyReminders() }
+                    } finally {
+                        pendingResult.finish()
+                    }
+                }
             }
+            else -> pendingResult.finish()
         }
     }
 

@@ -9,6 +9,7 @@ import com.lianglliu.hermoodbarometer.core.model.data.Reminder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 import java.util.Calendar
+import timber.log.Timber
 
 internal class ReminderSchedulerImpl
 @Inject
@@ -71,14 +72,14 @@ constructor(@ApplicationContext private val context: Context) : ReminderSchedule
                 }
             }
 
-        // Schedule alarm with a 15-minute window (inexact alarm)
-        // setWindow() is available from API 19 and works through Doze mode on API 23+
-        alarmManager.setWindow(
+        // setAndAllowWhileIdle fires even in Doze mode without SCHEDULE_EXACT_ALARM permission.
+        // Timing is approximate (may drift a few minutes) but reliable for daily reminders.
+        alarmManager.setAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            REMINDER_WINDOW_MS,
             pendingIntent,
         )
+        Timber.d("Daily reminder scheduled at %tF %<tR", calendar)
     }
 
     override fun scheduleDailyReminder(hour: Int, minute: Int) {
@@ -101,6 +102,7 @@ constructor(@ApplicationContext private val context: Context) : ReminderSchedule
                 set(Calendar.HOUR_OF_DAY, hour)
                 set(Calendar.MINUTE, minute)
                 set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
 
                 // If the time has already passed today, schedule for tomorrow
                 if (timeInMillis <= System.currentTimeMillis()) {
@@ -108,13 +110,16 @@ constructor(@ApplicationContext private val context: Context) : ReminderSchedule
                 }
             }
 
-        // Schedule alarm with a 15-minute window (inexact alarm)
-        // setWindow() is available from API 19 and works through Doze mode on API 23+
-        alarmManager.setWindow(
+        alarmManager.setAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            REMINDER_WINDOW_MS,
             pendingIntent,
+        )
+        Timber.d(
+            "Daily reminder scheduled at %tF %<tR (hour=%d, minute=%d)",
+            calendar,
+            hour,
+            minute,
         )
     }
 
@@ -137,7 +142,6 @@ constructor(@ApplicationContext private val context: Context) : ReminderSchedule
 
     companion object {
         private const val DAILY_REMINDER_REQUEST_CODE = 999
-        private const val REMINDER_WINDOW_MS = 15 * 60 * 1000L // 15 minutes
     }
 }
 
