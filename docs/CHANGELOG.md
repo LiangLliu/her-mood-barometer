@@ -4,6 +4,20 @@ All notable changes to this project are documented here. Detailed history is in 
 
 ## [Unreleased]
 
+### 2026-03-25: App Icon Redesign & Bug Fixes
+
+**Icon Redesign — "暖心脉动" (Warm Pulse)**
+- Richer warm gradient background (`#EDCBB8` → `#D08A6E` → `#A8604A`) with radial glow
+- Warm cream heart (`#FFF5EC`) at 90% scale, shifted down for better centering
+- Bold pulse wave (`#A8503C`, 3.5dp stroke, 80% opacity) visible at all icon sizes
+- Center pulse dot for design accent
+- Updated monochrome layer to match new heart shape
+- Redesigned `icon_preview.html` with editorial dark theme and animated hero
+
+**Bug Fixes**
+- Fixed daily reminder notification not firing (added `goAsync()` in BroadcastReceiver, switched to `setAndAllowWhileIdle()`)
+- Fixed ~0.5s flash when switching app language (added `locale|layoutDirection` to configChanges)
+
 ### 2026-03-25: Statistics Page Redesign
 
 - Added time range selector (pill-shaped chips: week/month/3mo/6mo/year)
@@ -44,7 +58,7 @@ All notable changes to this project are documented here. Detailed history is in 
 - BigTextStyle + CATEGORY_REMINDER
 - "Record Now" action button (deep link to quick-record)
 
-**App Icon Redesign**
+**App Icon (v1)**
 - WARM palette gradient background (#F5D4C4 -> #C4735B)
 - White heart foreground with mood wave accent
 - Monochrome layer for Android 13+ themed icons

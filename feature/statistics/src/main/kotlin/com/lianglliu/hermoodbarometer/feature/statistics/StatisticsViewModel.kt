@@ -8,9 +8,12 @@ import com.lianglliu.hermoodbarometer.core.domain.GetEmotionStatisticsUseCase
 import com.lianglliu.hermoodbarometer.core.model.data.EmotionStatistics
 import com.lianglliu.hermoodbarometer.core.model.data.TimeRange
 import com.lianglliu.hermoodbarometer.core.model.data.statistics.EmotionRecordFilter
+import com.lianglliu.hermoodbarometer.repository.EmotionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,7 +24,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import timber.log.Timber
 
 /** 统计页面的ViewModel 负责处理情绪统计数据的业务逻辑 */
@@ -30,6 +32,7 @@ class StatisticsViewModel
 @Inject
 constructor(
     private val getEmotionStatisticsUseCase: GetEmotionStatisticsUseCase,
+    emotionRepository: EmotionRepository,
     @Dispatcher(AppDispatchers.Default) private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
@@ -37,34 +40,32 @@ constructor(
         Timber.d("Init StatisticsViewModel")
     }
 
-    private val emotionRecordFilterState =
-        MutableStateFlow(
-            EmotionRecordFilter(
-                startDateTime = TimeRange.LAST_WEEK.getStartDateTime(),
-                endDateTime = TimeRange.LAST_WEEK.getEndDateTime(),
-            )
-        )
-
     private val selectedTimeRangeEnumState = MutableStateFlow(TimeRange.LAST_WEEK)
 
     val statisticsUiState: StateFlow<StatisticsUiState> =
-        combine(emotionRecordFilterState, selectedTimeRangeEnumState) { filter, timeRange ->
-                Pair(filter, timeRange)
+        combine(
+                selectedTimeRangeEnumState,
+                // Record count as data-change trigger: any insert/delete causes re-emission
+                emotionRepository.getRecordCount(),
+            ) { timeRange, _ ->
+                timeRange
             }
-            .flatMapLatest { (filter, timeRange) ->
-                val startTime = System.currentTimeMillis()
+            .flatMapLatest { timeRange ->
+                // Fresh time bounds computed NOW, not frozen at init
+                val now = LocalDateTime.now()
+                val startDateTime = timeRange.getStartDateTime()
+                val endDateTime = now
+                val filter =
+                    EmotionRecordFilter(startDateTime = startDateTime, endDateTime = endDateTime)
 
+                val startTime = System.currentTimeMillis()
                 val durationDays =
-                    java.time.temporal.ChronoUnit.DAYS.between(
-                            filter.startDateTime,
-                            filter.endDateTime,
-                        )
-                        .coerceAtLeast(1)
-                val previousEnd = filter.startDateTime.minusSeconds(1)
+                    ChronoUnit.DAYS.between(startDateTime, endDateTime).coerceAtLeast(1)
+                val previousEnd = startDateTime.minusSeconds(1)
                 val previousStart = previousEnd.minusDays(durationDays)
 
                 combine(
-                        getEmotionStatisticsUseCase(filter.startDateTime, filter.endDateTime),
+                        getEmotionStatisticsUseCase(startDateTime, endDateTime),
                         getEmotionStatisticsUseCase(previousStart, previousEnd),
                     ) { currentStats, prevStats ->
                         Timber.d(
@@ -95,13 +96,6 @@ constructor(
     /** 更新选中的时间范围 */
     fun updateTimeRange(timeRange: TimeRange) {
         selectedTimeRangeEnumState.value = timeRange
-
-        emotionRecordFilterState.update {
-            it.copy(
-                startDateTime = timeRange.getStartDateTime(),
-                endDateTime = timeRange.getEndDateTime(),
-            )
-        }
     }
 }
 

@@ -8,5 +8,5 @@
     <!-- Heart silhouette for Android 13+ themed icons -->
     <path
         android:fillColor="#000000"
-        android:pathData="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" />
+        android:pathData="M54,73C54,73 31,57 31,45C31,36 38,32 47,32C51,32 54,36 54,39C54,36 57,32 61,32C70,32 77,36 77,45C77,57 54,73 54,73Z" />
 </vector>

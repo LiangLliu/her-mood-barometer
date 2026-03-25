@@ -20,7 +20,6 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 /**
@@ -105,66 +104,61 @@ constructor(private val emotionRecordDao: EmotionRecordDao) : EmotionRepository 
         }
     }
 
-    override suspend fun getEmotionStatistics(
+    override fun getEmotionStatisticsFlow(
         startDate: Instant,
         endDate: Instant,
-    ): EmotionStatistics {
-        // Get emotion distribution
-        val emotionStats = emotionRecordDao.getEmotionStatistics(startDate, endDate).first()
-        val totalRecords = emotionStats.sumOf { it.count }
+    ): Flow<EmotionStatistics> {
+        // Room Flow auto-emits when emotion_records table changes
+        return emotionRecordDao.getEmotionStatistics(startDate, endDate).map { emotionStats ->
+            val totalRecords = emotionStats.sumOf { it.count }
 
-        // Convert to EmotionCount objects
-        val emotionDistribution = emotionStats.map { stats ->
-            EmotionCount(
-                emotionId = stats.emotionId,
-                emotionEmoji = stats.emotionEmoji,
-                count = stats.count,
-                percentage =
-                    if (totalRecords > 0) {
-                        (stats.count.toFloat() / totalRecords) * 100f
-                    } else 0f,
+            val emotionDistribution = emotionStats.map { stats ->
+                EmotionCount(
+                    emotionId = stats.emotionId,
+                    emotionEmoji = stats.emotionEmoji,
+                    count = stats.count,
+                    percentage =
+                        if (totalRecords > 0) {
+                            (stats.count.toFloat() / totalRecords) * 100f
+                        } else 0f,
+                )
+            }
+
+            val intensityCounts = emotionRecordDao.getIntensityCountsInRange(startDate, endDate)
+            val intensityMap = intensityCounts.associate {
+                EmotionIntensity.fromLevel(it.intensity) to it.count
+            }
+
+            val averageIntensity =
+                if (totalRecords > 0) {
+                    emotionStats.map { it.avgIntensity * it.count }.sum() / totalRecords
+                } else 0f
+
+            val mostFrequent = emotionDistribution.maxByOrNull { it.count }
+
+            val daysBetween =
+                ChronoUnit.DAYS.between(
+                        startDate.atZone(ZoneId.systemDefault()).toLocalDate(),
+                        endDate.atZone(ZoneId.systemDefault()).toLocalDate(),
+                    )
+                    .toInt() + 1
+
+            val timeRangeInfo =
+                TimeRangeInfo(startDate = startDate, endDate = endDate, totalDays = daysBetween)
+
+            val dailyRecords = emotionRecordDao.getRecordsForDailyStats(startDate, endDate)
+            val dailyRecordCounts = groupRecordsByDate(dailyRecords)
+
+            EmotionStatistics(
+                totalRecords = totalRecords,
+                emotionDistribution = emotionDistribution,
+                intensityDistribution = intensityMap,
+                averageIntensity = averageIntensity,
+                mostFrequentEmotion = mostFrequent,
+                timeRange = timeRangeInfo,
+                dailyRecords = dailyRecordCounts,
             )
         }
-
-        // Calculate intensity distribution using single GROUP BY query (avoids N+1 problem)
-        val intensityCounts = emotionRecordDao.getIntensityCountsInRange(startDate, endDate)
-        val intensityMap = intensityCounts.associate {
-            EmotionIntensity.fromLevel(it.intensity) to it.count
-        }
-
-        // Calculate average intensity
-        val averageIntensity =
-            if (totalRecords > 0) {
-                emotionStats.map { it.avgIntensity * it.count }.sum() / totalRecords
-            } else 0f
-
-        // Get most frequent emotion
-        val mostFrequent = emotionDistribution.maxByOrNull { it.count }
-
-        // Calculate time range info
-        val daysBetween =
-            ChronoUnit.DAYS.between(
-                    startDate.atZone(ZoneId.systemDefault()).toLocalDate(),
-                    endDate.atZone(ZoneId.systemDefault()).toLocalDate(),
-                )
-                .toInt() + 1
-
-        val timeRangeInfo =
-            TimeRangeInfo(startDate = startDate, endDate = endDate, totalDays = daysBetween)
-
-        // Get daily record counts
-        val dailyRecords = emotionRecordDao.getRecordsForDailyStats(startDate, endDate)
-        val dailyRecordCounts = groupRecordsByDate(dailyRecords)
-
-        return EmotionStatistics(
-            totalRecords = totalRecords,
-            emotionDistribution = emotionDistribution,
-            intensityDistribution = intensityMap,
-            averageIntensity = averageIntensity,
-            mostFrequentEmotion = mostFrequent,
-            timeRange = timeRangeInfo,
-            dailyRecords = dailyRecordCounts,
-        )
     }
 
     override suspend fun hasRecordsForEmotion(emotionId: Long): Boolean {

@@ -229,19 +229,28 @@ All color schemes follow the same dark mode transformation:
 
 ## App Icon
 
+**Concept**: "暖心脉动" (Warm Pulse) — A warm cream heart with a visible mood pulse wave, on a rich terracotta gradient. The icon communicates the app's core purpose (mood tracking) at a glance.
+
 The adaptive icon uses the WARM color scheme as the brand identity, regardless of the user's in-app color choice.
 
 ### Layers
 
 | Layer | File | Description |
 |-------|------|-------------|
-| Background | `drawable/ic_launcher_background.xml` | Diagonal gradient #F5D4C4 → #DB9A82 → #C4735B with 3 organic white circles |
-| Foreground | `drawable/ic_launcher_foreground.xml` | White heart with subtle drop shadow + mood wave accent (#C4735B at 25% opacity) |
-| Monochrome | `drawable/ic_launcher_monochrome.xml` | Solid heart silhouette for Android 13+ themed icons |
+| Background | `drawable/ic_launcher_background.xml` | Warm gradient (`#EDCBB8` → `#D08A6E` → `#A8604A`) with soft radial glow |
+| Foreground | `drawable/ic_launcher_foreground.xml` | Warm cream heart (`#FFF5EC`, 90% scale) + bold pulse wave (`#A8503C`, 3.5dp, 80%) + center pulse dot |
+| Monochrome | `drawable/ic_launcher_monochrome.xml` | Heart silhouette (90% scale) for Android 13+ themed icons |
+
+### Design Details
+
+- Heart is scaled to 90% and shifted 2dp down for better visual centering across all launcher mask shapes
+- Pulse wave uses 3.5dp stroke width and 80% opacity to remain visible at small icon sizes
+- Subtle shadow layer under heart adds depth without cluttering
+- Background uses a diagonal warm gradient with two radial glow circles for organic depth
 
 ### Safe Zone
 
-Heart centered at (54, ~50) in 108dp viewport. Bounding box: x=28-80, y=27-74. All points within the 66dp safe zone circle.
+Heart centered at (54, ~52) in 108dp viewport. Bounding box: x=31-77, y=32-73. All points within the 66dp safe zone circle.
 
 ### Legacy Icons
 

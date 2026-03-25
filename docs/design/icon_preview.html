@@ -3,205 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Her Mood Barometer - Icon Preview</title>
+    <title>Her Mood Barometer - Icon Design</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
             --bg: #1A1714;
+            --bg-warm: #211D18;
             --bg-card: #2A2520;
             --bg-elevated: #332E28;
-            --text: #EDE6DD;
-            --text-secondary: #B5A899;
-            --text-muted: #7E7268;
+            --text: #F0E8DE;
+            --text-secondary: #C4B5A3;
+            --text-muted: #887A6C;
             --accent: #C4735B;
-            --accent-soft: #E8B4A2;
-            --accent-bg: #3A2820;
+            --accent-light: #E8B4A2;
+            --accent-deep: #A8604A;
+            --cream: #FFF5EC;
             --border: #3A342E;
-            --radius: 16px;
-            --font-display: 'Noto Serif SC', 'Songti SC', Georgia, serif;
-            --font-body: 'Noto Sans SC', 'PingFang SC', -apple-system, sans-serif;
+            --radius: 20px;
+            --font-display: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+            --font-cjk: 'Noto Serif SC', 'Songti SC', serif;
+            --font-body: 'DM Sans', 'PingFang SC', -apple-system, sans-serif;
         }
 
         body {
             background: var(--bg);
             color: var(--text);
             font-family: var(--font-body);
-            line-height: 1.6;
+            line-height: 1.7;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* --- Noise texture overlay --- */
+        /* --- Grain overlay --- */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
             pointer-events: none;
             z-index: 999;
         }
 
         /* --- Animations --- */
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(24px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.85); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes scaleReveal {
+            from { opacity: 0; transform: scale(0.8) rotate(-3deg); }
+            to { opacity: 1; transform: scale(1) rotate(0deg); }
         }
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
+            0%, 100% { transform: scale(1); box-shadow: 0 12px 48px rgba(196,115,91,0.25); }
+            50% { transform: scale(1.02); box-shadow: 0 16px 56px rgba(196,115,91,0.35); }
         }
-        @keyframes shimmer {
-            0% { opacity: 0.15; }
-            50% { opacity: 0.25; }
-            100% { opacity: 0.15; }
+        @keyframes waveDraw {
+            from { stroke-dashoffset: 80; }
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes dotPulse {
+            0%, 100% { r: 2.5; opacity: 0.5; }
+            50% { r: 3.5; opacity: 0.75; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
         }
 
-        .animate-fade { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        .delay-5 { animation-delay: 0.5s; }
+        .anim { animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .d1 { animation-delay: 0.1s; }
+        .d2 { animation-delay: 0.2s; }
+        .d3 { animation-delay: 0.3s; }
+        .d4 { animation-delay: 0.4s; }
+        .d5 { animation-delay: 0.5s; }
+        .d6 { animation-delay: 0.6s; }
+        .d7 { animation-delay: 0.7s; }
 
         /* --- Layout --- */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
+        .container { max-width: 860px; margin: 0 auto; padding: 0 28px; }
 
-        /* --- Hero Section --- */
+        /* --- Hero --- */
         .hero {
-            min-height: 70vh;
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 80px 24px 60px;
+            padding: 100px 28px 80px;
             position: relative;
         }
-
         .hero::before {
             content: '';
             position: absolute;
-            top: -120px;
+            top: -100px;
             left: 50%;
             transform: translateX(-50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(196,115,91,0.12) 0%, transparent 70%);
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(196,115,91,0.10) 0%, rgba(168,96,74,0.04) 40%, transparent 70%);
             pointer-events: none;
         }
-
         .hero-icon {
-            width: 192px;
-            height: 192px;
-            border-radius: 42px;
+            width: 200px;
+            height: 200px;
+            border-radius: 44px;
             overflow: hidden;
             box-shadow:
-                0 8px 32px rgba(196,115,91,0.25),
-                0 2px 8px rgba(0,0,0,0.3),
-                inset 0 1px 0 rgba(255,255,255,0.05);
-            animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+                0 12px 48px rgba(196,115,91,0.25),
+                0 4px 12px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.04);
+            animation: scaleReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
             position: relative;
+            cursor: pointer;
         }
-        .hero-icon:hover {
-            animation: pulse 2s ease-in-out infinite;
+        .hero-icon:hover { animation: pulse 2.5s ease-in-out infinite; }
+        .hero-icon svg { width: 100%; height: 100%; display: block; }
+        .hero-icon svg .wave-line {
+            stroke-dasharray: 80;
+            animation: waveDraw 1.5s ease-out 0.6s both;
         }
-        .hero-icon svg {
-            width: 100%;
-            height: 100%;
+        .hero-icon svg .pulse-dot {
+            animation: dotPulse 2s ease-in-out 1.8s infinite;
         }
 
         .hero h1 {
             font-family: var(--font-display);
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-top: 32px;
+            font-size: 2.8rem;
+            font-weight: 400;
+            margin-top: 40px;
             letter-spacing: 0.02em;
-            background: linear-gradient(135deg, var(--text), var(--accent-soft));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--cream);
         }
-        .hero p {
+        .hero h1 em {
+            font-style: italic;
+            color: var(--accent-light);
+        }
+        .hero .subtitle {
             color: var(--text-muted);
-            font-size: 1rem;
-            margin-top: 8px;
+            font-size: 0.95rem;
+            margin-top: 10px;
             font-weight: 300;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        /* --- Concept --- */
+        .concept {
+            text-align: center;
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .concept-text {
+            font-family: var(--font-cjk);
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 2;
+        }
+        .concept-text strong {
+            color: var(--accent-light);
+            font-weight: 600;
         }
 
         /* --- Sections --- */
-        section {
-            padding: 48px 0;
-        }
-        section + section {
-            border-top: 1px solid var(--border);
-        }
+        section { padding: 56px 0; }
+        section + section { border-top: 1px solid var(--border); }
 
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
         .section-title {
             font-family: var(--font-display);
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 32px;
-            color: var(--accent-soft);
-            letter-spacing: 0.03em;
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin-bottom: 40px;
+            color: var(--cream);
         }
 
-        /* --- Shape Variants Grid --- */
+        /* --- Shape Variants --- */
         .shapes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 28px;
             justify-items: center;
+        }
+        @media (max-width: 600px) {
+            .shapes-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
         }
         .shape-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
         .shape-item .icon-wrap {
-            width: 96px;
-            height: 96px;
+            width: 88px;
+            height: 88px;
             overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.3), 0 1px 4px rgba(0,0,0,0.2);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .shape-item .icon-wrap:hover {
-            transform: scale(1.08);
+            transform: scale(1.12) translateY(-4px);
+            box-shadow: 0 12px 36px rgba(196,115,91,0.3), 0 4px 12px rgba(0,0,0,0.3);
         }
-        .shape-item svg { width: 100%; height: 100%; }
+        .shape-item svg { width: 100%; height: 100%; display: block; }
         .shape-item .label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             font-weight: 400;
         }
 
-        .shape-circle { border-radius: 50%; }
-        .shape-squircle { border-radius: 24%; }
-        .shape-rounded { border-radius: 16%; }
-        .shape-teardrop {
-            border-radius: 50% 50% 50% 16%;
-        }
-        .shape-square { border-radius: 8%; }
+        .s-circle { border-radius: 50%; }
+        .s-squircle { border-radius: 24%; }
+        .s-rounded { border-radius: 16%; }
+        .s-teardrop { border-radius: 50% 50% 50% 16%; }
+        .s-square { border-radius: 8%; }
 
-        /* --- Size Comparison --- */
+        /* --- Sizes --- */
         .sizes-row {
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            gap: 32px;
+            gap: 28px;
             flex-wrap: wrap;
         }
         .size-item {
@@ -213,61 +250,63 @@
         .size-item .icon-wrap {
             border-radius: 22%;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.3);
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .size-item .icon-wrap:hover { transform: scale(1.1); }
         .size-item svg { width: 100%; height: 100%; display: block; }
         .size-item .label {
-            font-size: 0.75rem;
+            font-family: 'DM Sans', monospace;
+            font-size: 0.7rem;
             color: var(--text-muted);
-            font-family: monospace;
+            font-weight: 300;
         }
 
-        /* --- Monochrome Section --- */
+        /* --- Monochrome --- */
         .mono-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 24px;
-            justify-items: center;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
         }
         .mono-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
-            padding: 24px;
+            gap: 14px;
+            padding: 28px 16px;
             background: var(--bg-card);
             border-radius: var(--radius);
             border: 1px solid var(--border);
-            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .mono-item:hover {
+            transform: translateY(-3px);
+            border-color: rgba(196,115,91,0.2);
         }
         .mono-item .icon-wrap {
-            width: 72px;
-            height: 72px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .mono-item svg { width: 48px; height: 48px; }
-        .mono-item .label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-        .mono-bg-blue { background: #D3E4FD; }
-        .mono-bg-green { background: #C8E6C9; }
-        .mono-bg-rose { background: #F3D5D5; }
-        .mono-bg-purple { background: #D7CDE8; }
-        .mono-bg-teal { background: #B2DFDB; }
+        .mono-item svg { width: 42px; height: 42px; }
+        .mono-item .label { font-size: 0.75rem; color: var(--text-muted); }
 
-        /* --- Homescreen Mockup --- */
+        .m-blue { background: #D3E4FD; }
+        .m-green { background: #C8E6C9; }
+        .m-rose { background: #F3D5D5; }
+        .m-purple { background: #D7CDE8; }
+        .m-teal { background: #B2DFDB; }
+
+        /* --- Homescreen --- */
+        .hs-wrap { display: flex; justify-content: center; }
         .homescreen {
             background: var(--bg-card);
-            border-radius: 28px;
-            padding: 40px 24px 24px;
-            max-width: 340px;
-            margin: 0 auto;
+            border-radius: 32px;
+            padding: 48px 24px 28px;
+            width: 320px;
             border: 1px solid var(--border);
             position: relative;
             overflow: hidden;
@@ -275,139 +314,172 @@
         .homescreen::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 100%;
-            background: linear-gradient(180deg, rgba(196,115,91,0.06) 0%, transparent 60%);
+            background: linear-gradient(180deg, rgba(196,115,91,0.05) 0%, transparent 50%);
             pointer-events: none;
         }
-        .homescreen-grid {
+        .hs-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px 16px;
+            gap: 18px 14px;
             justify-items: center;
         }
-        .homescreen-app {
+        .hs-app {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
         }
-        .homescreen-app .app-icon {
-            width: 56px;
-            height: 56px;
+        .hs-app .app-icon {
+            width: 52px;
+            height: 52px;
             border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
-        .homescreen-app .app-icon svg { width: 100%; height: 100%; display: block; }
-        .homescreen-app .app-name {
-            font-size: 0.65rem;
+        .hs-app .app-icon svg { width: 100%; height: 100%; display: block; }
+        .hs-app .app-name {
+            font-size: 0.6rem;
             color: var(--text-secondary);
             text-align: center;
-            max-width: 64px;
+            max-width: 60px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-        .placeholder-icon {
+        .placeholder {
             background: var(--bg-elevated);
             border: 1px solid var(--border);
         }
-        .highlight-ring {
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2), 0 0 0 2px var(--accent), 0 0 16px rgba(196,115,91,0.3) !important;
+        .hs-highlight {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 0 0 2px var(--accent), 0 0 20px rgba(196,115,91,0.25) !important;
+        }
+        .hs-highlight + .app-name {
+            color: var(--accent-light) !important;
+            font-weight: 500;
         }
 
-        /* --- Color Palette --- */
-        .palette {
+        /* --- Palette --- */
+        .palette-row {
             display: flex;
-            gap: 12px;
+            gap: 16px;
             flex-wrap: wrap;
-            margin-top: 16px;
         }
-        .palette-swatch {
+        .swatch {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
-        .palette-swatch .color {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.08);
+        .swatch .color {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: transform 0.3s ease;
         }
-        .palette-swatch .hex {
-            font-family: monospace;
-            font-size: 0.7rem;
+        .swatch .color:hover { transform: scale(1.1); }
+        .swatch .hex {
+            font-family: 'DM Sans', monospace;
+            font-size: 0.65rem;
             color: var(--text-muted);
+            font-weight: 300;
+        }
+        .swatch .name {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-top: -4px;
+        }
+
+        /* --- Design Notes --- */
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .note-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 24px;
+        }
+        .note-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: var(--accent-light);
+            margin-bottom: 10px;
+        }
+        .note-card p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.7;
         }
 
         /* --- Footer --- */
         footer {
             text-align: center;
-            padding: 48px 24px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
+            padding: 56px 28px;
             border-top: 1px solid var(--border);
         }
-        footer span { color: var(--accent); }
+        footer .brand {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--accent-light);
+            font-weight: 400;
+        }
+        footer .meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-weight: 300;
+        }
     </style>
 </head>
 <body>
 
     <!-- ===== HERO ===== -->
     <section class="hero">
-        <div class="hero-icon animate-fade">
-            <svg viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="hero-bg" x1="0" y1="0" x2="108" y2="108" gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#F5D4C4"/>
-                        <stop offset="0.5" stop-color="#DB9A82"/>
-                        <stop offset="1" stop-color="#C4735B"/>
-                    </linearGradient>
-                </defs>
-                <rect width="108" height="108" fill="url(#hero-bg)"/>
-                <circle cx="54" cy="54" r="40" fill="white" fill-opacity="0.06"/>
-                <circle cx="54" cy="54" r="28" fill="white" fill-opacity="0.05"/>
-                <circle cx="54" cy="54" r="16" fill="white" fill-opacity="0.04"/>
-                <!-- Shadow -->
-                <path d="M54,76C54,76 28,58 28,44C28,34 36,29 46,29C51,29 54,34 54,37C54,34 57,29 62,29C72,29 80,34 80,44C80,58 54,76 54,76Z" fill="#5C3A2E" fill-opacity="0.12"/>
-                <!-- Heart -->
-                <path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="white"/>
-                <!-- Wave -->
-                <path d="M39,47C43,41 49,53 54,47C59,41 65,53 69,47" fill="none" stroke="#C4735B" stroke-width="2" stroke-linecap="round" stroke-opacity="0.25"/>
-            </svg>
-        </div>
-        <h1 class="animate-fade delay-1">Her Mood Barometer</h1>
-        <p class="animate-fade delay-2">App Icon Design Preview</p>
+        <div class="hero-icon" id="hero-icon"></div>
+        <h1 class="anim d2">Her Mood <em>Barometer</em></h1>
+        <p class="subtitle anim d3">Adaptive Icon Design</p>
     </section>
 
     <div class="container">
 
-        <!-- ===== SHAPE VARIANTS ===== -->
+        <!-- ===== CONCEPT ===== -->
+        <div class="concept anim d4">
+            <p class="concept-text">
+                <strong>暖心脉动</strong> ——
+                奶油色的心形承载温暖，穿越其中的<strong>情绪脉搏线</strong>是心情晴雨表的灵魂。
+                每一次波动，都是一次情绪的如实记录。
+            </p>
+        </div>
+
+        <!-- ===== SHAPES ===== -->
         <section>
-            <h2 class="section-title animate-fade delay-2">Launcher Shapes</h2>
+            <p class="section-label anim">01</p>
+            <h2 class="section-title anim d1">Launcher Shapes</h2>
             <div class="shapes-grid">
-                <div class="shape-item animate-fade delay-2">
-                    <div class="icon-wrap shape-circle" id="tmpl-circle"></div>
+                <div class="shape-item anim d2">
+                    <div class="icon-wrap s-circle" id="sh-circle"></div>
                     <span class="label">Circle</span>
                 </div>
-                <div class="shape-item animate-fade delay-3">
-                    <div class="icon-wrap shape-squircle" id="tmpl-squircle"></div>
+                <div class="shape-item anim d3">
+                    <div class="icon-wrap s-squircle" id="sh-squircle"></div>
                     <span class="label">Squircle</span>
                 </div>
-                <div class="shape-item animate-fade delay-3">
-                    <div class="icon-wrap shape-rounded" id="tmpl-rounded"></div>
-                    <span class="label">Rounded Rect</span>
+                <div class="shape-item anim d3">
+                    <div class="icon-wrap s-rounded" id="sh-rounded"></div>
+                    <span class="label">Rounded</span>
                 </div>
-                <div class="shape-item animate-fade delay-4">
-                    <div class="icon-wrap shape-teardrop" id="tmpl-teardrop"></div>
+                <div class="shape-item anim d4">
+                    <div class="icon-wrap s-teardrop" id="sh-teardrop"></div>
                     <span class="label">Teardrop</span>
                 </div>
-                <div class="shape-item animate-fade delay-4">
-                    <div class="icon-wrap shape-square" id="tmpl-square"></div>
+                <div class="shape-item anim d5">
+                    <div class="icon-wrap s-square" id="sh-square"></div>
                     <span class="label">Square</span>
                 </div>
             </div>
@@ -415,172 +487,187 @@
 
         <!-- ===== SIZE COMPARISON ===== -->
         <section>
-            <h2 class="section-title animate-fade">Size Comparison</h2>
+            <p class="section-label anim">02</p>
+            <h2 class="section-title anim d1">Size Comparison</h2>
             <div class="sizes-row">
-                <div class="size-item animate-fade delay-1">
+                <div class="size-item anim d1">
                     <div class="icon-wrap" style="width:36px;height:36px;" id="sz-36"></div>
-                    <span class="label">36px</span>
+                    <span class="label">36</span>
                 </div>
-                <div class="size-item animate-fade delay-2">
+                <div class="size-item anim d2">
                     <div class="icon-wrap" style="width:48px;height:48px;" id="sz-48"></div>
-                    <span class="label">48px</span>
+                    <span class="label">48</span>
                 </div>
-                <div class="size-item animate-fade delay-2">
+                <div class="size-item anim d3">
                     <div class="icon-wrap" style="width:72px;height:72px;" id="sz-72"></div>
-                    <span class="label">72px</span>
+                    <span class="label">72</span>
                 </div>
-                <div class="size-item animate-fade delay-3">
+                <div class="size-item anim d4">
                     <div class="icon-wrap" style="width:96px;height:96px;" id="sz-96"></div>
-                    <span class="label">96px</span>
+                    <span class="label">96</span>
                 </div>
-                <div class="size-item animate-fade delay-4">
+                <div class="size-item anim d5">
                     <div class="icon-wrap" style="width:144px;height:144px;" id="sz-144"></div>
-                    <span class="label">144px</span>
+                    <span class="label">144</span>
                 </div>
-                <div class="size-item animate-fade delay-5">
+                <div class="size-item anim d6">
                     <div class="icon-wrap" style="width:192px;height:192px;" id="sz-192"></div>
-                    <span class="label">192px</span>
+                    <span class="label">192</span>
                 </div>
             </div>
         </section>
 
-        <!-- ===== MONOCHROME (Android 13+) ===== -->
+        <!-- ===== MONOCHROME ===== -->
         <section>
-            <h2 class="section-title animate-fade">Monochrome (Android 13+ Themed)</h2>
+            <p class="section-label anim">03</p>
+            <h2 class="section-title anim d1">Monochrome &mdash; Android 13+</h2>
             <div class="mono-grid">
-                <div class="mono-item animate-fade delay-1">
-                    <div class="icon-wrap mono-bg-blue">
-                        <svg viewBox="0 0 108 108"><path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="#1565C0"/></svg>
+                <div class="mono-item anim d1">
+                    <div class="icon-wrap m-blue">
+                        <svg viewBox="0 0 108 108"><path d="M54,73C54,73 31,57 31,45C31,36 38,32 47,32C51,32 54,36 54,39C54,36 57,32 61,32C70,32 77,36 77,45C77,57 54,73 54,73Z" fill="#1565C0"/><path d="M36,49C41,40 48,59 54,49C60,40 67,59 72,49" fill="none" stroke="#1565C0" stroke-width="3.5" stroke-linecap="round" stroke-opacity="0.6"/></svg>
                     </div>
                     <span class="label">Blue</span>
                 </div>
-                <div class="mono-item animate-fade delay-2">
-                    <div class="icon-wrap mono-bg-green">
-                        <svg viewBox="0 0 108 108"><path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="#2E7D32"/></svg>
+                <div class="mono-item anim d2">
+                    <div class="icon-wrap m-green">
+                        <svg viewBox="0 0 108 108"><path d="M54,73C54,73 31,57 31,45C31,36 38,32 47,32C51,32 54,36 54,39C54,36 57,32 61,32C70,32 77,36 77,45C77,57 54,73 54,73Z" fill="#2E7D32"/><path d="M36,49C41,40 48,59 54,49C60,40 67,59 72,49" fill="none" stroke="#2E7D32" stroke-width="3.5" stroke-linecap="round" stroke-opacity="0.6"/></svg>
                     </div>
                     <span class="label">Green</span>
                 </div>
-                <div class="mono-item animate-fade delay-3">
-                    <div class="icon-wrap mono-bg-rose">
-                        <svg viewBox="0 0 108 108"><path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="#AD1457"/></svg>
+                <div class="mono-item anim d3">
+                    <div class="icon-wrap m-rose">
+                        <svg viewBox="0 0 108 108"><path d="M54,73C54,73 31,57 31,45C31,36 38,32 47,32C51,32 54,36 54,39C54,36 57,32 61,32C70,32 77,36 77,45C77,57 54,73 54,73Z" fill="#AD1457"/><path d="M36,49C41,40 48,59 54,49C60,40 67,59 72,49" fill="none" stroke="#AD1457" stroke-width="3.5" stroke-linecap="round" stroke-opacity="0.6"/></svg>
                     </div>
                     <span class="label">Rose</span>
                 </div>
-                <div class="mono-item animate-fade delay-3">
-                    <div class="icon-wrap mono-bg-purple">
-                        <svg viewBox="0 0 108 108"><path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="#5E35B1"/></svg>
+                <div class="mono-item anim d4">
+                    <div class="icon-wrap m-purple">
+                        <svg viewBox="0 0 108 108"><path d="M54,73C54,73 31,57 31,45C31,36 38,32 47,32C51,32 54,36 54,39C54,36 57,32 61,32C70,32 77,36 77,45C77,57 54,73 54,73Z" fill="#5E35B1"/><path d="M36,49C41,40 48,59 54,49C60,40 67,59 72,49" fill="none" stroke="#5E35B1" stroke-width="3.5" stroke-linecap="round" stroke-opacity="0.6"/></svg>
                     </div>
                     <span class="label">Purple</span>
                 </div>
-                <div class="mono-item animate-fade delay-4">
-                    <div class="icon-wrap mono-bg-teal">
-                        <svg viewBox="0 0 108 108"><path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="#00695C"/></svg>
+                <div class="mono-item anim d5">
+                    <div class="icon-wrap m-teal">
+                        <svg viewBox="0 0 108 108"><path d="M54,73C54,73 31,57 31,45C31,36 38,32 47,32C51,32 54,36 54,39C54,36 57,32 61,32C70,32 77,36 77,45C77,57 54,73 54,73Z" fill="#00695C"/><path d="M36,49C41,40 48,59 54,49C60,40 67,59 72,49" fill="none" stroke="#00695C" stroke-width="3.5" stroke-linecap="round" stroke-opacity="0.6"/></svg>
                     </div>
                     <span class="label">Teal</span>
                 </div>
             </div>
         </section>
 
-        <!-- ===== HOMESCREEN MOCKUP ===== -->
+        <!-- ===== HOMESCREEN ===== -->
         <section>
-            <h2 class="section-title animate-fade">On Homescreen</h2>
-            <div class="homescreen animate-fade delay-2">
-                <div class="homescreen-grid">
-                    <div class="homescreen-app">
-                        <div class="app-icon placeholder-icon"></div>
-                        <span class="app-name">Phone</span>
-                    </div>
-                    <div class="homescreen-app">
-                        <div class="app-icon placeholder-icon"></div>
-                        <span class="app-name">Messages</span>
-                    </div>
-                    <div class="homescreen-app">
-                        <div class="app-icon highlight-ring" id="hs-icon"></div>
-                        <span class="app-name" style="color:var(--accent-soft);font-weight:500;">Mood</span>
-                    </div>
-                    <div class="homescreen-app">
-                        <div class="app-icon placeholder-icon"></div>
-                        <span class="app-name">Camera</span>
-                    </div>
-                    <div class="homescreen-app">
-                        <div class="app-icon placeholder-icon"></div>
-                        <span class="app-name">Gallery</span>
-                    </div>
-                    <div class="homescreen-app">
-                        <div class="app-icon placeholder-icon"></div>
-                        <span class="app-name">Calendar</span>
-                    </div>
-                    <div class="homescreen-app">
-                        <div class="app-icon placeholder-icon"></div>
-                        <span class="app-name">Notes</span>
-                    </div>
-                    <div class="homescreen-app">
-                        <div class="app-icon placeholder-icon"></div>
-                        <span class="app-name">Settings</span>
+            <p class="section-label anim">04</p>
+            <h2 class="section-title anim d1">On Homescreen</h2>
+            <div class="hs-wrap">
+                <div class="homescreen anim d2">
+                    <div class="hs-grid">
+                        <div class="hs-app"><div class="app-icon placeholder"></div><span class="app-name">Phone</span></div>
+                        <div class="hs-app"><div class="app-icon placeholder"></div><span class="app-name">Messages</span></div>
+                        <div class="hs-app"><div class="app-icon hs-highlight" id="hs-icon"></div><span class="app-name">Mood</span></div>
+                        <div class="hs-app"><div class="app-icon placeholder"></div><span class="app-name">Camera</span></div>
+                        <div class="hs-app"><div class="app-icon placeholder"></div><span class="app-name">Gallery</span></div>
+                        <div class="hs-app"><div class="app-icon placeholder"></div><span class="app-name">Calendar</span></div>
+                        <div class="hs-app"><div class="app-icon placeholder"></div><span class="app-name">Notes</span></div>
+                        <div class="hs-app"><div class="app-icon placeholder"></div><span class="app-name">Settings</span></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ===== COLOR PALETTE ===== -->
+        <!-- ===== PALETTE ===== -->
         <section>
-            <h2 class="section-title animate-fade">Color Palette</h2>
-            <p style="color:var(--text-secondary);margin-bottom:20px;font-size:0.9rem;">Icon colors derived from the WARM (default) color scheme</p>
-            <div class="palette animate-fade delay-1">
-                <div class="palette-swatch">
-                    <div class="color" style="background:#F5D4C4;"></div>
-                    <span class="hex">#F5D4C4</span>
+            <p class="section-label anim">05</p>
+            <h2 class="section-title anim d1">Color Palette</h2>
+            <div class="palette-row anim d2">
+                <div class="swatch">
+                    <div class="color" style="background:#EDCBB8;"></div>
+                    <span class="hex">#EDCBB8</span>
+                    <span class="name">Peach</span>
                 </div>
-                <div class="palette-swatch">
-                    <div class="color" style="background:#DB9A82;"></div>
-                    <span class="hex">#DB9A82</span>
+                <div class="swatch">
+                    <div class="color" style="background:#D08A6E;"></div>
+                    <span class="hex">#D08A6E</span>
+                    <span class="name">Warm</span>
                 </div>
-                <div class="palette-swatch">
-                    <div class="color" style="background:#C4735B;"></div>
-                    <span class="hex">#C4735B</span>
+                <div class="swatch">
+                    <div class="color" style="background:#A8604A;"></div>
+                    <span class="hex">#A8604A</span>
+                    <span class="name">Terracotta</span>
                 </div>
-                <div class="palette-swatch">
-                    <div class="color" style="background:#FFFFFF;border:1px solid rgba(255,255,255,0.2);"></div>
-                    <span class="hex">#FFFFFF</span>
+                <div class="swatch">
+                    <div class="color" style="background:#A8503C;"></div>
+                    <span class="hex">#A8503C</span>
+                    <span class="name">Pulse</span>
                 </div>
-                <div class="palette-swatch">
+                <div class="swatch">
+                    <div class="color" style="background:#FFF5EC;"></div>
+                    <span class="hex">#FFF5EC</span>
+                    <span class="name">Cream</span>
+                </div>
+                <div class="swatch">
                     <div class="color" style="background:#5C3A2E;"></div>
                     <span class="hex">#5C3A2E</span>
+                    <span class="name">Shadow</span>
                 </div>
             </div>
         </section>
+
+        <!-- ===== DESIGN NOTES ===== -->
+        <section>
+            <p class="section-label anim">06</p>
+            <h2 class="section-title anim d1">Design Notes</h2>
+            <div class="notes-grid">
+                <div class="note-card anim d2">
+                    <h4>Warm Cream Heart</h4>
+                    <p>Heart uses #FFF5EC instead of cold white. Softer, more personal, matches the app's emotional warmth.</p>
+                </div>
+                <div class="note-card anim d3">
+                    <h4>Mood Pulse Wave</h4>
+                    <p>Bold wave line at 80% opacity and 3.5dp width with wider amplitude. Clearly visible even at launcher icon size.</p>
+                </div>
+                <div class="note-card anim d4">
+                    <h4>Reading Dot</h4>
+                    <p>Center dot on the wave suggests a data point. Subtle at small sizes, characterful at large sizes.</p>
+                </div>
+                <div class="note-card anim d5">
+                    <h4>Richer Gradient</h4>
+                    <p>Deeper color stops with visible radial glow. Background has perceivable depth, not invisible decorations.</p>
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <footer>
-        <span>Her Mood Barometer</span> &mdash; Adaptive Icon Design
+        <div class="brand">Her Mood Barometer</div>
+        <div class="meta">Adaptive Icon &mdash; v2.0</div>
     </footer>
 
     <script>
-        // Icon SVG template
         const iconSVG = `<svg viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <linearGradient id="bg-grad" x1="0" y1="0" x2="108" y2="108" gradientUnits="userSpaceOnUse">
-                    <stop offset="0" stop-color="#F5D4C4"/>
-                    <stop offset="0.5" stop-color="#DB9A82"/>
-                    <stop offset="1" stop-color="#C4735B"/>
+                <linearGradient id="bg" x1="0" y1="0" x2="108" y2="108" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stop-color="#EDCBB8"/>
+                    <stop offset="0.5" stop-color="#D08A6E"/>
+                    <stop offset="1" stop-color="#A8604A"/>
                 </linearGradient>
             </defs>
-            <rect width="108" height="108" fill="url(#bg-grad)"/>
-            <circle cx="54" cy="54" r="40" fill="white" fill-opacity="0.06"/>
-            <circle cx="54" cy="54" r="28" fill="white" fill-opacity="0.05"/>
-            <circle cx="54" cy="54" r="16" fill="white" fill-opacity="0.04"/>
-            <path d="M54,76C54,76 28,58 28,44C28,34 36,29 46,29C51,29 54,34 54,37C54,34 57,29 62,29C72,29 80,34 80,44C80,58 54,76 54,76Z" fill="#5C3A2E" fill-opacity="0.12"/>
-            <path d="M54,74C54,74 28,56 28,42C28,32 36,27 46,27C51,27 54,32 54,35C54,32 57,27 62,27C72,27 80,32 80,42C80,56 54,74 54,74Z" fill="white"/>
-            <path d="M39,47C43,41 49,53 54,47C59,41 65,53 69,47" fill="none" stroke="#C4735B" stroke-width="2" stroke-linecap="round" stroke-opacity="0.25"/>
+            <rect width="108" height="108" fill="url(#bg)"/>
+            <circle cx="54" cy="54" r="36" fill="white" fill-opacity="0.10"/>
+            <circle cx="54" cy="54" r="22" fill="white" fill-opacity="0.06"/>
+            <path d="M54,75C54,75 31,59 31,47C31,38 38,34 47,34C51,34 54,38 54,41C54,38 57,34 61,34C70,34 77,38 77,47C77,59 54,75 54,75Z" fill="#5C3A2E" fill-opacity="0.15"/>
+            <path d="M54,73C54,73 31,57 31,45C31,36 38,32 47,32C51,32 54,36 54,39C54,36 57,32 61,32C70,32 77,36 77,45C77,57 54,73 54,73Z" fill="#FFF5EC"/>
+            <path class="wave-line" d="M36,49C41,40 48,59 54,49C60,40 67,59 72,49" fill="none" stroke="#A8503C" stroke-width="3.5" stroke-linecap="round" stroke-opacity="0.80"/>
+            <circle class="pulse-dot" cx="54" cy="49" r="3" fill="#A8503C" fill-opacity="0.70"/>
         </svg>`;
 
-        // Fill all icon placeholders
-        const targets = [
-            'tmpl-circle', 'tmpl-squircle', 'tmpl-rounded', 'tmpl-teardrop', 'tmpl-square',
+        [
+            'hero-icon',
+            'sh-circle', 'sh-squircle', 'sh-rounded', 'sh-teardrop', 'sh-square',
             'sz-36', 'sz-48', 'sz-72', 'sz-96', 'sz-144', 'sz-192',
             'hs-icon'
-        ];
-        targets.forEach(id => {
+        ].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.innerHTML = iconSVG;
         });

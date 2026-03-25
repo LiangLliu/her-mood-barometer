@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="108dp"
+            android:height="108dp"
+            android:viewportWidth="108"
+            android:viewportHeight="108">
+
+            <!-- Heart group for scale animation -->
+            <group
+                android:name="heartGroup"
+                android:pivotX="54"
+                android:pivotY="52"
+                android:scaleX="0.92"
+                android:scaleY="0.92">
+
+                <!-- Soft shadow -->
+                <path
+                    android:fillAlpha="0.12"
+                    android:fillColor="#5C3A2E"
+                    android:pathData="M54,75C54,75 31,59 31,47C31,38 38,34 47,34C51,34 54,38 54,41C54,38 57,34 61,34C70,34 77,38 77,47C77,59 54,75 54,75Z" />
+
+                <!-- Heart - brand terracotta -->
+                <path
+                    android:fillColor="#C4735B"
+                    android:pathData="M54,73C54,73 31,57 31,45C31,36 38,32 47,32C51,32 54,36 54,39C54,36 57,32 61,32C70,32 77,36 77,45C77,57 54,73 54,73Z" />
+            </group>
+
+            <!-- Wave with trimPath for draw-in animation -->
+            <path
+                android:name="wave"
+                android:pathData="M36,49C41,40 48,59 54,49C60,40 67,59 72,49"
+                android:strokeAlpha="0.85"
+                android:strokeColor="#FFF5EC"
+                android:strokeLineCap="round"
+                android:strokeWidth="3.5"
+                android:trimPathEnd="0" />
+
+            <!-- Dot group for pop-in animation -->
+            <group
+                android:name="dotGroup"
+                android:pivotX="54"
+                android:pivotY="49"
+                android:scaleX="0"
+                android:scaleY="0">
+                <path
+                    android:fillAlpha="0.80"
+                    android:fillColor="#FFF5EC"
+                    android:pathData="M54,49m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+            </group>
+        </vector>
+    </aapt:attr>
+
+    <!-- Heart scale in: 0.92 -> 1.0 -->
+    <target android:name="heartGroup">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="500"
+                    android:interpolator="@android:interpolator/decelerate_cubic"
+                    android:propertyName="scaleX"
+                    android:valueFrom="0.92"
+                    android:valueTo="1"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="500"
+                    android:interpolator="@android:interpolator/decelerate_cubic"
+                    android:propertyName="scaleY"
+                    android:valueFrom="0.92"
+                    android:valueTo="1"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+
+    <!-- Wave draw in (like icon_preview.html waveDraw animation) -->
+    <target android:name="wave">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="800"
+                android:interpolator="@android:interpolator/decelerate_cubic"
+                android:propertyName="trimPathEnd"
+                android:startOffset="300"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:valueType="floatType" />
+        </aapt:attr>
+    </target>
+
+    <!-- Dot pop in with overshoot (like icon_preview.html dotPulse) -->
+    <target android:name="dotGroup">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="300"
+                    android:interpolator="@android:interpolator/overshoot"
+                    android:propertyName="scaleX"
+                    android:startOffset="1000"
+                    android:valueFrom="0"
+                    android:valueTo="1"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="300"
+                    android:interpolator="@android:interpolator/overshoot"
+                    android:propertyName="scaleY"
+                    android:startOffset="1000"
+                    android:valueFrom="0"
+                    android:valueTo="1"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

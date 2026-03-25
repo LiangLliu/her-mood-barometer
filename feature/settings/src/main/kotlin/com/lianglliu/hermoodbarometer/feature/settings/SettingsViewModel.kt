@@ -140,12 +140,9 @@ constructor(
         return missingPermissions
     }
 
-    /** 从设置页面返回后重新检查权限 */
+    /** 权限授予后继续开启提醒 */
     fun recheckPermissionsAndContinue() {
-        val settingsState = settingsUiState.value
-        if (settingsState is SettingsUiState.Success && settingsState.settings.isReminderEnabled) {
-            updateReminderEnabled(true)
-        }
+        updateReminderEnabled(true)
     }
 
     /** 清除权限状态 */
