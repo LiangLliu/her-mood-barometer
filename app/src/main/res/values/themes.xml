@@ -8,8 +8,11 @@
         <item name="postSplashScreenTheme">@style/Theme.HerMoodBarometer.PostSplash</item>
     </style>
 
-    <!-- Post-splash app theme: DayNight with transparent system bars -->
+    <!-- Post-splash app theme: DayNight with transparent system bars.
+         windowBackground must match the app's actual background color so that
+         Activity recreation (e.g. locale change) doesn't flash white/black. -->
     <style name="Theme.HerMoodBarometer.PostSplash" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/splash_background</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>

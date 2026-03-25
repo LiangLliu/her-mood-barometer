@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,7 +50,9 @@ fun QuickRecordDialog(
         ) -> Unit,
 ) {
     val context = LocalContext.current
-    val allEmotions = remember(context) { EmotionProvider.getLocalizedDefaultEmotions(context) }
+    val configuration = LocalConfiguration.current
+    val allEmotions =
+        remember(configuration) { EmotionProvider.getLocalizedDefaultEmotions(context) }
 
     var selectedEmotion by remember { mutableStateOf<Emotion?>(null) }
     var selectedWeather by remember { mutableStateOf(Weather.SUNNY) }

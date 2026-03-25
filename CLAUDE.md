@@ -28,3 +28,4 @@ Build requires **JVM 21** and **4GB+ heap** (configured in gradle.properties).
 - Room uses `fallbackToDestructiveMigration(dropAllTables = true)` in dev — provide proper `Migration` for production schema changes.
 - Firebase/google-services plugin is commented out in build files.
 - Versions: Kotlin 2.3.20, AGP 9.0.1, Gradle 9.1.0, Target SDK 36, Min SDK 26.
+- Locale switch uses `configChanges="locale|layoutDirection"` (no Activity recreation). In Composables, key `remember` on `LocalConfiguration.current` (not `context`) for locale-dependent data.

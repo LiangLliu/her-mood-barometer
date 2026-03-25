@@ -28,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -49,10 +50,11 @@ fun EmotionSelector(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val configuration = LocalConfiguration.current
     val colors = ExtendedTheme.colors
 
     val predefinedEmotions =
-        remember(context) { EmotionProvider.getLocalizedDefaultEmotions(context) }
+        remember(configuration) { EmotionProvider.getLocalizedDefaultEmotions(context) }
     val allEmotions by
         remember(predefinedEmotions, userEmotions) {
             derivedStateOf { predefinedEmotions + userEmotions }
